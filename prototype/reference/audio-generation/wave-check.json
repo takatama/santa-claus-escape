@@ -1,6 +1,171 @@
 {
-  "date": "2026-10-05T12:28:49.817Z",
+  "date": "2026-10-05T13:10:42.300Z",
   "measurements": [
+    {
+      "id": "answer-closed",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 3.52,
+      "rmsDb": -16.7,
+      "peakDb": -2.8,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-0",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 0.96,
+      "rmsDb": -16.6,
+      "peakDb": -1.6,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-1",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 1,
+      "rmsDb": -20.7,
+      "peakDb": -1.7,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-2",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 0.96,
+      "rmsDb": -17.4,
+      "peakDb": -2.8,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-3",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 1.32,
+      "rmsDb": -21,
+      "peakDb": -5.3,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-4",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 1.04,
+      "rmsDb": -20.5,
+      "peakDb": -5.2,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-5",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 0.92,
+      "rmsDb": -22.2,
+      "peakDb": -4.2,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-6",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 1.24,
+      "rmsDb": -23.7,
+      "peakDb": -4.7,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-7",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 1.28,
+      "rmsDb": -20.7,
+      "peakDb": -5.1,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-8",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 1.12,
+      "rmsDb": -20.3,
+      "peakDb": -1.3,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-digit-9",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 1.08,
+      "rmsDb": -20.1,
+      "peakDb": -6.3,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-prefix-blue",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 3.84,
+      "rmsDb": -17.7,
+      "peakDb": -3.5,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-prefix-red",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 3.56,
+      "rmsDb": -16.4,
+      "peakDb": -1.4,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-prefix-yellow",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 3.32,
+      "rmsDb": -15.7,
+      "peakDb": -1.9,
+      "clippedSamples": 0
+    },
+    {
+      "id": "answer-set",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 1.72,
+      "rmsDb": -16.7,
+      "peakDb": -1.9,
+      "clippedSamples": 0
+    },
     {
       "id": "help",
       "format": 1,
@@ -421,9 +586,9 @@
     }
   ],
   "ttsTokens": {
-    "input": 10729,
-    "output": 22501
+    "input": 13807,
+    "output": 23367
   },
-  "paidTierReferenceUsd": 0.20787,
+  "paidTierReferenceUsd": 0.21721,
   "billingNote": "公開の標準モデル単価による参考値。実際の請求や無料枠の確認ではない。"
 }

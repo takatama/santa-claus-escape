@@ -1,0 +1,95 @@
+{
+  "id": "answer-digit-8",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T13:05:24.442Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "はち"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "はち",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 59824,
+  "sha256": "8c64c8729bf09b7def5d387e8d6d3128d56bf20ca023d5842b21854c7ada4d7a",
+  "usage": {
+    "total_tokens": 240,
+    "total_input_tokens": 204,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 3
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 36,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 36
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 360,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 135
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 30
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 135
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 30
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 3140
+}

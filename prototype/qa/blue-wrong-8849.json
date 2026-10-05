@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-05",
+  "purpose": "generated voice only; no third-party effects",
+  "derivedFrom": [
+    {
+      "src": "./assets/audio/answer-prefix-blue.wav",
+      "sha256": "3b16caa48d93dc7dd726d9aacd3d9534941478e7820aaa598c0856976f171c5d"
+    },
+    {
+      "src": "./assets/audio/answer-digit-8.wav",
+      "sha256": "8c64c8729bf09b7def5d387e8d6d3128d56bf20ca023d5842b21854c7ada4d7a"
+    },
+    {
+      "src": "./assets/audio/answer-digit-8.wav",
+      "sha256": "8c64c8729bf09b7def5d387e8d6d3128d56bf20ca023d5842b21854c7ada4d7a"
+    },
+    {
+      "src": "./assets/audio/answer-digit-4.wav",
+      "sha256": "9f0458f8276ddf00ba477c5a202f0fb020fb7e1a5ffa4f11bfec9fab1243338e"
+    },
+    {
+      "src": "./assets/audio/answer-digit-9.wav",
+      "sha256": "7b5a5a46fa8435d0b6bc4966e68610ca8ad96e6cc30bb6fdd8b6bece1094d19e"
+    },
+    {
+      "src": "./assets/audio/answer-set.wav",
+      "sha256": "a4c3e8998f7bc4b8e9a4544f9f7826a9f1e5c8f5883331d9705a869aabfdacdd"
+    },
+    {
+      "src": "./assets/audio/answer-closed.wav",
+      "sha256": "c979debed94f3dc7ffa9f8ed1e5a039bbce1be252214075bf562237d8c810747"
+    }
+  ],
+  "seconds": 13.901791666666666,
+  "sha256": "2df9cc72d58c8eb44fccf1743f816568e6ff9083e2699315053bf7b56fea8c8d"
+}

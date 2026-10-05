@@ -1,6 +1,6 @@
 // 音声は進行を制御しない。キャンセル後のイベントも世代番号で無効化する。
 export class SpeechPlayer {
-  constructor(synth, makeUtterance, report = () => {}, { clips = {}, makeAudio = null } = {}) {
+  constructor(synth, makeUtterance, report = () => {}, { clips = {}, makeAudio = null, resolveClip = key => clips[key], sequencePlayer = null } = {}) {
     this.synth = synth;
     this.makeUtterance = makeUtterance;
     this.report = report;
@@ -11,12 +11,15 @@ export class SpeechPlayer {
     this.clips = clips;
     this.makeAudio = makeAudio;
     this.audio = null;
+    this.resolveClip = resolveClip;
+    this.sequencePlayer = sequencePlayer;
   }
   stop(report = true) {
     this.generation += 1;
     clearTimeout(this.timer);
     this.timer = null;
     this.utterance = null;
+    this.sequencePlayer?.stop();
     if (this.audio) {
       try { this.audio.pause(); this.audio.currentTime = 0; } catch { /* 再生不可でも停止する */ }
       this.audio.onended = null;
@@ -34,8 +37,17 @@ export class SpeechPlayer {
   play(segments, key = '') {
     this.stop(false);
     if (this.muted) return this.report('音声オフ・文字で遊べます');
-    const clip = this.clips[key];
-    if (clip && this.makeAudio) {
+    const clip = this.resolveClip(key);
+    if(Array.isArray(clip)&&this.sequencePlayer){
+      const generation=this.generation;
+      this.report('読み上げ中');
+      this.sequencePlayer.play(clip,
+        ()=>{if(generation===this.generation)this.report('読み上げが終わりました');},
+        ()=>{if(generation===this.generation&&!this.muted)this.play(segments);},
+      );
+      return;
+    }
+    if (typeof clip==='string' && this.makeAudio) {
       const generation = this.generation;
       const fallback = () => {
         if (generation !== this.generation || this.muted) return;

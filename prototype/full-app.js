@@ -1,7 +1,8 @@
 import { BOXES, COLORS, QUESTIONS, papers, sceneFor, spokenSegments } from './full-scenario.js';
 import { initialState, transition, validateDigits, normalizeWord, readSave, writeSave, readingState } from './full-game.js';
 import { SpeechPlayer } from './speech.js';
-import { FULL_AUDIO_CLIPS } from './full-audio.js';
+import { FULL_AUDIO_CLIPS, resolveAudioClip } from './full-audio.js';
+import { AudioSequence } from './audio-sequence.js';
 import { Soundtrack } from './soundtrack.js';
 import { santaScene, winterScene, gift, tanuki, witchScene, rescueScene, mountain } from './illustrations.js';
 
@@ -11,7 +12,8 @@ const loaded = readSave(storage);
 let state = loaded.state || initialState(), resumePending = state.phase !== 'welcome', storageAvailable = loaded.available;
 let readingIndex = null, feedback = '', inputError = false, lastAction = -Infinity;
 let audioStatus = state.muted ? '音声オフ・文字で遊べます' : '開始ボタンで読み上げます';
-const track = new Soundtrack(src=>{const music=new Audio(src);music.preload='metadata';document.querySelector('#music-host').replaceChildren(music);return music;});
+let pendingEffect='';
+const track = new Soundtrack(src=>{const audio=new Audio(src);audio.preload='metadata';document.querySelector('#music-host').replaceChildren(audio);return audio;});
 const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const speakerName = { santa: 'サンタ', narrator: '端末からの声', witch: 'まほう使い' };
 const button = (action, label, style = 'primary', attrs = '') => `<button type="button" class="${style}" data-action="${action}" data-revision="${state.revision}" ${attrs}>${label}</button>`;
@@ -23,17 +25,18 @@ const player = new SpeechPlayer(
     const element = document.querySelector('#audio-status'); if (element) element.textContent = status;
     document.querySelector('.santa-device')?.classList.toggle('speaking', status === '読み上げ中');
     if (status !== '読み上げ中') track.quiet();
+    if(status==='読み上げが終わりました'&&pendingEffect){track.effect(pendingEffect);pendingEffect='';}
   },
-  { clips: FULL_AUDIO_CLIPS, makeAudio: src => { const audio = new Audio(src); audio.preload = 'auto'; document.querySelector('#audio-host').replaceChildren(audio); return audio; } },
+  { clips: FULL_AUDIO_CLIPS, resolveClip: resolveAudioClip, sequencePlayer:new AudioSequence(), makeAudio: src => { const audio = new Audio(src); audio.preload = 'auto'; document.querySelector('#audio-host').replaceChildren(audio); return audio; } },
 );
 player.setMuted(state.muted); track.configure(state);
 audioStatus = state.muted ? '音声オフ・文字で遊べます' : resumePending ? '再開ボタンで読み上げます' : '開始ボタンで読み上げます';
 function save() { storageAvailable = writeSave(storage, state); const label = document.querySelector('#save-status'); if (label) label.textContent = storageAvailable ? 'しおりは、この端末に自動保存' : '保存できません・このまま遊べます'; }
 const currentState = () => readingIndex === null ? state : readingState(state, readingIndex);
-function stop() { player.stop(); track.stop(); }
+function stop() { pendingEffect='';player.stop(); track.stop(); }
 function speak() {
   if (resumePending) return;
-  const scene = sceneFor(currentState()); track.configure(state); track.begin(scene.bgm); if (scene.effect) track.effect(scene.effect);
+  const scene = sceneFor(currentState());pendingEffect=scene.effect==='wrong'?'wrong':'';track.configure(state);track.begin(scene.bgm);track.prepareEffect(scene.effect);if(scene.effect&&scene.effect!=='wrong')track.effect(scene.effect);
   player.play(spokenSegments(scene), scene.key);
 }
 function transcript(scene) {
@@ -96,7 +99,7 @@ function render(focus = false, scroll = false) {
     controls = view.phase === 'rescue' ? button('finish', '絵本を閉じる') : `<div class="end-note"><h2>サンタを助けてくれて、ありがとう。</h2><p>この絵本は、ここまで。</p></div>${button('read', 'この絵本を読み返す')}${button('reset', '最初から謎を解く', 'text-button')}`;
   }
   if (reading) controls = `<nav class="reading-nav" aria-label="読み返すページ">${button('read-prev', '前のページ', 'secondary', readingIndex === 0 ? 'disabled' : '')}<span>${readingIndex + 1} / ${state.history.length}</span>${button('read-next', '次のページ', 'secondary', readingIndex === state.history.length - 1 ? 'disabled' : '')}</nav>${button('read-exit', '読み返しを終える', 'text-button')}`;
-  app.innerHTML = `<div class="book-meta"><span>${reading ? '読み返しの時間' : '声と仕掛けを楽しむ、謎解き絵本'}</span><span>${esc(scene.chapter)}</span></div>${toolbar(!cover)}<div class="book full-book ${cover ? 'cover' : ''} ${scroll ? 'page-enter' : ''}" data-phase="${view.phase}"><section class="illustration-page" aria-label="絵本の絵と操作">${visual}<div class="scene-controls">${controls}</div><span class="page-corner" aria-hidden="true"></span></section><section class="story-page"><span class="eyebrow">${cover ? 'A CHRISTMAS POP-UP STORY' : esc(scene.chapter)}</span><h1 id="screen-heading" tabindex="-1" ${cover ? 'class="cover-title"' : ''}>${esc(title)}${cover ? '<span>Santa Claus Escape</span>' : ''}</h1>${cover ? extra : transcript(scene)}${reading ? '<p class="scope-note">遊んだ場面を読み返しています。進行は変わりません。</p>' : ''}<span class="page-number" aria-hidden="true">✧</span></section><span class="book-spine" aria-hidden="true"></span></div><div class="session-bar"><span id="save-status">${storageAvailable ? 'しおりは、この端末に自動保存' : '保存できません・このまま遊べます'}</span>${cover ? '' : button('reset', '進行をリセット', 'text-button')}</div><details class="sound-settings"><summary>音の設定・クレジット</summary>${button('bgm', `BGM ${state.bgmEnabled ? 'オン' : 'オフ'}`, 'secondary', `aria-pressed="${state.bgmEnabled}"`)}${button('sfx', `効果音 ${state.sfxEnabled ? 'オン' : 'オフ'}`, 'secondary', `aria-pressed="${state.sfxEnabled}"`)}<p>BGM: <a href="https://peritune.com/blog/2017/01/25/laid_back/">Laid_Back</a> / <a href="https://peritune.com/blog/2018/09/28/spook4/">Spook4</a> — PeriTune / <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>。再生時に音量・ループ・フェードを調整。効果音は本作の自作音。声はGemini TTSで事前生成し、未収録部分はブラウザ読み上げで補います。</p></details>`;
+  app.innerHTML = `<div class="book-meta"><span>${reading ? '読み返しの時間' : '声と仕掛けを楽しむ、謎解き絵本'}</span><span>${esc(scene.chapter)}</span></div>${toolbar(!cover)}<div class="book full-book ${cover ? 'cover' : ''} ${scroll ? 'page-enter' : ''}" data-phase="${view.phase}"><section class="illustration-page" aria-label="絵本の絵と操作">${visual}<div class="scene-controls">${controls}</div><span class="page-corner" aria-hidden="true"></span></section><section class="story-page"><span class="eyebrow">${cover ? 'A CHRISTMAS POP-UP STORY' : esc(scene.chapter)}</span><h1 id="screen-heading" tabindex="-1" ${cover ? 'class="cover-title"' : ''}>${esc(title)}${cover ? '<span>Santa Claus Escape</span>' : ''}</h1>${cover ? extra : transcript(scene)}${reading ? '<p class="scope-note">遊んだ場面を読み返しています。進行は変わりません。</p>' : ''}<span class="page-number" aria-hidden="true">✧</span></section><span class="book-spine" aria-hidden="true"></span></div><div class="session-bar"><span id="save-status">${storageAvailable ? 'しおりは、この端末に自動保存' : '保存できません・このまま遊べます'}</span>${cover ? '' : button('reset', '進行をリセット', 'text-button')}</div><details class="sound-settings"><summary>音の設定・クレジット</summary>${button('bgm', `BGM ${state.bgmEnabled ? 'オン' : 'オフ'}`, 'secondary', `aria-pressed="${state.bgmEnabled}"`)}${button('sfx', `効果音 ${state.sfxEnabled ? 'オン' : 'オフ'}`, 'secondary', `aria-pressed="${state.sfxEnabled}"`)}<p>BGM: <a href="https://peritune.com/blog/2017/01/25/laid_back/">Laid_Back</a> / <a href="https://peritune.com/blog/2018/09/28/spook4/">Spook4</a> — PeriTune / <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>。再生時に音量・ループ・フェードを調整。効果音: 回復魔法2・間抜け3・きらきら輝く1/3 — <a href="https://soundeffect-lab.info/">効果音ラボ</a> / <a href="https://soundeffect-lab.info/agreement/">利用規約</a>（MIT対象外）。ダイヤルは自作音。声はGemini TTSで事前収録。数字の誤答も同じ声で読み、再生できない場合だけ端末の読み上げに切り替えます。</p></details>`;
   for (const id of ['answer-form', 'spell-form', 'reply-form']) document.querySelector(`#${id}`)?.addEventListener('submit', submit);
   document.querySelector('#answer')?.addEventListener('input', e => { state = transition(state, { type: 'DRAFT', value: e.target.value }); inputError = false; lastAction = -Infinity; save(); });
   document.querySelector('#word-answer')?.addEventListener('input', e => { state = transition(state, { type: 'DRAFT', value: e.target.value, field: 'spell' }); inputError = false; lastAction = -Infinity; save(); });

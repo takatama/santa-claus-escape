@@ -3,6 +3,7 @@ import { writeFile, mkdir, stat } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { SCENARIO } from '../scenario.js';
 import { productionScenes } from '../full-scenario.js';
+import { ANSWER_AUDIO_SEGMENTS } from '../full-audio.js';
 
 const MODEL = 'gemini-3.8-flash-tts';
 const output = new URL('../assets/audio/', import.meta.url);
@@ -21,12 +22,13 @@ const jobs = [
   })),
 ];
 const fullJobs = Object.entries(productionScenes()).filter(([key])=>!['intro','help','red1','red2','red3','red4'].includes(key)).map(([key,segments])=>({id:`ja-${key}`,segments:segments.map(s=>({...s,text:s.spoken||s.text}))}));
-const selected = mode === '--sample' ? jobs.slice(0,1) : mode === '--all' ? jobs.slice(1) : mode === '--full' ? fullJobs : [];
+const answerJobs = Object.entries(ANSWER_AUDIO_SEGMENTS).map(([id,text])=>({id,segments:[{speaker:'narrator',text}]}));
+const selected = mode === '--sample' ? jobs.slice(0,1) : mode === '--all' ? jobs.slice(1) : mode === '--full' ? fullJobs : mode === '--answers' ? answerJobs : [];
 if (mode === '--plan') {
-  console.log(JSON.stringify({model:MODEL,jobs:[...jobs,...fullJobs].map(job=>({id:job.id,characters:job.segments.map(s=>s.text).join('').length})),notes:'生成は --sample / --all / --full の明示的な実行のみ。契約・課金設定は変更しない。'}));
+  console.log(JSON.stringify({model:MODEL,jobs:[...jobs,...fullJobs,...answerJobs].map(job=>({id:job.id,characters:job.segments.map(s=>s.text).join('').length})),notes:'生成は --sample / --all / --full / --answers の明示的な実行のみ。契約・課金設定は変更しない。'}));
   process.exit(0);
 }
-if (!selected.length) throw new Error('Use --plan, --sample, --all or --full');
+if (!selected.length) throw new Error('Use --plan, --sample, --all, --full or --answers');
 if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY is not configured');
 await mkdir(output,{recursive:true});
 await mkdir(provenance,{recursive:true});
@@ -42,7 +44,7 @@ for (const job of selected) {
     text:segment.text.replace(/\d{4}/g,digits=>digits.split('').join('、')),
     annotations:[{type:'speech_metadata',...(multiple?{speaker:audioSpeaker(segment.speaker)}:{}),style:styles[segment.speaker]}],
   }));
-  const body = {model:MODEL,store:false,input:[{type:'user_input',content}],response_format:{type:'audio'},generation_config:{speech_config:config,max_output_tokens:4096}};
+  const body = {model:MODEL,store:false,input:[{type:'user_input',content}],response_format:{type:'audio'},generation_config:{speech_config:config,max_output_tokens:mode==='--answers'?512:4096}};
   const started = Date.now();
   const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions',{
     method:'POST',headers:{'x-goog-api-key':process.env.GEMINI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(180000),

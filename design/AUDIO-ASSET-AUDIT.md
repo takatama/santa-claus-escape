@@ -1,6 +1,6 @@
 # 原作音源の確認
 
-2026-10-05作成の音源調査記録です。調査後、日本語全編へPeriTuneのLaid_Back・Spook4の公式MP3を採用しました。以下は調査時点の記録です。現在の同梱素材・CC BY 4.0条件は [NOTICE.md](../NOTICE.md)、採用時の差分は [実装記録](../prototype/FULL-GAME-NOTES.md) を参照してください。
+2026-10-05作成の音源調査記録です。調査後、PeriTuneのLaid_Back・Spook4と、効果音ラボの原作指定四音を現在の公式MP3版で採用しました。以下は調査時点の記録です。現在の同梱素材・条件は [NOTICE.md](../NOTICE.md)、採用時の差分は [実装記録](../prototype/FULL-GAME-NOTES.md)、公式版と原作のハッシュ比較は `prototype/assets/audio/sound-effects-provenance.json` を参照してください。
 
 **参照は残り、音源も取得可能な状態にある。BGMと多くの効果音は利用条件を満たして再利用できる見込み。ダイヤル音は作者・個別ライセンスを特定できていないため保留。** 技術的な到達性、出所、利用条件、実際の聴取を混同しない。
 
