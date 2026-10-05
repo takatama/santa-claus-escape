@@ -1,0 +1,110 @@
+{
+  "date": "2026-10-05T01:19:50.769Z",
+  "measurements": [
+    {
+      "id": "help",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 29.04,
+      "rmsDb": -18.5,
+      "peakDb": -1.9,
+      "clippedSamples": 0
+    },
+    {
+      "id": "intro",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 32.4,
+      "rmsDb": -18,
+      "peakDb": -1.4,
+      "clippedSamples": 0
+    },
+    {
+      "id": "red1",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 16.64,
+      "rmsDb": -18.7,
+      "peakDb": -1.6,
+      "clippedSamples": 0
+    },
+    {
+      "id": "red2",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 14.56,
+      "rmsDb": -17.7,
+      "peakDb": -1.9,
+      "clippedSamples": 0
+    },
+    {
+      "id": "red3",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 18.12,
+      "rmsDb": -18.9,
+      "peakDb": -1.7,
+      "clippedSamples": 0
+    },
+    {
+      "id": "red4",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 26.44,
+      "rmsDb": -16.9,
+      "peakDb": -1.2,
+      "clippedSamples": 0
+    },
+    {
+      "id": "santa-sample",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 5.08,
+      "rmsDb": -14.8,
+      "peakDb": -1.7,
+      "clippedSamples": 0
+    },
+    {
+      "id": "success-3138",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 27.64,
+      "rmsDb": -19.4,
+      "peakDb": -1.6,
+      "clippedSamples": 0
+    },
+    {
+      "id": "wrong-0000",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 14.68,
+      "rmsDb": -19.2,
+      "peakDb": -1.1,
+      "clippedSamples": 0
+    }
+  ],
+  "ttsTokens": {
+    "input": 2917,
+    "output": 5911
+  },
+  "paidTierReferenceUsd": 0.05466,
+  "billingNote": "公開の標準モデル単価による参考値。実際の請求や無料枠の確認ではない。"
+}

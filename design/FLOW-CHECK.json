@@ -1,0 +1,9 @@
+{
+  "checked": "2026-10-05T02:34:01.642Z",
+  "scope": "design model only; no full-game UI/audio validation",
+  "paths": 2592,
+  "leadingZeroPaths": 864,
+  "assertions": 353881,
+  "sourceChecks": "exact questions, aliases, red candidates, mappings, ten repeats, spell intent",
+  "pending": "exact word matching is proposed; source solitaire alias remains; runtime prototype unchanged"
+}

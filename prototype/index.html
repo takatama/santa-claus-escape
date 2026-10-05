@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#172e2c">
+  <meta name="description" content="端末に閉じ込められたサンタを助ける、音声つき謎解きゲーム。原作の導入から赤色の箱が開くまでの体験版。">
+  <title>サンタの脱出 — 声と仕掛けの絵本</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23172e2c'/%3E%3Cpath d='M32 9L38 25L55 26L42 37L46 54L32 44L18 54L22 37L9 26L26 25Z' fill='%23dfbc7d'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="サンタの脱出 ホーム"><span class="brand-mark" aria-hidden="true">✧</span><span><strong>サンタの脱出</strong><small>SANTA CLAUS ESCAPE</small></span></a>
+    <span class="edition">音声つきの、飛び出す絵本。</span>
+  </header>
+  <main id="app"></main>
+  <div id="audio-host" aria-hidden="true"></div>
+  <footer class="site-footer"><span>ひとりでも、いっしょに考えても。</span><span>原作の導入から、ひとつの箱が開くまで</span></footer>
+  <dialog id="reset-dialog" aria-labelledby="reset-title">
+    <h2 id="reset-title">最初から遊び直しますか？</h2>
+    <p>この端末に保存した進行と入力した答えをリセットします。</p>
+    <div class="dialog-actions"><button id="cancel-reset" class="secondary">続きに戻る</button><button id="confirm-reset" class="primary">進行をリセット</button></div>
+  </dialog>
+  <noscript><p class="noscript">このゲームを遊ぶにはJavaScriptを有効にしてください。</p></noscript>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "id": "original-ja-full-design-v1",
+  "status": "design-only",
+  "source": "../prototype/reference/legacy-index.js",
+  "initialBuild": {"red": "red-3138", "yellowHands": ["グー", "チョキ", "パー", "グー"], "yellowAnswer": "2502", "riddle": "christmas-creatures", "quiz": "red-ornament", "trick": "deer-ten-times"},
+  "boxes": {
+    "red": {"digits": 4, "letters": [{"id":"red-su","text":"す"},{"id":"red-da","text":"だ"}], "mapping": {"サンタ":3,"イタチ":1,"ハタチ":8}, "variants": [
+      {"id":"red-3138","words":["サンタ","イタチ","サンタ","ハタチ"],"answer":"3138"},
+      {"id":"red-3183","words":["サンタ","イタチ","ハタチ","サンタ"],"answer":"3183"},
+      {"id":"red-3813","words":["サンタ","ハタチ","イタチ","サンタ"],"answer":"3813"},
+      {"id":"red-3831","words":["サンタ","ハタチ","サンタ","イタチ"],"answer":"3831"}
+    ], "maxExam": 4, "independentHint": false},
+    "blue": {"digits":4,"answer":"8848","letters":[{"id":"blue-i","text":"い"},{"id":"blue-yo","text":"よ"}],"maxExam":4,"informationMessage":"sagarmatha","heightPolicy":"original value with visible historical-value note; not current-height claim"},
+    "yellow": {"digits":4,"letters":[{"id":"yellow-ki","text":"き"},{"id":"yellow-da","text":"だ"}],"mapping":{"グー":2,"チョキ":5,"パー":0},"variantRule":"all 6 permutations of three distinct hands, then append any of the 3 hands","maxExam":4,"independentHint":false}
+  },
+  "spell": {"canonical":"だいすきだよ","aliases":["だいすきだよ","ダイスキダヨ","大好きだよ"],"source":"reference/witch_usersays_ja.json","allowEarlyCall":true,"wrongFeedback":"UI validation only; no invented character dialogue"},
+  "witch": {
+    "stages":["riddle","quiz","trick"],
+    "progress":"nonempty answer -> original answer response -> explicit continue; correctness does not gate rescue",
+    "riddles":[
+      {"id":"christmas-creatures","question":"さいしょは、なぞなぞだよ。「クリスマス」の中には、三つの生き物がかくれているよ。10秒間、考えてみてね。「クリスマス」の中にいる、三つの生き物だよ。では問題。隠れているのは「リス」と「マス」と、もう一つは何？","aliases":["クマ","くま","熊"],"answer":"クマ","input":"text","sourceLines":"1320-1343","thinkingCueSeconds":10,"deadline":false},
+      {"id":"chimney","question":"さいしょは、なぞなぞだよ。ようちえん、ほいくえん、こうえん、どうぶつえん。いろんな「えん」があるけれど、サンタが入る「えん」は何でしょうか？","aliases":["煙突","えんとつ","エントツ"],"answer":"えんとつ","input":"text","sourceLines":"1344-1361"}
+    ],
+    "quizzes":[
+      {"id":"red-ornament","question":"次は、クイズだよ。クリスマスツリーに飾ってある、赤い玉は何？次の三つから選んでね。トナカイの鼻。太陽。りんご","choices":["トナカイの鼻","太陽","りんご"],"aliases":["りんご","リンゴ","林檎","アップル","apple"],"answer":"りんご","input":"original-choice","sourceLines":"1364-1385"},
+      {"id":"reindeer-count","question":"次は、クイズだよ。サンタのトナカイは何匹いるでしょうか？次の三つから選んでね。三匹、六匹、九匹","choices":["三匹","六匹","九匹"],"aliases":["九匹","9匹","９匹","9","９","九","きゅう","キュウ"],"answer":"九匹","input":"original-choice","sourceLines":"1386-1416"},
+      {"id":"green-christmas","question":"次は、クイズだよ。雪がふるクリスマスは「ホワイトクリスマス」っていうけれど、雪がふらないオーストラリアは何クリスマスっていう？次の三つから選んでね。ホットクリスマス、グリーンクリスマス、ブルークリスマス","choices":["ホットクリスマス","グリーンクリスマス","ブルークリスマス"],"aliases":["グリーンクリスマス","グリーン"],"answer":"グリーンクリスマス","input":"original-choice","sourceLines":"1417-1438","editorialReview":"original generalisation; not used in initial fixed build"}
+    ],
+    "tricks":[
+      {"id":"deer-ten-times","displayText":"さいごは、ひっかけクイズだよ。わたしといっしょに、シカ、シカ、と10回いってね。はじめるよ。せーの、シカ、シカ...。では問題。サンタが乗ってくるのは？","spokenRepeat":"シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ。","repeatCount":10,"aliases":["そり","ソリ","橇","ソリティア"],"answer":"ソリ","input":"text","sourceLines":"1441-1461","pendingCorrection":"ソリティア is in source; do not silently remove"}
+    ]
+  },
+  "judgingProposal":{"numbers":"NFKC + whitespace removal + exact 4 digit string","words":"NFKC + whitespace removal + hiragana/katakana normalisation + exact listed alias","sourceDifference":"legacy isRight uses substring; stricter matching is a proposed repair, not a runtime change"},
+  "invariants":[
+    "collected letters derive only from opened boxes with unique paper IDs",
+    "two da papers remain two objects",
+    "revisiting and replaying never advance clues or reroll questions",
+    "only correct 4-digit answer opens selected box",
+    "wrong and empty spell cannot summon witch",
+    "early correct spell can summon witch without awarding unopened-box papers",
+    "empty or duplicate witch answer cannot advance",
+    "witch response must be acknowledged before next question",
+    "rescue requires three answered witch stages, never three correct answers",
+    "audio or animation failure never blocks input or progression",
+    "save and readback do not reroll or mutate original gameplay progress"
+  ]
+}

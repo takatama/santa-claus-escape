@@ -1,0 +1,95 @@
+{
+  "id": "red4",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T01:01:53.005Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "あなたは赤色の箱を調べました。\n箱には「サンタ、イタチ、サンタ、ハタチ」と書いてあり、その横にたぬきの絵がかいてあります。\n絵の下に「たぬき」と書いてあるのですが、最初の「た」の文字のところにバツが書いてあります。\nこの箱は調べつくしたようです。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "あなたは赤色の箱を調べました。\n箱には「サンタ、イタチ、サンタ、ハタチ」と書いてあり、その横にたぬきの絵がかいてあります。\n絵の下に「たぬき」と書いてあるのですが、最初の「た」の文字のところにバツが書いてあります。\nこの箱は調べつくしたようです。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 1275184,
+  "sha256": "f94b97160d4e1308ba9a4dd18af464c69d9a3c62e38753582a88254b71e05ffa",
+  "usage": {
+    "total_tokens": 1127,
+    "total_input_tokens": 280,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 79
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 847,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 847
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 511,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 210
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 663
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 210
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 663
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 9743
+}

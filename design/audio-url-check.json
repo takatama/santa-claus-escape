@@ -1,0 +1,78 @@
+{
+  "checked": "2026-10-05T02:17:13.250Z",
+  "method": "HEAD only; no audio downloaded or listened to",
+  "checks": [
+    {
+      "id": "normalBgmUrl",
+      "url": "https://storage.googleapis.com/escape-santa.appspot.com/audio/PerituneMaterial_Laid_Back_loop.ogg",
+      "status": 200,
+      "contentType": "audio/ogg",
+      "bytes": "1802834",
+      "cors": null
+    },
+    {
+      "id": "witchBgmUrl",
+      "url": "https://storage.googleapis.com/escape-santa.appspot.com/audio/PerituneMaterial_Spook4_loop.ogg",
+      "status": 200,
+      "contentType": "audio/ogg",
+      "bytes": "2051040",
+      "cors": null
+    },
+    {
+      "id": "dialSrc",
+      "url": "https://storage.googleapis.com/escape-santa.appspot.com/audio/dial.mp3",
+      "status": 200,
+      "contentType": "audio/mp3",
+      "bytes": "41617",
+      "cors": null
+    },
+    {
+      "id": "unlockSrc",
+      "url": "https://storage.googleapis.com/escape-santa.appspot.com/audio/unlocking-1.mp3",
+      "status": 200,
+      "contentType": "audio/mp3",
+      "bytes": "36736",
+      "cors": null
+    },
+    {
+      "id": "okSrc",
+      "url": "https://storage.googleapis.com/escape-santa.appspot.com/audio/magic-cure2.mp3",
+      "status": 200,
+      "contentType": "audio/mp3",
+      "bytes": "102272",
+      "cors": null
+    },
+    {
+      "id": "ngSrc",
+      "url": "https://storage.googleapis.com/escape-santa.appspot.com/audio/stupid3.mp3",
+      "status": 200,
+      "contentType": "audio/mp3",
+      "bytes": "31346",
+      "cors": null
+    },
+    {
+      "id": "shine1Src",
+      "url": "https://storage.googleapis.com/escape-santa.appspot.com/audio/shine1.mp3",
+      "status": 200,
+      "contentType": "audio/mp3",
+      "bytes": "122252",
+      "cors": null
+    },
+    {
+      "id": "shine3Src",
+      "url": "https://storage.googleapis.com/escape-santa.appspot.com/audio/shine3.mp3",
+      "status": 200,
+      "contentType": "audio/mp3",
+      "bytes": "173034",
+      "cors": null
+    },
+    {
+      "id": "jingleSrc",
+      "url": "https://storage.googleapis.com/escape-santa.appspot.com/audio/jingle.mp3",
+      "status": 200,
+      "contentType": "audio/mp3",
+      "bytes": "358092",
+      "cors": null
+    }
+  ]
+}

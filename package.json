@@ -1,0 +1,14 @@
+{
+  "name": "santa-claus-escape",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "start": "npm --prefix prototype start",
+    "test": "npm --prefix prototype test",
+    "check:design": "node design/check-flow.mjs --model-only",
+    "check:audio": "node prototype/scripts/verify-audio.mjs",
+    "check:publication": "node scripts/check-publication.mjs"
+  }
+}
