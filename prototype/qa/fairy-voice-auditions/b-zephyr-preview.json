@@ -1,0 +1,18 @@
+{
+  "id": "b-zephyr-preview",
+  "purpose": "voice audition at matching whole-clip RMS; not LUFS normalization",
+  "derivedFrom": {
+    "file": "b-zephyr.wav",
+    "sha256": "20c7f2f133680746877981219733af217b5ef2c21e67560cae798cc883136e63"
+  },
+  "targetRmsDb": -21,
+  "sourceRmsDb": -20.305869133558232,
+  "gain": 0.9231950276078849,
+  "gainDb": -0.6941308664417678,
+  "sampleRate": 24000,
+  "channels": 1,
+  "bits": 16,
+  "seconds": 22.2,
+  "sha256": "3093b8608e193ef076661f75e165cd98b6b145b480acf0b1068c81f27a0e16f7",
+  "processing": "constant attenuation only; unchanged pitch, pacing, pauses and sample count; original C2PA retained in source WAV"
+}

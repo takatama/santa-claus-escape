@@ -1,0 +1,18 @@
+{
+  "id": "c-puck-preview",
+  "purpose": "voice audition at matching whole-clip RMS; not LUFS normalization",
+  "derivedFrom": {
+    "file": "c-puck.wav",
+    "sha256": "b22a3cb146bd0192cc5dfdd763034ee72c69be3ef8a7521dde3c5599049f4ee0"
+  },
+  "targetRmsDb": -21,
+  "sourceRmsDb": -19.483956750047966,
+  "gain": 0.8398424792906687,
+  "gainDb": -1.516043249952034,
+  "sampleRate": 24000,
+  "channels": 1,
+  "bits": 16,
+  "seconds": 21.88,
+  "sha256": "fd932596bd33ad09c0ce201e4603bdcbb88e569e66df01fd02b82f81671b7cb8",
+  "processing": "constant attenuation only; unchanged pitch, pacing, pauses and sample count; original C2PA retained in source WAV"
+}

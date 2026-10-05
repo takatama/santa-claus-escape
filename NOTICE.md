@@ -9,6 +9,7 @@
 - `prototype/assets/audio/*.wav`：今回Gemini TTSで生成した音声。MITで同梱。原作の録音の転載ではない。モデル、声、生成入力、SHA-256を `prototype/reference/audio-generation/` に記録。受信したWAVのC2PAメタデータを保持。
 - `prototype/qa/*.jpg`：この試作のブラウザ画面の確認記録。MIT。
 - `prototype/qa/blue-wrong-8849.wav`：今回の生成音声だけをつないだ試聴サンプル。MIT。生成された原音は変更せず、結合処理を `prototype/scripts/compose-answer-sample.mjs` に記録。
+- `prototype/qa/fairy-voice-auditions/*.wav`：妖精役の声選び用に今回Gemini TTSで生成した試聴音声。MIT。生成入力・声・SHA-256は同フォルダのJSONに記録。受信した原音とC2PAを保持。`*-preview.wav` は平均音量だけをそろえた派生ファイルで、原音のハッシュと処理を記録。本編の配信ファイルには含めない。
 - `prototype/assets/audio/laid-back.mp3`：Laid_Back — PeriTune。[公式配布ページ](https://peritune.com/blog/2017/01/25/laid_back/)。
 - `prototype/assets/audio/spook4.mp3`：Spook4 — PeriTune。[公式配布ページ](https://peritune.com/blog/2018/09/28/spook4/)。
 

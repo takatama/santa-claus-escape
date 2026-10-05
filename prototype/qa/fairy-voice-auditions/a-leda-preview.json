@@ -1,0 +1,18 @@
+{
+  "id": "a-leda-preview",
+  "purpose": "voice audition at matching whole-clip RMS; not LUFS normalization",
+  "derivedFrom": {
+    "file": "a-leda.wav",
+    "sha256": "98e20db4908719474d01ce49996348c14f49897fba74d345f39202d075588873"
+  },
+  "targetRmsDb": -21,
+  "sourceRmsDb": -15.643770998391906,
+  "gain": 0.5397449031102797,
+  "gainDb": -5.356229001608094,
+  "sampleRate": 24000,
+  "channels": 1,
+  "bits": 16,
+  "seconds": 21.52,
+  "sha256": "232c760003521545244b12c58159d01ef9d42764ea983ca9952bd4f4cb35ae9f",
+  "processing": "constant attenuation only; unchanged pitch, pacing, pauses and sample count; original C2PA retained in source WAV"
+}

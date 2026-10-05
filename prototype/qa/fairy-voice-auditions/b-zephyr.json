@@ -1,0 +1,111 @@
+{
+  "id": "b-zephyr",
+  "label": "B：軽やかな妖精",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Zephyr",
+  "created": "2026-10-05T21:19:32.167Z",
+  "excerpts": [
+    {
+      "scene": "invite",
+      "index": 2,
+      "text": "サンタじゃなくて、あなたが私をよんだのね。ふーん。まあ、いいわ。私とあそんでよ。あそんでくれたら、サンタを自由にしてあげる"
+    },
+    {
+      "scene": "rescue",
+      "index": 3,
+      "text": "だって、だって、さびしかったんだもの。けど、今日はきみと遊べて、とっても楽しかったよ！どうもありがとう！"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "サンタじゃなくて、あなたが私をよんだのね。ふーん。まあ、いいわ。私とあそんでよ。あそんでくれたら、サンタを自由にしてあげる",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。軽やかで透明感のある小さな妖精。弾むような抑揚、やさしく親密な口調。落ち着いた大人の案内口調にはしない。呼びかけでは好奇心と少しのおねだり。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "だって、だって、さびしかったんだもの。けど、今日はきみと遊べて、とっても楽しかったよ！どうもありがとう！",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。軽やかで透明感のある小さな妖精。弾むような抑揚、やさしく親密な口調。落ち着いた大人の案内口調にはしない。最後の台詞では、さびしかった気持ちから、遊べた喜びと素直なお礼へ。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 1024,
+  "bytes": 1071714,
+  "sha256": "20c7f2f133680746877981219733af217b5ef2c21e67560cae798cc883136e63",
+  "usage": {
+    "total_tokens": 826,
+    "total_input_tokens": 271,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 70
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 555,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 555
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 763,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 499
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 606
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 499
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 606
+          }
+        ]
+      }
+    ]
+  },
+  "elapsedMs": 8729,
+  "adoption": "pending user choice; not used by the game"
+}

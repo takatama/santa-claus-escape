@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-06",
+  "checks": [
+    {
+      "id": "a-leda",
+      "voice": "Leda",
+      "seconds": 21.52,
+      "rmsDb": -15.6,
+      "peakDb": -1,
+      "clippedSamples": 0,
+      "sha256": "98e20db4908719474d01ce49996348c14f49897fba74d345f39202d075588873",
+      "chunks": [
+        "fmt ",
+        "data",
+        "C2PA"
+      ]
+    },
+    {
+      "id": "b-zephyr",
+      "voice": "Zephyr",
+      "seconds": 22.2,
+      "rmsDb": -20.3,
+      "peakDb": -1.1,
+      "clippedSamples": 0,
+      "sha256": "20c7f2f133680746877981219733af217b5ef2c21e67560cae798cc883136e63",
+      "chunks": [
+        "fmt ",
+        "data",
+        "C2PA"
+      ]
+    },
+    {
+      "id": "c-puck",
+      "voice": "Puck",
+      "seconds": 21.88,
+      "rmsDb": -19.5,
+      "peakDb": -1.7,
+      "clippedSamples": 0,
+      "sha256": "b22a3cb146bd0192cc5dfdd763034ee72c69be3ef8a7521dde3c5599049f4ee0",
+      "chunks": [
+        "fmt ",
+        "data",
+        "C2PA"
+      ]
+    }
+  ],
+  "totalInputTokens": 871,
+  "totalOutputTokens": 1640,
+  "paidTierReferenceUsd": 0.0152,
+  "billingNote": "公開標準単価と応答の使用量による参考値。実請求・無料枠は未確認。",
+  "listening": "not verified by a human; user audition pending"
+}
