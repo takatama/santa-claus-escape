@@ -1,0 +1,238 @@
+{
+  "id": "ja-rescue",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T12:03:32.658Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "うふふ。ああ楽しかった！"
+    },
+    {
+      "speaker": "narrator",
+      "text": "端末の中からサンタがあらわれました。",
+      "spoken": "端末の中からサンタがあらわれました。"
+    },
+    {
+      "speaker": "santa",
+      "text": "どうもありがとう！君のおかげで、やっと外に出られたよ。まほう使いめ。かまってやらなかったからって、とじこめることはないじゃろう"
+    },
+    {
+      "speaker": "witch",
+      "text": "だって、だって、さびしかったんだもの。けど、今日はきみと遊べて、とっても楽しかったよ！どうもありがとう！"
+    },
+    {
+      "speaker": "santa",
+      "text": "さてさて、早速、プレゼントのじゅんびにとりかからねば。きみのおかげで、みんなをよろばせてやれるわい。クリスマスの夜を楽しみにしていてくれ"
+    },
+    {
+      "speaker": "narrator",
+      "text": "これで脱出ゲームは終わりです。あそんでくれてありがとうございました。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "うふふ。ああ楽しかった！",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "narrator",
+          "style": "日本語。少しおちゃめで寂しがりの、親しみやすい魔法使い。明るく自然な話し声。怖い声や叫び声にしない。台詞の語句を一切変えず、謎の答えを付け足さない。シカの十回の反復は省略せず正確に読む。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "端末の中からサンタがあらわれました。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "narrator",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "どうもありがとう！君のおかげで、やっと外に出られたよ。まほう使いめ。かまってやらなかったからって、とじこめることはないじゃろう",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "santa",
+          "style": "日本語。心優しい年配のサンタクロース。柔らかく落ち着いた低めの声で、親しみと少しの困りごとを自然に表す。大げさな物まね、怖い声、うなり声にしない。普段の会話より少しゆっくり、聞き取りやすく。台詞の語句は一切変えず、追加の挨拶や説明をしない。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "だって、だって、さびしかったんだもの。けど、今日はきみと遊べて、とっても楽しかったよ！どうもありがとう！",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "narrator",
+          "style": "日本語。少しおちゃめで寂しがりの、親しみやすい魔法使い。明るく自然な話し声。怖い声や叫び声にしない。台詞の語句を一切変えず、謎の答えを付け足さない。シカの十回の反復は省略せず正確に読む。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "さてさて、早速、プレゼントのじゅんびにとりかからねば。きみのおかげで、みんなをよろばせてやれるわい。クリスマスの夜を楽しみにしていてくれ",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "santa",
+          "style": "日本語。心優しい年配のサンタクロース。柔らかく落ち着いた低めの声で、親しみと少しの困りごとを自然に表す。大げさな物まね、怖い声、うなり声にしない。普段の会話より少しゆっくり、聞き取りやすく。台詞の語句は一切変えず、追加の挨拶や説明をしない。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "これで脱出ゲームは終わりです。あそんでくれてありがとうございました。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "narrator",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 2304304,
+  "sha256": "1e2130fc7bb7c582882e4a93db945414bdac40897b9c5bc179f8919a54a933d4",
+  "usage": {
+    "total_tokens": 2134,
+    "total_input_tokens": 601,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 141
+      },
+      {
+        "modality": "audio",
+        "tokens": 460
+      }
+    ],
+    "total_cached_tokens": 164,
+    "cached_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 38
+      },
+      {
+        "modality": "audio",
+        "tokens": 126
+      }
+    ],
+    "total_output_tokens": 1533,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 1533
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 906,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 416
+          },
+          {
+            "modality": "audio",
+            "tokens": 460
+          }
+        ],
+        "cache_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 253
+          },
+          {
+            "modality": "audio",
+            "tokens": 259
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 580
+          }
+        ]
+      },
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 501
+          },
+          {
+            "modality": "audio",
+            "tokens": 460
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 806
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 416
+          },
+          {
+            "modality": "audio",
+            "tokens": 460
+          }
+        ],
+        "cache_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 253
+          },
+          {
+            "modality": "audio",
+            "tokens": 259
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 580
+          }
+        ]
+      },
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 501
+          },
+          {
+            "modality": "audio",
+            "tokens": 460
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 806
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 12413
+}

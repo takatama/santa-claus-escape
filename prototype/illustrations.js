@@ -25,7 +25,8 @@ function tree(index) {
 }
 
 export function gift(color, opened = false, small = false) {
-  return `<span class="gift ${color} ${opened ? 'opened' : ''} ${small ? 'small' : ''}" aria-hidden="true"><span class="gift-shadow"></span><span class="gift-side"></span><span class="gift-base"></span><span class="gift-ribbon"></span><span class="gift-top"><span class="gift-lid"></span><span class="gift-bow left"></span><span class="gift-bow right"></span></span>${opened ? '<span class="paper paper-one">す</span><span class="paper paper-two">だ</span>' : '<span class="gift-lock">⌑</span>'}</span>`;
+  const letters = { red: ['す', 'だ'], blue: ['い', 'よ'], yellow: ['き', 'だ'] }[color];
+  return `<span class="gift ${color} ${opened ? 'opened' : ''} ${small ? 'small' : ''}" aria-hidden="true"><span class="gift-shadow"></span><span class="gift-side"></span><span class="gift-base"></span><span class="gift-ribbon"></span><span class="gift-top"><span class="gift-lid"></span><span class="gift-bow left"></span><span class="gift-bow right"></span></span>${opened ? `<span class="paper paper-one">${letters[0]}</span><span class="paper paper-two">${letters[1]}</span>` : '<span class="gift-lock">⌑</span>'}</span>`;
 }
 
 export function winterScene(center, caption = '') {
@@ -42,3 +43,8 @@ export function winterScene(center, caption = '') {
 export function santaScene() {
   return winterScene(`<div class="santa-device"><div class="device-rim"><span class="device-dot"></span><div class="device-screen"><span class="halo"></span><div class="santa-cutout">${santa}</div><div class="voice-wave" aria-hidden="true">${'<i></i>'.repeat(7)}</div></div><span class="device-home"></span></div><span class="device-fold"></span></div><span class="tiny-gifts" aria-hidden="true">${gift('red', false, true)}${gift('yellow', false, true)}</span>`, '声の向こうに、サンタがいる。');
 }
+
+export const mountain = '<svg class="mountain-clue" viewBox="0 0 180 95" role="img" aria-label="山の絵"><path d="M8 86 55 20l35 46 30-60 53 80Z" fill="#779084"/><path d="m55 20 14 19-14-5-10 7Zm65-14 19 29-15-7-12 4Z" fill="#fffaf0"/><path d="M8 86h165" stroke="#64766c" stroke-width="2"/></svg>';
+const magician = '<svg class="witch-cutout" viewBox="0 0 220 260" role="img" aria-label="まほう使い"><path d="M38 252q0-74 72-74t72 74Z" fill="#806b99"/><path d="m36 104 77-96 35 95Z" fill="#6b537e"/><path d="M22 99q85-27 176 1l-3 19H23Z" fill="#967fb0"/><circle cx="110" cy="142" r="47" fill="#efc09d"/><path d="M65 138q-13-37 41-40 51-2 48 40l-19-15-11 13-18-16-20 19Z" fill="#805c3c"/><path d="M80 148q7-6 14 0m28 0q7-6 14 0m-40 19q14 14 28 0" fill="none" stroke="#6c4b42" stroke-width="3" stroke-linecap="round"/><path d="m53 209-27-36m151 33 18-54" stroke="#806b99" stroke-width="20" stroke-linecap="round"/><path d="m191 163 10-68" stroke="#a88d62" stroke-width="5"/><path d="m204 77 5 13 15 1-12 9 3 15-11-9-12 8 4-14-11-10 15-1Z" fill="#dfbc7d"/></svg>';
+export function witchScene() { return winterScene(`<div class="magician-stand">${magician}<span class="device-fold"></span></div>`, 'まほう使いと、遊びの時間。'); }
+export function rescueScene() { return winterScene(`<div class="free-santa">${santa}<span class="rescue-spark">✧</span></div>`, 'サンタは、端末の外へ。'); }

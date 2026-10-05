@@ -1,0 +1,95 @@
+{
+  "id": "ja-reinvite",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T12:03:20.252Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "箱は消えてしまいました。まほう使いと遊びますか？"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "箱は消えてしまいました。まほう使いと遊びますか？",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 269104,
+  "sha256": "975e4bd3c7895dd2595f25c7e73c01238aa97677817e702a4de1b45d1465aaed",
+  "usage": {
+    "total_tokens": 392,
+    "total_input_tokens": 216,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 15
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 176,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 176
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 384,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 147
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 139
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 147
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 139
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 3885
+}

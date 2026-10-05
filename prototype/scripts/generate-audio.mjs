@@ -2,6 +2,7 @@
 import { writeFile, mkdir, stat } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { SCENARIO } from '../scenario.js';
+import { productionScenes } from '../full-scenario.js';
 
 const MODEL = 'gemini-3.8-flash-tts';
 const output = new URL('../assets/audio/', import.meta.url);
@@ -10,6 +11,7 @@ const mode = process.argv[2] || '--plan';
 const styles = {
   santa: '日本語。心優しい年配のサンタクロース。柔らかく落ち着いた低めの声で、親しみと少しの困りごとを自然に表す。大げさな物まね、怖い声、うなり声にしない。普段の会話より少しゆっくり、聞き取りやすく。台詞の語句は一切変えず、追加の挨拶や説明をしない。',
   narrator: '日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。',
+  witch: '日本語。少しおちゃめで寂しがりの、親しみやすい魔法使い。明るく自然な話し声。怖い声や叫び声にしない。台詞の語句を一切変えず、謎の答えを付け足さない。シカの十回の反復は省略せず正確に読む。',
 };
 const jobs = [
   { id: 'santa-sample', segments: [{speaker:'santa', text:SCENARIO.messages.intro[1].text.split('\n')[0]}] },
@@ -18,24 +20,27 @@ const jobs = [
     segments: SCENARIO.messages[message].map(segment => ({...segment,text:segment.text.replaceAll('$numbers',message === 'wrong' ? '0000' : SCENARIO.answer)})),
   })),
 ];
-const selected = mode === '--sample' ? jobs.slice(0,1) : mode === '--all' ? jobs.slice(1) : [];
+const fullJobs = Object.entries(productionScenes()).filter(([key])=>!['intro','help','red1','red2','red3','red4'].includes(key)).map(([key,segments])=>({id:`ja-${key}`,segments:segments.map(s=>({...s,text:s.spoken||s.text}))}));
+const selected = mode === '--sample' ? jobs.slice(0,1) : mode === '--all' ? jobs.slice(1) : mode === '--full' ? fullJobs : [];
 if (mode === '--plan') {
-  console.log(JSON.stringify({model:MODEL,jobs:jobs.map(job=>({id:job.id,characters:job.segments.map(s=>s.text).join('').length})),notes:'生成は --sample / --all の明示的な実行のみ。契約・課金設定は変更しない。'}));
+  console.log(JSON.stringify({model:MODEL,jobs:[...jobs,...fullJobs].map(job=>({id:job.id,characters:job.segments.map(s=>s.text).join('').length})),notes:'生成は --sample / --all / --full の明示的な実行のみ。契約・課金設定は変更しない。'}));
   process.exit(0);
 }
-if (!selected.length) throw new Error('Use --plan, --sample or --all');
+if (!selected.length) throw new Error('Use --plan, --sample, --all or --full');
 if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY is not configured');
 await mkdir(output,{recursive:true});
 await mkdir(provenance,{recursive:true});
 for (const job of selected) {
   const file = new URL(`${job.id}.wav`,output);
   try { await stat(file); console.log(JSON.stringify({id:job.id,cached:true})); continue; } catch {}
-  const multiple = new Set(job.segments.map(s=>s.speaker)).size > 1;
+  // 語り手と魔法使いは同じ声を、台詞ごとの演技指定で使い分ける。API上は二話者。
+  const audioSpeaker = speaker => speaker === 'witch' ? 'narrator' : speaker;
+  const multiple = new Set(job.segments.map(s=>audioSpeaker(s.speaker))).size > 1;
   const config = multiple ? { speakers:[{speaker:'santa',voice:'Algieba'},{speaker:'narrator',voice:'Sulafat'}] } : [{voice:job.segments[0].speaker === 'santa' ? 'Algieba' : 'Sulafat'}];
   const content = job.segments.map(segment => ({
     type:'text',
     text:segment.text.replace(/\d{4}/g,digits=>digits.split('').join('、')),
-    annotations:[{type:'speech_metadata',...(multiple?{speaker:segment.speaker}:{}),style:styles[segment.speaker]}],
+    annotations:[{type:'speech_metadata',...(multiple?{speaker:audioSpeaker(segment.speaker)}:{}),style:styles[segment.speaker]}],
   }));
   const body = {model:MODEL,store:false,input:[{type:'user_input',content}],response_format:{type:'audio'},generation_config:{speech_config:config,max_output_tokens:4096}};
   const started = Date.now();

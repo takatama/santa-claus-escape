@@ -141,6 +141,6 @@ const selectedQuestions=JSON.stringify(direct.questionSet);invite(direct,false);
 check(JSON.stringify(direct.questionSet)===selectedQuestions,'decline and resume do not reroll');
 for(let i=0;i<3;i++){const q=currentQuestion(direct);reply(direct,'わからない',q.id);continueWitch(direct,direct.scene);}
 check(direct.phase==='rescue'&&papers(direct).length===0,'shortcut can rescue without pretending boxes opened');
-const report={checked:new Date().toISOString(),scope:'design model only; no full-game UI/audio validation',paths,leadingZeroPaths,assertions,sourceChecks:source?'exact questions, aliases, red candidates, mappings, ten repeats, spell intent':'skipped: original reference copies are not included in the public repository',pending:'exact word matching is proposed; source solitaire alias remains; runtime prototype unchanged'};
+const report={checked:new Date().toISOString(),scope:'original question-bank design model only; no full-game UI/audio validation',paths,leadingZeroPaths,assertions,sourceChecks:source?'exact questions, aliases, red candidates, mappings, ten repeats, spell intent':'skipped: original reference copies are not included in the public repository',runtimeNote:'The model retains original aliases for source comparison. The Japanese runtime uses exact matching and excludes solitaire, approved by the user; see prototype/FULL-GAME-NOTES.md.'};
 if(process.argv.includes('--write-report'))await writeFile(new URL('FLOW-CHECK.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify(report));

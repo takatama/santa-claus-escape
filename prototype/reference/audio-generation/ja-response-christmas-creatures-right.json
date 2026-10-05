@@ -1,0 +1,95 @@
+{
+  "id": "ja-response-christmas-creatures-right",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T12:04:30.340Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "その通り！「クリスマス」の中にいるのは、「リス」と「マス」と「クマ」だよね！"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "その通り！「クリスマス」の中にいるのは、「リス」と「マス」と「クマ」だよね！",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。少しおちゃめで寂しがりの、親しみやすい魔法使い。明るく自然な話し声。怖い声や叫び声にしない。台詞の語句を一切変えず、謎の答えを付け足さない。シカの十回の反復は省略せず正確に読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 349744,
+  "sha256": "7bb0fa87b7ab5deb1ebf70dfaf59947b53927632a20a4bd89300b7fb47b3f402",
+  "usage": {
+    "total_tokens": 455,
+    "total_input_tokens": 225,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 24
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 230,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 230
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 399,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 153
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 181
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 153
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 181
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 4384
+}

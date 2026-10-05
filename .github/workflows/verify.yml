@@ -14,3 +14,5 @@ jobs:
       - run: npm run check:design
       - run: npm run check:audio
       - run: npm run check:publication
+      - run: npm run build
+      - run: npm run check:pages

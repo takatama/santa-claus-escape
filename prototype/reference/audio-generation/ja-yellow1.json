@@ -1,0 +1,95 @@
+{
+  "id": "ja-yellow1",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T12:02:07.862Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "あなたは黄色の箱を調べました。\n箱にはカギがかかっています。ダイヤル式のカギです。開けるためには四つの数字が必要です。絵がかいてあるようです。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "あなたは黄色の箱を調べました。\n箱にはカギがかかっています。ダイヤル式のカギです。開けるためには四つの数字が必要です。絵がかいてあるようです。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 802864,
+  "sha256": "0524878550213c80377a26edd790445083cff961bc9b1c46cc0323eb694f59ee",
+  "usage": {
+    "total_tokens": 772,
+    "total_input_tokens": 240,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 39
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 532,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 532
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 431,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 170
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 417
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 170
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 417
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 7259
+}

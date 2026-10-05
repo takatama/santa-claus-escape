@@ -5,6 +5,7 @@ node_modules/
 *.log
 .DS_Store
 Thumbs.db
+dist/
 
 # 原作の参照コピー、旧画面、Driveの原本と調査用メタデータは非公開。
 prototype/reference/*

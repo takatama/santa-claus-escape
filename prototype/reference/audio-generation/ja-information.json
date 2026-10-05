@@ -1,0 +1,95 @@
+{
+  "id": "ja-information",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T12:02:41.622Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "サガルマータは、ネパール語で、エベレストのことです。\nエベレストは、世界で一番高い山です。エベレストの高さは、8848メートルです。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "サガルマータは、ネパール語で、エベレストのことです。\nエベレストは、世界で一番高い山です。エベレストの高さは、8、8、4、8メートルです。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 749104,
+  "sha256": "9d4b54f99db136e768c889eec6360b950423e839fe7fbf11b6fd7369080cf1c4",
+  "usage": {
+    "total_tokens": 745,
+    "total_input_tokens": 249,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 48
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 496,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 496
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 448,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 179
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 389
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 179
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 389
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 7346
+}

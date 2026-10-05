@@ -1,0 +1,96 @@
+{
+  "id": "ja-question-christmas-creatures",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T12:04:25.949Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "さいしょは、なぞなぞだよ。「クリスマス」の中には、三つの生き物がかくれているよ。10秒間、考えてみてね。「クリスマス」の中にいる、三つの生き物だよ。では問題。隠れているのは「リス」と「マス」と、もう一つは何？",
+      "spoken": "さいしょは、なぞなぞだよ。「クリスマス」の中には、三つの生き物がかくれているよ。10秒間、考えてみてね。「クリスマス」の中にいる、三つの生き物だよ。では問題。隠れているのは「リス」と「マス」と、もう一つは何？"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "さいしょは、なぞなぞだよ。「クリスマス」の中には、三つの生き物がかくれているよ。10秒間、考えてみてね。「クリスマス」の中にいる、三つの生き物だよ。では問題。隠れているのは「リス」と「マス」と、もう一つは何？",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。少しおちゃめで寂しがりの、親しみやすい魔法使い。明るく自然な話し声。怖い声や叫び声にしない。台詞の語句を一切変えず、謎の答えを付け足さない。シカの十回の反復は省略せず正確に読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 1102384,
+  "sha256": "dcd88aa5be03179886cc1c791b5b3333893f91729412c48bdf04fa2aa7891d48",
+  "usage": {
+    "total_tokens": 995,
+    "total_input_tokens": 264,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 63
+      },
+      {
+        "modality": "audio",
+        "tokens": 201
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 731,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 731
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 478,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 192
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 573
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 192
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 573
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 8842
+}

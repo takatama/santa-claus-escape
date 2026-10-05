@@ -1,0 +1,95 @@
+{
+  "id": "ja-response-deer-ten-times-wrong",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T12:05:09.932Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "正解は、トナカイ、じゃなくて、ソリだよね"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "正解は、トナカイ、じゃなくて、ソリだよね",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。少しおちゃめで寂しがりの、親しみやすい魔法使い。明るく自然な話し声。怖い声や叫び声にしない。台詞の語句を一切変えず、謎の答えを付け足さない。シカの十回の反復は省略せず正確に読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 263344,
+  "sha256": "edbac917c013a0b05a8d94b9468fb5003c13d8ba92a9f55a92da729cadc6046d",
+  "usage": {
+    "total_tokens": 389,
+    "total_input_tokens": 217,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 16
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 172,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 172
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 383,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 145
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 136
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 145
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 136
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 4069
+}

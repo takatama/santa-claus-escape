@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-05T01:19:50.769Z",
+  "date": "2026-10-05T12:28:49.817Z",
   "measurements": [
     {
       "id": "help",
@@ -21,6 +21,325 @@
       "seconds": 32.4,
       "rmsDb": -18,
       "peakDb": -1.4,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-blue-open",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 22.64,
+      "rmsDb": -17.9,
+      "peakDb": -1.1,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-blue-wrong-0000",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 12.44,
+      "rmsDb": -17.9,
+      "peakDb": -1.7,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-blue1",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 15.4,
+      "rmsDb": -17.2,
+      "peakDb": -1.7,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-blue2",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 10.92,
+      "rmsDb": -17.9,
+      "peakDb": -2.5,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-blue3",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 12.96,
+      "rmsDb": -16.9,
+      "peakDb": -2.5,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-blue4",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 30.4,
+      "rmsDb": -17.8,
+      "peakDb": -1.3,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-information",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 15.48,
+      "rmsDb": -17.3,
+      "peakDb": -1,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-invite",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 29.56,
+      "rmsDb": -15.4,
+      "peakDb": -0.7,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-letters",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 30.36,
+      "rmsDb": -18.8,
+      "peakDb": -1.6,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-paused",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 28.08,
+      "rmsDb": -20.2,
+      "peakDb": -1.5,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-question-christmas-creatures",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 22.84,
+      "rmsDb": -18.3,
+      "peakDb": -1.4,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-question-deer-ten-times",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 22.44,
+      "rmsDb": -17.4,
+      "peakDb": -1.1,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-question-red-ornament",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 13.16,
+      "rmsDb": -16.8,
+      "peakDb": -1.3,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-red-open",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 20.84,
+      "rmsDb": -19.1,
+      "peakDb": -1.6,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-red-wrong-0000",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 12.48,
+      "rmsDb": -18.6,
+      "peakDb": -2.1,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-reinvite",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 5.48,
+      "rmsDb": -17.1,
+      "peakDb": -1.7,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-rescue",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 47.88,
+      "rmsDb": -18.4,
+      "peakDb": -1.4,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-response-christmas-creatures-right",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 7.16,
+      "rmsDb": -16.8,
+      "peakDb": -1.3,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-response-christmas-creatures-wrong",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 7.76,
+      "rmsDb": -18.3,
+      "peakDb": -2,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-response-deer-ten-times-right",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 6.96,
+      "rmsDb": -19.4,
+      "peakDb": -1.6,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-response-deer-ten-times-wrong",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 5.36,
+      "rmsDb": -15.3,
+      "peakDb": -1.4,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-response-red-ornament-right",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 11.64,
+      "rmsDb": -17.2,
+      "peakDb": -1.5,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-response-red-ornament-wrong",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 10.52,
+      "rmsDb": -16.7,
+      "peakDb": -1.8,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-yellow-open",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 21.08,
+      "rmsDb": -17.3,
+      "peakDb": -1.6,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-yellow-wrong-0000",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 13,
+      "rmsDb": -16.8,
+      "peakDb": -1.7,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-yellow1",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 16.6,
+      "rmsDb": -18,
+      "peakDb": -2,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-yellow2",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 21.36,
+      "rmsDb": -18.1,
+      "peakDb": -1.5,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-yellow3",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 18.2,
+      "rmsDb": -19.3,
+      "peakDb": -1.4,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-yellow4",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 25,
+      "rmsDb": -18.3,
+      "peakDb": -1.7,
       "clippedSamples": 0
     },
     {
@@ -102,9 +421,9 @@
     }
   ],
   "ttsTokens": {
-    "input": 2917,
-    "output": 5911
+    "input": 10729,
+    "output": 22501
   },
-  "paidTierReferenceUsd": 0.05466,
+  "paidTierReferenceUsd": 0.20787,
   "billingNote": "公開の標準モデル単価による参考値。実際の請求や無料枠の確認ではない。"
 }

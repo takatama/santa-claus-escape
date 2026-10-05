@@ -1,3 +1,5 @@
 * text=auto
 *.wav binary
 *.jpg binary
+*.mp3 binary
+*.ogg binary

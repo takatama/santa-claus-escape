@@ -1,0 +1,95 @@
+{
+  "id": "ja-blue2",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T12:01:43.809Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "あなたは青色の箱を調べました。箱には山の絵がかいてあります。絵の横にも何か書いてあります。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "あなたは青色の箱を調べました。箱には山の絵がかいてあります。絵の横にも何か書いてあります。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "bytes": 530224,
+  "sha256": "c2226753fdcda7134f6dd4d9ac02912102fb28cf6ac492953bb3b28f1410e7fe",
+  "usage": {
+    "total_tokens": 576,
+    "total_input_tokens": 226,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 25
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 350,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 350
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 403,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 156
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 275
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 156
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 275
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 5099
+}
