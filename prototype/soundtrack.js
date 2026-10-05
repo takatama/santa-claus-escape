@@ -1,6 +1,5 @@
 // 声は独立した再生系。BGMと効果音はゲームの状態を変更しない。
 import { AudioSequence } from './audio-sequence.js';
-import { makeClickBuffer } from './audio-timeline.js';
 export const SOUND_EFFECTS=Object.freeze({unlock:'magic-cure2',wrong:'stupid3',magic:'shine1',rescue:'shine3'});
 export class Soundtrack {
   constructor(makeAudio = src => new Audio(src),{effectPlayer=new AudioSequence()}={}) { this.makeAudio=makeAudio;this.effectPlayer=effectPlayer;this.music=null; this.track=''; this.timers=new Set(); this.nodes=new Set(); this.context=null; this.muted=false; this.bgmEnabled=true; this.sfxEnabled=true; this.volume=.025; }
@@ -9,7 +8,7 @@ export class Soundtrack {
   stop() { for(const timer of this.timers)clearTimeout(timer); this.timers.clear(); this.music?.pause(); this.stopEffects(); }
   begin(track) {
     this.stop(); if(this.muted||!this.bgmEnabled)return;
-    if(this.track!==track){this.track=track;this.music=this.makeAudio(`./assets/audio/${track==='witch'?'spook4':'laid-back'}.mp3`);this.music.loop=true;}
+    if(this.track!==track){this.track=track;const name=track==='witch'?'spook4':'laid-back';this.music=this.makeAudio(`./assets/audio/${name}-loop.ogg`);if(this.music.canPlayType&&!this.music.canPlayType('audio/ogg; codecs="vorbis"'))this.music.src=`./assets/audio/${name}-loop.wav`;this.music.loop=true;}
     this.music.volume=this.volume;this.music.play()?.catch(()=>{});
   }
   quiet() {
@@ -23,13 +22,6 @@ export class Soundtrack {
       this.effectPlayer.play([`./assets/audio/${SOUND_EFFECTS[kind]}.mp3`],()=>{},()=>{},kind==='wrong'?.10:.18);
       return;
     }
-    try{
-      const AudioContext=globalThis.AudioContext||globalThis.webkitAudioContext; if(!AudioContext)return;
-      this.context ||= new AudioContext();this.context.resume()?.catch(()=>{});
-      if(kind==='dial'){
-        const source=this.context.createBufferSource(),gain=this.context.createGain();source.buffer=makeClickBuffer(this.context);gain.gain.value=.12;
-        source.connect(gain);gain.connect(this.context.destination);source.start();this.nodes.add(source);source.onended=()=>{this.nodes.delete(source);source.disconnect();gain.disconnect();};
-      }
-    }catch{/* 音声未対応でも文字と操作で継続できる */}
+    if(kind==='dial')this.effectPlayer.play(['./assets/audio/dial.mp3'],()=>{},()=>{},.12,.12);
   }
 }

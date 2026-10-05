@@ -2,7 +2,9 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 const root = new URL('../assets/audio/', import.meta.url);
 const metadataRoot = new URL('../reference/audio-generation/', import.meta.url);
-const filenames = (await readdir(root)).filter(name=>name.endsWith('.wav')).sort();
+const originalAudio=JSON.parse(await readFile(new URL('original-audio-provenance.json',root),'utf8'));
+const originalWavs=new Set(originalAudio.files.flatMap(record=>record.fallback?[record.fallback.file]:[]));
+const filenames = (await readdir(root)).filter(name=>name.endsWith('.wav')&&!originalWavs.has(name)).sort();
 const measurements = [];
 let usage = {input:0,output:0};
 const counted=new Set();

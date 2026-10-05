@@ -14,14 +14,14 @@ const voice=sources=>({type:'voice',sources});
 const speech=id=>voice([asset(`cue-${id}`)]);
 const effect=(file,volume=.18)=>({type:'effect',src:`./assets/audio/${file}.mp3`,volume});
 const pause=seconds=>({type:'pause',seconds});
-const dial=()=>({type:'clicks',kind:'dial-turn',volume:.12});
+const dial=()=>effect('dial',.12);
 const number=(color,digits)=>voice([`answer-prefix-${color}`,...digits.split('').map(n=>`answer-digit-${n}`),'answer-set'].map(asset));
 export function resolveAudioTimeline(key){
   const match=/^(red|blue|yellow)-(open|wrong-\d{4})$/.exec(key);
   if(match){
     const [,color,result]=match,opened=result==='open',digits=opened?BOXES[color].answer:result.slice(6);
     const start=[dial(),pause(1),number(color,digits),pause(opened?.5:1)];
-    return opened?[...start,{type:'clicks',kind:'latch',volume:.14},speech(`box-${color}-opened`),effect('magic-cure2'),speech(`box-${color}-paper`)]:[...start,voice([asset('answer-closed')]),effect('stupid3',.10)];
+    return opened?[...start,effect('unlocking-1',.14),speech(`box-${color}-opened`),effect('magic-cure2'),speech(`box-${color}-paper`)]:[...start,voice([asset('answer-closed')]),effect('stupid3',.10)];
   }
   if(key==='rescue')return [speech('rescue-fairy-first'),pause(.5),effect('shine3'),speech('rescue-appeared'),pause(.5),voice([asset('rescue-dialogue')]),pause(1),voice([asset('rescue-ending')])];
   if(key==='invite')return [effect('shine1'),voice([asset('ja-leda-invite')])];

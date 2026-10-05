@@ -1,0 +1,168 @@
+{
+  "checked": "2026-10-05T23:24:31.382Z",
+  "files": [
+    {
+      "id": "normalBgmUrl",
+      "file": "laid-back-loop.ogg",
+      "title": "Laid_Back",
+      "page": "https://peritune.com/blog/2017/01/25/laid_back/",
+      "license": "CC BY 4.0",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/PerituneMaterial_Laid_Back_loop.ogg",
+      "bytes": 1802834,
+      "sha256": "abeaf30f1d57d5792a09b25c6c9f2ca0fc7c81606c8ed7fc15390ae98fdd5761",
+      "matchesOriginal": true,
+      "processing": "unchanged original source bytes",
+      "fallback": {
+        "file": "laid-back-loop.wav",
+        "sha256": "2136bb5b7ae2867c1f2d49fb0297ce2995172f624e08e321b3ca9aa627963893",
+        "bytes": 12315972,
+        "pcmSha256": "ac02983a85f991da4f0bd27157da13596c8fadc70136c0f146cbfbf0f2fda987",
+        "sourceSha256": "abeaf30f1d57d5792a09b25c6c9f2ca0fc7c81606c8ed7fc15390ae98fdd5761",
+        "decoder": "miniaudio 1.71",
+        "sampleRate": 44100,
+        "channels": 2,
+        "bits": 16,
+        "frames": 3078982,
+        "processing": "decode original Vorbis to 16-bit PCM at original rate/channels; no gain, resampling, pitch or pacing change; use only when Vorbis unsupported"
+      }
+    },
+    {
+      "id": "witchBgmUrl",
+      "file": "spook4-loop.ogg",
+      "title": "Spook4",
+      "page": "https://peritune.com/blog/2018/09/28/spook4/",
+      "license": "CC BY 4.0",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/PerituneMaterial_Spook4_loop.ogg",
+      "bytes": 2051040,
+      "sha256": "c0986842ee43d810d9710a4e59e0624f255ee92820b95b77cedcb68d26ecf5ce",
+      "matchesOriginal": true,
+      "processing": "unchanged original source bytes",
+      "fallback": {
+        "file": "spook4-loop.wav",
+        "sha256": "65a24f01a53e8fac06f9282575109591df2b3a8341f95226af5e2a0ce962ae1a",
+        "bytes": 13281924,
+        "pcmSha256": "5d0e050fabce0dadfa5157538281e57b3c7fd8f194164ab2f6b53fea8dc1d026",
+        "sourceSha256": "c0986842ee43d810d9710a4e59e0624f255ee92820b95b77cedcb68d26ecf5ce",
+        "decoder": "miniaudio 1.71",
+        "sampleRate": 44100,
+        "channels": 2,
+        "bits": 16,
+        "frames": 3320470,
+        "processing": "decode original Vorbis to 16-bit PCM at original rate/channels; no gain, resampling, pitch or pacing change; use only when Vorbis unsupported"
+      }
+    },
+    {
+      "id": "dialSrc",
+      "file": "dial.mp3",
+      "title": "Clicking Dial on Toy excerpt",
+      "page": "https://freesound.org/people/Zott820/sounds/174770/",
+      "license": "CC0 1.0",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/dial.mp3",
+      "bytes": 41617,
+      "sha256": "df7697f9963e885c60702015dd53193c7ecd14d0b65a8e42687d6856479f43a9",
+      "matchesOriginal": true,
+      "processing": "unchanged original source bytes",
+      "author": "Zott820",
+      "sourceIdentification": {
+        "method": "four PCM windows align at the same source offset; inference from waveform matching",
+        "previewUrl": "https://cdn.freesound.org/previews/174/174770_2558531-lq.mp3",
+        "previewSha256": "7eba271d6557fcfbe2f8cdb43adc8a7c969de9875d2644cf8d79c78ac88d6b4f",
+        "windows": [
+          {
+            "originalStart": 0.3,
+            "referenceStart": 12.7616875,
+            "offset": 12.4616875,
+            "correlation": 0.6707246728248057
+          },
+          {
+            "originalStart": 1,
+            "referenceStart": 13.4616875,
+            "offset": 12.4616875,
+            "correlation": 0.7329447482441859
+          },
+          {
+            "originalStart": 2,
+            "referenceStart": 14.4616875,
+            "offset": 12.4616875,
+            "correlation": 0.7429058717177078
+          },
+          {
+            "originalStart": 3,
+            "referenceStart": 15.4616875,
+            "offset": 12.4616875,
+            "correlation": 0.7392262888800536
+          }
+        ],
+        "singleTap": "runtime playback of first 0.12 seconds after standard silence trimming; full original clip for answer confirmation"
+      }
+    },
+    {
+      "id": "unlockSrc",
+      "file": "unlocking-1.mp3",
+      "title": "ロック解除",
+      "page": "https://sounddictionary.info/machines-1/",
+      "license": "Sound Dictionary terms; not MIT",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/unlocking-1.mp3",
+      "bytes": 36736,
+      "sha256": "3743d5309b63adbc1d32a9423264127dc2f2fa2e94f98eb4cd6cfdee9a8cba09",
+      "matchesOriginal": true,
+      "processing": "unchanged original source bytes",
+      "officialDownload": "https://sounddictionary.info/mp3/machines/unlocking-1.mp3",
+      "officialSha256": "3743d5309b63adbc1d32a9423264127dc2f2fa2e94f98eb4cd6cfdee9a8cba09"
+    },
+    {
+      "id": "okSrc",
+      "file": "magic-cure2.mp3",
+      "title": "回復魔法2",
+      "page": "https://soundeffect-lab.info/sound/battle/",
+      "license": "Sound Effect Lab terms; not MIT",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/magic-cure2.mp3",
+      "bytes": 102272,
+      "sha256": "ebc78480a6e0c7b977da4a706b9928b7f73a04c91ed2901cca5412f9d2b21406",
+      "matchesOriginal": true,
+      "processing": "unchanged original source bytes"
+    },
+    {
+      "id": "ngSrc",
+      "file": "stupid3.mp3",
+      "title": "間抜け3",
+      "page": "https://soundeffect-lab.info/sound/anime/",
+      "license": "Sound Effect Lab terms; not MIT",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/stupid3.mp3",
+      "bytes": 31346,
+      "sha256": "7415fbe55999ce410369e28ab2acba36f6b3d71d072e72cd451c352e2ac0cd66",
+      "matchesOriginal": true,
+      "processing": "unchanged original source bytes"
+    },
+    {
+      "id": "shine1Src",
+      "file": "shine1.mp3",
+      "title": "きらきら輝く1",
+      "page": "https://soundeffect-lab.info/sound/anime/",
+      "license": "Sound Effect Lab terms; not MIT",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/shine1.mp3",
+      "bytes": 122252,
+      "sha256": "408cd56673158ffb0efe4facfc795dfa9e32e0fb8ffff404b493764e5234c100",
+      "matchesOriginal": true,
+      "processing": "unchanged original source bytes"
+    },
+    {
+      "id": "shine3Src",
+      "file": "shine3.mp3",
+      "title": "きらきら輝く3",
+      "page": "https://soundeffect-lab.info/sound/anime/",
+      "license": "Sound Effect Lab terms; not MIT",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/shine3.mp3",
+      "bytes": 173034,
+      "sha256": "f70265009a090899d0132479d1081e38704a324ecea3eaeb76f770c25126f4b8",
+      "matchesOriginal": true,
+      "processing": "unchanged original source bytes"
+    }
+  ],
+  "pending": {
+    "file": "jingle.mp3",
+    "page": "https://dova-s.jp/se/play945.html",
+    "license": "https://opentracks.com/help/articles/license/",
+    "reason": "raw audio public packaging needs clarification; not included; no substitute"
+  }
+}

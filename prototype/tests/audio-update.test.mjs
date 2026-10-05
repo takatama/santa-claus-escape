@@ -60,7 +60,7 @@ test('結合音声を再生できた誤答はブラウザ読み上げを使わ�
   player.play(segments,'blue-wrong-8849');const stale=fail;player.stop();stale();await tick();assert.equal(spoken.length,0);
   player.play(segments,'blue-wrong-8849');fail();await tick();assert.match(spoken[0],/8、8、4、9/);assert.ok(stops>=4);player.stop();
 });
-test('原作の四音は公式取得ファイルで、停止・効果音オフ・ミュートが再生中の音を止める',async()=>{
+test('原作の四音は保存された原作参照ファイルで、停止・効果音オフ・ミュートが再生中の音を止める',async()=>{
   const provenance=JSON.parse(await readFile(new URL('../assets/audio/sound-effects-provenance.json',import.meta.url),'utf8'));
   for(const record of provenance.files){const bytes=await readFile(new URL(`../assets/audio/${record.id}.mp3`,import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),record.sha256);}
   const tracks=[],effectPlayer={prepare(){return Promise.resolve(true);},play([src],_end,_fail,volume){tracks.forEach(a=>a.stopped=true);tracks.push({src,volume});},stop(){tracks.forEach(a=>a.stopped=true);}};

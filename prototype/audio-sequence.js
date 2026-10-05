@@ -37,7 +37,7 @@ export class AudioSequence {
   prepare(sources){
     try{this.context ||= this.makeContext();if(!this.context)return Promise.resolve(false);return Promise.all([this.context.resume(),...sources.map(src=>this.load(src))]).then(()=>true,()=>false);}catch{return Promise.resolve(false);}
   }
-  play(sources,onEnd,onFailure,volume=1){
+  play(sources,onEnd,onFailure,volume=1,maxSeconds=null){
     this.stop();const generation=this.generation;
     const fail=()=>{if(generation===this.generation){this.stop();onFailure();}};
     try{
@@ -49,7 +49,7 @@ export class AudioSequence {
         const source=this.context.createBufferSource();source.buffer=joinAudioBuffers(this.context,buffers);this.source=source;
         if(volume!==1){this.gain=this.context.createGain();this.gain.gain.value=volume;this.gain.connect(this.context.destination);}source.connect(this.gain||this.context.destination);
         source.onended=()=>{if(generation!==this.generation)return;source.disconnect();this.source=null;this.gain?.disconnect();this.gain=null;onEnd();};
-        source.start();
+        if(maxSeconds>0)source.start(0,0,Math.min(maxSeconds,source.buffer.length/source.buffer.sampleRate));else source.start();
       }).catch(fail);
     }catch{fail();}
   }

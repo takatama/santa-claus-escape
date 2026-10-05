@@ -1,5 +1,5 @@
 {
-  "checked": "2026-10-05",
+  "checked": "2026-10-06",
   "copyright": "効果音ラボ",
   "license": "Sound Effect Lab terms; not MIT",
   "files": [
@@ -8,52 +8,60 @@
       "title": "回復魔法2",
       "role": "箱の正解",
       "page": "https://soundeffect-lab.info/sound/battle/",
-      "download": "https://soundeffect-lab.info/sound/battle/mp3/magic-cure2.mp3",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/magic-cure2.mp3",
       "terms": "https://soundeffect-lab.info/agreement/",
       "faq": "https://soundeffect-lab.info/faq/",
-      "bytes": 87936,
-      "sha256": "bd71dd6b857e571df9c2810f36293b7f0f64a87d86bc458a630075d411efe7e4",
+      "bytes": 102272,
+      "sha256": "ebc78480a6e0c7b977da4a706b9928b7f73a04c91ed2901cca5412f9d2b21406",
       "originalSha256": "ebc78480a6e0c7b977da4a706b9928b7f73a04c91ed2901cca5412f9d2b21406",
-      "matchesOriginal": false
+      "matchesOriginal": true,
+      "previousOfficialSha256": "bd71dd6b857e571df9c2810f36293b7f0f64a87d86bc458a630075d411efe7e4",
+      "processing": "unchanged original source bytes"
     },
     {
       "id": "stupid3",
       "title": "間抜け3",
       "role": "箱の不正解",
       "page": "https://soundeffect-lab.info/sound/anime/",
-      "download": "https://soundeffect-lab.info/sound/anime/mp3/stupid3.mp3",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/stupid3.mp3",
       "terms": "https://soundeffect-lab.info/agreement/",
       "faq": "https://soundeffect-lab.info/faq/",
-      "bytes": 12160,
-      "sha256": "ccd135c1bc6a1500b0791c48294f39325e17b5bda0cee35b8cb672b7968cce60",
+      "bytes": 31346,
+      "sha256": "7415fbe55999ce410369e28ab2acba36f6b3d71d072e72cd451c352e2ac0cd66",
       "originalSha256": "7415fbe55999ce410369e28ab2acba36f6b3d71d072e72cd451c352e2ac0cd66",
-      "matchesOriginal": false
+      "matchesOriginal": true,
+      "previousOfficialSha256": "ccd135c1bc6a1500b0791c48294f39325e17b5bda0cee35b8cb672b7968cce60",
+      "processing": "unchanged original source bytes"
     },
     {
       "id": "shine1",
       "title": "きらきら輝く1",
       "role": "魔法使い登場",
       "page": "https://soundeffect-lab.info/sound/anime/",
-      "download": "https://soundeffect-lab.info/sound/anime/mp3/shine1.mp3",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/shine1.mp3",
       "terms": "https://soundeffect-lab.info/agreement/",
       "faq": "https://soundeffect-lab.info/faq/",
       "bytes": 122252,
-      "sha256": "4a46322676155d81e14c3677842e4daf824e565c3f8f096ca6a25ce834c9898e",
+      "sha256": "408cd56673158ffb0efe4facfc795dfa9e32e0fb8ffff404b493764e5234c100",
       "originalSha256": "408cd56673158ffb0efe4facfc795dfa9e32e0fb8ffff404b493764e5234c100",
-      "matchesOriginal": false
+      "matchesOriginal": true,
+      "previousOfficialSha256": "4a46322676155d81e14c3677842e4daf824e565c3f8f096ca6a25ce834c9898e",
+      "processing": "unchanged original source bytes"
     },
     {
       "id": "shine3",
       "title": "きらきら輝く3",
       "role": "サンタ救出",
       "page": "https://soundeffect-lab.info/sound/anime/",
-      "download": "https://soundeffect-lab.info/sound/anime/mp3/shine3.mp3",
+      "download": "https://storage.googleapis.com/escape-santa.appspot.com/audio/shine3.mp3",
       "terms": "https://soundeffect-lab.info/agreement/",
       "faq": "https://soundeffect-lab.info/faq/",
-      "bytes": 78993,
-      "sha256": "3df3c167dd93ed39dfaee4b15724f4d3869a001f8e2c1a038c43babd1c7071eb",
+      "bytes": 173034,
+      "sha256": "f70265009a090899d0132479d1081e38704a324ecea3eaeb76f770c25126f4b8",
       "originalSha256": "f70265009a090899d0132479d1081e38704a324ecea3eaeb76f770c25126f4b8",
-      "matchesOriginal": false
+      "matchesOriginal": true,
+      "previousOfficialSha256": "3df3c167dd93ed39dfaee4b15724f4d3869a001f8e2c1a038c43babd1c7071eb",
+      "processing": "unchanged original source bytes"
     }
   ]
 }

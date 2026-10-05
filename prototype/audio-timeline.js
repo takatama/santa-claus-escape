@@ -1,16 +1,4 @@
 import { AudioSequence,joinAudioBuffers } from './audio-sequence.js';
-// 自作の乾いた機械クリック。原作の出所不明なdial.mp3は使わない。
-export function makeClickBuffer(context,kind='dial'){
-  const times=kind==='dial-turn'?[0,.11,.35,.46]:kind==='latch'?[0,.085]:[0];
-  const result=context.createBuffer(1,Math.ceil((times.at(-1)+.075)*context.sampleRate),context.sampleRate),samples=result.getChannelData(0);
-  let seed=1701;const noise=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/2147483648-1;};
-  for(const start of times){let last=0;for(let i=0;i<Math.round(context.sampleRate*.06);i++){
-    const t=i/context.sampleRate,n=noise(),high=n-.75*last;last=n;
-    const envelope=(1-Math.exp(-t/.0003))*Math.exp(-t/(kind==='latch'?.010:.005));
-    samples[Math.round(start*context.sampleRate)+i]=(.34*high+.17*Math.sin(2*Math.PI*(kind==='latch'?850:1800)*t))*envelope;
-  }}
-  return result;
-}
 export function compileTimeline(context,entries){
   const markers=[];let cursor=0;
   for(const entry of entries){
@@ -40,11 +28,10 @@ export class AudioTimeline extends AudioSequence {
       const resumed=this.context.resume();
       const loading=steps.map(async step=>{
         if(step.type==='pause')return step;
-        if(step.type==='clicks')return {...step,buffer:makeClickBuffer(this.context,step.kind)};
         if(step.type==='voice')return {...step,buffer:joinAudioBuffers(this.context,await Promise.all(step.sources.map(src=>this.load(src))))};
         if(step.type==='effect'){
           // 効果音だけ読めない場合も、声とゲームを続ける。未取得音を別時刻に鳴らさない。
-          try{return {...step,buffer:joinAudioBuffers(this.context,[await this.load(step.src)])};}catch{return {...step,buffer:null};}
+          try{return {...step,buffer:await this.load(step.src)};}catch{return {...step,buffer:null};}
         }
         throw Error('Unknown audio step');
       });

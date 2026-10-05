@@ -1,0 +1,56 @@
+{
+  "decoder": "miniaudio 1.71",
+  "analysis": "mono 8kHz strongest 1.25-second PCM window, normalized cross-correlation; not human listening",
+  "comparisons": [
+    {
+      "original": "dialSrc",
+      "reference": "freesound-preview",
+      "originalSeconds": 4.1535,
+      "referenceSeconds": 34.365625,
+      "correlation": 0.7507567073854231,
+      "originalWindowStartSeconds": 1.335875,
+      "referenceWindowStartSeconds": 13.797625,
+      "windowSeconds": 1.25
+    },
+    {
+      "original": "okSrc",
+      "reference": "magic-cure2",
+      "originalSeconds": 3.5345,
+      "referenceSeconds": 3.5345,
+      "correlation": 0.9885168338155802,
+      "originalWindowStartSeconds": 0.0,
+      "referenceWindowStartSeconds": 0.0,
+      "windowSeconds": 1.25
+    },
+    {
+      "original": "ngSrc",
+      "reference": "stupid3",
+      "originalSeconds": 1.2425,
+      "referenceSeconds": 1.011,
+      "correlation": 0.010165673146594481,
+      "originalWindowStartSeconds": 0.0,
+      "referenceWindowStartSeconds": 0.0,
+      "windowSeconds": 1.011
+    },
+    {
+      "original": "shine1Src",
+      "reference": "shine1",
+      "originalSeconds": 5.027375,
+      "referenceSeconds": 5.027375,
+      "correlation": 0.9993288855070521,
+      "originalWindowStartSeconds": 2.39325,
+      "referenceWindowStartSeconds": 2.39325,
+      "windowSeconds": 1.25
+    },
+    {
+      "original": "shine3Src",
+      "reference": "shine3",
+      "originalSeconds": 7.15175,
+      "referenceSeconds": 3.227875,
+      "correlation": 0.013570679289440661,
+      "originalWindowStartSeconds": 0.076125,
+      "referenceWindowStartSeconds": 0.53375,
+      "windowSeconds": 1.25
+    }
+  ]
+}

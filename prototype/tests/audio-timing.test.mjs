@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { resolveAudioTimeline,TIMED_VOICE_SEGMENTS } from '../timed-audio.js';
-import { AudioTimeline,compileTimeline,makeClickBuffer } from '../audio-timeline.js';
+import { AudioTimeline,compileTimeline } from '../audio-timeline.js';
 import { initialState,transition,restoreState,readingState } from '../full-game.js';
 import { sceneFor,BOXES,COLORS } from '../full-scenario.js';
 import { SpeechPlayer } from '../speech.js';
@@ -15,12 +15,12 @@ function context(){
 test('三箱の正解は数字確認の後に解錠・開箱宣言・正解音、不正解は閉じた台詞の後に鳴る',()=>{
   for(const color of COLORS){
     const steps=resolveAudioTimeline(`${color}-open`);
-    assert.deepEqual(steps.map(s=>s.type),['clicks','pause','voice','pause','clicks','voice','effect','voice']);
-    assert.equal(steps[0].kind,'dial-turn');assert.equal(steps[4].kind,'latch');
+    assert.deepEqual(steps.map(s=>s.type),['effect','pause','voice','pause','effect','voice','effect','voice']);
+    assert.ok(steps[0].src.endsWith('dial.mp3'));assert.ok(steps[4].src.endsWith('unlocking-1.mp3'));
     assert.equal(steps[2].sources[0],`./assets/audio/answer-prefix-${color}.wav`);
     assert.deepEqual(steps[2].sources.slice(1,5),BOXES[color].answer.split('').map(n=>`./assets/audio/answer-digit-${n}.wav`));
     assert.equal(steps[5].sources[0],`./assets/audio/cue-box-${color}-opened.wav`);assert.ok(steps[6].src.endsWith('magic-cure2.mp3'));assert.ok(steps[7].sources[0].endsWith(`cue-box-${color}-paper.wav`));
-    const wrong=resolveAudioTimeline(`${color}-wrong-0000`);assert.equal(wrong[0].kind,'dial-turn');assert.equal(wrong.at(-2).sources[0],'./assets/audio/answer-closed.wav');assert.ok(wrong.at(-1).src.endsWith('stupid3.mp3'));
+    const wrong=resolveAudioTimeline(`${color}-wrong-0000`);assert.ok(wrong[0].src.endsWith('dial.mp3'));assert.equal(wrong.at(-2).sources[0],'./assets/audio/answer-closed.wav');assert.ok(wrong.at(-1).src.endsWith('stupid3.mp3'));
   }
   const rescue=resolveAudioTimeline('rescue');assert.ok(rescue[0].sources[0].endsWith('cue-rescue-fairy-first.wav'));assert.equal(rescue[1].seconds,.5);assert.ok(rescue[2].src.endsWith('shine3.mp3'));assert.ok(rescue[3].sources[0].endsWith('cue-rescue-appeared.wav'));assert.ok(rescue[5].sources[0].endsWith('rescue-dialogue.wav'));
 });
@@ -29,7 +29,6 @@ test('効果音と声は同じ時計で順番どおりに並び、左右チャ�
   const result=compileTimeline(c,[{type:'voice',buffer:a},{type:'effect',buffer:effect,volume:.1},{type:'pause',seconds:.1},{type:'voice',buffer:b}]);
   assert.deepEqual(result.markers.map(m=>[m.startFrame,m.endFrame]),[[0,100],[100,300],[300,400],[400,450]]);
   assert.equal(result.voice.numberOfChannels,2);assert.ok(result.voice.getChannelData(0).subarray(100,400).every(v=>v===0));assert.ok(result.effects.getChannelData(1)[150]>.079);assert.equal(result.effects.getChannelData(0)[150],0);assert.ok(result.voice.getChannelData(1)[430]>.399);
-  const clicks=makeClickBuffer(c,'dial-turn').getChannelData(0);for(const start of [0,110,350,460])assert.ok(clicks.subarray(start,start+60).some(s=>Math.abs(s)>.001));assert.ok(clicks.every(s=>Math.abs(s)<1));
 });
 test('再生中の効果音オフは声を止めず、停止・連続操作は未来の効果音も取り消す',async()=>{
   const c=context(),player=new AudioTimeline({makeContext:()=>c,fetchAudio:()=>Promise.resolve({ok:true,arrayBuffer:()=>Promise.resolve(new ArrayBuffer(0))})});let ends=0;
