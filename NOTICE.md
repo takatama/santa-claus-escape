@@ -6,7 +6,8 @@
 
 - 実装、SVG/CSSの絵、設計資料、確認スクリプト：今回制作した成果物。MIT。
 - 台詞・謎のデータ：利用者が提供した「Santa Claus Escape / サンタの脱出」の原作をもとにしたブラウザ試作・全編設計。今回の公開指定に基づきMITで同梱。参照元と変更点は `prototype/SOURCE-NOTES.md`、`design/FULL-GAME-DESIGN.md` に記録。
-- `prototype/assets/audio/*.wav`：今回Gemini TTSで生成した音声。MITで同梱。原作の録音の転載ではない。モデル、声、生成入力、SHA-256を `prototype/reference/audio-generation/` に記録。受信したWAVのC2PAメタデータを保持。
+- `prototype/assets/audio/*.wav`：今回Gemini TTSで生成した音声と、その音声だけを制作時に結合した音声。MITで同梱。原作の録音の転載ではない。モデル、声、生成入力、SHA-256を `prototype/reference/audio-generation/` に記録。受信した原音WAVのC2PAメタデータを保持。
+- `prototype/assets/audio/ja-leda-paused.wav`・`ja-leda-rescue.wav`：三役の会話を二話者単位で生成し、順番どおりに結合した派生音声。C2PA付き原音は `prototype/qa/fairy-production/*.wav` に保存（MIT）。派生ファイルに原音のC2PAをコピーせず、元のハッシュ、使用範囲、結合方法を生成記録に残す。
 - `prototype/qa/*.jpg`：この試作のブラウザ画面の確認記録。MIT。
 - `prototype/qa/blue-wrong-8849.wav`：今回の生成音声だけをつないだ試聴サンプル。MIT。生成された原音は変更せず、結合処理を `prototype/scripts/compose-answer-sample.mjs` に記録。
 - `prototype/qa/fairy-voice-auditions/*.wav`：妖精役の声選び用に今回Gemini TTSで生成した試聴音声。MIT。生成入力・声・SHA-256は同フォルダのJSONに記録。受信した原音とC2PAを保持。`*-preview.wav` は平均音量だけをそろえた派生ファイルで、原音のハッシュと処理を記録。本編の配信ファイルには含めない。

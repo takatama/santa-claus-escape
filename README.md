@@ -28,6 +28,8 @@ npm start
 
 声はGemini TTSで制作時に生成したWAVです。遊ぶときにAPIキー、生成AI、マイクは使いません。数字の誤答は、定型台詞と数字0〜9の事前収録音声を一つにつないで読みます。音声の読み込み・再生に失敗した場合だけブラウザ読み上げへ切り替わり、その声と品質は端末によって変わります。
 
+妖精（日本語原作の「まほう使い」）は、三案の試聴から利用者が選んだLeda。ナレーターはSulafat、サンタはAlgiebaで、三役の声種を分けています。BGMは小さく調整しています。
+
 ## 設計と確認記録
 
 - [日本語全編の実装・原作との差分](prototype/FULL-GAME-NOTES.md) / [全編の確認記録](prototype/FULL-GAME-QA.md)。
@@ -52,6 +54,8 @@ npm run build
 これらはローカルの検査で、外部APIを呼びません。非公開の原作コピーがない場合、原本との直接照合テストだけをスキップして明示します。状態遷移・入力・保存・音声ファイルの検査は公開版でも実行します。
 
 `prototype/scripts/generate-audio.mjs --plan` は生成計画の表示のみです。`--sample` / `--all` / `--full` / `--answers` は制作専用で、未生成ファイルがある場合にGemini APIを呼びます。実行する場合は、自分のキーと利用枠を別途用意してください。通常の起動・テスト・ビルドでは実行しません。
+
+上のスクリプトは初期収録の生成記録を再現するものです。採用後の妖精の声は `prototype/scripts/generate-fairy-production.mjs --plan` で確認できます。`--generate` は12場面を15音声として各一回生成し、`compose-fairy-scenes.mjs` は二話者ずつに分けた保留・救出の音声を制作時に結合します。声選びと採用の記録は [妖精の試聴](prototype/qa/FAIRY-VOICE-AUDITION.md)。
 
 ## ライセンス
 

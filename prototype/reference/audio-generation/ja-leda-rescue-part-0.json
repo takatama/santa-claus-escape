@@ -1,0 +1,144 @@
+{
+  "id": "ja-leda-rescue-part-0",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T21:41:25.242Z",
+  "selectedAudition": "A / Leda",
+  "voices": {
+    "witch": "Leda",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "うふふ。ああ楽しかった！"
+    },
+    {
+      "speaker": "narrator",
+      "text": "端末の中からサンタがあらわれました。",
+      "spoken": "端末の中からサンタがあらわれました。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "うふふ。ああ楽しかった！",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "witch",
+          "style": "日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。明るく素直な子どものように。軽い声で、遊び相手が見つかったうれしさを自然に表す。最後の台詞では、さびしかった気持ちから、遊べた喜びと素直なお礼へ。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "端末の中からサンタがあらわれました。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "narrator",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 2048,
+  "bytes": 347874,
+  "sha256": "4acb70cf95b1cca32d32f97ff85f897eda029506be4d6b500958a7674030d30a",
+  "usage": {
+    "total_tokens": 598,
+    "total_input_tokens": 420,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 402
+      },
+      {
+        "modality": "text",
+        "tokens": 18
+      }
+    ],
+    "total_cached_tokens": 272,
+    "cached_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 11
+      },
+      {
+        "modality": "audio",
+        "tokens": 261
+      }
+    ],
+    "total_output_tokens": 178,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 178
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 787,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 355
+          },
+          {
+            "modality": "audio",
+            "tokens": 402
+          }
+        ],
+        "cache_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 251
+          },
+          {
+            "modality": "audio",
+            "tokens": 261
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 209
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 355
+          },
+          {
+            "modality": "audio",
+            "tokens": 402
+          }
+        ],
+        "cache_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 251
+          },
+          {
+            "modality": "audio",
+            "tokens": 261
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 209
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 3839
+}

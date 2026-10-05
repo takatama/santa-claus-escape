@@ -1,0 +1,97 @@
+{
+  "id": "ja-leda-question-christmas-creatures",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T21:41:46.834Z",
+  "selectedAudition": "A / Leda",
+  "voices": {
+    "witch": "Leda"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "さいしょは、なぞなぞだよ。「クリスマス」の中には、三つの生き物がかくれているよ。10秒間、考えてみてね。「クリスマス」の中にいる、三つの生き物だよ。では問題。隠れているのは「リス」と「マス」と、もう一つは何？",
+      "spoken": "さいしょは、なぞなぞだよ。「クリスマス」の中には、三つの生き物がかくれているよ。10秒間、考えてみてね。「クリスマス」の中にいる、三つの生き物だよ。では問題。隠れているのは「リス」と「マス」と、もう一つは何？"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "さいしょは、なぞなぞだよ。「クリスマス」の中には、三つの生き物がかくれているよ。10秒間、考えてみてね。「クリスマス」の中にいる、三つの生き物だよ。では問題。隠れているのは「リス」と「マス」と、もう一つは何？",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。明るく素直な子どものように。軽い声で、遊び相手が見つかったうれしさを自然に表す。友だちに遊びを持ちかけるように。シカの十回の反復は省略せず、正確に読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 1024,
+  "bytes": 1179234,
+  "sha256": "3c016b1b976bb15cae450c9ca7e7fac3db0cc4a9908bd62ddd5b728d86a9b7c3",
+  "usage": {
+    "total_tokens": 875,
+    "total_input_tokens": 264,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 63
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 611,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 611
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 574,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 288
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 613
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 288
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 613
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 9310
+}

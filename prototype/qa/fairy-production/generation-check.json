@@ -1,0 +1,301 @@
+{
+  "date": "2026-10-06",
+  "selection": "A / Leda",
+  "scenes": 12,
+  "requests": 15,
+  "totalInputTokens": 4597,
+  "totalOutputTokens": 5295,
+  "paidTierReferenceUsd": 0.04995,
+  "billingNote": "公開標準単価による参考値。実請求・無料枠は未確認。",
+  "jobs": [
+    {
+      "id": "ja-leda-invite",
+      "voices": {
+        "witch": "Leda",
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 500,
+      "outputTokens": 688,
+      "sha256": "71db68bf2dc9a4f5dccac49517763a2ba77e336659ca10f43d8e32dbd4cc99dd",
+      "file": "assets/audio/ja-leda-invite.wav"
+    },
+    {
+      "id": "ja-leda-paused-part-0",
+      "voices": {
+        "witch": "Leda",
+        "santa": "Algieba"
+      },
+      "inputTokens": 529,
+      "outputTokens": 515,
+      "sha256": "2b4522c0887d49a5db9f94321af3b60bab30c8c283568ba315b9da8dee63b9b3",
+      "file": "qa/fairy-production/ja-leda-paused-part-0.wav"
+    },
+    {
+      "id": "ja-leda-paused-part-1",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 227,
+      "outputTokens": 223,
+      "sha256": "7c4e709db02ad91abd670e20e3255b089ca64a06196b3452bd297eb17514df15",
+      "file": "qa/fairy-production/ja-leda-paused-part-1.wav"
+    },
+    {
+      "id": "ja-leda-rescue-part-0",
+      "voices": {
+        "witch": "Leda",
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 420,
+      "outputTokens": 178,
+      "sha256": "4acb70cf95b1cca32d32f97ff85f897eda029506be4d6b500958a7674030d30a",
+      "file": "qa/fairy-production/ja-leda-rescue-part-0.wav"
+    },
+    {
+      "id": "ja-leda-rescue-part-1",
+      "voices": {
+        "santa": "Algieba",
+        "witch": "Leda"
+      },
+      "inputTokens": 570,
+      "outputTokens": 935,
+      "sha256": "7eecf20c1dcb514ee6680d2c9a1d9103a9eb7aebe6f815b0e377593cd1900a0c",
+      "file": "qa/fairy-production/ja-leda-rescue-part-1.wav"
+    },
+    {
+      "id": "ja-leda-rescue-part-2",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 216,
+      "outputTokens": 160,
+      "sha256": "aa05841dac53d5b6b94b6e7ccaa7686a91e9daa9589cef78b41366410f84fa99",
+      "file": "qa/fairy-production/ja-leda-rescue-part-2.wav"
+    },
+    {
+      "id": "ja-leda-question-christmas-creatures",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 264,
+      "outputTokens": 611,
+      "sha256": "3c016b1b976bb15cae450c9ca7e7fac3db0cc4a9908bd62ddd5b728d86a9b7c3",
+      "file": "assets/audio/ja-leda-question-christmas-creatures.wav"
+    },
+    {
+      "id": "ja-leda-response-christmas-creatures-right",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 225,
+      "outputTokens": 154,
+      "sha256": "64b65d051bb75d00b5dc67fdfd430945488c4fd7882a5c9f35a38ef2ff0dae60",
+      "file": "assets/audio/ja-leda-response-christmas-creatures-right.wav"
+    },
+    {
+      "id": "ja-leda-response-christmas-creatures-wrong",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 222,
+      "outputTokens": 139,
+      "sha256": "653e976347213bf682aff737d644804239a80ceae3f0fa862f758a2d0a88e37b",
+      "file": "assets/audio/ja-leda-response-christmas-creatures-wrong.wav"
+    },
+    {
+      "id": "ja-leda-question-red-ornament",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 238,
+      "outputTokens": 337,
+      "sha256": "9392c225c8d09c3ba798c8249b11eb4dbab69155ee0e7b88f6fdd87f10d9e569",
+      "file": "assets/audio/ja-leda-question-red-ornament.wav"
+    },
+    {
+      "id": "ja-leda-response-red-ornament-right",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 236,
+      "outputTokens": 279,
+      "sha256": "d0003820d12d2375c7bb99c8f3e47c0e84281a8e1bd2b3d633f58e984dea679d",
+      "file": "assets/audio/ja-leda-response-red-ornament-right.wav"
+    },
+    {
+      "id": "ja-leda-response-red-ornament-wrong",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 233,
+      "outputTokens": 250,
+      "sha256": "fdcb1d9b0c69bba1701d08a1d4c2cb92831120b909408017dbe5f2e033eb496e",
+      "file": "assets/audio/ja-leda-response-red-ornament-wrong.wav"
+    },
+    {
+      "id": "ja-leda-question-deer-ten-times",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 280,
+      "outputTokens": 538,
+      "sha256": "6f7026aae60adbb0e7a405f660b577fda39ec396a3fc7a2578cbc82b79e72857",
+      "file": "assets/audio/ja-leda-question-deer-ten-times.wav"
+    },
+    {
+      "id": "ja-leda-response-deer-ten-times-right",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 220,
+      "outputTokens": 156,
+      "sha256": "10d12222f1794f55fe2238d22071551d13fb1597acb63a771f59ff72632fed45",
+      "file": "assets/audio/ja-leda-response-deer-ten-times-right.wav"
+    },
+    {
+      "id": "ja-leda-response-deer-ten-times-wrong",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 217,
+      "outputTokens": 132,
+      "sha256": "b1a3e1bfa2ad6e81373df80ba62feff7226c74ca1f763a814f52a177f9b62fb8",
+      "file": "assets/audio/ja-leda-response-deer-ten-times-wrong.wav"
+    }
+  ],
+  "productionFiles": [
+    {
+      "id": "ja-leda-invite",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 27.52,
+      "rmsDb": -16.6,
+      "peakDb": -1.3,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-paused",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 29.76,
+      "rmsDb": -16.6,
+      "peakDb": -1.2,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-question-christmas-creatures",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 24.44,
+      "rmsDb": -15.6,
+      "peakDb": -1,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-question-deer-ten-times",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 21.52,
+      "rmsDb": -16.1,
+      "peakDb": -1.1,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-question-red-ornament",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 13.48,
+      "rmsDb": -15.6,
+      "peakDb": -1.5,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-rescue",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 51.32,
+      "rmsDb": -17.2,
+      "peakDb": -1,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-response-christmas-creatures-right",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 6.16,
+      "rmsDb": -15,
+      "peakDb": -1.5,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-response-christmas-creatures-wrong",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 5.56,
+      "rmsDb": -14.2,
+      "peakDb": -1.2,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-response-deer-ten-times-right",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 6.24,
+      "rmsDb": -14.6,
+      "peakDb": -1,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-response-deer-ten-times-wrong",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 5.28,
+      "rmsDb": -13.3,
+      "peakDb": -1.2,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-response-red-ornament-right",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 11.16,
+      "rmsDb": -14.1,
+      "peakDb": -0.4,
+      "clippedSamples": 0
+    },
+    {
+      "id": "ja-leda-response-red-ornament-wrong",
+      "format": 1,
+      "channels": 1,
+      "sampleRate": 24000,
+      "bits": 16,
+      "seconds": 10,
+      "rmsDb": -14.4,
+      "peakDb": -1.7,
+      "clippedSamples": 0
+    }
+  ],
+  "humanListening": "not yet verified for the new full performance; audition A selected by user"
+}

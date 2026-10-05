@@ -5,6 +5,13 @@ const metadataRoot = new URL('../reference/audio-generation/', import.meta.url);
 const filenames = (await readdir(root)).filter(name=>name.endsWith('.wav')).sort();
 const measurements = [];
 let usage = {input:0,output:0};
+const counted=new Set();
+async function countUsage(id){
+  if(counted.has(id))return;counted.add(id);
+  const meta=JSON.parse(await readFile(new URL(`${id}.json`,metadataRoot),'utf8'));
+  usage.input+=meta.usage?.total_input_tokens||0;usage.output+=meta.usage?.total_output_tokens||0;
+  for(const source of meta.derivedFrom||[])await countUsage(source.id);
+}
 for (const filename of filenames) {
   const bytes = await readFile(new URL(filename,root));
   let fmt, pcm;
@@ -22,8 +29,7 @@ for (const filename of filenames) {
   const measurement={id:filename.slice(0,-4),...fmt,seconds:Number(seconds.toFixed(2)),rmsDb:Number((20*Math.log10(Math.sqrt(square/samples)/32768)).toFixed(1)),peakDb:Number((20*Math.log10(peak/32768)).toFixed(1)),clippedSamples:clipped};
   if (seconds<.5 || peak<500) throw new Error(`Empty or inaudible WAV: ${filename}`);
   measurements.push(measurement);
-  const meta=JSON.parse(await readFile(new URL(filename.replace('.wav','.json'),metadataRoot),'utf8'));
-  usage.input+=meta.usage?.total_input_tokens||0;usage.output+=meta.usage?.total_output_tokens||0;
+  await countUsage(filename.slice(0,-4));
 }
 const report={date:new Date().toISOString(),measurements,ttsTokens:usage,paidTierReferenceUsd:Number((usage.input*.5/1e6+usage.output*9/1e6).toFixed(5)),billingNote:'公開の標準モデル単価による参考値。実際の請求や無料枠の確認ではない。'};
 if(process.argv.includes('--write-report'))await writeFile(new URL('wave-check.json',metadataRoot),JSON.stringify(report,null,2)+'\n');

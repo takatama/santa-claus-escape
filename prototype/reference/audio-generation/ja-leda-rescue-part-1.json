@@ -1,0 +1,164 @@
+{
+  "id": "ja-leda-rescue-part-1",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T21:41:33.798Z",
+  "selectedAudition": "A / Leda",
+  "voices": {
+    "santa": "Algieba",
+    "witch": "Leda"
+  },
+  "segments": [
+    {
+      "speaker": "santa",
+      "text": "どうもありがとう！君のおかげで、やっと外に出られたよ。まほう使いめ。かまってやらなかったからって、とじこめることはないじゃろう"
+    },
+    {
+      "speaker": "witch",
+      "text": "だって、だって、さびしかったんだもの。けど、今日はきみと遊べて、とっても楽しかったよ！どうもありがとう！"
+    },
+    {
+      "speaker": "santa",
+      "text": "さてさて、早速、プレゼントのじゅんびにとりかからねば。きみのおかげで、みんなをよろばせてやれるわい。クリスマスの夜を楽しみにしていてくれ"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "どうもありがとう！君のおかげで、やっと外に出られたよ。まほう使いめ。かまってやらなかったからって、とじこめることはないじゃろう",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "santa",
+          "style": "日本語。心優しい年配のサンタクロース。柔らかく落ち着いた低めの声で、親しみと少しの困りごとを自然に表す。大げさな物まね、怖い声、うなり声にしない。普段の会話より少しゆっくり、聞き取りやすく。台詞の語句は一切変えず、追加の挨拶や説明をしない。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "だって、だって、さびしかったんだもの。けど、今日はきみと遊べて、とっても楽しかったよ！どうもありがとう！",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "witch",
+          "style": "日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。明るく素直な子どものように。軽い声で、遊び相手が見つかったうれしさを自然に表す。最後の台詞では、さびしかった気持ちから、遊べた喜びと素直なお礼へ。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "さてさて、早速、プレゼントのじゅんびにとりかからねば。きみのおかげで、みんなをよろばせてやれるわい。クリスマスの夜を楽しみにしていてくれ",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "santa",
+          "style": "日本語。心優しい年配のサンタクロース。柔らかく落ち着いた低めの声で、親しみと少しの困りごとを自然に表す。大げさな物まね、怖い声、うなり声にしない。普段の会話より少しゆっくり、聞き取りやすく。台詞の語句は一切変えず、追加の挨拶や説明をしない。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 2048,
+  "bytes": 1801314,
+  "sha256": "7eecf20c1dcb514ee6680d2c9a1d9103a9eb7aebe6f815b0e377593cd1900a0c",
+  "usage": {
+    "total_tokens": 1505,
+    "total_input_tokens": 570,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 110
+      },
+      {
+        "modality": "audio",
+        "tokens": 460
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 935,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 935
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 726,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 198
+          },
+          {
+            "modality": "audio",
+            "tokens": 460
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 380
+          }
+        ]
+      },
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 474
+          },
+          {
+            "modality": "audio",
+            "tokens": 460
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 607
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 198
+          },
+          {
+            "modality": "audio",
+            "tokens": 460
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 380
+          }
+        ]
+      },
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 474
+          },
+          {
+            "modality": "audio",
+            "tokens": 460
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 607
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 8555
+}

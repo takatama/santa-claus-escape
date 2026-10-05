@@ -1,0 +1,96 @@
+{
+  "id": "ja-leda-response-red-ornament-wrong",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T21:42:11.293Z",
+  "selectedAudition": "A / Leda",
+  "voices": {
+    "witch": "Leda"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "正解は、りんご、だよね！りんごは、寒い冬でもおいしく長持ちするので、昔から大切にされてきたんだって"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "正解は、りんご、だよね！りんごは、寒い冬でもおいしく長持ちするので、昔から大切にされてきたんだって",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。明るく素直な子どものように。軽い声で、遊び相手が見つかったうれしさを自然に表す。呼びかけでは好奇心と少しのおねだり。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 1024,
+  "bytes": 486114,
+  "sha256": "fdcb1d9b0c69bba1701d08a1d4c2cb92831120b909408017dbe5f2e033eb496e",
+  "usage": {
+    "total_tokens": 483,
+    "total_input_tokens": 233,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 32
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 250,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 250
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 500,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 246
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 252
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 246
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 252
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 4761
+}

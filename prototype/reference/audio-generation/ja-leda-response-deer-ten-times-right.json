@@ -1,0 +1,96 @@
+{
+  "id": "ja-leda-response-deer-ten-times-right",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T21:42:23.944Z",
+  "selectedAudition": "A / Leda",
+  "voices": {
+    "witch": "Leda"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "その通り！正解は、トナカイ、じゃなくて、ソリだよね"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "その通り！正解は、トナカイ、じゃなくて、ソリだよね",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。明るく素直な子どものように。軽い声で、遊び相手が見つかったうれしさを自然に表す。呼びかけでは好奇心と少しのおねだり。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 1024,
+  "bytes": 305634,
+  "sha256": "10d12222f1794f55fe2238d22071551d13fb1597acb63a771f59ff72632fed45",
+  "usage": {
+    "total_tokens": 376,
+    "total_input_tokens": 220,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 19
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 156,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 156
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 474,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 233
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 158
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 233
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 158
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 4260
+}

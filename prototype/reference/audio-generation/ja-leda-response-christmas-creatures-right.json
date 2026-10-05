@@ -1,0 +1,96 @@
+{
+  "id": "ja-leda-response-christmas-creatures-right",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T21:41:50.724Z",
+  "selectedAudition": "A / Leda",
+  "voices": {
+    "witch": "Leda"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "その通り！「クリスマス」の中にいるのは、「リス」と「マス」と「クマ」だよね！"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "その通り！「クリスマス」の中にいるのは、「リス」と「マス」と「クマ」だよね！",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。明るく素直な子どものように。軽い声で、遊び相手が見つかったうれしさを自然に表す。呼びかけでは好奇心と少しのおねだり。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 1024,
+  "bytes": 301794,
+  "sha256": "64b65d051bb75d00b5dc67fdfd430945488c4fd7882a5c9f35a38ef2ff0dae60",
+  "usage": {
+    "total_tokens": 379,
+    "total_input_tokens": 225,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 24
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 154,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 154
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 484,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 238
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 156
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 238
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 156
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 3885
+}

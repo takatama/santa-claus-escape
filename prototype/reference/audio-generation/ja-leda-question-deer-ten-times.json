@@ -1,0 +1,97 @@
+{
+  "id": "ja-leda-question-deer-ten-times",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T21:42:19.679Z",
+  "selectedAudition": "A / Leda",
+  "voices": {
+    "witch": "Leda"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "さいごは、ひっかけクイズだよ。わたしといっしょに、シカ、シカ、と10回いってね。はじめるよ。せーの、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ。では問題。サンタが乗ってくるのは？",
+      "spoken": "さいごは、ひっかけクイズだよ。わたしといっしょに、シカ、シカ、と10回いってね。はじめるよ。せーの、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ。では問題。サンタが乗ってくるのは？"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "さいごは、ひっかけクイズだよ。わたしといっしょに、シカ、シカ、と10回いってね。はじめるよ。せーの、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ。では問題。サンタが乗ってくるのは？",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。明るく素直な子どものように。軽い声で、遊び相手が見つかったうれしさを自然に表す。友だちに遊びを持ちかけるように。シカの十回の反復は省略せず、正確に読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 1024,
+  "bytes": 1039074,
+  "sha256": "6f7026aae60adbb0e7a405f660b577fda39ec396a3fc7a2578cbc82b79e72857",
+  "usage": {
+    "total_tokens": 818,
+    "total_input_tokens": 280,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 79
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 538,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 538
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 606,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 304
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 540
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 304
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 540
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 8384
+}

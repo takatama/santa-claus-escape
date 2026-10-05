@@ -1,0 +1,96 @@
+{
+  "id": "ja-leda-rescue-part-2",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T21:41:37.524Z",
+  "selectedAudition": "A / Leda",
+  "voices": {
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "これで脱出ゲームは終わりです。あそんでくれてありがとうございました。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "これで脱出ゲームは終わりです。あそんでくれてありがとうございました。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 1024,
+  "bytes": 313314,
+  "sha256": "aa05841dac53d5b6b94b6e7ccaa7686a91e9daa9589cef78b41366410f84fa99",
+  "usage": {
+    "total_tokens": 376,
+    "total_input_tokens": 216,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 15
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 160,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 160
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 383,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 146
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 162
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 146
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 162
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 3715
+}
