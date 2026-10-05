@@ -18,6 +18,8 @@
 
 Googleは生成コンテンツへの所有権を主張しないとする[Gemini API追加規約](https://ai.google.dev/gemini-api/terms#use_of_generated_content)を確認。ここでのライセンスは同梱成果物に対するもので、Googleのモデルやサービスの権利・規約を変更しない。
 
+ダイヤルと解錠のクリックは `prototype/audio-timeline.js` のコードで制作した音（MIT）。原作の `dial.mp3` と `unlocking-1.mp3` を転載したものではない。長い救出会話の `rescue-dialogue.wav`・`rescue-ending.wav` は、今回生成した既存の原音をC2PAも含めバイト一致で再利用している。
+
 ## 効果音ラボの素材（MIT対象外）
 
 | ファイル | 公式名称 | 使用箇所 |

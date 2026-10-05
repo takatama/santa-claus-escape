@@ -1,0 +1,137 @@
+{
+  "date": "2026-10-06",
+  "requests": 14,
+  "characters": 261,
+  "totalInputTokens": 3011,
+  "totalOutputTokens": 1671,
+  "paidTierReferenceUsd": 0.01654,
+  "billingNote": "公開標準単価による参考値。実請求・無料枠は未確認。",
+  "jobs": [
+    {
+      "id": "cue-box-red-opened",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 208,
+      "outputTokens": 67,
+      "sha256": "091bb0ec9ebc829455e09387208192241f3eba8cc91b2b2dec828c3c64785928"
+    },
+    {
+      "id": "cue-box-red-paper",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 234,
+      "outputTokens": 253,
+      "sha256": "571fc30903cf632176da49a11be7b01378a07f2ee71422cd844913f12af6eb07"
+    },
+    {
+      "id": "cue-box-blue-opened",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 208,
+      "outputTokens": 70,
+      "sha256": "c12d03647f8558cca5cfa884eafbc407170513148d5cd712ff4d7796d9cef55f"
+    },
+    {
+      "id": "cue-box-blue-paper",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 235,
+      "outputTokens": 246,
+      "sha256": "0f328e85b05ba49c0399365c92f17e5b702ec04672a9267397004d6e7e539d9c"
+    },
+    {
+      "id": "cue-box-yellow-opened",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 208,
+      "outputTokens": 72,
+      "sha256": "b61fd1f14a4f59f84b6d1e5634e135e6915d62f8517a082b0aab57db2dd2dd77"
+    },
+    {
+      "id": "cue-box-yellow-paper",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 234,
+      "outputTokens": 234,
+      "sha256": "4151fa1f59613f65d1f9e7c8234ce73806f0e85c205cc5f028c79aa738b7f20c"
+    },
+    {
+      "id": "cue-rescue-fairy-first",
+      "voices": {
+        "witch": "Leda"
+      },
+      "inputTokens": 210,
+      "outputTokens": 85,
+      "sha256": "a8e4daa22f790c8f37c3ca62f41b6334cee470658c0545a777030abd5a0d7e9b"
+    },
+    {
+      "id": "cue-rescue-appeared",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 211,
+      "outputTokens": 107,
+      "sha256": "46f6f32421f3d44fedf7b13f42c44df82aeb44ddf6a5a9ddc1eb5f79036a4e3e"
+    },
+    {
+      "id": "ja-remaining-red-blue",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 212,
+      "outputTokens": 106,
+      "sha256": "581fae885c2ce31d49676bdde31e66fb80294d2458dd02489642f9ddbf7d5ca2"
+    },
+    {
+      "id": "ja-remaining-red-yellow",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 212,
+      "outputTokens": 105,
+      "sha256": "b053c1458358bd71506fb8117b2a653c4da68844f992c6ae293b58998944d084"
+    },
+    {
+      "id": "ja-remaining-blue-yellow",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 212,
+      "outputTokens": 96,
+      "sha256": "ca44d481d726ea6efb52e7a7396d02f6930fca9ca21d8f0eccc7c75605c9b803"
+    },
+    {
+      "id": "ja-remaining-red",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 209,
+      "outputTokens": 76,
+      "sha256": "c8e2bee3d64b35340174dff84909d9e1d91f69f219cb0c59bfb64eda29647b80"
+    },
+    {
+      "id": "ja-remaining-blue",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 209,
+      "outputTokens": 80,
+      "sha256": "d0c166f753f262835a739c3a05ff7a16b0d38abc78143e9581ba37f1c75190cd"
+    },
+    {
+      "id": "ja-remaining-yellow",
+      "voices": {
+        "narrator": "Sulafat"
+      },
+      "inputTokens": 209,
+      "outputTokens": 74,
+      "sha256": "5cd0ae40f5576b37f3226f4ad19e4b63a0786ed2920544fbba082c0a71dab353"
+    }
+  ]
+}

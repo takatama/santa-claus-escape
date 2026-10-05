@@ -1,0 +1,94 @@
+{
+  "id": "cue-box-yellow-opened",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T22:38:51.449Z",
+  "voices": {
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "黄色の箱が開きました！"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "黄色の箱が開きました！",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 512,
+  "bytes": 144354,
+  "sha256": "b61fd1f14a4f59f84b6d1e5634e135e6915d62f8517a082b0aab57db2dd2dd77",
+  "usage": {
+    "total_tokens": 280,
+    "total_input_tokens": 208,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 7
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 72,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 72
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 368,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 139
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 74
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 139
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 74
+          }
+        ]
+      }
+    ]
+  }
+}

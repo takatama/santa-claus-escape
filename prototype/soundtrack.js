@@ -1,5 +1,6 @@
 // 声は独立した再生系。BGMと効果音はゲームの状態を変更しない。
 import { AudioSequence } from './audio-sequence.js';
+import { makeClickBuffer } from './audio-timeline.js';
 export const SOUND_EFFECTS=Object.freeze({unlock:'magic-cure2',wrong:'stupid3',magic:'shine1',rescue:'shine3'});
 export class Soundtrack {
   constructor(makeAudio = src => new Audio(src),{effectPlayer=new AudioSequence()}={}) { this.makeAudio=makeAudio;this.effectPlayer=effectPlayer;this.music=null; this.track=''; this.timers=new Set(); this.nodes=new Set(); this.context=null; this.muted=false; this.bgmEnabled=true; this.sfxEnabled=true; this.volume=.025; }
@@ -25,11 +26,10 @@ export class Soundtrack {
     try{
       const AudioContext=globalThis.AudioContext||globalThis.webkitAudioContext; if(!AudioContext)return;
       this.context ||= new AudioContext();this.context.resume()?.catch(()=>{});
-      const tones={dial:[1300]};
-      (tones[kind]||[]).forEach((frequency,i)=>{
-        const o=this.context.createOscillator(),g=this.context.createGain(),start=this.context.currentTime+i*.12;
-        o.type=kind==='dial'?'triangle':'sine';o.frequency.value=frequency;g.gain.setValueAtTime(0,start);g.gain.linearRampToValueAtTime(kind==='dial'?.04:.025,start+.005);g.gain.exponentialRampToValueAtTime(.0001,start+(kind==='dial'?.035:.32));o.connect(g);g.connect(this.context.destination);o.start(start);o.stop(start+.35);this.nodes.add(o);o.onended=()=>{this.nodes.delete(o);o.disconnect();g.disconnect();};
-      });
+      if(kind==='dial'){
+        const source=this.context.createBufferSource(),gain=this.context.createGain();source.buffer=makeClickBuffer(this.context);gain.gain.value=.12;
+        source.connect(gain);gain.connect(this.context.destination);source.start();this.nodes.add(source);source.onended=()=>{this.nodes.delete(source);source.disconnect();gain.disconnect();};
+      }
     }catch{/* 音声未対応でも文字と操作で継続できる */}
   }
 }

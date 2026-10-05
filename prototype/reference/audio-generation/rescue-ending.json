@@ -1,0 +1,40 @@
+{
+  "id": "rescue-ending",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T22:38:45.825Z",
+  "selectedAudition": "A / Leda",
+  "voices": {
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "これで脱出ゲームは終わりです。あそんでくれてありがとうございました。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "これで脱出ゲームは終わりです。あそんでくれてありがとうございました。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 1024,
+  "bytes": 313314,
+  "sha256": "aa05841dac53d5b6b94b6e7ccaa7686a91e9daa9589cef78b41366410f84fa99",
+  "usage": null,
+  "durationMs": 3715,
+  "derivedFrom": [
+    {
+      "id": "ja-leda-rescue-part-2",
+      "file": "qa/fairy-production/ja-leda-rescue-part-2.wav",
+      "sha256": "aa05841dac53d5b6b94b6e7ccaa7686a91e9daa9589cef78b41366410f84fa99"
+    }
+  ],
+  "processing": "byte-for-byte copy; original C2PA unchanged"
+}

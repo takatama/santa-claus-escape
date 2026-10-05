@@ -1,0 +1,94 @@
+{
+  "id": "cue-box-yellow-paper",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T22:38:56.747Z",
+  "voices": {
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "中には「き」と「だ」と書かれた紙が入っています。キリンの「き」と、大根の「だ」です。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "中には「き」と「だ」と書かれた紙が入っています。キリンの「き」と、大根の「だ」です。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 512,
+  "bytes": 455394,
+  "sha256": "4151fa1f59613f65d1f9e7c8234ce73806f0e85c205cc5f028c79aa738b7f20c",
+  "usage": {
+    "total_tokens": 468,
+    "total_input_tokens": 234,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 33
+      },
+      {
+        "modality": "audio",
+        "tokens": 201
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 234,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 234
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 418,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 164
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 236
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 164
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 236
+          }
+        ]
+      }
+    ]
+  }
+}

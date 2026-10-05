@@ -30,6 +30,8 @@ npm start
 
 妖精（日本語原作の「まほう使い」）は、三案の試聴から利用者が選んだLeda。ナレーターはSulafat、サンタはAlgiebaで、三役の声種を分けています。BGMは小さく調整しています。
 
+効果音は、数字の確認や妖精の台詞が終わった後など、原作の発話区間に合わせて鳴ります。開箱後は残りの箱だけを短く案内します。[台詞と音の順番・変更記録](design/AUDIO-TIMING-NOTES.md)。
+
 ## 設計と確認記録
 
 - [日本語全編の実装・原作との差分](prototype/FULL-GAME-NOTES.md) / [全編の確認記録](prototype/FULL-GAME-QA.md)。

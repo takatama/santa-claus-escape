@@ -16,7 +16,7 @@ export function validateDigits(raw, color) {
 function remember(state) {
   const entry = { phase: state.phase, box: state.selectedBox, exam: state.boxes[state.selectedBox]?.exam || 0, message: state.boxMessage, digits: state.boxes[state.selectedBox]?.lastSubmitted || '', opened: COLORS.filter(c => state.boxes[c].opened), questionIndex: state.questionIndex, reinvited: state.reinvited };
   if (['welcome', 'complete'].includes(state.phase) || entry.message === 'wrong') return state;
-  const id = `${entry.phase}:${entry.box || ''}:${entry.exam}:${entry.message}:${entry.questionIndex}:${entry.reinvited}`;
+  const id = `${entry.phase}:${entry.box || ''}:${entry.exam}:${entry.message}:${entry.questionIndex}:${entry.reinvited}${entry.phase==='boxes'?`:${entry.opened.join(',')}`:''}`;
   if (state.history.some(e => e.id === id)) return state;
   return { ...state, history: [...state.history, { ...entry, id }].slice(-64) };
 }

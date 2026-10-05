@@ -9,6 +9,10 @@ export const BOXES = Object.freeze({
 const narrator = text => ({ speaker: 'narrator', text });
 const witch = text => ({ speaker: 'witch', text });
 const santa = text => ({ speaker: 'santa', text });
+// 利用者の指定：開箱後はサンタの説明を繰り返さず、残りだけを知らせる。
+export const REMAINING_BOX_MESSAGES=Object.freeze(Object.fromEntries([
+  ['red','blue'],['red','yellow'],['blue','yellow'],['red'],['blue'],['yellow'],
+].map(colors=>[`remaining-${colors.join('-')}`,`残りは${colors.map(c=>BOXES[c].name).join('と')}の箱です。`])));
 const messages = {
   intro: SCENARIO.messages.intro,
   help: SCENARIO.messages.help,
@@ -41,7 +45,12 @@ export function sceneFor(state) {
   let key, title, chapter, segments, effect;
   switch (state.phase) {
     case 'welcome': case 'intro': key = 'intro'; title = '君の助けが、必要なんじゃ。'; chapter = 'サンタの声'; break;
-    case 'boxes': key = 'help'; title = '三つの箱と、ひみつの言葉。'; chapter = '三つの箱'; break;
+    case 'boxes': {
+      const remaining=COLORS.filter(c=>!state.boxes[c].opened);
+      key=remaining.length===3?'help':remaining.length?`remaining-${remaining.join('-')}`:'letters';
+      if(REMAINING_BOX_MESSAGES[key])segments=[narrator(REMAINING_BOX_MESSAGES[key])];
+      title = '三つの箱と、ひみつの言葉。'; chapter = '三つの箱'; break;
+    }
     case 'box':
       key = state.boxMessage === 'information' ? 'information' : state.boxMessage === 'wrong' ? `${color}-wrong-${saved.lastSubmitted}` : `${color}${saved.exam}`;
       title = '四つの数字で、カギを開ける。'; chapter = `${box.name}の箱`;
@@ -76,6 +85,7 @@ export function sceneFor(state) {
 export function spokenSegments(scene) { return scene.segments.map(segment => ({ ...segment, text: segment.spoken || segment.text })); }
 export function productionScenes() {
   const scenes = Object.fromEntries(Object.entries(messages).map(([key, segments]) => [key, segments]));
+  for(const [key,text] of Object.entries(REMAINING_BOX_MESSAGES))scenes[key]=[narrator(text)];
   for (const color of COLORS) {
     const boxes = Object.fromEntries(COLORS.map(c => [c, { exam: 4, lastSubmitted: BOXES[c].answer }]));
     scenes[`${color}-open`] = sceneFor({ phase: 'boxResponse', selectedBox: color, boxes }).segments;

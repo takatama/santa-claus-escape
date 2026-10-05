@@ -1,0 +1,94 @@
+{
+  "id": "ja-remaining-red",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-05T22:39:15.020Z",
+  "voices": {
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "残りは赤色の箱です。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "残りは赤色の箱です。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 512,
+  "bytes": 152034,
+  "sha256": "c8e2bee3d64b35340174dff84909d9e1d91f69f219cb0c59bfb64eda29647b80",
+  "usage": {
+    "total_tokens": 285,
+    "total_input_tokens": 209,
+    "input_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 201
+      },
+      {
+        "modality": "text",
+        "tokens": 8
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 76,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 76
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 368,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 139
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 78
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 139
+          },
+          {
+            "modality": "audio",
+            "tokens": 201
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 78
+          }
+        ]
+      }
+    ]
+  }
+}
