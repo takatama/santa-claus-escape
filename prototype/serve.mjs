@@ -7,7 +7,7 @@ const pages = process.argv.includes('--pages');
 const root = fileURLToPath(new URL(pages ? '../dist/' : '.', import.meta.url));
 const port = Number(process.env.SANTA_PORT || (pages ? 4174 : 4173));
 const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'game.js', 'scenario.js', 'speech.js', 'illustrations.js', 'audio.js']);
-for(const name of ['full-app.js','full-game.js','full-scenario.js','full-audio.js','audio-sequence.js','audio-timeline.js','timed-audio.js','soundtrack.js'])publicFiles.add(name);
+for(const name of ['full-app.js','full-game.js','full-scenario.js','full-audio.js','audio-sequence.js','audio-timeline.js','timed-audio.js','soundtrack.js','sound-settings.js'])publicFiles.add(name);
 if(pages){publicFiles.delete('app.js');publicFiles.add('LICENSE');publicFiles.add('NOTICE.txt');}
 const pagesHeaders = pages ? Object.fromEntries((await readFile(path.join(root,'_headers'),'utf8')).split('\n').filter(line=>line.startsWith('  ')).map(line=>{const i=line.indexOf(':');return [line.slice(0,i).trim(),line.slice(i+1).trim()];})) : {};
 const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg' };

@@ -1,11 +1,12 @@
 import { BOXES, COLORS, QUESTIONS } from './full-scenario.js';
 import { restoreState as restoreLegacy, STORAGE_KEY as LEGACY_KEY } from './game.js';
+import { DEFAULT_BGM_VOLUME,normalizeBgmVolume } from './sound-settings.js';
 export const STORAGE_KEY = 'santa-claus-escape:ja-full:v2';
 export const normalizeDigits = raw => String(raw).normalize('NFKC').replace(/[\s\u200b]/gu, '');
 export const normalizeWord = raw => normalizeDigits(raw).replace(/[ァ-ヶ]/gu, c => String.fromCharCode(c.charCodeAt(0) - 0x60)).toLowerCase();
 export function matchesWord(raw, aliases) { return aliases.some(alias => normalizeWord(raw) === normalizeWord(alias)); }
 export function initialState(muted = false) {
-  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '' }])), spellDraft: '', questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, sfxEnabled: true, transcriptOpen: true, history: [] };
+  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '' }])), spellDraft: '', questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, bgmVolume: DEFAULT_BGM_VOLUME, sfxEnabled: true, transcriptOpen: true, history: [] };
 }
 export function validateDigits(raw, color) {
   const digits = normalizeDigits(raw);
@@ -22,7 +23,8 @@ function remember(state) {
 }
 export function transition(state, event) {
   if (event.revision !== undefined && event.revision !== state.revision) return state;
-  if (event.type === 'RESET') return initialState(state.muted);
+  if (event.type === 'RESET') return {...initialState(state.muted),bgmEnabled:state.bgmEnabled,bgmVolume:normalizeBgmVolume(state.bgmVolume),sfxEnabled:state.sfxEnabled};
+  if (event.type === 'BGM_VOLUME') return {...state,bgmVolume:normalizeBgmVolume(event.value)};
   if (['MUTE', 'BGM', 'SFX', 'TRANSCRIPT'].includes(event.type)) {
     const key = { MUTE: 'muted', BGM: 'bgmEnabled', SFX: 'sfxEnabled', TRANSCRIPT: 'transcriptOpen' }[event.type]; return { ...state, [key]: !state[key] };
   }
@@ -96,7 +98,7 @@ export function restoreState(raw) {
   const history = Array.isArray(raw.history) ? raw.history : [];
   if (history.length > 64 || history.some(e => !e || !phases.includes(e.phase) || typeof e.id !== 'string' || !Array.isArray(e.opened) || e.opened.some(c => !COLORS.includes(c)) || !Number.isInteger(e.exam) || e.exam < 0 || e.exam > 4 || !Number.isInteger(e.questionIndex) || e.questionIndex < 0 || e.questionIndex > 2 || (['box', 'boxResponse'].includes(e.phase) && !COLORS.includes(e.box)))) return null;
   if (new Set(history.map(e=>e.id)).size!==history.length || history.some(e=>e.id.length>150 || typeof e.message!=='string' || !['','wrong','information'].includes(e.message) || typeof e.digits!=='string' || (e.digits&&!/^\d{4}$/.test(e.digits)) || e.opened.some(c=>!state.boxes[c].opened) || (['box','boxResponse'].includes(e.phase)&&e.exam<1) || (e.phase==='boxResponse'&&(!e.opened.includes(e.box)||e.digits!==BOXES[e.box].answer)) || (e.phase==='witchResponse'&&e.questionIndex>=state.responses.length) || (['rescue','complete'].includes(e.phase)&&state.responses.length!==3))) return null;
-  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
+  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
 }
 export function readSave(storage) {
   try {

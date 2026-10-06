@@ -1,7 +1,7 @@
 // 公開する静的ファイルだけを dist/ へ集める。Pages Functions / Workers は使用しない。
 import { mkdir, copyFile, readdir, readFile, writeFile, stat, lstat } from 'node:fs/promises';
 const root=new URL('../',import.meta.url),dist=new URL('dist/',root),prototype=new URL('prototype/',root);
-const files=['index.html','styles.css','full-app.js','full-game.js','full-scenario.js','full-audio.js','audio-sequence.js','audio-timeline.js','timed-audio.js','game.js','scenario.js','audio.js','speech.js','soundtrack.js','illustrations.js'];
+const files=['index.html','styles.css','full-app.js','full-game.js','full-scenario.js','full-audio.js','audio-sequence.js','audio-timeline.js','timed-audio.js','game.js','scenario.js','audio.js','speech.js','soundtrack.js','sound-settings.js','illustrations.js'];
 const clips=(await readdir(new URL('assets/audio/',prototype))).filter(name=>/^[a-z0-9-]+\.(wav|mp3|ogg)$/.test(name));
 const allowed=new Set([...files,'LICENSE','NOTICE.txt','_headers',...clips.map(c=>`assets/audio/${c}`)]);
 async function inspect(folder,prefix=''){
