@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101f35" />
+    <meta name="description" content="箱から出た六枚の紙を並べ替え、ひみつの言葉を伝える、サンタの脱出の独立試作。" />
+    <title>サンタの脱出 — 六枚の紙のひみつ</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23efd093' d='m20 3 4.3 11.8L37 15l-10.2 7.5L30.5 35 20 27.4 9.5 35l3.7-12.5L3 15l12.7-.2Z'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="storybook letters-storybook" aria-label="サンタの脱出、六枚の紙の独立試作">
+      <section class="scene-shell" aria-label="雪の森と球の中のサンタ">
+        <canvas id="scene" width="1600" height="1000" aria-label="雪の森の枝と、スノーボールの中にいるサンタ。">
+          サンタはスノーボールの中にいます。紙を並べて、ひみつの言葉を伝えましょう。
+        </canvas>
+        <header class="masthead">
+          <div class="title-block">
+            <h1>サンタの脱出<span class="title-star" aria-hidden="true">✦</span></h1>
+            <p>六枚の紙のひみつ</p>
+          </div>
+          <button id="reset" class="reset-button" type="button">最初に戻す</button>
+        </header>
+        <p id="loading" class="loading-message" role="status">雪の森を読み込んでいます…</p>
+        <section class="letter-workspace" aria-labelledby="paper-title">
+          <h2 id="paper-title" class="workspace-title">六つの文字を、並べなおして。</h2>
+          <p id="paper-help">紙を引くか、紙→枠の順に押して並べよう。選んだ紙をもう一度押すと選択をやめられます。</p>
+          <div id="paper-area">
+            <h3>箱から出た紙</h3>
+            <div id="paper-tray" class="paper-row" role="group" aria-label="手元の六枚の紙"></div>
+            <h3>左から読んでみよう</h3>
+            <div id="word-slots" class="paper-row" role="group" aria-label="六文字を並べる枠"></div>
+            <p id="selection-status" aria-live="polite" aria-atomic="true">動かす紙を選んでください。</p>
+            <div class="paper-actions" aria-label="選んだ紙の移動">
+              <button id="move-left" type="button" disabled>左へ</button>
+              <button id="move-right" type="button" disabled>右へ</button>
+              <button id="return-paper" type="button" disabled>手元に戻す</button>
+            </div>
+            <button id="use-arrangement" type="button" disabled>この並びで伝える</button>
+          </div>
+          <p id="no-papers" hidden>手元に紙はありません。言葉を知っていたら、入力して伝えられます。</p>
+        </section>
+      </section>
+      <section class="reader-panel letter-reader-panel" aria-label="ひみつの言葉を伝える">
+        <p id="narration" class="narration">六つのひらがなを並べなおして、ひみつの言葉を作ってください。</p>
+        <form id="word-form" novalidate>
+          <label for="word-answer">ひみつの言葉<span> — 紙を並べずに入力しても伝えられます。</span></label>
+          <input id="word-answer" type="text" maxlength="64" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="send" aria-describedby="feedback" />
+          <button id="send-word" type="submit">伝える</button>
+        </form>
+        <section id="word-result" aria-label="呼びかけの結果">
+          <p id="feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+          <a id="discovery-link" href="../index.html" hidden>枝の向こうを見てみる<span aria-hidden="true"> ›</span></a>
+        </section>
+        <details id="clue-reading">
+          <summary>紙の文字を読む</summary>
+          <p id="clue-text"></p>
+        </details>
+        <footer class="prototype-links" aria-label="試作の関連ページ">
+          <a href="../red-box/index.html">赤い箱へ</a>
+          <a href="../blue-box/index.html">青い箱へ</a>
+          <a href="../yellow-box/index.html">黄色い箱へ</a>
+          <a href="../storyboard/index.html">全編の絵コンテへ</a>
+        </footer>
+      </section>
+    </main>
+    <script type="module" src="../journey/navigation.js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

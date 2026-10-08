@@ -1,0 +1,72 @@
+html { scrollbar-gutter: stable; }
+.conversation-storybook { height: auto; min-height: 100svh; grid-template-rows: auto auto; overflow: visible; }
+.conversation-storybook .scene-shell { height: clamp(430px,58svh,620px); min-height: 430px; }
+.conversation-storybook #scene { cursor: default; pointer-events: none; touch-action: auto; }
+.conversation-storybook .masthead { z-index: 2; }
+.conversation-storybook .reset-button { min-height: 44px; }
+.conversation-panel { gap: 16px; min-width: 0; padding: 22px 28px max(24px,env(safe-area-inset-bottom)); }
+.conversation-segments { display: grid; gap: 14px; width: min(100%,760px); min-width: 0; }
+.conversation-segments > .speech {
+  min-width: 0; padding: 14px 18px; border: 1px solid #c8b58224; border-left-width: 3px; border-radius: 7px;
+  background: #0d243849; color: #f0e4cd; font: 16px/1.9 "Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+  overflow-wrap: anywhere;
+}
+.conversation-segments > .speech p { margin: 0; white-space: pre-line; }
+.conversation-segments > .speech[data-speaker="witch"] { border-left-color: #e1bd78; background: #51452b24; }
+.conversation-segments > .speech[data-speaker="santa"] { border-left-color: #c68474; }
+.conversation-segments > .speech[data-speaker="narrator"] { border-left-color: #8cabb9; color: #dce0db; }
+.conversation-segments .speaker, .conversation-segments .speaker-name, .conversation-segments .speaker-label {
+  display: block; margin-bottom: 5px; color: #ceb78a; font-size: 11px; line-height: 1.6;
+}
+.question-title { max-width: 100%; margin: 0; text-align: center; color: #f0deb9; font: 500 21px/1.7 "Yu Mincho",serif; overflow-wrap: anywhere; }
+.question-count { margin: 0; color: #c0c9cb; font-size: 12px; line-height: 1.7; text-align: center; }
+.reply-form { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; width: min(100%,680px); min-width: 0; }
+.reply-form label, .reply-form .reply-help { grid-column: 1/-1; margin: 0; color: #d6d4c4; font-size: 13px; line-height: 1.8; text-align: center; }
+#reply-answer, #recall-answer {
+  display: block; width: 100%; min-width: 0; min-height: 50px; padding: 10px 12px;
+  border: 1px solid #ccb582; border-radius: 6px; background: #faf0d7; color: #403a2e;
+  font: 20px/1.4 "Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+}
+.choice-options { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; width: min(100%,680px); min-width: 0; }
+.choice-options > button, .reply-form button, .conversation-actions > button {
+  min-width: 0; min-height: 44px; max-width: 100%; padding: 11px 16px;
+  border: 1px solid #d5b67f80; border-radius: 6px; background: linear-gradient(#80643a,#554327);
+  color: #f9e8c5; font: 14px/1.6 "Yu Gothic","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+  cursor: pointer; white-space: normal; overflow-wrap: anywhere;
+}
+.choice-options > button:hover, .reply-form button:hover, .conversation-actions > button:hover { border-color: #f1d49b; }
+.choice-options > button[aria-pressed="true"] { border-color: #ffe3a0; box-shadow: 0 0 0 2px #ffdf9266; }
+.conversation-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: min(100%,760px); }
+.conversation-actions > button { min-width: 110px; }
+.conversation-actions > button.secondary { background: #143047; color: #ddd8cb; }
+.conversation-feedback, .save-notice { max-width: 760px; min-height: 1.6em; margin: 0; color: #d2d6d0; font-size: 13px; line-height: 1.8; text-align: center; overflow-wrap: anywhere; }
+.conversation-feedback[data-kind="error"] { color: #ecc4b6; }
+.conversation-feedback[data-kind="success"] { color: #efcf8f; }
+.save-notice { color: #c6cace; font-size: 11px; }
+.conversation-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 16px; max-width: 100%; }
+.conversation-links a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; max-width: 100%; padding: 8px 10px; color: #e5c993; font-size: 12px; line-height: 1.7; text-underline-offset: 4px; overflow-wrap: anywhere; }
+.conversation-storybook a:focus-visible, .conversation-storybook button:focus-visible, #reply-answer:focus-visible, .conversation-storybook summary:focus-visible { outline: 2px solid #ffe3a0; outline-offset: 3px; }
+.conversation-storybook button:disabled { cursor: default; opacity: .45; }
+.conversation-storybook [hidden] { display: none !important; }
+#recall-form { grid-template-columns: minmax(0,1fr); }
+@media(max-width:720px) {
+  .conversation-storybook .scene-shell { height: 430px; min-height: 430px; }
+  .conversation-storybook .masthead { padding: 20px 16px 32px; gap: 12px; }
+  .conversation-storybook .title-block h1 { font-size: 24px; letter-spacing: .1em; }
+  .conversation-storybook .title-block p { font-size: 10px; letter-spacing: .04em; }
+  .conversation-storybook .reset-button { padding-inline: 11px; }
+  .conversation-panel { gap: 14px; padding: 18px 16px max(22px,env(safe-area-inset-bottom)); }
+  .conversation-segments { gap: 12px; }
+  .conversation-segments > .speech { padding: 12px 13px; font-size: 16px; line-height: 1.9; }
+  .question-title { font-size: 19px; }
+  .reply-form { gap: 8px; }
+  .reply-form button { min-width: 86px; padding-inline: 10px; }
+  .choice-options { grid-template-columns: 1fr; gap: 8px; }
+  .choice-options > button { min-height: 48px; font-size: 15px; }
+  .conversation-actions { gap: 8px; }
+  .conversation-actions > button { flex: 1 1 130px; padding-inline: 10px; }
+  .conversation-feedback { font-size: 12px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .conversation-storybook *, .conversation-storybook *::before, .conversation-storybook *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

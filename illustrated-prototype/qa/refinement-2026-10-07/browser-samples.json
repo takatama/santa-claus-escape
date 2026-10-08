@@ -1,0 +1,655 @@
+{
+  "date": "2026-10-07",
+  "art": "wizard-feet-v2.png",
+  "discoveryDesktop": {
+    "stopped": "0.49944",
+    "still": "0.49944",
+    "reversed": "0.20089",
+    "logs": []
+  },
+  "discoveryMobile": {
+    "stopped": "0.49858",
+    "still": "0.49858",
+    "reversed": "0.23504",
+    "reset": "0.00000",
+    "taps": [
+      "0.20000",
+      "0.40000",
+      "0.60000",
+      "0.80000",
+      "1.00000"
+    ],
+    "keyBack": "0.95000",
+    "keyForward": "1.00000",
+    "metrics": {
+      "canvasHeight": 612,
+      "h": 844,
+      "scrollWidth": 390,
+      "w": 390
+    },
+    "logs": []
+  },
+  "rescueDesktop": {
+    "stopped": "0.50092",
+    "still": "0.50092",
+    "reversed": "0.20221",
+    "logs": []
+  },
+  "rescueMobile": {
+    "stopped": "0.50191",
+    "still": "0.50191",
+    "reversed": "0.20185",
+    "metrics": {
+      "canvasHeight": 616,
+      "data": {
+        "assetRatios": "{\"globe\":0.946277097078228,\"santa\":0.9441489361702128,\"wizard\":0.8373134328358209}",
+        "progress": "1.00000",
+        "ready": "true",
+        "santaFoot": "579.04",
+        "santaHeight": "264.88",
+        "santaX": "245.70",
+        "stage": "complete"
+      },
+      "h": 844,
+      "scrollWidth": 390,
+      "w": 390
+    },
+    "reset": "0.00000",
+    "taps": [
+      "0.20000",
+      "0.40000",
+      "0.60000",
+      "0.80000",
+      "1.00000"
+    ],
+    "keyBack": "0.95000",
+    "logs": []
+  },
+  "rescueContinuity": [
+    {
+      "canvasHeight": 616,
+      "p": "0.00000",
+      "santaHeight": "131.52"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.05000",
+      "santaHeight": "131.52"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.10000",
+      "santaHeight": "131.52"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.15000",
+      "santaHeight": "131.52"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.20000",
+      "santaHeight": "131.52"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.25000",
+      "santaHeight": "131.52"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.30000",
+      "santaHeight": "131.52"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.35000",
+      "santaHeight": "133.46"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.40000",
+      "santaHeight": "138.90"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.45000",
+      "santaHeight": "147.26"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.50000",
+      "santaHeight": "157.96"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.55000",
+      "santaHeight": "170.40"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.60000",
+      "santaHeight": "184.01"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.65000",
+      "santaHeight": "198.20"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.70000",
+      "santaHeight": "212.39"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.75000",
+      "santaHeight": "226.00"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.80000",
+      "santaHeight": "238.44"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.85000",
+      "santaHeight": "249.13"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.90000",
+      "santaHeight": "257.49"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "0.95000",
+      "santaHeight": "262.94"
+    },
+    {
+      "canvasHeight": 616,
+      "p": "1.00000",
+      "santaHeight": "264.88"
+    }
+  ],
+  "storyDesktop": [
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "scene": "stage intro",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      }
+    },
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "scene": "stage boxes",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      }
+    },
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "scene": "stage investigation",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      }
+    },
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "scene": "stage opening",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      }
+    },
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "scene": "stage letters",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      }
+    },
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "scene": "stage discovery",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      },
+      "wizardHeight": 281.265625
+    },
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "open",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "scene": "stage invitation",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      },
+      "wizardHeight": 281.265625
+    },
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "open",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "scene": "stage question",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      },
+      "wizardHeight": 281.265625
+    },
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "open",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "santaHeight": 328.15625,
+      "scene": "stage rescue",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      },
+      "wizardHeight": 281.265625
+    },
+    {
+      "background": {
+        "position": "50% 50%",
+        "size": "cover"
+      },
+      "branches": "open",
+      "globe": {
+        "h": 293,
+        "w": 277.75,
+        "x": 82.78125,
+        "y": 235.390625
+      },
+      "overflow": false,
+      "santaHeight": 328.15625,
+      "scene": "stage ending",
+      "viewport": {
+        "h": 720,
+        "w": 1280
+      },
+      "wizardHeight": 281.265625
+    }
+  ],
+  "storyMobile": [
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "scene": "stage intro",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      }
+    },
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "scene": "stage boxes",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      }
+    },
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "scene": "stage investigation",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      }
+    },
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "scene": "stage opening",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      }
+    },
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "scene": "stage letters",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      }
+    },
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "closed",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "scene": "stage discovery",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      },
+      "wizardHeight": 125.75
+    },
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "open",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "scene": "stage invitation",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      },
+      "wizardHeight": 125.75
+    },
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "open",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "scene": "stage question",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      },
+      "wizardHeight": 125.75
+    },
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "open",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "santaHeight": 146.71875,
+      "scene": "stage rescue",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      },
+      "wizardHeight": 125.75
+    },
+    {
+      "background": {
+        "position": "54% 50%",
+        "size": "cover"
+      },
+      "branches": "open",
+      "globe": {
+        "h": 131,
+        "w": 124.171875,
+        "x": 19.03125,
+        "y": 105.796875
+      },
+      "overflow": false,
+      "santaHeight": 146.71875,
+      "scene": "stage ending",
+      "viewport": {
+        "h": 844,
+        "w": 390
+      },
+      "wizardHeight": 125.75
+    }
+  ],
+  "clueLayouts": [
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "まだ、何か書いてあるようです。"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "サンタ、イタチ\nサンタ、ハタチ"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "サンタ、イタチ、サンタ、ハタチ\n\nたぬきの絵\nここは新規イラストのラフ"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "サンタ、イタチ、サンタ、ハタチ\n\nたぬきの絵\nたぬき"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "まだ、絵がかいてあるようです。"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "△ 山の絵\n絵の横に何か書いてある。"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "△ 山の絵\nサガルマータ"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "△ 山の絵\nサガルマータ\n\nその高さは、この端末が知っている"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "まだ、絵がかいてあるようです。"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "グー、チョキ、パー、グー\n\n四つの手の絵は未制作"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "グー、チョキ、パー、グー\n負けるが勝ち"
+    },
+    {
+      "clientHeight": 67,
+      "overflow": false,
+      "scrollHeight": 67,
+      "text": "グー、チョキ、パー、グー\n負けるが勝ち\n\n指の数があなたをみちびく"
+    }
+  ],
+  "logs": {
+    "discoveryDesktop": [],
+    "discoveryMobile": [],
+    "rescueDesktop": [],
+    "rescueMobile": [],
+    "storyDesktop": [],
+    "storyMobile": []
+  }
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "view": "desktop",
+    "result": {
+      "dialog": {
+        "code": "0000",
+        "revealFraction": "0.000",
+        "revealing": "false",
+        "snowProgress": "0.3333",
+        "snowStage": "1",
+        "unlocked": "false"
+      },
+      "pageWidth": 1265,
+      "reading": "見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      }
+    },
+    "logs": []
+  },
+  {
+    "view": "mobile-attempt",
+    "status": "viewport-override-not-applied",
+    "requested": {
+      "width": 390,
+      "height": 844
+    },
+    "observed": {
+      "height": 720,
+      "width": 1280
+    }
+  },
+  {
+    "view": "current-preview",
+    "result": {
+      "dialog": {
+        "code": "0000",
+        "revealFraction": "0.000",
+        "revealing": "false",
+        "snowProgress": "0.3333",
+        "snowStage": "1",
+        "unlocked": "false"
+      },
+      "pageWidth": 644,
+      "reading": "見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。",
+      "viewport": {
+        "height": 884,
+        "width": 659
+      }
+    },
+    "logs": []
+  }
+]

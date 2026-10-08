@@ -1,0 +1,32 @@
+{
+  "tool": "built-in image_gen",
+  "date": "2026-10-07",
+  "referenceRole": "Style and character references only. Physical book structure excluded.",
+  "references": [
+    "design/visual-directions/2026-10-07/artistic-page-reveal/01-santa-discovery.png",
+    "design/visual-directions/2026-10-07/artistic-page-reveal/02-page-turn.png",
+    "design/visual-directions/2026-10-07/artistic-page-reveal/03-wizard-reveal.png"
+  ],
+  "assets": [
+    {
+      "key": "forest",
+      "transparent": false,
+      "prompt": "Use case: illustration-story. Asset type: full-bleed background plate for an interactive illustrated scene. Input images 1, 2, 3 are STYLE REFERENCES ONLY: preserve their tactile gouache / watercolor on thick textured paper, deep midnight-blue snow forest and warm antique gold light. Generate a gorgeous wide landscape, approximately 1600x1000. A fixed eye-level view into a snowy evergreen forest at night, softly painted paper fibers and stippled snow, dark navy/cobalt firs and copper brown trunks framing both edges, fine warm golden stars above, layered blue pine silhouettes fading into depth. Central-right clearing has a very subtle warm golden glow coming from behind distant trees and faint warm light touching snow; lower foreground is snowy open ground where characters can later be composited, composition left lower clearing and right middle clearing. Full illustration fills rectangular image edge to edge. It is a painting of the forest itself, never a physical book or paper theater. Beautiful irregular painted shapes, restrained detail, evocative light. Constraints: NO PEOPLE, NO SANTA, NO WIZARD, NO SNOW GLOBE, NO BOOK, NO page seam or folded pages, NO text or UI, no platform, no 3D paper architecture, no central foreground branches blocking the empty clearings. Keep background somewhat dark blue overall so a separate golden character can become the focal light."
+    },
+    {
+      "key": "wizard",
+      "transparent": true,
+      "prompt": "Use case: illustration-story. Asset type: single character transparent cutout for a children's picture-book interactive illustration. Input image 3 is the exact CHARACTER AND ART STYLE REFERENCE; images 1 and 2 support gouache paper texture and golden light. Paint the same adorable friendly young female wizard as reference 3: round expressive face, rosy cheeks, short dark wavy brown hair, deep plum-purple pointed curled hat with tiny antique-gold stars, purple star-patterned cape with warm gold piping over ivory dress, little dark brown boots. Full body at fixed frontal three-quarter view, facing viewer and a little toward viewer's left. Her viewer-left hand extends welcomingly forward with natural palm/fingers, her viewer-right hand holds the same twisted brown staff with glowing warm golden orb at its curled tip. She stands naturally with one foot forward. Same hand-painted tactile gouache / watercolor / cut-paper texture as the reference, preserve cute proportions and identity. Soft gold reflected rim lighting; NO broad surrounding glow baked into background. All hat, hand, staff and boots fully contained with generous transparent margin. Isolate ONE character only on genuinely transparent background. NO ground, NO forest, NO book, NO paper frame, NO decorative arches, NO text, no other people, no extra limbs. This is an asset, not an entire scene."
+    },
+    {
+      "key": "globe",
+      "transparent": true,
+      "prompt": "Use case: illustration-story. Asset type: transparent snow-globe character cutout. Input image 1 is exact SANTA CHARACTER reference, input image 2 is scale/style support. Re-create the same very cute round rosy old Santa with ivory beard, small dark eyes, red wool hat and red mittens, warm textured red coat with ivory trim, black belt and brown boots. He is INSIDE a perfectly ordinary round clear glass snow globe on a LOW round wooden base, standing on miniature snow with a few tiny snowy pines. Large circular glass sphere, not a jar, not an egg. Frontal slightly three-quarter view, Santa looking a little toward his upper right in gentle curiosity, one mitten near chest, other close to glass. Match detailed tactile gouache watercolor textured paper illustration; creamy ivory beard, warm gold glass highlights with thin transparent blue glass. His entire body and ALL mittens are inside sphere, no parts extend through glass. Sphere is clear showing Santa but its outside is genuinely transparent. Full ball and low wooden base fully contained with generous transparent margins. NO book, no surrounding scene, NO forest outside globe, no other people, no red/blue/yellow boxes, no text or UI. Warm cream and gold reflections so it harmonizes with midnight-blue illustrated forest."
+    },
+    {
+      "key": "branch",
+      "transparent": true,
+      "prompt": "Use case: illustration-story. Asset type: ONE isolated foreground evergreen bough sprite with genuine transparent background. Input images 1 and 2 are ART STYLE reference only: tactile rough gouache and watercolor on fibrous paper, snow-laden dark midnight-blue fir foliage, warm copper-brown woody stems. Paint a large dense fan-like snowy fir bough, attached/rooted at the BOTTOM LEFT corner, with thick naturally curving main wooden stem that sweeps diagonally up toward UPPER RIGHT; many dense hanging blue pine twigs and creamy blue-white thick snow pillows make a BROAD organic irregular canopy, filling most of the upper-right three quarters. The silhouette should be broad and lush enough to HIDE a person behind it in an interactive illustration, but have fine small twig gaps. Trunk lower left visibly exposed, branch leaves cluster mainly toward upper-right. It will be bent sideways while the bottom left root stays anchored. Handmade painterly warm grain, soft irregular edges, snow shaded blue, no hard geometric plane. ONE bough only, no detached pieces, no complete tree, no background or snow ground, no people, no book, no UI or text. Fully contained in portrait image with padding, genuine transparent background. Avoid flat smooth vector art."
+    }
+  ]
+}

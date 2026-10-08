@@ -1,0 +1,179 @@
+:root{font-family:"Yu Gothic UI","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;color:#182c40;background:#f7f3ea;font-synthesis:none;line-height:1.7;--gold:#876123;--navy:#122c48}
+*{box-sizing:border-box}
+body{margin:0}
+a{color:#5e481d;text-underline-offset:4px}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid #b58130;outline-offset:4px}
+button:disabled{cursor:default}
+button{touch-action:manipulation}
+.page-header{max-width:1400px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 36px;border-bottom:1px solid #dcd4c2}
+.brand{text-decoration:none;color:#233950;font-size:17px;font-weight:700;letter-spacing:.05em}
+.brand span{display:block;font-size:10px;font-weight:400;letter-spacing:.15em}
+.page-header nav{display:flex;gap:22px;font-size:12px}
+.page-header nav a{text-decoration:none}
+main{max-width:1328px;margin:auto;padding:36px}
+.intro-line{display:flex;align-items:center;gap:18px}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;color:#6d654f}
+.label{font-size:10px;border:1px solid #aa9369;color:#71572d;padding:2px 9px;border-radius:20px}
+h1{font-family:"Yu Mincho",serif;font-size:38px;font-weight:500;letter-spacing:.06em;line-height:1.35;margin:14px 0 10px}
+.lead{font-size:13px;color:#596574;margin:0 0 30px;max-width:800px}
+.workspace{display:grid;grid-template-columns:226px minmax(0,1fr);gap:26px;align-items:start}
+.scene-list{display:grid;gap:8px}
+.scene-card{display:grid;grid-template-columns:28px 1fr;text-align:left;border:1px solid #dfd8ca;background:#fcfaf5;color:#263e55;padding:11px 13px;border-radius:5px;line-height:1.4;min-height:62px}
+.scene-card .number{color:#928266;font-size:11px;padding-top:2px}
+.scene-card .name{font-size:12px;font-weight:700}
+.scene-card .small{display:block;font-size:10px;color:#7c7c71;font-weight:400;margin-top:5px}
+.scene-card[aria-current=true]{background:#1e3a54;color:#fff3d5;border-color:#1e3a54;box-shadow:0 4px 12px #112d4520}
+.scene-card[aria-current=true] .small,.scene-card[aria-current=true] .number{color:#c6cbbd}
+.scene-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 15px}
+.scene-heading h2{font-family:"Yu Mincho",serif;font-weight:500;font-size:25px;margin:3px 0 0;line-height:1.3}
+.status{font-size:10px;border-radius:20px;padding:4px 10px;background:#e6e5d8;white-space:nowrap;color:#66604d}
+.status.confirmed{background:#e3ebdf;color:#3c634b}
+.status.pending{background:#f0e5c9;color:#806125}
+.stage{position:relative;isolation:isolate;width:100%;aspect-ratio:1.6;overflow:hidden;border-radius:7px;background:#122e48 url('../assets/forest-clean.png') center/cover;box-shadow:0 14px 30px #21374a20;border:1px solid #15344d}
+.stage:after{content:"";position:absolute;inset:0;z-index:10;pointer-events:none;border:1px solid #ffecb030;box-shadow:inset 0 0 55px #09203740}
+.art{position:absolute;object-fit:contain}
+.glow{position:absolute;right:5%;bottom:-15%;width:64%;height:110%;background:radial-gradient(ellipse,#ffdfa080 0%,#fed67620 44%,transparent 68%);z-index:1;pointer-events:none}
+.narration{position:absolute;top:6%;left:6%;max-width:70%;font-family:"Yu Mincho",serif;font-size:clamp(12px,1.7vw,20px);color:#fff2d4;text-shadow:0 2px 9px #10273e;z-index:7}
+.narration p{margin:0}
+.sketch-stamp{position:absolute;bottom:4%;right:4%;font-size:9px;color:#ffeccc;border:1px dashed #ffebaa70;background:#17304799;padding:3px 7px;z-index:8}
+.object-label{display:block;position:absolute;left:0;right:0;bottom:-27%;text-align:center;font-size:11px;color:#ffebc9;text-shadow:0 2px 4px #122d43}
+.boxes-row{position:absolute;inset:51% 17% 16%;display:flex;justify-content:space-between;align-items:center;z-index:6}
+.box{position:relative;width:26%;height:80%;background:linear-gradient(150deg,#c65653,#842733);border:2px solid #eed495aa;border-radius:3px;box-shadow:4px 8px 8px #122a4080;transform:rotate(-3deg)}
+.box.blue{background:linear-gradient(150deg,#5c90b6,#315779);transform:rotate(2deg)}
+.box.yellow{background:linear-gradient(150deg,#e2bd66,#b18232);transform:rotate(-2deg)}
+.box:before{content:"";position:absolute;left:-5%;top:-9%;width:110%;height:23%;background:inherit;border:2px solid #eed495aa;border-radius:3px}
+.box:after{content:"";position:absolute;width:15%;height:100%;top:0;left:42%;background:#ebd9ae88}
+.box-button{font:inherit;padding:0;color:inherit}
+.lock{position:absolute;z-index:1;left:25%;right:25%;top:34%;text-align:center;border:1px solid #f4e3b6;font-size:11px;background:#243b4e;color:#fff0cb;letter-spacing:2px;border-radius:4px}
+.close-box{position:absolute;z-index:6;width:44%;height:46%;left:34%;bottom:12%;background:linear-gradient(145deg,#b64446,#6e2634);border:2px solid #edce9f;border-radius:8px;box-shadow:8px 14px 15px #0b273a88}
+.close-box.blue{background:linear-gradient(145deg,#5d8ea9,#284967)}
+.close-box.yellow{background:linear-gradient(145deg,#d2aa55,#a37629)}
+.close-box .lid{position:absolute;left:-4%;top:-9%;width:108%;height:18%;background:inherit;border:2px solid #efdbad;border-radius:5px}
+.close-box .lock{top:auto;bottom:8%;left:25%;right:25%;font-size:16px}
+.clue{position:absolute;inset:15% 8% 26%;z-index:1;border:1px dashed #f1d9b68c;border-radius:5px;background:#f6e4b7dd;color:#473823;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:clamp(10px,1.2vw,16px);line-height:1.65;text-align:center;padding:8px}
+.clue .sketch{font-size:24px;font-family:serif;line-height:1.5}
+.clue small{font-size:10px}
+.stage.opening .lid{top:-31%;left:-8%;transform:rotate(-10deg)}
+.stage.opening .clue{background:#322b22;border-style:solid}
+.paper{display:flex;align-items:center;justify-content:center;background:#fff0cc;color:#3f3b2b;border:1px solid #b69761;box-shadow:0 4px 7px #0c293255;font-family:"Yu Mincho",serif;font-size:clamp(18px,2.9vw,38px);transform:rotate(-6deg);border-radius:3px}
+.paper:nth-child(even){transform:rotate(5deg)}
+.two-papers{position:absolute;left:39%;right:17%;bottom:25%;height:22%;display:flex;gap:8%;z-index:7}
+.two-papers .paper{width:43%;height:100%}
+.papers{position:absolute;left:28%;right:9%;bottom:28%;height:26%;display:flex;gap:3%;z-index:6;align-items:center}
+.papers .paper{position:relative;flex:1;height:70%}
+.papers .paper small{position:absolute;bottom:3px;font:8px sans-serif;letter-spacing:0}
+.papers .paper.red{border-bottom:5px solid #a94c4e}
+.papers .paper.blue{border-bottom:5px solid #5a86ad}
+.papers .paper.yellow{border-bottom:5px solid #c6a348}
+.spell-field{position:absolute;left:31%;right:12%;bottom:9%;height:10%;display:flex;align-items:center;justify-content:center;background:#fff2d6dd;border-radius:4px;color:#766245;border:1px solid #ccaa67;font-size:13px;z-index:6}
+.scene-chips{position:absolute;left:8%;bottom:5%;display:flex;gap:8px;z-index:7}
+.scene-chips span{border:1px solid #ead5a0;padding:6px 12px;background:#112d42d9;color:#fff0cb;border-radius:30px;font-size:11px}
+.review-question{flex:0 0 100%;padding:15px 18px;margin:0 0 5px;background:#faebcb;color:#463b2d;border:1px solid #e0c791;border-radius:7px;font-size:14px;text-align:center;line-height:1.7}
+.review-question .mock-input{max-width:420px;padding:7px 10px;margin:10px auto 0;border:1px solid #bfad8a;background:#fff7df;color:#85765b;font-size:11px}
+.stage.paused .glow{opacity:.15}
+.demo-controls{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:15px 0 5px;min-height:57px}
+.demo-controls .control-label{font-size:11px;color:#6a6a5f;margin-right:3px}
+.demo-controls button{border:1px solid #b7ac93;background:#fffdf7;color:#3b4b57;border-radius:20px;padding:5px 13px;font-size:11px;min-height:34px}
+.demo-controls button[aria-pressed=true]{background:#314b5e;color:#fff2d0;border-color:#314b5e}
+.demo-controls a{font-size:12px}
+.rough-note{font-size:10px;line-height:1.7;color:#7a807b;margin:7px 0 0}
+.scene-detail{margin:32px 0 38px;display:grid;grid-template-columns:1fr 1fr 1.35fr;gap:28px;border-top:1px solid #d9d2c4;padding-top:24px}
+.scene-detail h3{font-size:11px;margin:0 0 8px;color:#866d3b;letter-spacing:.1em}
+.scene-detail p{font-size:12px;margin:0}
+.scene-detail .gate{margin-top:8px;color:#747d7a;font-size:11px}
+.conclusion{padding:25px 30px;background:#ebe7dc;border-left:3px solid #aa8a45;border-radius:3px}
+.conclusion h2{font-family:"Yu Mincho",serif;font-size:22px;font-weight:500;margin:8px 0 10px}
+.conclusion p{font-size:12px;margin:0 0 16px;max-width:920px}
+.conclusion a{font-size:12px}
+footer{text-align:center;font-size:10px;color:#8b8b7c;padding:0 24px 24px}
+@media(min-width:1440px){
+.stage .narration{font-size:20px}
+}
+@media(max-width:850px){
+.workspace{grid-template-columns:1fr}
+.scene-list{grid-template-columns:repeat(5,minmax(0,1fr));order:2;gap:6px}
+.scene-card{padding:8px;grid-template-columns:19px 1fr;min-height:72px}
+.scene-card .name{font-size:11px}
+.scene-card .small{font-size:8px}
+.scene-detail{gap:18px}
+.narration{font-size:16px}
+}
+@media(max-width:540px){
+.page-header{padding:16px;align-items:start;gap:8px}
+.brand{font-size:13px}
+.brand span{font-size:8px}
+.page-header nav{gap:5px;flex-wrap:wrap;justify-content:end;max-width:164px;font-size:10px}
+.page-header nav a{padding:2px 5px}
+main{padding:24px 16px}
+.intro-line{gap:8px}
+.eyebrow{font-size:8px;letter-spacing:.12em}
+.label{font-size:9px}
+h1{font-size:28px;margin-top:13px}
+.lead{font-size:12px;margin-bottom:22px}
+.workspace{gap:20px}
+.scene-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+.scene-card{padding:9px 11px;grid-template-columns:26px 1fr;min-height:57px}
+.scene-card .name{font-size:11px}
+.scene-card .small{font-size:9px}
+.scene-heading h2{font-size:20px}
+.scene-heading{gap:7px}
+.status{font-size:9px;padding:3px 7px}
+.stage{aspect-ratio:1.3;background-position:54% center}
+.narration{font-size:12px;max-width:86%;top:5%;left:5%}
+.boxes-row{inset:52% 12% 16%}
+.object-label{font-size:9px}
+.lock{font-size:8px;letter-spacing:.5px}
+.close-box{width:54%;height:46%;left:31%;bottom:14%}
+.close-box .lock{font-size:11px}
+.clue{font-size:10px;line-height:1.4;padding:4px}
+.clue small{font-size:8px}
+.clue .sketch{font-size:18px}
+.two-papers{left:37%;right:15%;bottom:29%;height:20%}
+.paper{font-size:22px}
+.papers{left:27%;right:5%;height:24%}
+.papers .paper small{font-size:6px;bottom:1px}
+.papers .paper.red,.papers .paper.blue,.papers .paper.yellow{border-bottom-width:3px}
+.spell-field{left:28%;right:5%;bottom:10%;font-size:10px}
+.scene-chips{left:4%;bottom:6%;gap:5px}
+.scene-chips span{font-size:8px;padding:4px 7px}
+.review-question{font-size:12px;padding:13px 12px}
+.review-question .mock-input{font-size:10px}
+.sketch-stamp{font-size:7px;padding:2px 4px;bottom:2%;right:3%}
+.demo-controls{gap:6px;padding-top:11px}
+.demo-controls .control-label{font-size:10px}
+.demo-controls button{font-size:10px;padding:5px 10px;min-height:35px}
+.rough-note{font-size:9px}
+.scene-detail{grid-template-columns:1fr;gap:17px;margin:25px 0;padding-top:20px}
+.scene-detail p{font-size:12px}
+.conclusion{padding:20px 18px}
+.conclusion h2{font-size:19px}
+.conclusion p{font-size:12px}
+}
+/* Shared art bounds are placed by composeArt. Scenes only change what is inside the globe. */
+.art{position:absolute;object-fit:contain}
+.forest-frame{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.globe{z-index:4;filter:drop-shadow(0 5px 8px #14253966)}
+.wizard{z-index:2;filter:drop-shadow(0 4px 8px #71592250)}
+.outside-santa{z-index:6;filter:drop-shadow(0 5px 8px #14253966)}
+.stage.paused .wizard{opacity:.4}
+.stage-loading{position:absolute;inset:42% 10% auto;text-align:center;color:#fff2d4;font-size:13px}
+.glow{right:5%;bottom:-10%;width:51%;height:83%}
+.boxes-row{inset:auto 6% 15% 42%;height:25%}
+.boxes-row .box{width:29%;height:100%}
+.close-box{left:42%;right:6%;width:auto;bottom:12%}
+.two-papers{left:47%;right:11%;bottom:25%}
+.papers{left:42%;right:6%;bottom:27%;height:27%}
+.spell-field{left:42%;right:6%;bottom:10%}
+.scene-chips{left:42%;right:4%;bottom:4%;gap:6px;flex-wrap:wrap}
+.rescue-path{position:absolute;bottom:42%;left:35%;width:11%;border-bottom:2px dashed #fff0b8;z-index:5}
+.rescue-path:after{content:"›";position:absolute;right:-8px;top:-27px;font-size:32px;color:#ffebba}
+@media(max-width:540px){
+  .boxes-row{inset:auto 5% 15% 42%;height:25%}
+  .close-box{left:42%;right:4%;width:auto;bottom:12%}
+  .two-papers{left:47%;right:9%;bottom:25%;height:22%}
+  .papers{left:42%;right:5%;height:25%}
+  .spell-field{left:42%;right:5%;bottom:10%;font-size:9px}
+  .scene-chips{left:42%;right:3%;bottom:4%;gap:4px}
+  .scene-chips span{font-size:8px;padding:4px 6px}
+}

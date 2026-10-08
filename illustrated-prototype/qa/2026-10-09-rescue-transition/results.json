@@ -1,0 +1,319 @@
+{
+  "observations": [
+    {
+      "label": "connected-last-response",
+      "documentWidth": 1265,
+      "feedback": "",
+      "height": 720,
+      "scene": {
+        "branchesOpen": "true",
+        "draft": "ソリ",
+        "globe": "{\"x\":195.3686613055818,\"y\":172,\"w\":203.81267738883633,\"h\":215}",
+        "paused": "false",
+        "phase": "response",
+        "questionId": "deer-ten-times",
+        "questionIndex": "2",
+        "ready": "true",
+        "reinvited": "false",
+        "responseCount": "3",
+        "santaContained": "true",
+        "wizard": "{\"x\":837.0392537313433,\"y\":150.49999999999997,\"w\":172.82149253731345,\"h\":206.4}",
+        "wizardVisible": "true"
+      },
+      "segments": "まほう使い\n\nその通り！正解は、トナカイ、じゃなくて、ソリだよね",
+      "storybook": {
+        "phase": "response",
+        "rescueAdvancing": "false"
+      },
+      "url": "http://localhost:4190/witch/index.html?journey=1",
+      "width": 1280
+    },
+    {
+      "label": "connected-closing-auto-pending",
+      "documentWidth": 1265,
+      "feedback": "サンタのもとへ移ります。",
+      "height": 720,
+      "rescueLink": "http://localhost:4190/rescue/index.html?journey=1",
+      "rescueLinkHidden": false,
+      "scene": {
+        "branchesOpen": "true",
+        "draft": "ソリ",
+        "globe": "{\"x\":195.3686613055818,\"y\":172,\"w\":203.81267738883633,\"h\":215}",
+        "paused": "false",
+        "phase": "rescue",
+        "questionId": "",
+        "questionIndex": "2",
+        "ready": "true",
+        "reinvited": "false",
+        "responseCount": "3",
+        "santaContained": "true",
+        "wizard": "{\"x\":837.0392537313433,\"y\":150.49999999999997,\"w\":172.82149253731345,\"h\":206.4}",
+        "wizardVisible": "true"
+      },
+      "segments": "まほう使い\n\nうふふ。ああ楽しかった！",
+      "storybook": {
+        "phase": "rescue",
+        "rescueAdvancing": "true"
+      },
+      "url": "http://localhost:4190/witch/index.html?journey=1",
+      "width": 1280
+    },
+    {
+      "label": "connected-auto-arrived-rescue",
+      "documentWidth": 1280,
+      "height": 720,
+      "scene": {
+        "assetRatios": "{\"globe\":0.946277097078228,\"santa\":0.9441489361702128,\"wizard\":0.8373134328358209}",
+        "progress": "0.00000",
+        "ready": "true",
+        "santaFoot": "333.25",
+        "santaHeight": "131.15",
+        "santaX": "300.80",
+        "stage": "start"
+      },
+      "storybook": {},
+      "url": "http://localhost:4190/rescue/index.html?journey=1",
+      "width": 1280
+    },
+    {
+      "label": "saved-rescue-revisit-no-auto",
+      "documentWidth": 1265,
+      "feedback": "",
+      "height": 720,
+      "rescueLink": "http://localhost:4190/rescue/index.html?journey=1",
+      "rescueLinkHidden": false,
+      "scene": {
+        "branchesOpen": "true",
+        "draft": "ソリ",
+        "globe": "{\"x\":195.3686613055818,\"y\":172,\"w\":203.81267738883633,\"h\":215}",
+        "paused": "false",
+        "phase": "rescue",
+        "questionId": "",
+        "questionIndex": "2",
+        "ready": "true",
+        "reinvited": "false",
+        "responseCount": "3",
+        "santaContained": "true",
+        "wizard": "{\"x\":837.0392537313433,\"y\":150.49999999999997,\"w\":172.82149253731345,\"h\":206.4}",
+        "wizardVisible": "true"
+      },
+      "segments": "まほう使い\n\nうふふ。ああ楽しかった！",
+      "storybook": {
+        "phase": "rescue",
+        "rescueAdvancing": "false"
+      },
+      "url": "http://localhost:4190/witch/index.html?journey=1",
+      "width": 1280
+    },
+    {
+      "label": "saved-rescue-still-stays",
+      "documentWidth": 1265,
+      "feedback": "",
+      "height": 720,
+      "rescueLink": "http://localhost:4190/rescue/index.html?journey=1",
+      "rescueLinkHidden": false,
+      "scene": {
+        "branchesOpen": "true",
+        "draft": "ソリ",
+        "globe": "{\"x\":195.3686613055818,\"y\":172,\"w\":203.81267738883633,\"h\":215}",
+        "paused": "false",
+        "phase": "rescue",
+        "questionId": "",
+        "questionIndex": "2",
+        "ready": "true",
+        "reinvited": "false",
+        "responseCount": "3",
+        "santaContained": "true",
+        "wizard": "{\"x\":837.0392537313433,\"y\":150.49999999999997,\"w\":172.82149253731345,\"h\":206.4}",
+        "wizardVisible": "true"
+      },
+      "segments": "まほう使い\n\nうふふ。ああ楽しかった！",
+      "storybook": {
+        "phase": "rescue",
+        "rescueAdvancing": "false"
+      },
+      "url": "http://localhost:4190/witch/index.html?journey=1",
+      "width": 1280
+    },
+    {
+      "label": "independent-mobile-invite",
+      "documentWidth": 375,
+      "feedback": "",
+      "height": 844,
+      "scene": {
+        "branchesOpen": "true",
+        "draft": "",
+        "globe": "{\"x\":29.91556291390728,\"y\":236.50000000000003,\"w\":142.66887417218544,\"h\":150.5}",
+        "paused": "false",
+        "phase": "invite",
+        "questionId": "",
+        "questionIndex": "0",
+        "ready": "true",
+        "reinvited": "false",
+        "responseCount": "0",
+        "santaContained": "true",
+        "wizard": "{\"x\":184.64171641791046,\"y\":129.00000000000003,\"w\":133.2165671641791,\"h\":159.1}",
+        "wizardVisible": "true"
+      },
+      "segments": "まほう使い\n\nはーい！よばれて、とびでて、ジャジャジャジャーン！あなたが大好きな、まほう使いが来ましたよー！あれれ？あなた、だれ？\n\nおはなし\n\nまほう使いがあらわれました。\n\nまほう使い\n\nサンタじゃなくて、あなたが私をよんだのね。ふーん。まあ、いいわ。私とあそんでよ。あそんでくれたら、サンタを自由にしてあげる\n\nおはなし\n\nまほう使いと遊びますか？",
+      "storybook": {
+        "phase": "invite",
+        "rescueAdvancing": "false"
+      },
+      "url": "http://localhost:4190/witch/index.html",
+      "width": 390
+    },
+    {
+      "label": "mobile-all-wrong-last-response",
+      "documentWidth": 375,
+      "feedback": "",
+      "height": 844,
+      "scene": {
+        "branchesOpen": "true",
+        "draft": "トナカイ",
+        "globe": "{\"x\":29.91556291390728,\"y\":236.50000000000003,\"w\":142.66887417218544,\"h\":150.5}",
+        "paused": "false",
+        "phase": "response",
+        "questionId": "deer-ten-times",
+        "questionIndex": "2",
+        "ready": "true",
+        "reinvited": "false",
+        "responseCount": "3",
+        "santaContained": "true",
+        "wizard": "{\"x\":184.64171641791046,\"y\":129.00000000000003,\"w\":133.2165671641791,\"h\":159.1}",
+        "wizardVisible": "true"
+      },
+      "segments": "まほう使い\n\n正解は、トナカイ、じゃなくて、ソリだよね",
+      "storybook": {
+        "phase": "response",
+        "rescueAdvancing": "false"
+      },
+      "url": "http://localhost:4190/witch/index.html",
+      "width": 390
+    },
+    {
+      "label": "mobile-all-wrong-auto-pending",
+      "documentWidth": 375,
+      "feedback": "サンタのもとへ移ります。",
+      "height": 844,
+      "rescueLink": "http://localhost:4190/rescue/index.html",
+      "rescueLinkHidden": false,
+      "scene": {
+        "branchesOpen": "true",
+        "draft": "トナカイ",
+        "globe": "{\"x\":29.91556291390728,\"y\":236.50000000000003,\"w\":142.66887417218544,\"h\":150.5}",
+        "paused": "false",
+        "phase": "rescue",
+        "questionId": "",
+        "questionIndex": "2",
+        "ready": "true",
+        "reinvited": "false",
+        "responseCount": "3",
+        "santaContained": "true",
+        "wizard": "{\"x\":184.64171641791046,\"y\":129.00000000000003,\"w\":133.2165671641791,\"h\":159.1}",
+        "wizardVisible": "true"
+      },
+      "segments": "まほう使い\n\nうふふ。ああ楽しかった！",
+      "storybook": {
+        "phase": "rescue",
+        "rescueAdvancing": "true"
+      },
+      "url": "http://localhost:4190/witch/index.html",
+      "width": 390
+    },
+    {
+      "label": "mobile-all-wrong-auto-arrived",
+      "documentWidth": 390,
+      "height": 844,
+      "scene": {
+        "assetRatios": "{\"globe\":0.946277097078228,\"santa\":0.9441489361702128,\"wizard\":0.8373134328358209}",
+        "progress": "0.00000",
+        "ready": "true",
+        "santaFoot": "500.50",
+        "santaHeight": "131.52",
+        "santaX": "105.30",
+        "stage": "start"
+      },
+      "storybook": {},
+      "url": "http://localhost:4190/rescue/index.html",
+      "width": 390
+    },
+    {
+      "label": "mobile-reset-cancels-auto",
+      "documentWidth": 375,
+      "feedback": "",
+      "height": 844,
+      "scene": {
+        "branchesOpen": "true",
+        "draft": "",
+        "globe": "{\"x\":29.91556291390728,\"y\":236.50000000000003,\"w\":142.66887417218544,\"h\":150.5}",
+        "paused": "false",
+        "phase": "invite",
+        "questionId": "",
+        "questionIndex": "0",
+        "ready": "true",
+        "reinvited": "false",
+        "responseCount": "0",
+        "santaContained": "true",
+        "wizard": "{\"x\":184.64171641791046,\"y\":129.00000000000003,\"w\":133.2165671641791,\"h\":159.1}",
+        "wizardVisible": "true"
+      },
+      "segments": "まほう使い\n\nはーい！よばれて、とびでて、ジャジャジャジャーン！あなたが大好きな、まほう使いが来ましたよー！あれれ？あなた、だれ？\n\nおはなし\n\nまほう使いがあらわれました。\n\nまほう使い\n\nサンタじゃなくて、あなたが私をよんだのね。ふーん。まあ、いいわ。私とあそんでよ。あそんでくれたら、サンタを自由にしてあげる\n\nおはなし\n\nまほう使いと遊びますか？",
+      "storybook": {
+        "phase": "invite",
+        "rescueAdvancing": "false"
+      },
+      "url": "http://localhost:4190/witch/index.html",
+      "width": 390
+    },
+    {
+      "label": "mobile-reset-remains-at-invite",
+      "documentWidth": 375,
+      "feedback": "",
+      "height": 844,
+      "scene": {
+        "branchesOpen": "true",
+        "draft": "",
+        "globe": "{\"x\":29.91556291390728,\"y\":236.50000000000003,\"w\":142.66887417218544,\"h\":150.5}",
+        "paused": "false",
+        "phase": "invite",
+        "questionId": "",
+        "questionIndex": "0",
+        "ready": "true",
+        "reinvited": "false",
+        "responseCount": "0",
+        "santaContained": "true",
+        "wizard": "{\"x\":184.64171641791046,\"y\":129.00000000000003,\"w\":133.2165671641791,\"h\":159.1}",
+        "wizardVisible": "true"
+      },
+      "segments": "まほう使い\n\nはーい！よばれて、とびでて、ジャジャジャジャーン！あなたが大好きな、まほう使いが来ましたよー！あれれ？あなた、だれ？\n\nおはなし\n\nまほう使いがあらわれました。\n\nまほう使い\n\nサンタじゃなくて、あなたが私をよんだのね。ふーん。まあ、いいわ。私とあそんでよ。あそんでくれたら、サンタを自由にしてあげる\n\nおはなし\n\nまほう使いと遊びますか？",
+      "storybook": {
+        "phase": "invite",
+        "rescueAdvancing": "false"
+      },
+      "url": "http://localhost:4190/witch/index.html",
+      "width": 390
+    },
+    {
+      "label": "saved-rescue-manual-continue",
+      "documentWidth": 390,
+      "height": 844,
+      "scene": {
+        "assetRatios": "{\"globe\":0.946277097078228,\"santa\":0.9441489361702128,\"wizard\":0.8373134328358209}",
+        "progress": "0.00000",
+        "ready": "true",
+        "santaFoot": "398.13",
+        "santaHeight": "104.61",
+        "santaX": "105.30",
+        "stage": "start"
+      },
+      "storybook": {},
+      "url": "http://localhost:4190/rescue/index.html?journey=1",
+      "width": 390
+    }
+  ],
+  "logs": {
+    "desktop": [],
+    "mobile": []
+  }
+}

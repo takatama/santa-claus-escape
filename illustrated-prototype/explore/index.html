@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101f35" />
+    <meta name="description" content="雪の森の三つの箱を好きな順番で調べる、サンタの脱出の試作。" />
+    <title>サンタの脱出 — 三つの箱</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23efd093' d='m20 3 4.3 11.8L37 15l-10.2 7.5L30.5 35 20 27.4 9.5 35l3.7-12.5L3 15l12.7-.2Z'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="storybook explore-storybook" aria-label="サンタの脱出、三つの箱を調べる">
+      <section class="scene-shell" aria-label="雪の森と球の中のサンタ">
+        <canvas id="scene" width="1600" height="1000" aria-label="雪の森で、サンタはスノーボールの中にいます。">
+          サンタはスノーボールの中にいます。下のリンクから箱を調べられます。
+        </canvas>
+        <header class="masthead">
+          <div class="title-block">
+            <h1>サンタの脱出<span class="title-star" aria-hidden="true">✦</span></h1>
+            <p>三つの箱</p>
+          </div>
+          <button id="reset" class="reset-button" type="button">最初から</button>
+        </header>
+        <p id="loading" class="loading-message" role="status">雪の森を読み込んでいます…</p>
+        <nav id="box-choices" class="box-choices" aria-label="好きな箱を調べる">
+          <a class="box-choice" data-color="red" href="../red-box/index.html?journey=1">
+            <span class="box-label"><strong>赤い箱</strong><small class="box-status">調べる</small></span>
+          </a>
+          <a class="box-choice" data-color="blue" href="../blue-box/index.html?journey=1">
+            <span class="box-label"><strong>青い箱</strong><small class="box-status">調べる</small></span>
+          </a>
+          <a class="box-choice" data-color="yellow" href="../yellow-box/index.html?journey=1">
+            <span class="box-label"><strong>黄色い箱</strong><small class="box-status">調べる</small></span>
+          </a>
+        </nav>
+      </section>
+      <section class="reader-panel explore-reader" aria-label="見つけた紙とひみつの言葉">
+        <p id="narration" class="narration">好きな箱を、調べてみよう。</p>
+        <p id="storage-status" role="status" hidden></p>
+        <section class="paper-collection" aria-label="見つけた紙">
+          <p id="paper-count">見つけた紙 0 / 6</p>
+          <div id="papers" class="paper-row"></div>
+        </section>
+        <a id="letters-link" class="letters-link" href="../letters/index.html?journey=1">ひみつの言葉を伝える<span aria-hidden="true"> ›</span></a>
+        <p id="direct-help">言葉が分かったら、紙を集める前でも伝えられます。</p>
+        <a id="discovery-link" class="discovery-link" href="../index.html?journey=1" hidden>枝の向こうを見てみる<span aria-hidden="true"> ›</span></a>
+        <details id="clue-reading" hidden>
+          <summary>六枚の紙の文字を読む</summary>
+          <p id="clue-text"></p>
+        </details>
+        <a class="story-link" href="../intro/index.html?journey=1&amp;replay=1">はじめのお話を読む</a>
+      </section>
+    </main>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
