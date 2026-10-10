@@ -11,6 +11,8 @@ jobs:
         with:
           node-version: '24'
       - run: npm test
+      - run: npm --prefix illustrated-prototype test
+      - run: npm --prefix illustrated-prototype run check
       - run: npm run check:design
       - run: npm run check:audio
       - run: npm run check:publication
