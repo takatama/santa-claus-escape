@@ -39,11 +39,11 @@ test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid,
   const painting=await page.locator('canvas').boundingBox();
   await page.mouse.move(painting.x+40,painting.y+painting.height*.8);await page.mouse.down();await page.mouse.move(painting.x+painting.width-40,painting.y+painting.height*.8,{steps:12});await page.mouse.up();
   await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','1');
-  await shot(page,'mobile-start');await usable(page,'examine');await btn(page,'examine').click();
+  await shot(page,'mobile-start');await usable(page,'examine');
+  await btn(page,'examine').evaluate(button=>{button.click();for(let i=0;i<10;i++)button.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
   await expect(page.locator('.red-stage')).toHaveAttribute('data-revealing','true');
   await expect.poll(()=>page.locator('.rb-snowflake').count()).toBeGreaterThan(0);
   await shot(page,'mobile-snow-sweep');
-  await btn(page,'examine').evaluate(button=>{for(let i=0;i<10;i++)button.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
   await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
   await expect(page.locator('canvas')).not.toHaveAttribute('aria-label',/たぬき/);
   await usable(page,'examine');await shot(page,'mobile-text');await btn(page,'examine').click();await usable(page,'examine');
@@ -54,7 +54,7 @@ test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid,
   await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','4');
   await btn(page,'red_try').click();await expect(page.locator('.red-result')).toContainText('まだ開かない');
   await digits(page,'3138');await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');
-  await expect(page.locator('.red-stage')).toHaveAttribute('data-lid-open','false');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-lid-open','false');await shot(page,'mobile-unlocked');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
   await expect(page.locator('canvas')).toHaveAttribute('data-progress','1.000');await shot(page,'mobile-open');
   await btn(page,'close_red_lid').click();await usable(page,'open_red_lid');await page.reload();await btn(page,'resume').click();
   await expect(page.locator('.red-stage')).toHaveAttribute('data-lid-open','false');await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
@@ -101,6 +101,14 @@ test('viewport controls remain visible on small phone, landscape, tablet and PC'
   expect((await btn(page,'red_try').boundingBox()).y+(await btn(page,'red_try').boundingBox()).height).toBeLessThanOrEqual(568);
   await digits(page,'3138');await btn(page,'red_try').click();await usable(page,'open_red_lid');
   await expect(page.locator('canvas')).toHaveAttribute('data-camera','1.000');await waitForCanvasSize(page);
+  for(const [width,height] of [[320,568],[390,844],[844,390],[1280,720]]){
+    await page.setViewportSize({width,height});await waitForCanvasSize(page);
+    const grip=await btn(page,'open_red_lid').boundingBox(),dial=await page.getByRole('spinbutton').first().boundingBox();
+    expect(grip.width).toBeGreaterThanOrEqual(44);expect(grip.height).toBeGreaterThanOrEqual(44);
+    expect(grip.y).toBeGreaterThanOrEqual(48);expect(grip.y+grip.height).toBeLessThanOrEqual(dial.y);
+    expect(grip.x).toBeGreaterThanOrEqual(0);expect(grip.x+grip.width).toBeLessThanOrEqual(width);
+  }
+  await page.setViewportSize({width:320,height:568});await waitForCanvasSize(page);
   const closedSize=JSON.parse(await page.locator('canvas').getAttribute('data-box')).w;
   await btn(page,'open_red_lid').click();await usable(page,'continue_box');
   expect(JSON.parse(await page.locator('canvas').getAttribute('data-box')).w).toBeCloseTo(closedSize,2);
@@ -150,7 +158,9 @@ test('audio: actions during voice, animated speaker, complete voices and ordered
   await expect.poll(()=>clip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(0);
   const firstClip=await clip.elementHandle(),before=await firstClip.evaluate(audio=>audio.currentTime);await digits(page,'3138');
   await expect.poll(()=>clip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(before);
-  await btn(page,'examine').click();for(let i=0;i<5;i++)await btn(page,'examine').dispatchEvent('click');
+  // Send the burst in one browser task; individual driver round trips can
+  // exceed the snow animation and accidentally test a later valid press.
+  await btn(page,'examine').evaluate(button=>{button.click();for(let i=0;i<5;i++)button.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
   await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
   expect(await firstClip.evaluate(audio=>audio.ended)).toBe(false);await expect(page.locator('#transcript')).toContainText('このあと');
   await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');
@@ -209,13 +219,16 @@ test('reduced motion, voice stop and BGM slider preserve progress and keyboard a
 
 test.describe('touch emulation',()=>{
   test.use({hasTouch:true,isMobile:true,viewport:{width:390,height:844}});
-  test('neighboring numbers edit the mounted four digits by touch without arrow glyphs',async({page})=>{
+  test('touch: neighboring numbers edit the four digits and the lid grip also opens and closes by tap',async({page})=>{
     await setup(page);await enterRed(page);
     const arrow=page.getByRole('button',{name:'1桁目の数字の列を上へ回す',exact:true});const box=await arrow.boundingBox();
     await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);
     await expect(page.getByRole('spinbutton',{name:'1桁目のダイアル',exact:true})).toHaveAttribute('aria-valuenow','1');
     expect(await page.locator('input[type="text"]').count()).toBe(0);
     await expect(page.locator('.rb-cylinder-direction')).toHaveCount(0);
+    await digits(page,'3138');await btn(page,'red_try').tap();await usable(page,'open_red_lid');
+    await btn(page,'open_red_lid').tap();await usable(page,'continue_box');await expect(page.locator('canvas')).toHaveAttribute('data-progress','1.000');
+    await btn(page,'close_red_lid').tap();await usable(page,'open_red_lid');await expect(page.locator('canvas')).toHaveAttribute('data-progress','0.000');
   });
 });
 
@@ -227,6 +240,33 @@ test('lid drag pauses and reverses, saves intermediate progress, and grants no d
   await expect(canvas).toHaveAttribute('data-progress','0.600');await page.mouse.move(x,y-distance*.4,{steps:4});await expect(canvas).toHaveAttribute('data-progress','0.400');await page.mouse.up();
   await page.reload();await btn(page,'resume').click();await expect(canvas).toHaveAttribute('data-progress','0.400');
   await btn(page,'open_red_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
+});
+
+test('lid grip: direction moves, drag releases at the chosen position, keyboard works and reduced motion is still',async({page})=>{
+  await page.setViewportSize({width:1280,height:720});await setup(page);await enterRed(page);await digits(page,'3138');await btn(page,'red_try').click();await usable(page,'open_red_lid');
+  const canvas=page.locator('canvas'),grip=btn(page,'open_red_lid'),arrow=grip.locator('.red-grip-arrow');
+  await expect(grip).toHaveAccessibleName('ふたをあける');
+  // The stage has one manipulation point, with no added visible instruction or separate open button.
+  await expect(page.locator('.red-actions')).not.toContainText('ふた');
+  await expect(page.locator('.red-lid-hint')).toHaveCount(0);
+  await expect(grip).toHaveText('');
+  const transform=await arrow.evaluate(e=>getComputedStyle(e).transform);
+  await expect.poll(()=>arrow.evaluate(e=>getComputedStyle(e).transform)).not.toBe(transform);
+  await shot(page,'desktop-unlocked');
+  const handle=await grip.boundingBox(),box=JSON.parse(await canvas.getAttribute('data-box')),distance=Math.max(105,box.w*.47);
+  const x=handle.x+handle.width/2,y=handle.y+handle.height/2;
+  await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x,y-distance*.6,{steps:6});
+  await expect(canvas).toHaveAttribute('data-progress','0.600');await page.mouse.move(x,y-distance*.4,{steps:4});await page.mouse.up();
+  await expect(canvas).toHaveAttribute('data-progress','0.400');await expect(page.locator('.red-stage')).toHaveAttribute('data-lid-open','false');
+  // A drag must not also trigger the grip's click alternative and snap fully open.
+  await page.reload();await btn(page,'resume').click();await expect(canvas).toHaveAttribute('data-progress','0.400');
+  await grip.press('Enter');await usable(page,'continue_box');await expect(canvas).toHaveAttribute('data-progress','1.000');
+  await btn(page,'close_red_lid').press('Space');await usable(page,'open_red_lid');await expect(canvas).toHaveAttribute('data-progress','0.000');
+  // Cancel an in-flight gesture without changing the saved position.
+  const again=await grip.boundingBox();await page.mouse.move(again.x+again.width/2,again.y+again.height/2);await page.mouse.down();await page.mouse.move(again.x+again.width/2,again.y-40,{steps:4});
+  await grip.dispatchEvent('pointercancel',{pointerId:1});await page.mouse.up();await expect(canvas).toHaveAttribute('data-progress','0.000');
+  await page.emulateMedia({reducedMotion:'reduce'});await expect(arrow).toHaveCSS('animation-name','none');
+  await grip.press('Enter');await usable(page,'continue_box');await expect(canvas).toHaveAttribute('data-progress','1.000');
 });
 
 test('main regression: all boxes, decline and recall, three wrong answers and original ending',async({page})=>{

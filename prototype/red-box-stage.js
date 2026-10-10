@@ -10,9 +10,10 @@ const readings = [ '', '雪の下に、何かある。', 'サンタ、イタチ\
 export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
   const element = document.createElement('section');
   element.className = 'red-stage';
+  const gripIcon='<span class="red-grip-arrow" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 28V6M6 16l10-10 10 10"/></svg></span><span class="red-grip-dots" aria-hidden="true"></span>';
   element.innerHTML = `<header class="red-header"><button type="button" data-action="boxes" class="red-back">三つの箱へ</button><h1 id="screen-heading" tabindex="-1">赤い箱</h1><details class="red-settings"><summary>音の設定</summary><div class="red-settings-content"></div></details></header>
-    <div class="red-content"><div class="red-play"><div class="red-picture"><canvas class="red-canvas" role="img" aria-label="大きく見た赤い箱"></canvas><div class="red-snowfall" aria-hidden="true"></div><div class="red-lock-panel" aria-label="赤い箱の錠"><div class="red-lock-mount"><span class="red-lock-screw left" aria-hidden="true"></span><span class="red-lock-screw right" aria-hidden="true"></span></div><button type="button" class="secondary" data-action="red_try">ためす</button></div><p class="red-loading" role="status">絵を読み込んでいます。</p><p class="red-wait" role="status" hidden></p><p class="red-fallback" hidden>赤い箱の絵を読み込めませんでした。手がかりとダイヤルで続けられます。</p></div>
-    <div class="red-actions"><p class="red-discovery" role="status"></p><button type="button" class="primary red-examine" data-action="examine">調べる</button><p class="red-result" role="status"></p><p class="red-lid-hint" hidden>ふたを上へ引いてあける</p><button type="button" class="secondary" data-action="open_red_lid" hidden>ふたをあける</button><div class="red-papers" hidden><span>す</span><span>だ</span></div><button type="button" class="primary" data-action="continue_box" hidden>ほかの箱を調べる</button><button type="button" class="red-close" data-action="close_red_lid" hidden>ふたをとじる</button></div></div>
+    <div class="red-content"><div class="red-play"><div class="red-picture"><canvas class="red-canvas" role="img" aria-label="大きく見た赤い箱"></canvas><div class="red-snowfall" aria-hidden="true"></div><div class="red-lock-panel" aria-label="赤い箱の錠"><div class="red-lock-mount"><span class="red-lock-screw left" aria-hidden="true"></span><span class="red-lock-screw right" aria-hidden="true"></span></div><button type="button" class="primary" data-action="red_try">ためす</button></div><button type="button" class="red-lid-grip" data-action="open_red_lid" aria-label="ふたをあける" hidden>${gripIcon}</button><button type="button" class="red-lid-grip red-grip-close" data-action="close_red_lid" aria-label="ふたをとじる" hidden>${gripIcon}</button><p class="red-loading" role="status">絵を読み込んでいます。</p><p class="red-wait" role="status" hidden></p><p class="red-fallback" hidden>赤い箱の絵を読み込めませんでした。手がかりとダイヤルで続けられます。</p></div>
+    <div class="red-actions"><p class="red-discovery" role="status"></p><button type="button" class="primary red-examine" data-action="examine">調べる</button><p class="red-result" role="status"></p><div class="red-papers" hidden><span>す</span><span>だ</span></div><button type="button" class="primary" data-action="continue_box" hidden>ほかの箱を調べる</button></div></div>
     <section class="red-dialogue" aria-labelledby="red-dialogue-title"><header><h2 id="red-dialogue-title">お話</h2><span class="red-voice" role="status" hidden><span class="red-voice-icon" aria-hidden="true"><svg viewBox="0 0 24 32"><path d="M2 12h5l8-8v24l-8-8H2z" fill="currentColor"/><path d="M19 10q7 6 0 12" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="red-voice-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span><span>声を再生中</span></span><button type="button" data-action="mute" class="red-dialogue-mute"></button></header><div id="transcript" class="red-dialogue-scroll" role="region" aria-label="現在の台詞、スクロールして読む" tabindex="0"></div></section></div>
     <footer class="red-footer"><span id="save-status"></span><button type="button" data-action="reset">やり直す</button></footer>`;
   const find = selector => element.querySelector(selector);
@@ -24,7 +25,8 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
   let revealFrom = null, revealFraction = 0, revealStarted = 0, revealDuration = 0;
   let camera = 0, cameraStarted = 0, lastDialogue;
   const flakes = new Map();let lastSnowfall=-Infinity;
-  let drag = null;
+  let drag = null, gripDistance = 105, suppressClick = null;
+  const grips=Array.from(element.querySelectorAll('.red-lid-grip'));
   const paint = () => {
     if (!view) return;
     const play=find('.red-play'),compact=!art || (play.clientWidth<600 && play.clientHeight<450);
@@ -36,6 +38,7 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
     if(placement?.lock){const {x,y,w}=placement.lock;Object.assign(find('.red-lock-panel').style,{left:x+'px',top:y+'px',width:'280px',transform:`scale(${w/280})`});}
     if(placement?.clue && !compact){const c=placement.clue;Object.assign(examine.style,{left:(c.x+c.w/2-130)+'px',top:(c.y+c.h+12)+'px'});}
     if(placement?.clue){const c=placement.clue;Object.assign(find('.red-fallback').style,{left:c.x+'px',top:c.y+'px',width:c.w+'px'});}
+    if(placement?.grip){const {x,y,distance}=placement.grip;gripDistance=distance;for(const grip of grips)Object.assign(grip.style,{left:x+'px',top:y+'px'});}
     element.dataset.revealing=String(revealFrom!==null);
     element.dataset.revealFraction=revealFraction.toFixed(3);
     // Diagnostics report committed state, not an alternate game model.
@@ -87,26 +90,41 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
   }
   const observer = new ResizeObserver(paint); observer.observe(canvas);
   // PR #1's lid gesture: movement maps directly to the same painted hinge.
-  canvas.addEventListener('pointerdown',event=>{
+  function startDrag(event){
     if (!view?.boxes.red.opened || gate.blocked(performance.now()) || event.button!==0 || drag) return;
-    const bounds=canvas.getBoundingClientRect(),distance=art?.lidTarget(event.clientX-bounds.left,event.clientY-bounds.top,progress);
+    const source=event.currentTarget,bounds=canvas.getBoundingClientRect();
+    const distance=source===canvas?art?.lidTarget(event.clientX-bounds.left,event.clientY-bounds.top,progress):gripDistance;
+    // Without artwork, the same grip remains a tap/keyboard alternative.
+    if(source!==canvas&&!art)return;
     if(!distance)return;
     cancelAnimationFrame(frame);frame=0;
-    drag={id:event.pointerId,y:event.clientY,start:progress,distance};canvas.setPointerCapture(event.pointerId);
-  });
-  canvas.addEventListener('pointermove',event=>{
+    suppressClick=null;
+    drag={id:event.pointerId,y:event.clientY,start:progress,distance,source,moved:false};source.setPointerCapture(event.pointerId);
+    element.classList.add('red-dragging');
+  }
+  function moveDrag(event){
     if(!drag||drag.id!==event.pointerId)return;
+    drag.moved ||= Math.abs(drag.y-event.clientY)>5;
     progress=Math.min(1,Math.max(0,drag.start+(drag.y-event.clientY)/drag.distance));paint();
-  });
+  }
   function release(event){
     if(!drag||drag.id!==event.pointerId)return;
     const previous=drag;drag=null;
-    if(canvas.hasPointerCapture(event.pointerId))canvas.releasePointerCapture(event.pointerId);
-    if(event.type==='pointercancel'){progress=previous.start;paint();return;}
+    element.classList.remove('red-dragging');
+    if(previous.source.hasPointerCapture(event.pointerId))previous.source.releasePointerCapture(event.pointerId);
+    if(event.type==='pointercancel'&&previous.source!==canvas)suppressClick=previous.source;
+    if(event.type==='pointercancel'||(previous.source!==canvas&&!previous.moved)){progress=previous.start;paint();return;}
+    if(previous.source!==canvas)suppressClick=previous.source;
     onLid(progress);
   }
-  canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);
-  canvas.addEventListener('lostpointercapture',event=>{if(drag?.id===event.pointerId){progress=drag.start;drag=null;paint();}});
+  for(const surface of [canvas,...grips]){
+    surface.addEventListener('pointerdown',startDrag);surface.addEventListener('pointermove',moveDrag);
+    surface.addEventListener('pointerup',release);surface.addEventListener('pointercancel',release);
+    surface.addEventListener('lostpointercapture',event=>{if(drag?.id===event.pointerId){progress=drag.start;drag=null;element.classList.remove('red-dragging');paint();}});
+  }
+  for(const grip of grips)grip.addEventListener('click',event=>{
+    if(suppressClick===grip&&event.detail>0){suppressClick=null;event.preventDefault();event.stopPropagation();}
+  });
   loadRedArt().then(assets => {
     if (disposed) return;
     art = createRedArt(canvas, assets); find('.red-loading').hidden = true; paint();
@@ -135,7 +153,7 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
       if(first)camera=b.opened?1:0;
       else if(b.opened&&!wasUnlocked){cameraStarted=performance.now();camera=reducedMotion.matches?1:0;gate.hold(cameraStarted,reducedMotion.matches?0:650);motion(destination);}
       canvas.classList.toggle('red-lid-ready',b.opened);
-      canvas.setAttribute('aria-label', `大きく見た赤い箱。${readings[b.exam]}${open ? 'ふたの中に「す」と「だ」の紙。' : b.opened ? 'ふたを上へ引いて開ける。ボタンでも開けられます。' : ''}`);
+      canvas.setAttribute('aria-label', `大きく見た赤い箱。${readings[b.exam]}${open ? 'ふたの中に「す」と「だ」の紙。' : b.opened ? 'カギが開いた。' : ''}`);
       // Each committed examination corresponds to precisely one snow stage.
       if (lastExam !== undefined && lastExam !== b.exam) {
         revealFrom=lastExam-1;revealStarted=performance.now();revealDuration=[1700,1900,1150][revealFrom];revealFraction=0;
@@ -149,9 +167,7 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
       find('[data-action="examine"]').hidden = b.opened || b.exam >= 4;
       find('[data-action="examine"]').textContent = ['','','絵を調べる','絵の下を調べる'][b.exam] || '調べる';
       find('[data-action="red_try"]').hidden = b.opened;
-      find('[data-action="red_try"]').className = b.exam >= 4 ? 'primary' : 'secondary';
       find('.red-result').textContent = view.boxMessage === 'wrong' ? 'まだ開かない。もう一度ためそう。' : b.opened ? 'カギが開いた' : '';
-      find('.red-lid-hint').hidden = !b.opened || open;
       find('[data-action="open_red_lid"]').hidden = !b.opened || open;
       find('.red-papers').hidden = !open;
       find('[data-action="continue_box"]').hidden = !open;

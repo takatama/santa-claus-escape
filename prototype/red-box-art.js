@@ -245,7 +245,11 @@ function lid(state) {
     groundShadow(box);
     ctx.drawImage(assets.body,box.x,box.y,box.w,box.h);papers(state);frontClue();bodySnow();lid(state);
     Object.assign(canvas.dataset,{exam:String(exam),progress:progress.toFixed(3),camera:amount.toFixed(3),box:JSON.stringify(box),clue:JSON.stringify(clue),lock:JSON.stringify(lock),lid:JSON.stringify(unlocked?lidQuad(state.opening,hinge).points:null),closeup:String(closeup),ready:'true'});
-    return {lock,clue};
+    const q=lidQuad(state.opening,hinge);
+    // Keep the grip inside the lid face, clear of the four-digit lock below.
+    // Near edge-on the inset shrinks continuously instead of jumping faces.
+    const gripY=q.edgeY-Math.max(-38,Math.min(38,q.edgeY-hinge.hingeY));
+    return {lock,clue,grip:{x:hinge.cx,y:Math.max(38,Math.min(height-38,gripY)),distance:Math.max(105,box.w*.47)}};
   }
   return {paint, sweepPosition(stage,fraction) {
     if(!layout)return null;
