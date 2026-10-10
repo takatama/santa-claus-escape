@@ -35,6 +35,8 @@ npm start
 
 ## 設計と確認記録
 
+- [PR A：赤い箱の統合方式と検証](docs/PR-A-RED-BOX.md)：赤い箱はPR #1の絵・操作をmainの音声・進行・保存へ接続。数字はダイヤルだけで編集し、雪はボタンで一段階ずつ調べます。青黄以降は基準実装です。
+
 - [日本語全編の実装・原作との差分](prototype/FULL-GAME-NOTES.md) / [全編の確認記録](prototype/FULL-GAME-QA.md)。
 - [Cloudflare Pagesの公開手順](docs/CLOUDFLARE-PAGES.md)：静的ファイルのみを `dist/` に出力。
 - [全編の設計](design/FULL-GAME-DESIGN.md)：三箱の自由順、合言葉、魔法使いとの遊び、救出、絵と操作、音と保存。
