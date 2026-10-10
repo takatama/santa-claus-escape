@@ -20,10 +20,31 @@ export function redTimeline(key, resolve) {
   return key === 'red-unlocked' ? full.slice(0, split) : full.slice(split);
 }
 
-// No timers in the game state. Stop/mute/failure releases narration immediately.
+// Motion rejects duplicate actions; narration never locks the player's hands.
 export class RedActionGate {
   constructor() { this.until = 0; this.speaking = false; }
   setStatus(status) { this.speaking = status === '読み上げ中'; }
   hold(now, duration = 650) { this.until = now + duration; }
-  blocked(now) { return this.speaking || now < this.until; }
+  blocked(now) { return now < this.until; }
+}
+
+// Red-box actions take effect immediately while the original voices play in order.
+// This queue is session-only; saves continue to contain just the original game state.
+export class RedNarrationQueue {
+  constructor(play, changed = () => {}) { this.play = play; this.changed = changed; this.current = null; this.pending = []; }
+  enqueue(scene) {
+    if (this.current) {
+      const last = this.pending.at(-1) || this.current;
+      if (last.key === scene.key && JSON.stringify(last.segments) === JSON.stringify(scene.segments)) return;
+      this.pending.push(scene); this.changed(); return;
+    }
+    this.current = scene; this.changed(); this.play(scene);
+  }
+  finish() {
+    this.current = null;
+    const next = this.pending.shift();
+    if (next) this.enqueue(next); else this.changed();
+  }
+  clear() { this.current = null; this.pending = []; this.changed(); }
+  scenes() { return [this.current, ...this.pending].filter(Boolean); }
 }

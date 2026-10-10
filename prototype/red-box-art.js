@@ -215,28 +215,17 @@ function lid(state) {
   const q = lidQuad(state.opening, layout.hinge);
   if (!q.edgeOn) mesh(ctx, assets.lid, (u, v) => quadPoint(q, u, v), 12, 7);
   if (!q.edgeOn && q.face === 'top') mesh(ctx, lidSnow, (u, v) => quadPoint(q, u, v), 12, 7);
-  ctx.save(); ctx.lineWidth = Math.max(1.5, layout.box.w * .010); ctx.strokeStyle = '#d5a347'; ctx.lineJoin = 'round';
-  ctx.beginPath(); q.points.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)); ctx.closePath(); ctx.stroke();
-  // The visible hinge seam stays on the rim even when the projected face becomes edge-on.
-  ctx.lineWidth = Math.max(1.2, layout.box.w * .007); ctx.strokeStyle = '#ffe7a5';
-  ctx.beginPath(); ctx.moveTo(q.points[0].x, q.points[0].y); ctx.lineTo(q.points[1].x, q.points[1].y); ctx.stroke(); ctx.restore();
   return q;
 }
 
-function openPlate() {
-  const {x,y,w,h}=layout.lock;
-  ctx.fillStyle='#b18b42';ctx.strokeStyle='#f6d794';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(x,y,w,h,7);ctx.fill();ctx.stroke();
-  ctx.fillStyle='#503719';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=Math.max(18,h*.65)+'px serif';ctx.fillText('✓',x+w/2,y+h/2);
-}
-
-  function paint({exam, progress, unlocked, camera = unlocked?1:0, snowStage = Math.max(0,exam-1), snowFraction = 0}) {
+  function paint({exam, progress, unlocked, compact = false, camera = unlocked?1:0, snowStage = Math.max(0,exam-1), snowFraction = 0}) {
     width=canvas.clientWidth;height=canvas.clientHeight;if(!width||!height)return;
     const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
     // A fixed inspection camera reveals more ornament on wider windows. The
     // original image, clue and snow keep their aspect ratios; only the crop changes.
     const closeup=!unlocked, horizontal=width>=600&&height<344;
     const sceneW=1000/.93,sceneH=sceneW*assets.body.height/assets.body.width;
-    const seam=(height-(horizontal?208:333))/2;
+    const seam=(height-(horizontal?241:compact?349:405))/2;
     const closeBox={x:(width-sceneW)/2,y:seam-sceneH*.382,w:sceneW,h:sceneH};
     // Pull back once after unlocking so the entire lid sweep and papers fit.
     const wide=Math.min(width*.96,height/1.18,560),tall=wide*assets.body.height/assets.body.width;
@@ -246,7 +235,7 @@ function openPlate() {
     const scale=box.w/sceneW;
     const at=(x,y,w,h)=>({x:box.x+x*scale,y:box.y+y*scale,w:w*scale,h:h*scale});
     const lock=at(sceneW/2+(horizontal?16:-140),sceneH*.382+8,280,144);
-    const clue=at(sceneW/2+(horizontal?-296:-150),sceneH*.382+(horizontal?44:208),300,300*258/620);
+    const clue=at(sceneW/2+(horizontal?-296:-150),sceneH*.382+(horizontal?44:224),300,300*258/620);
     const hinge={cx:box.x+box.w*.5,hingeY:box.y+box.h*.030,backWidth:box.w*.760,frontWidth:box.w*.988,closedDepth:box.h*.340,liftDepth:box.w*.400};
     layout={closeup,box,hinge,lock,clue};
     reveal.render(snow,{baseMask,stage:snowStage,fraction:snowFraction,inkRatio:snowInkRatio});
@@ -254,8 +243,8 @@ function openPlate() {
     const backdrop=ctx.createRadialGradient(width/2,height*.3,20,width/2,height*.3,width*.8);
     backdrop.addColorStop(0,'#314357');backdrop.addColorStop(1,'#122233');ctx.fillStyle=backdrop;ctx.fillRect(0,0,width,height);
     groundShadow(box);
-    ctx.drawImage(assets.body,box.x,box.y,box.w,box.h);papers(state);frontClue();bodySnow();if(unlocked)openPlate();lid(state);
-    Object.assign(canvas.dataset,{exam:String(exam),progress:progress.toFixed(3),camera:amount.toFixed(3),box:JSON.stringify(box),clue:JSON.stringify(clue),lock:JSON.stringify(closeup?lock:null),lid:JSON.stringify(unlocked?lidQuad(state.opening,hinge).points:null),closeup:String(closeup),ready:'true'});
+    ctx.drawImage(assets.body,box.x,box.y,box.w,box.h);papers(state);frontClue();bodySnow();lid(state);
+    Object.assign(canvas.dataset,{exam:String(exam),progress:progress.toFixed(3),camera:amount.toFixed(3),box:JSON.stringify(box),clue:JSON.stringify(clue),lock:JSON.stringify(lock),lid:JSON.stringify(unlocked?lidQuad(state.opening,hinge).points:null),closeup:String(closeup),ready:'true'});
     return {lock,clue};
   }
   return {paint, sweepPosition(stage,fraction) {

@@ -12,8 +12,8 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
   element.className = 'red-stage';
   element.innerHTML = `<header class="red-header"><button type="button" data-action="boxes" class="red-back">三つの箱へ</button><h1 id="screen-heading" tabindex="-1">赤い箱</h1><details class="red-settings"><summary>音の設定</summary><div class="red-settings-content"></div></details></header>
     <div class="red-content"><div class="red-play"><div class="red-picture"><canvas class="red-canvas" role="img" aria-label="大きく見た赤い箱"></canvas><div class="red-snowfall" aria-hidden="true"></div><div class="red-lock-panel" aria-label="赤い箱の錠"><div class="red-lock-mount"><span class="red-lock-screw left" aria-hidden="true"></span><span class="red-lock-screw right" aria-hidden="true"></span></div><button type="button" class="secondary" data-action="red_try">ためす</button></div><p class="red-loading" role="status">絵を読み込んでいます。</p><p class="red-wait" role="status" hidden></p><p class="red-fallback" hidden>赤い箱の絵を読み込めませんでした。手がかりとダイヤルで続けられます。</p></div>
-    <div class="red-actions"><p class="red-discovery" role="status"></p><button type="button" class="primary" data-action="examine">調べる</button><p class="red-result" role="status"></p><button type="button" class="primary" data-action="open_red_lid" hidden>ふたをあける</button><div class="red-papers" hidden><span>す</span><span>だ</span></div><button type="button" class="primary" data-action="continue_box" hidden>ほかの箱を調べる</button><button type="button" class="red-close" data-action="close_red_lid" hidden>ふたをとじる</button></div></div>
-    <section class="red-dialogue" aria-labelledby="red-dialogue-title"><header><h2 id="red-dialogue-title">お話</h2><button type="button" data-action="mute" class="red-dialogue-mute"></button></header><div id="transcript" class="red-dialogue-scroll" role="region" aria-label="現在の台詞、スクロールして読む" tabindex="0"></div></section></div>
+    <div class="red-actions"><p class="red-discovery" role="status"></p><button type="button" class="primary red-examine" data-action="examine">調べる</button><p class="red-result" role="status"></p><p class="red-lid-hint" hidden>ふたを上へ引いてあける</p><button type="button" class="secondary" data-action="open_red_lid" hidden>ふたをあける</button><div class="red-papers" hidden><span>す</span><span>だ</span></div><button type="button" class="primary" data-action="continue_box" hidden>ほかの箱を調べる</button><button type="button" class="red-close" data-action="close_red_lid" hidden>ふたをとじる</button></div></div>
+    <section class="red-dialogue" aria-labelledby="red-dialogue-title"><header><h2 id="red-dialogue-title">お話</h2><span class="red-voice" role="status" hidden><span class="red-voice-icon" aria-hidden="true"><svg viewBox="0 0 24 32"><path d="M2 12h5l8-8v24l-8-8H2z" fill="currentColor"/><path d="M19 10q7 6 0 12" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="red-voice-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span><span>声を再生中</span></span><button type="button" data-action="mute" class="red-dialogue-mute"></button></header><div id="transcript" class="red-dialogue-scroll" role="region" aria-label="現在の台詞、スクロールして読む" tabindex="0"></div></section></div>
     <footer class="red-footer"><span id="save-status"></span><button type="button" data-action="reset">やり直す</button></footer>`;
   const find = selector => element.querySelector(selector);
   const canvas = find('canvas'), gate = new RedActionGate();
@@ -27,9 +27,14 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
   let drag = null;
   const paint = () => {
     if (!view) return;
-    const placement=art?.paint({ exam: view.boxes.red.exam, progress, unlocked: view.boxes.red.opened, camera,
+    const play=find('.red-play'),compact=!art || (play.clientWidth<600 && play.clientHeight<450);
+    element.classList.toggle('red-compact-controls',compact);
+    const examine=find('[data-action="examine"]'),host=find(compact?'.red-actions':'.red-picture');
+    if(examine.parentElement!==host)host.append(examine);
+    const placement=art?.paint({ exam: view.boxes.red.exam, progress, unlocked: view.boxes.red.opened, compact, camera,
       ...(revealFrom === null ? {} : {snowStage:revealFrom, snowFraction:revealFraction}) });
-    if(placement?.lock){const {x,y,w}=placement.lock;Object.assign(find('.red-lock-panel').style,{left:x+'px',top:y+'px',width:w+'px'});}
+    if(placement?.lock){const {x,y,w}=placement.lock;Object.assign(find('.red-lock-panel').style,{left:x+'px',top:y+'px',width:'280px',transform:`scale(${w/280})`});}
+    if(placement?.clue && !compact){const c=placement.clue;Object.assign(examine.style,{left:(c.x+c.w/2-130)+'px',top:(c.y+c.h+12)+'px'});}
     if(placement?.clue){const c=placement.clue;Object.assign(find('.red-fallback').style,{left:c.x+'px',top:c.y+'px',width:c.w+'px'});}
     element.dataset.revealing=String(revealFrom!==null);
     element.dataset.revealFraction=revealFraction.toFixed(3);
@@ -43,8 +48,9 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
     for (const name of ['examine','red_try','open_red_lid','close_red_lid','continue_box']) find(`[data-action="${name}"]`).disabled = busy;
     find('[data-action="examine"]').disabled ||= view?.boxes.red.exam >= 4;
     element.dataset.busy = String(busy);
-    const wait=find('.red-wait'),message=gate.speaking?'お話を聞いています':'すこし待ってね';
-    wait.hidden=!busy;if(wait.textContent!==message)wait.textContent=message;
+    const wait=find('.red-wait');wait.hidden=!busy || revealFrom===null;if(wait.textContent!=='雪を払っています')wait.textContent='雪を払っています';
+    find('.red-voice').hidden=!gate.speaking;
+    find('#red-dialogue-title').hidden=gate.speaking;
   }
   function tick(now) {
     const fraction = reducedMotion.matches ? 1 : Math.min(1, (now - started) / 650);
@@ -116,7 +122,6 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
     blocked: () => gate.blocked(performance.now()),
     setStatus(status) {
       gate.setStatus(status);
-      if(gate.speaking && drag){progress=drag.start;const id=drag.id;drag=null;if(canvas.hasPointerCapture(id))canvas.releasePointerCapture(id);paint();}
       syncBusy();
     },
     hold() { gate.hold(performance.now()); motion(target); syncBusy(); },
@@ -143,9 +148,10 @@ export function createRedBoxStage({ setCode, onDial, getCode, onLid }) {
       find('.red-discovery').textContent = b.opened ? open ? '二枚の紙が見つかった。' : 'カギが開いた！' : b.exam === 4 ? '手がかりが、そろった。' : '雪の下を調べよう。';
       find('[data-action="examine"]').hidden = b.opened || b.exam >= 4;
       find('[data-action="examine"]').textContent = ['','','絵を調べる','絵の下を調べる'][b.exam] || '調べる';
-      find('.red-lock-panel').hidden = b.opened;
+      find('[data-action="red_try"]').hidden = b.opened;
       find('[data-action="red_try"]').className = b.exam >= 4 ? 'primary' : 'secondary';
-      find('.red-result').textContent = view.boxMessage === 'wrong' ? 'まだ開かない。もう一度ためそう。' : b.opened ? '✓ カギが開いた' : '';
+      find('.red-result').textContent = view.boxMessage === 'wrong' ? 'まだ開かない。もう一度ためそう。' : b.opened ? 'カギが開いた' : '';
+      find('.red-lid-hint').hidden = !b.opened || open;
       find('[data-action="open_red_lid"]').hidden = !b.opened || open;
       find('.red-papers').hidden = !open;
       find('[data-action="continue_box"]').hidden = !open;

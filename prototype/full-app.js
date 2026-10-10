@@ -7,7 +7,7 @@ import { resolveAudioTimeline } from './timed-audio.js';
 import { Soundtrack } from './soundtrack.js';
 import { santaScene, winterScene, gift, tanuki, witchScene, rescueScene, mountain } from './illustrations.js';
 import { createRedBoxStage } from './red-box-stage.js';
-import { redSceneFor, redTimeline } from './red-box-presentation.js';
+import { redSceneFor, redTimeline, RedNarrationQueue } from './red-box-presentation.js';
 import { loadRedArt } from './red-box-art.js';
 
 const app = document.querySelector('#app');
@@ -15,9 +15,10 @@ let storage; try { storage = window.localStorage; } catch {}
 const loaded = readSave(storage);
 let state = loaded.state || initialState(), resumePending = state.phase !== 'welcome', storageAvailable = loaded.available;
 let readingIndex = null, feedback = '', inputError = false, lastAction = -Infinity;
-let redStage = null;
+let redStage = null, redNarration;
 let audioStatus = state.muted ? '音声オフ・文字で遊べます' : '開始ボタンで読み上げます';
 const track = new Soundtrack(src=>{const audio=new Audio(src);audio.preload='metadata';document.querySelector('#music-host').replaceChildren(audio);return audio;});
+const voiceTimeline = new AudioTimeline();
 const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const speakerName = { santa: 'サンタ', narrator: '端末からの声', witch: 'まほう使い' };
 const button = (action, label, style = 'primary', attrs = '') => `<button type="button" class="${style}" data-action="${action}" data-revision="${state.revision}" ${attrs}>${label}</button>`;
@@ -30,21 +31,34 @@ const player = new SpeechPlayer(
     const element = document.querySelector('#audio-status'); if (element) element.textContent = status;
     document.querySelector('.santa-device')?.classList.toggle('speaking', status === '読み上げ中');
     if (status !== '読み上げ中') track.quiet();
+    if (status === '読み上げが終わりました') redNarration?.finish();
+    else if (/未対応|再生できません/.test(status)) redNarration?.finish();
   },
-  { clips: FULL_AUDIO_CLIPS, resolveClip: resolveAudioClip, resolveTimeline:key=>redTimeline(key,resolveAudioTimeline), sequencePlayer:new AudioTimeline(), makeAudio: src => { const audio = new Audio(src); audio.preload = 'auto'; document.querySelector('#audio-host').replaceChildren(audio); return audio; } },
+  { clips: FULL_AUDIO_CLIPS, resolveClip: resolveAudioClip, resolveTimeline:key=>redTimeline(key,resolveAudioTimeline), sequencePlayer:voiceTimeline, makeAudio: src => { const audio = new Audio(src); audio.preload = 'auto'; document.querySelector('#audio-host').replaceChildren(audio); return audio; } },
 );
+redNarration = new RedNarrationQueue(playScene, () => { if (redStage) render(); });
 player.setMuted(state.muted);player.setEffectsEnabled(state.sfxEnabled); track.configure(state);
 audioStatus = state.muted ? '音声オフ・文字で遊べます' : resumePending ? '再開ボタンで読み上げます' : '開始ボタンで読み上げます';
 function save() { storageAvailable = writeSave(storage, state); const label = document.querySelector('#save-status'); if (label) label.textContent = storageAvailable ? 'しおりは、この端末に自動保存' : '保存できません・このまま遊べます'; }
 const currentState = () => readingIndex === null ? state : readingState(state, readingIndex);
-function stop() { player.stop(); track.stop(); }
+function stop() { redNarration.clear(); player.stop(); track.stop(); }
+function playScene(scene) {
+  if (redStage && !state.muted) voiceTimeline.prepare();
+  track.configure(state); track.begin(scene.bgm); player.setEffectsEnabled(state.sfxEnabled); player.play(spokenSegments(scene), scene.key);
+}
 function speak() {
   if (resumePending) return;
-  const scene = redStage ? redSceneFor(currentState()) : sceneFor(currentState());track.configure(state);track.begin(scene.bgm);player.setEffectsEnabled(state.sfxEnabled);
-  player.play(spokenSegments(scene), scene.key);
+  redNarration.clear();
+  const scene = redStage ? redSceneFor(currentState()) : sceneFor(currentState());
+  if (redStage && !state.muted) redNarration.enqueue(scene); else playScene(scene);
 }
 function transcriptContent(scene) {
   return scene.segments.map(s => `<div class="speech-block ${s.speaker}"><span class="speaker">${speakerName[s.speaker]}</span><p>${esc(s.text).replaceAll('\n', '<br>')}</p></div>`).join('');
+}
+function redDialogue(view) {
+  const scenes = redNarration.scenes();
+  if (scenes.length < 2) return transcriptContent(scenes[0] || redSceneFor(view));
+  return `<p class="red-caption-label">再生中</p>${transcriptContent(scenes[0])}<p class="red-caption-label">このあと</p>${scenes.slice(1).map(transcriptContent).join('')}`;
 }
 function transcript(scene) {
   return `<section class="transcript-section" aria-label="現在の台詞"><div id="transcript" ${state.transcriptOpen ? '' : 'hidden'}>${transcriptContent(scene)}</div>${button('transcript', state.transcriptOpen ? '− 台詞を閉じる' : '＋ 台詞を文字で読む', 'transcript-toggle', `aria-expanded="${state.transcriptOpen}" aria-controls="transcript"`)}</section>`;
@@ -95,7 +109,7 @@ function render(focus = false, scroll = false) {
       });
       app.replaceChildren(redStage.element);
     }
-    redStage.update(state, {settings:toolbar(true,false)+soundSettings(), dialogue:transcriptContent(redSceneFor(state)), status:audioStatus, saved:storageAvailable});
+    redStage.update(state, {settings:toolbar(true,false)+soundSettings(), dialogue:redDialogue(state), status:audioStatus, saved:storageAvailable});
     document.querySelector('#bgm-volume').addEventListener('input',e=>{state=transition(state,{type:'BGM_VOLUME',value:Number(e.target.value)});track.setVolume(state.bgmVolume);save();document.querySelector('#bgm-volume-value').textContent=`${state.bgmVolume}%`;e.target.setAttribute('aria-valuetext',`${state.bgmVolume}%`);});
     if (focus) document.querySelector('#screen-heading').focus({preventScroll:true});
     return;
@@ -141,8 +155,13 @@ function render(focus = false, scroll = false) {
 function apply(event) {
   const wasRedLidOpen = state.boxes.red.lidOpen;
   const next = transition(state, event); if (next === state) return;
-  state = next; feedback = ''; inputError = false; save(); stop(); render(true, true);
-  if(!['FINISH','CLOSE_RED_LID'].includes(event.type) && (event.type !== 'RED_LID' || (!wasRedLidOpen && state.boxes.red.lidOpen)))speak();
+  const sequenceRed = redStage && ['EXAMINE','ANSWER','OPEN_RED_LID','CLOSE_RED_LID','RED_LID'].includes(event.type);
+  state = next; feedback = ''; inputError = false; save();
+  const narrate = !['FINISH','CLOSE_RED_LID'].includes(event.type) && (event.type !== 'RED_LID' || (!wasRedLidOpen && state.boxes.red.lidOpen));
+  if (sequenceRed) {
+    if (narrate && !state.muted) redNarration.enqueue(redSceneFor(state));
+    render(true, true);
+  } else { stop(); render(true, true); if (narrate) speak(); }
 }
 function fail(text) {
   feedback = text; inputError = true;
@@ -178,7 +197,7 @@ app.addEventListener('click', event => {
   }
   if (['mute', 'bgm', 'sfx', 'transcript'].includes(action)) {
     state = transition(state, { type: action.toUpperCase() }); save();
-    if (action === 'mute') { player.setMuted(state.muted); track.configure(state); }
+    if (action === 'mute') { redNarration.clear(); player.setMuted(state.muted); track.configure(state); }
     if (['bgm', 'sfx'].includes(action)) track.configure(state);
     if(action==='bgm'&&state.bgmEnabled&&!state.muted&&audioStatus==='読み上げ中')track.begin(sceneFor(currentState()).bgm);
     if(action==='sfx')player.setEffectsEnabled(state.sfxEnabled);

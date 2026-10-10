@@ -18,6 +18,8 @@ export function compileTimeline(context,entries){
 }
 export class AudioTimeline extends AudioSequence {
   constructor(options={}){super(options);this.effectSource=null;this.effectGain=null;this.effectsEnabled=true;}
+  // Prime the shared context on the player's gesture before a queued cue starts.
+  prepare(){try{this.context ||= this.makeContext();this.context?.resume()?.catch(()=>{});}catch{/* Normal playback still supplies the existing fallback. */}}
   setEffectsEnabled(enabled){this.effectsEnabled=enabled;if(this.effectGain)this.effectGain.gain.value=enabled?1:0;}
   stop(){super.stop();if(this.effectSource){try{this.effectSource.stop();}catch{}this.effectSource.disconnect();this.effectSource=null;}this.effectGain?.disconnect();this.effectGain=null;}
   playTimeline(steps,onEnd,onFailure){

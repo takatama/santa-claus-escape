@@ -92,12 +92,18 @@ test('viewport controls remain visible on small phone, landscape, tablet and PC'
     expect(mount.y).toBeGreaterThan(bounds.y+body.y);expect(tryButton.y).toBeGreaterThanOrEqual(mount.y+mount.height);
     const overlaps=tryButton.x<bounds.x+clue.x+clue.w&&tryButton.x+tryButton.width>bounds.x+clue.x&&tryButton.y<bounds.y+clue.y+clue.h&&tryButton.y+tryButton.height>bounds.y+clue.y;
     expect(overlaps,`${width}×${height}: mounted lock must not cover a clue`).toBe(false);
+    if(tryButton.x<bounds.x+clue.x+clue.w && tryButton.x+tryButton.width>bounds.x+clue.x)expect(bounds.y+clue.y-tryButton.y-tryButton.height).toBeGreaterThanOrEqual(12);
+    if(!await page.locator('.red-stage').evaluate(e=>e.classList.contains('red-compact-controls'))){const examine=await btn(page,'examine').boundingBox();expect(examine.y-bounds.y-clue.y-clue.h).toBeCloseTo(12,1);}
     for(const dial of await page.getByRole('spinbutton').all()){const b=await dial.boundingBox();expect(b.width).toBeGreaterThanOrEqual(44);expect(b.height).toBeGreaterThanOrEqual(44);}
     await shot(page,`viewport-${width}x${height}`);
   }
   await page.setViewportSize({width:320,height:568});await waitForCanvasSize(page);await btn(page,'red_try').click();await usable(page,'red_try');
   expect((await btn(page,'red_try').boundingBox()).y+(await btn(page,'red_try').boundingBox()).height).toBeLessThanOrEqual(568);
-  await digits(page,'3138');await btn(page,'red_try').click();await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  await digits(page,'3138');await btn(page,'red_try').click();await usable(page,'open_red_lid');
+  await expect(page.locator('canvas')).toHaveAttribute('data-camera','1.000');await waitForCanvasSize(page);
+  const closedSize=JSON.parse(await page.locator('canvas').getAttribute('data-box')).w;
+  await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  expect(JSON.parse(await page.locator('canvas').getAttribute('data-box')).w).toBeCloseTo(closedSize,2);
   for(const [width,height] of [[320,568],[390,844],[844,390],[1280,720]]){
     await page.setViewportSize({width,height});await waitForCanvasSize(page);const canvas=page.locator('canvas');
     const bounds=await canvas.boundingBox(),lid=JSON.parse(await canvas.getAttribute('data-lid'));
@@ -134,19 +140,36 @@ test('permanent dialogue: original stage text, keyboard scrolling, mute and stab
   await shot(page,'short-landscape-dialogue');
 });
 
-test('audio: narration completes despite dialing, ordered success effects and paper voice',async({page})=>{
+test('audio: actions during voice, animated speaker, complete voices and ordered effects',async({page})=>{
   const requested=[];page.on('request',req=>{if(req.url().includes('/assets/audio/'))requested.push(req.url().split('/').pop());});
   await setup(page,{muted:false});await enterRed(page);
-  await expect(btn(page,'examine')).toBeDisabled();
+  await expect(btn(page,'examine')).toBeEnabled();await expect(page.locator('.red-voice')).toBeVisible();
+  const bar=page.locator('.red-voice-bars i').first(),pulse=await bar.evaluate(e=>getComputedStyle(e).transform);
+  await expect.poll(()=>bar.evaluate(e=>getComputedStyle(e).transform)).not.toBe(pulse);
   const clip=page.locator('#audio-host audio');await expect(clip).toHaveAttribute('src',/red1\.wav$/);
   await expect.poll(()=>clip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(0);
-  const before=await clip.evaluate(audio=>audio.currentTime);await digits(page,'3138');
+  const firstClip=await clip.elementHandle(),before=await firstClip.evaluate(audio=>audio.currentTime);await digits(page,'3138');
   await expect.poll(()=>clip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(before);
-  for(let i=0;i<5;i++)await btn(page,'examine').dispatchEvent('click');await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','1');
-  await usable(page,'red_try');await btn(page,'red_try').click();await expect(btn(page,'open_red_lid')).toBeDisabled();
-  await usable(page,'open_red_lid');expect(requested).toContain('unlocking-1.mp3');expect(requested).not.toContain('cue-box-red-paper.wav');
+  await btn(page,'examine').click();for(let i=0;i<5;i++)await btn(page,'examine').dispatchEvent('click');
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
+  expect(await firstClip.evaluate(audio=>audio.ended)).toBe(false);await expect(page.locator('#transcript')).toContainText('このあと');
+  await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');
+  await expect(page.locator('canvas')).toHaveAttribute('data-progress','0.000');
+  await expect(page.locator('.red-lock-mount')).toBeVisible();await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code','3138');
+  await expect(page.getByRole('spinbutton').first()).toBeDisabled();
+  expect(requested).not.toContain('unlocking-1.mp3');expect(requested).not.toContain('cue-box-red-paper.wav');
   await btn(page,'open_red_lid').click();await usable(page,'continue_box');
-  expect(requested).toContain('magic-cure2.mp3');expect(requested).toContain('cue-box-red-paper.wav');
+  await expect(page.locator('canvas')).toHaveAttribute('data-progress','1.000');
+  expect(await firstClip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(before);
+  // Speed up only the recorded voices in this test; assert native ended events, not a forced stop.
+  await firstClip.evaluate(audio=>{audio.playbackRate=4;});
+  await expect(clip).toHaveAttribute('src',/red2\.wav$/,{timeout:20000});expect(await firstClip.evaluate(audio=>audio.ended)).toBe(true);
+  const secondClip=await clip.elementHandle();await secondClip.evaluate(audio=>{audio.playbackRate=4;});
+  await expect.poll(()=>requested.includes('unlocking-1.mp3'),{timeout:20000}).toBe(true);
+  expect(await secondClip.evaluate(audio=>audio.ended)).toBe(true);expect(requested).not.toContain('cue-box-red-paper.wav');
+  await expect.poll(()=>requested.includes('cue-box-red-paper.wav'),{timeout:30000}).toBe(true);
+  expect(requested).toContain('magic-cure2.mp3');expect(requested.indexOf('unlocking-1.mp3')).toBeLessThan(requested.indexOf('magic-cure2.mp3'));
+  await expect(page.locator('.red-voice')).toBeHidden({timeout:30000});
 });
 
 test('saved direct code and images blocked still allow play',async({page})=>{
@@ -170,13 +193,17 @@ test('storage unavailable and audio playback unavailable: mute, subtitles, reset
 });
 
 test('reduced motion, voice stop and BGM slider preserve progress and keyboard access',async({page})=>{
+  const requested=[];page.on('request',req=>{if(req.url().includes('/assets/audio/'))requested.push(req.url().split('/').pop());});
   await page.emulateMedia({reducedMotion:'reduce'});await setup(page,{muted:false});await enterRed(page);
+  await btn(page,'examine').click();await expect(page.locator('#transcript')).toContainText('このあと');
   await page.locator('.red-settings summary').first().click();await btn(page,'stop').click();await expect(page.locator('.red-stage')).toHaveAttribute('data-busy','false');
+  await expect(page.locator('.red-voice')).toBeHidden();expect(requested).not.toContain('red2.wav');
+  expect(await page.locator('#audio-host audio').evaluate(audio=>audio.paused && audio.currentTime===0)).toBe(true);
   await page.locator('#bgm-volume').fill('45');await expect(page.locator('#bgm-volume-value')).toHaveText('45%');
   await page.locator('.red-settings summary').first().click();await btn(page,'mute').click();
-  await btn(page,'examine').click();await usable(page,'examine');await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
+  await btn(page,'examine').click();await usable(page,'examine');await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','3');
   await expect(page.locator('.red-stage')).toHaveAttribute('data-revealing','false');await expect(page.locator('.rb-snowflake')).toHaveCount(0);
-  await page.reload();await btn(page,'resume').click();await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
+  await page.reload();await btn(page,'resume').click();await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','3');
   await page.locator('.red-settings summary').first().click();await expect(page.locator('#bgm-volume')).toHaveValue('45');
 });
 
