@@ -48,6 +48,12 @@ Gemini TTSで制作した台詞のWAVと、その台詞だけを結合した音�
 
 箱本体・ヒンジ・紙・ダイヤル・雪払いの共通部分と、色別の手がかり描画をPR A・PR #1から取り出しました。黄色の一手表示は既存の四枚の絵を拡大する補助です。新しい絵・声・音楽・効果音の生成はありません。原作の台詞・答え・音素材と、その利用条件を引き継ぎます。音声利用条件に関するPR #2の指摘は、本番公開前の確認事項として残ります。
 
+## PR Cで再利用した絵と紙の操作
+
+`prototype/assets/papers/forest-clean.png` と `globe.png` は、PR #1の `aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c` の `illustrated-prototype/assets/` から無加工で再利用。本リポジトリのMIT Licenseを適用します。生成記録は参照コミットの `illustrated-prototype/assets/PROMPTS.json`、出典・バイト数・SHA-256は `docs/pr-c/art-provenance.json` に記録しています。サンタは球の中の既存の絵のままです。新しい枝・発見・救出の操作はありません。
+
+紙の質感、移動・交換、選択・置く先の表示、ドラッグ中断とタップ・キーの代替操作は、同コミットの `illustrated-prototype/letters/` を参照して既存の原作状態へ統合しました。紙IDは `papers(state)`、判定は既存の `SPELL` と表記正規化を使用。PR #1のjourneyの状態・保存・自動遷移は移しません。原作の六文字の説明と召喚の声・効果音を再利用し、新しい音声・音源・イラストは生成しません。事前生成音声の利用条件は、引き続き本番公開前の確認事項です。
+
 ## 同梱しないもの
 
 原作ソース全文、Drive原本・一覧、APIキー・認証情報、取得・解析用ライブラリは非公開。原作の jingle.mp3 は現在の [OpenTracks利用ライセンス](https://opentracks.com/help/articles/license/) の公開形態の条件を確認中で、同梱・代替とも行わない。原作制作時の許諾記録を利用者へ質問中。

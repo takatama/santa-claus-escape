@@ -3,12 +3,13 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { boxCodeFiles, boxArtFiles } from '../scripts/box-files.mjs';
+import { paperCodeFiles, paperArtFiles } from '../scripts/paper-files.mjs';
 
 const pages = process.argv.includes('--pages');
 const root = fileURLToPath(new URL(pages ? '../dist/' : '.', import.meta.url));
 const port = Number(process.env.SANTA_PORT || (pages ? 4174 : 4173));
 const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'game.js', 'scenario.js', 'speech.js', 'illustrations.js', 'audio.js']);
-for(const name of [...boxCodeFiles,...boxArtFiles])publicFiles.add(name);
+for(const name of [...boxCodeFiles,...boxArtFiles,...paperCodeFiles,...paperArtFiles])publicFiles.add(name);
 if(pages)publicFiles.add('404.html');
 for(const name of ['full-app.js','full-game.js','full-scenario.js','full-audio.js','audio-sequence.js','audio-timeline.js','timed-audio.js','soundtrack.js','sound-settings.js'])publicFiles.add(name);
 if(pages){publicFiles.delete('app.js');publicFiles.add('LICENSE');publicFiles.add('NOTICE.txt');}

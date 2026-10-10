@@ -1,4 +1,5 @@
-import { BOXES, COLORS, QUESTIONS } from './full-scenario.js';
+import { BOXES, COLORS, QUESTIONS, papers } from './full-scenario.js';
+import { emptySlots, validSlots, slotsFromDraft, placePaper, removePaper, arrangedWord } from './paper-layout.js';
 import { restoreState as restoreLegacy, STORAGE_KEY as LEGACY_KEY } from './game.js';
 import { DEFAULT_BGM_VOLUME,normalizeBgmVolume } from './sound-settings.js';
 export const STORAGE_KEY = 'santa-claus-escape:ja-full:v2';
@@ -6,7 +7,7 @@ export const normalizeDigits = raw => String(raw).normalize('NFKC').replace(/[\s
 export const normalizeWord = raw => normalizeDigits(raw).replace(/[ァ-ヶ]/gu, c => String.fromCharCode(c.charCodeAt(0) - 0x60)).toLowerCase();
 export function matchesWord(raw, aliases) { return aliases.some(alias => normalizeWord(raw) === normalizeWord(alias)); }
 export function initialState(muted = false) {
-  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '', lidOpen:false }])), spellDraft: '', questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, bgmVolume: DEFAULT_BGM_VOLUME, sfxEnabled: true, transcriptOpen: true, history: [] };
+  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '', lidOpen:false }])), spellDraft: '', spellSlots: emptySlots(), spellReview: false, questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, bgmVolume: DEFAULT_BGM_VOLUME, sfxEnabled: true, transcriptOpen: true, history: [] };
 }
 export function validateDigits(raw, color) {
   const digits = normalizeDigits(raw);
@@ -31,6 +32,11 @@ export function transition(state, event) {
   let next;
   const color = state.selectedBox, saved = state.boxes[color];
   const updateBox = changes => ({ ...state.boxes, [color]: { ...saved, ...changes } });
+  if (['PLACE_PAPER', 'REMOVE_PAPER'].includes(event.type) && state.phase === 'spell') {
+    const items = papers(state), current = state.spellSlots || emptySlots();
+    const slots = event.type === 'PLACE_PAPER' ? placePaper(current, items, event.id, event.index) : removePaper(current, event.id);
+    return slots === current ? state : { ...state, spellSlots: slots, revision: state.revision + 1 };
+  }
   if (event.type === 'DRAFT') {
     const text = String(event.value).slice(0, 64);
     if (state.phase === 'box') return { ...state, boxes: updateBox({ draft: text.slice(0, 32) }) };
@@ -66,9 +72,14 @@ export function transition(state, event) {
     next = { ...state, boxes: updateBox({ lidProgress: event.value, lidOpen: event.value >= .98 }) };
   }
   if (event.type === 'CONTINUE_BOX' && state.phase === 'boxResponse') next = { ...state, phase: COLORS.every(c => state.boxes[c].opened) ? 'spell' : 'boxes', selectedBox: null, boxMessage: '' };
-  if (event.type === 'SPELL' && ['boxes', 'spell'].includes(state.phase) && matchesWord(state.spellDraft, ['だいすきだよ', '大好きだよ'])) next = { ...state, phase: 'witchInvite', selectedBox: null, reinvited: false };
-  if (event.type === 'ACCEPT' && state.phase === 'witchInvite') next = { ...state, phase: 'witchQuestion' };
-  if (event.type === 'DECLINE' && state.phase === 'witchInvite') next = { ...state, phase: 'witchPaused' };
+  if (event.type === 'SPELL' && ['boxes', 'spell'].includes(state.phase)) {
+    if (event.source === 'papers' && state.phase !== 'spell') return state;
+    const word = event.source === 'papers' ? arrangedWord(state.spellSlots, papers(state)) : state.spellDraft;
+    if (matchesWord(word, ['だいすきだよ', '大好きだよ'])) next = { ...state, spellDraft: word, spellReview: event.source === 'papers', phase: 'witchInvite', selectedBox: null, reinvited: false };
+  }
+  if (event.type === 'CONTINUE_SPELL' && state.phase === 'witchInvite' && state.spellReview) next = { ...state, spellReview: false };
+  if (event.type === 'ACCEPT' && state.phase === 'witchInvite' && !state.spellReview) next = { ...state, phase: 'witchQuestion' };
+  if (event.type === 'DECLINE' && state.phase === 'witchInvite' && !state.spellReview) next = { ...state, phase: 'witchPaused' };
   if (event.type === 'CALL_AGAIN' && state.phase === 'witchPaused') next = { ...state, phase: 'witchInvite', reinvited: true };
   if (event.type === 'REPLY' && state.phase === 'witchQuestion') {
     const q = QUESTIONS[state.questionIndex], input = event.value === undefined ? state.questionDraft : String(event.value);
@@ -119,7 +130,12 @@ export function restoreState(raw) {
   const history = Array.isArray(raw.history) ? raw.history : [];
   if (history.length > 64 || history.some(e => !e || !phases.includes(e.phase) || typeof e.id !== 'string' || !Array.isArray(e.opened) || e.opened.some(c => !COLORS.includes(c)) || !Number.isInteger(e.exam) || e.exam < 0 || e.exam > 4 || !Number.isInteger(e.questionIndex) || e.questionIndex < 0 || e.questionIndex > 2 || (['box', 'boxResponse'].includes(e.phase) && !COLORS.includes(e.box)))) return null;
   if (new Set(history.map(e=>e.id)).size!==history.length || history.some(e=>e.id.length>150 || typeof e.message!=='string' || !['','wrong','information'].includes(e.message) || typeof e.digits!=='string' || (e.digits&&!/^\d{4}$/.test(e.digits)) || e.opened.some(c=>!state.boxes[c].opened) || (['box','boxResponse'].includes(e.phase)&&e.exam<1) || (e.phase==='boxResponse'&&(!e.opened.includes(e.box)||e.digits!==BOXES[e.box].answer)) || (e.phase==='witchResponse'&&e.questionIndex>=state.responses.length) || (['rescue','complete'].includes(e.phase)&&state.responses.length!==3))) return null;
-  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
+  const items = papers(state);
+  // Reject the entire optional arrangement, never the otherwise valid save.
+  // Missing fields migrate kana from the reader's own old draft, using owned IDs.
+  const spellSlots = raw.spellSlots === undefined ? slotsFromDraft(normalizeWord(raw.spellDraft || ''), items) : validSlots(raw.spellSlots, items) || emptySlots();
+  const spellReview = raw.spellReview === true && raw.phase === 'witchInvite' && !raw.reinvited && matchesWord(arrangedWord(spellSlots, items), ['だいすきだよ', '大好きだよ']);
+  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), spellSlots, spellReview, questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
 }
 export function readSave(storage) {
   try {
