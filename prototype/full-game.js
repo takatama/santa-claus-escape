@@ -38,7 +38,7 @@ export function transition(state, event) {
     if (state.phase === 'witchQuestion') return { ...state, questionDraft: text };
     return state;
   }
-  if (event.type === 'RED_DIAL' && state.phase === 'box' && color === 'red' && /^\d{4}$/.test(event.value)) {
+  if (event.type === 'BOX_DIAL' && state.phase === 'box' && color === 'red' && /^\d{4}$/.test(event.value)) {
     return { ...state, boxes: updateBox({ dial: event.value, inputMode: 'dial' }) };
   }
   if (event.type === 'MODE' && state.phase === 'box') return { ...state, boxes: updateBox({ inputMode: saved.inputMode === 'dial' ? 'direct' : 'dial' }) };
@@ -59,10 +59,10 @@ export function transition(state, event) {
     const result = validateDigits(saved.inputMode === 'dial' ? saved.dial : saved.draft, color);
     if (['correct', 'wrong'].includes(result.kind)) next = { ...state, boxes: updateBox({ opened: result.kind === 'correct', lastSubmitted: result.digits, ...(color === 'red' && result.kind === 'correct' ? { lidOpen: false } : {}) }), phase: result.kind === 'correct' ? 'boxResponse' : 'box', boxMessage: result.kind === 'wrong' ? 'wrong' : '' };
   }
-  if (['OPEN_RED_LID', 'CLOSE_RED_LID'].includes(event.type) && state.phase === 'boxResponse' && color === 'red') {
-    next = { ...state, boxes: updateBox({ lidOpen: event.type === 'OPEN_RED_LID', lidProgress: event.type === 'OPEN_RED_LID' ? 1 : 0 }) };
+  if (['OPEN_LID', 'CLOSE_LID'].includes(event.type) && state.phase === 'boxResponse' && color === 'red') {
+    next = { ...state, boxes: updateBox({ lidOpen: event.type === 'OPEN_LID', lidProgress: event.type === 'OPEN_LID' ? 1 : 0 }) };
   }
-  if (event.type === 'RED_LID' && state.phase === 'boxResponse' && color === 'red' && Number.isFinite(event.value) && event.value >= 0 && event.value <= 1) {
+  if (event.type === 'LID' && state.phase === 'boxResponse' && color === 'red' && Number.isFinite(event.value) && event.value >= 0 && event.value <= 1) {
     next = { ...state, boxes: updateBox({ lidProgress: event.value, lidOpen: event.value >= .98 }) };
   }
   if (event.type === 'CONTINUE_BOX' && state.phase === 'boxResponse') next = { ...state, phase: COLORS.every(c => state.boxes[c].opened) ? 'spell' : 'boxes', selectedBox: null, boxMessage: '' };
