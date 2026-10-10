@@ -6,7 +6,7 @@ export const normalizeDigits = raw => String(raw).normalize('NFKC').replace(/[\s
 export const normalizeWord = raw => normalizeDigits(raw).replace(/[ァ-ヶ]/gu, c => String.fromCharCode(c.charCodeAt(0) - 0x60)).toLowerCase();
 export function matchesWord(raw, aliases) { return aliases.some(alias => normalizeWord(raw) === normalizeWord(alias)); }
 export function initialState(muted = false) {
-  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '' }])), spellDraft: '', questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, bgmVolume: DEFAULT_BGM_VOLUME, sfxEnabled: true, transcriptOpen: true, history: [] };
+  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '', ...(c === 'red' ? {lidOpen:false} : {}) }])), spellDraft: '', questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, bgmVolume: DEFAULT_BGM_VOLUME, sfxEnabled: true, transcriptOpen: true, history: [] };
 }
 export function validateDigits(raw, color) {
   const digits = normalizeDigits(raw);
@@ -38,6 +38,9 @@ export function transition(state, event) {
     if (state.phase === 'witchQuestion') return { ...state, questionDraft: text };
     return state;
   }
+  if (event.type === 'RED_DIAL' && state.phase === 'box' && color === 'red' && /^\d{4}$/.test(event.value)) {
+    return { ...state, boxes: updateBox({ dial: event.value, inputMode: 'dial' }) };
+  }
   if (event.type === 'MODE' && state.phase === 'box') return { ...state, boxes: updateBox({ inputMode: saved.inputMode === 'dial' ? 'direct' : 'dial' }) };
   if (event.type === 'DIAL' && state.phase === 'box' && Number.isInteger(event.index) && event.index >= 0 && event.index < 4 && [1, -1].includes(event.delta)) {
     const digits = saved.dial.split(''); digits[event.index] = String((Number(digits[event.index]) + event.delta + 10) % 10);
@@ -47,13 +50,20 @@ export function transition(state, event) {
   if (event.type === 'BOXES' && ['intro', 'box'].includes(state.phase)) next = { ...state, phase: 'boxes', selectedBox: null, boxMessage: '' };
   if (event.type === 'SELECT' && state.phase === 'boxes' && COLORS.includes(event.color)) {
     const chosen = state.boxes[event.color];
-    next = { ...state, selectedBox: event.color, phase: chosen.opened ? 'boxResponse' : 'box', boxMessage: '', boxes: { ...state.boxes, [event.color]: { ...chosen, exam: Math.max(1, chosen.exam) } } };
+    const redInput = event.color === 'red' ? { inputMode: 'dial', dial: chosen.inputMode === 'direct' && /^\d{4}$/.test(normalizeDigits(chosen.draft)) ? normalizeDigits(chosen.draft) : chosen.dial } : {};
+    next = { ...state, selectedBox: event.color, phase: chosen.opened ? 'boxResponse' : 'box', boxMessage: '', boxes: { ...state.boxes, [event.color]: { ...chosen, ...redInput, exam: Math.max(1, chosen.exam) } } };
   }
   if (event.type === 'EXAMINE' && state.phase === 'box' && saved.exam < 4) next = { ...state, boxes: updateBox({ exam: saved.exam + 1 }), boxMessage: '' };
   if (event.type === 'INFORMATION' && state.phase === 'box' && color === 'blue' && saved.exam === 4) next = { ...state, boxMessage: 'information' };
   if (event.type === 'ANSWER' && state.phase === 'box') {
     const result = validateDigits(saved.inputMode === 'dial' ? saved.dial : saved.draft, color);
-    if (['correct', 'wrong'].includes(result.kind)) next = { ...state, boxes: updateBox({ opened: result.kind === 'correct', lastSubmitted: result.digits }), phase: result.kind === 'correct' ? 'boxResponse' : 'box', boxMessage: result.kind === 'wrong' ? 'wrong' : '' };
+    if (['correct', 'wrong'].includes(result.kind)) next = { ...state, boxes: updateBox({ opened: result.kind === 'correct', lastSubmitted: result.digits, ...(color === 'red' && result.kind === 'correct' ? { lidOpen: false } : {}) }), phase: result.kind === 'correct' ? 'boxResponse' : 'box', boxMessage: result.kind === 'wrong' ? 'wrong' : '' };
+  }
+  if (['OPEN_RED_LID', 'CLOSE_RED_LID'].includes(event.type) && state.phase === 'boxResponse' && color === 'red') {
+    next = { ...state, boxes: updateBox({ lidOpen: event.type === 'OPEN_RED_LID', lidProgress: event.type === 'OPEN_RED_LID' ? 1 : 0 }) };
+  }
+  if (event.type === 'RED_LID' && state.phase === 'boxResponse' && color === 'red' && Number.isFinite(event.value) && event.value >= 0 && event.value <= 1) {
+    next = { ...state, boxes: updateBox({ lidProgress: event.value, lidOpen: event.value >= .98 }) };
   }
   if (event.type === 'CONTINUE_BOX' && state.phase === 'boxResponse') next = { ...state, phase: COLORS.every(c => state.boxes[c].opened) ? 'spell' : 'boxes', selectedBox: null, boxMessage: '' };
   if (event.type === 'SPELL' && ['boxes', 'spell'].includes(state.phase) && matchesWord(state.spellDraft, ['だいすきだよ', '大好きだよ'])) next = { ...state, phase: 'witchInvite', selectedBox: null, reinvited: false };
@@ -81,6 +91,17 @@ export function restoreState(raw) {
     const b = raw.boxes?.[c];
     if (!b || !Number.isInteger(b.exam) || b.exam < 0 || b.exam > 4 || typeof b.opened !== 'boolean' || !/^\d{4}$/.test(b.dial) || !['dial', 'direct'].includes(b.inputMode) || typeof b.draft !== 'string' || typeof b.lastSubmitted !== 'string' || (b.lastSubmitted && !/^\d{4}$/.test(b.lastSubmitted)) || (b.opened && (b.exam < 1 || b.lastSubmitted !== BOXES[c].answer)) || (!b.opened && b.lastSubmitted === BOXES[c].answer)) return null;
     state.boxes[c] = { exam: b.exam, opened: b.opened, dial: b.dial, inputMode: b.inputMode, draft: b.draft.slice(0, 32), lastSubmitted: b.lastSubmitted };
+    if (c === 'red') {
+      if (b.lidOpen !== undefined && (typeof b.lidOpen !== 'boolean' || (b.lidOpen && !b.opened))) return null;
+      state.boxes[c].lidOpen = b.lidOpen === undefined ? b.opened : b.lidOpen;
+      if (b.lidProgress !== undefined) {
+        if (!Number.isFinite(b.lidProgress) || b.lidProgress < 0 || b.lidProgress > 1 || (!b.opened && b.lidProgress !== 0) || (b.lidProgress >= .98) !== state.boxes[c].lidOpen) return null;
+        state.boxes[c].lidProgress = b.lidProgress;
+      }
+      // Preserve a valid legacy direct input in the only visible input: the lock.
+      if (b.inputMode === 'direct' && /^\d{4}$/.test(normalizeDigits(b.draft))) state.boxes[c].dial = normalizeDigits(b.draft);
+      state.boxes[c].inputMode = 'dial';
+    }
   }
   if (!Array.isArray(raw.responses) || raw.responses.length > 3) return null;
   for (let i = 0; i < raw.responses.length; i++) {

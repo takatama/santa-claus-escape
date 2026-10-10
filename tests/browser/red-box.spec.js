@@ -1,0 +1,146 @@
+import { test, expect } from '@playwright/test';
+import { initialState, transition, STORAGE_KEY } from '../../prototype/full-game.js';
+
+const btn = (page,action) => page.locator(`[data-action="${action}"]`);
+async function setup(page,{muted=true,seed=null,unavailable=false}={}){
+  await page.addInitScript(({key,state,unavailable})=>{
+    if(unavailable){Object.defineProperty(window,'localStorage',{get(){throw new Error('test: unavailable storage');}});}
+    else if(!sessionStorage.getItem('seeded')){localStorage.setItem(key,JSON.stringify(state));sessionStorage.setItem('seeded','yes');}
+  },{key:STORAGE_KEY,state:seed||initialState(muted),unavailable});
+  await page.goto('/');
+}
+async function enterRed(page){
+  await btn(page,'start').click();await expect(page.locator('.book')).toHaveAttribute('data-phase','intro');
+  await page.waitForTimeout(470);await btn(page,'boxes').click();await expect(btn(page,'select').first()).toBeVisible();
+  await page.waitForTimeout(470);await page.locator('[data-action="select"][data-color="red"]').click();
+  await expect(page.locator('.red-stage')).toBeVisible();await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
+}
+async function digits(page,code){for(let i=0;i<4;i++)await page.getByRole('spinbutton',{name:`${i+1}桁目のダイアル`,exact:true}).press(code[i]);}
+async function usable(page,action){await expect(btn(page,action)).toBeEnabled({timeout:60000});}
+async function shot(page,name){await page.screenshot({path:`test-results/red-box/${name}.png`});}
+
+test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid, save and reset',async({page})=>{
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.setViewportSize({width:390,height:844});await setup(page);await enterRed(page);
+  expect(await page.getByRole('spinbutton').count()).toBe(4);expect(await page.locator('input[type="text"]').count()).toBe(0);
+  await shot(page,'mobile-start');await usable(page,'examine');await btn(page,'examine').click();
+  await btn(page,'examine').evaluate(button=>{for(let i=0;i<10;i++)button.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
+  await expect(page.locator('canvas')).not.toHaveAttribute('aria-label',/たぬき/);
+  await usable(page,'examine');await shot(page,'mobile-text');await btn(page,'examine').click();await usable(page,'examine');
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','3');
+  await expect(page.locator('canvas')).not.toHaveAttribute('aria-label',/×/);
+  await btn(page,'examine').click();await usable(page,'red_try');await shot(page,'mobile-clues');
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','4');
+  await btn(page,'red_try').click();await expect(page.locator('.red-result')).toContainText('まだ開かない');
+  await digits(page,'3138');await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-lid-open','false');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  await expect(page.locator('canvas')).toHaveAttribute('data-progress','1.000');await shot(page,'mobile-open');
+  await btn(page,'close_red_lid').click();await usable(page,'open_red_lid');await page.reload();await btn(page,'resume').click();
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-lid-open','false');await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
+  await btn(page,'reset').click();await page.locator('#cancel-reset').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
+  await btn(page,'reset').click();await page.locator('#confirm-reset').click();await expect(btn(page,'start')).toBeVisible();expect(errors).toEqual([]);
+});
+
+test('desktop: arrow keys, numeric keys, pointer drag, focus, early solution and return to main',async({page})=>{
+  await page.setViewportSize({width:1280,height:720});await setup(page);await enterRed(page);
+  const first=page.getByRole('spinbutton',{name:'1桁目のダイアル',exact:true});
+  await first.press('ArrowDown');await expect(first).toHaveAttribute('aria-valuenow','9');await first.press('ArrowUp');await expect(first).toHaveAttribute('aria-valuenow','0');
+  await first.press('ArrowRight');await expect(page.getByRole('spinbutton',{name:'2桁目のダイアル',exact:true})).toBeFocused();
+  const box=await first.boundingBox();await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2,box.y+box.height/2-48,{steps:8});await page.mouse.up();
+  await expect(first).toHaveAttribute('aria-valuenow','1');await shot(page,'desktop-start');
+  await digits(page,'3138');await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  await shot(page,'desktop-open');await btn(page,'continue_box').click();await expect(page.locator('[data-color="blue"]')).toBeVisible();
+});
+
+test('viewport controls remain visible on small phone, landscape, tablet and PC',async({page})=>{
+  await setup(page);await enterRed(page);
+  for(const [width,height] of [[320,568],[390,844],[844,390],[768,1024],[1024,768],[1280,720]]){
+    await page.setViewportSize({width,height});
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    for(const action of ['examine','red_try']){const box=await btn(page,action).boundingBox();expect(box.y+box.height,`${width}×${height} ${action}`).toBeLessThanOrEqual(height);expect(box.height).toBeGreaterThanOrEqual(44);}
+    await shot(page,`viewport-${width}x${height}`);
+  }
+  await page.setViewportSize({width:320,height:568});await btn(page,'red_try').click();await usable(page,'red_try');
+  expect((await btn(page,'red_try').boundingBox()).y+(await btn(page,'red_try').boundingBox()).height).toBeLessThanOrEqual(568);
+});
+
+test('audio: narration completes despite dialing, ordered success effects and paper voice',async({page})=>{
+  const requested=[];page.on('request',req=>{if(req.url().includes('/assets/audio/'))requested.push(req.url().split('/').pop());});
+  await setup(page,{muted:false});await enterRed(page);
+  await expect(btn(page,'examine')).toBeDisabled();
+  const clip=page.locator('#audio-host audio');await expect(clip).toHaveAttribute('src',/red1\.wav$/);
+  await expect.poll(()=>clip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(0);
+  const before=await clip.evaluate(audio=>audio.currentTime);await digits(page,'3138');
+  await expect.poll(()=>clip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(before);
+  for(let i=0;i<5;i++)await btn(page,'examine').dispatchEvent('click');await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','1');
+  await usable(page,'red_try');await btn(page,'red_try').click();await expect(btn(page,'open_red_lid')).toBeDisabled();
+  await usable(page,'open_red_lid');expect(requested).toContain('unlocking-1.mp3');expect(requested).not.toContain('cue-box-red-paper.wav');
+  await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  expect(requested).toContain('magic-cure2.mp3');expect(requested).toContain('cue-box-red-paper.wav');
+});
+
+test('saved direct code and images blocked still allow play',async({page})=>{
+  let state=initialState(true);for(const event of [{type:'START'},{type:'BOXES'},{type:'SELECT',color:'red'}])state=transition(state,event);
+  state.boxes.red={...state.boxes.red,inputMode:'direct',draft:'３１３８'};
+  await page.route('**/assets/red-box/*.png',route=>route.abort());await setup(page,{seed:state});await btn(page,'resume').click();
+  await expect(page.locator('.red-fallback')).toBeVisible();await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code','3138');
+  await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
+});
+
+test('storage unavailable and audio playback unavailable: mute, subtitles, reset and session continuation',async({page})=>{
+  await page.addInitScript(()=>{window.speechSynthesis?.cancel();Object.defineProperty(window,'speechSynthesis',{value:null});window.AudioContext=window.webkitAudioContext=undefined;HTMLMediaElement.prototype.play=function(){return Promise.reject(new Error('test: blocked media'));};});
+  await setup(page,{unavailable:true});await enterRed(page);
+  await expect(page.locator('#save-status')).toContainText('保存できません');await expect(page.locator('.red-stage')).toHaveAttribute('data-busy','false');
+  await page.locator('.red-settings summary').first().click();await expect(page.locator('#transcript')).toContainText('あなたは赤色の箱を調べました。');
+  await btn(page,'mute').click();await page.locator('.red-settings summary').first().click();
+  await digits(page,'3138');await btn(page,'red_try').click();await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
+});
+
+test('reduced motion, voice stop and BGM slider preserve progress and keyboard access',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});await setup(page,{muted:false});await enterRed(page);
+  await page.locator('.red-settings summary').first().click();await btn(page,'stop').click();await expect(page.locator('.red-stage')).toHaveAttribute('data-busy','false');
+  await page.locator('#bgm-volume').fill('45');await expect(page.locator('#bgm-volume-value')).toHaveText('45%');
+  await btn(page,'mute').click();await page.locator('.red-settings summary').first().click();
+  await btn(page,'examine').click();await usable(page,'examine');await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
+  await page.reload();await btn(page,'resume').click();await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
+  await page.locator('.red-settings summary').first().click();await expect(page.locator('#bgm-volume')).toHaveValue('45');
+});
+
+test.describe('touch emulation',()=>{
+  test.use({hasTouch:true,isMobile:true,viewport:{width:390,height:844}});
+  test('large arrow targets edit the same four digits by touch',async({page})=>{
+    await setup(page);await enterRed(page);
+    const arrow=page.getByRole('button',{name:'1桁目の数字の列を上へ回す',exact:true});const box=await arrow.boundingBox();
+    await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);
+    await expect(page.getByRole('spinbutton',{name:'1桁目のダイアル',exact:true})).toHaveAttribute('aria-valuenow','1');
+    expect(await page.locator('input[type="text"]').count()).toBe(0);
+  });
+});
+
+test('lid drag pauses and reverses, saves intermediate progress, and grants no duplicate papers',async({page})=>{
+  await page.setViewportSize({width:1280,height:720});await setup(page);await enterRed(page);await digits(page,'3138');await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');
+  const canvas=page.locator('canvas'),bounds=await canvas.boundingBox(),box=JSON.parse(await canvas.getAttribute('data-box'));
+  const x=bounds.x+box.x+box.w*.5,y=bounds.y+box.y+box.h*.22,distance=Math.max(105,box.w*.47);
+  await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x,y-distance*.6,{steps:6});
+  await expect(canvas).toHaveAttribute('data-progress','0.600');await page.mouse.move(x,y-distance*.4,{steps:4});await expect(canvas).toHaveAttribute('data-progress','0.400');await page.mouse.up();
+  await page.reload();await btn(page,'resume').click();await expect(canvas).toHaveAttribute('data-progress','0.400');
+  await btn(page,'open_red_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
+});
+
+test('main regression: all boxes, decline and recall, three wrong answers and original ending',async({page})=>{
+  await setup(page);await enterRed(page);await digits(page,'3138');await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();
+  for(const [color,code] of [['blue','8848'],['yellow','2502']]){
+    await page.waitForTimeout(470);await page.locator(`[data-action="select"][data-color="${color}"]`).click();await btn(page,'mode').click();await page.locator('#answer').fill(code);await page.locator('#answer-form button[type="submit"]').click();
+    await page.waitForTimeout(470);await btn(page,'continue_box').click();
+  }
+  await expect(page.locator('.collected-count')).toHaveText('見つけた文字 6 / 6');await page.locator('#word-answer').fill('だいすきだよ');await page.locator('#spell-form button[type="submit"]').click();
+  for(const action of ['decline','call_again','accept']){await page.waitForTimeout(470);await btn(page,action).click();}
+  await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button[type="submit"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
+  await page.waitForTimeout(470);await page.locator('[data-action="choice"][data-value="トナカイの鼻"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
+  await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button[type="submit"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
+  await expect(page.locator('#transcript')).toContainText('クリスマスの夜を楽しみにしていてくれ');await page.waitForTimeout(470);await btn(page,'finish').click();await expect(page.locator('.book')).toHaveAttribute('data-phase','complete');
+});

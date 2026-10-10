@@ -84,7 +84,7 @@ test('画面のスライダー操作が保存と表示に反映され、画面�
   }
   for(const id of ['#app','#cancel-reset','#confirm-reset','#reset-dialog','#music-host','#audio-host'])elements.set(id,new Element());
   globalThis.window={localStorage:{getItem:key=>memory.get(key)||null,setItem:(key,value)=>memory.set(key,value)},addEventListener(){},scrollTo(){}};
-  globalThis.document={querySelector:selector=>elements.get(selector)||null,addEventListener(){}};
+  globalThis.document={body:{classList:{toggle(){}}},querySelector:selector=>elements.get(selector)||null,addEventListener(){}};
   globalThis.Audio=class{constructor(){assert.fail('slider must not start audio');}};
   try{
     await import('../full-app.js?bgm-volume-test');const range=elements.get('#bgm-volume');assert.ok(range);assert.equal(range.value,'25');assert.match(elements.get('#app').html,/type="range" min="0" max="100"/);

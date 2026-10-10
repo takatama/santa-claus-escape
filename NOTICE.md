@@ -38,6 +38,10 @@ Gemini TTSで制作した台詞のWAVと、その台詞だけを結合した音�
 
 原作コメントの [戦闘](https://soundeffect-lab.info/sound/battle/)・[演出／アニメ](https://soundeffect-lab.info/sound/anime/) とファイル名を根拠とし、原作保存ファイルを演出に使用。[利用規約](https://soundeffect-lab.info/agreement/) とゲーム配布・GitHub公開を扱う [FAQ](https://soundeffect-lab.info/faq/) に従う。第三者の再利用でも四点に提供元の条件が適用される。原音の加工やAI学習への転用は行わない。
 
+## PR Aで再利用した絵
+
+`prototype/assets/red-box/` の六枚（森、スノードーム、枝、赤い箱の本体・ふた、たぬき）は PR #1（aead6e9）の制作済み生成イラストを無加工で再利用しています。PR #1の制作情報・出典は `illustrated-prototype/` にあります。コードと生成イラストには本リポジトリのMIT Licenseを適用します。参照元の第三者の製品写真は同梱しません。音声・音楽・効果音はmainの素材と条件を引き継ぎ、新規生成や結末の鈴の追加はありません。事前生成音声の利用条件に関するPR #2の指摘の解消は、本番公開前の確認事項です。
+
 ## 同梱しないもの
 
 原作ソース全文、Drive原本・一覧、APIキー・認証情報、取得・解析用ライブラリは非公開。原作の jingle.mp3 は現在の [OpenTracks利用ライセンス](https://opentracks.com/help/articles/license/) の公開形態の条件を確認中で、同梱・代替とも行わない。原作制作時の許諾記録を利用者へ質問中。

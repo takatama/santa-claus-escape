@@ -1,0 +1,39 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { initialState, transition, restoreState } from '../full-game.js';
+import { sceneFor, papers } from '../full-scenario.js';
+import { resolveAudioTimeline } from '../timed-audio.js';
+import { redSceneFor, redTimeline, RedActionGate } from '../red-box-presentation.js';
+function redState(){let s=initialState();for(const e of [{type:'START'},{type:'BOXES'},{type:'SELECT',color:'red'}])s=transition(s,e);return s;}
+test('red: original four examinations and answer at any stage remain available',()=>{
+  let state=redState(); assert.equal(state.boxes.red.exam,1);
+  for(let exam=2;exam<=4;exam++){state=transition(state,{type:'EXAMINE'});assert.equal(state.boxes.red.exam,exam);assert.equal(sceneFor(state).key,`red${exam}`);}
+  assert.equal(transition(state,{type:'EXAMINE'}),state);
+  state=transition(redState(),{type:'RED_DIAL',value:'3138'});state=transition(state,{type:'ANSWER'});
+  assert.equal(state.phase,'boxResponse');assert.equal(state.boxes.red.lidOpen,false);assert.equal(papers(state).length,2);
+  const closed=redSceneFor(state); state=transition(state,{type:'OPEN_RED_LID'});
+  const open=redSceneFor(state);
+  assert.equal(closed.key,'red-unlocked');assert.equal(open.key,'red-paper');
+  assert.equal(closed.segments[0].text+'\n'+open.segments[0].text,sceneFor(state).segments[0].text);
+  assert.deepEqual([...redTimeline('red-unlocked',resolveAudioTimeline),...redTimeline('red-paper',resolveAudioTimeline)],resolveAudioTimeline('red-open'));
+  state=transition(state,{type:'CLOSE_RED_LID'});assert.equal(papers(state).length,2);
+  assert.equal(restoreState(JSON.parse(JSON.stringify(state))).boxes.red.lidOpen,false);
+  state=transition(state,{type:'RED_LID',value:.4});assert.equal(restoreState(state).boxes.red.lidProgress,.4);assert.equal(state.boxes.red.lidOpen,false);
+  assert.equal(transition(state,{type:'RED_LID',value:2}),state);
+});
+test('red: valid old direct input migrates into the only lock and old open saves stay open',()=>{
+  let state=redState();state.boxes.red={...state.boxes.red,inputMode:'direct',draft:'３１３８'};
+  let restored=restoreState(state);assert.equal(restored.boxes.red.dial,'3138');assert.equal(restored.boxes.red.inputMode,'dial');
+  restored=transition(restored,{type:'ANSWER'});delete restored.boxes.red.lidOpen;
+  assert.equal(restoreState(restored).boxes.red.lidOpen,true);
+  assert.equal(transition(redState(),{type:'OPEN_RED_LID'}).phase,'box');
+  assert.equal(transition(redState(),{type:'RED_DIAL',value:'31380'}).boxes.red.dial,'0000');
+});
+test('red: rapid actions cannot bypass narration or motion; mute/failure/stop releases narration',()=>{
+  const gate=new RedActionGate();gate.hold(100);gate.setStatus('読み上げ中');
+  assert.equal(gate.blocked(751),true);gate.setStatus('読み上げが終わりました');assert.equal(gate.blocked(751),false);
+  for(const status of ['音声オフ・文字で遊べます','音声を停止しました','音声を再生できません。台詞を読んで遊べます']){
+    gate.setStatus('読み上げ中');gate.setStatus(status);assert.equal(gate.blocked(751),false);
+  }
+  gate.hold(800);assert.equal(gate.blocked(900),true);assert.equal(gate.blocked(1450),false);
+});

@@ -1,0 +1,44 @@
+{
+  "sourcePR": "https://github.com/takatama/santa-claus-escape/pull/1",
+  "sourceCommit": "aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c",
+  "copiedWithoutModification": true,
+  "totalBytes": 13571780,
+  "assets": [
+    {
+      "file": "prototype/assets/red-box/forest-clean.png",
+      "source": "illustrated-prototype/assets/forest-clean.png",
+      "bytes": 2701721,
+      "sha256": "e7540c98fa3f9d82926595f7205cbaee290f2ba0b54690eb3fddb3ec0c24a086"
+    },
+    {
+      "file": "prototype/assets/red-box/globe.png",
+      "source": "illustrated-prototype/assets/globe.png",
+      "bytes": 2180907,
+      "sha256": "d36289fce83a2c9306136ca693dc9e61bff273f2dc603aded8e0d8b972381f45"
+    },
+    {
+      "file": "prototype/assets/red-box/branch.png",
+      "source": "illustrated-prototype/assets/branch.png",
+      "bytes": 2576852,
+      "sha256": "7e07bbaa71dde167861a1280b6ea205d195b9fd5351855e08881965e3cc56d7e"
+    },
+    {
+      "file": "prototype/assets/red-box/red-body.png",
+      "source": "illustrated-prototype/red-box/assets/red-body.png",
+      "bytes": 2182912,
+      "sha256": "04e30fc8195aeab1633741da9219cfc919708d40faffc0693b6ad51754334841"
+    },
+    {
+      "file": "prototype/assets/red-box/red-lid.png",
+      "source": "illustrated-prototype/red-box/assets/red-lid.png",
+      "bytes": 2293133,
+      "sha256": "091ef9e3e51a644d28182242fa37373969b87b1ddc98cc2afa5ab3f70ee3bb4d"
+    },
+    {
+      "file": "prototype/assets/red-box/tanuki.png",
+      "source": "illustrated-prototype/red-box/assets/tanuki.png",
+      "bytes": 1636255,
+      "sha256": "de508241384053c4f4d71de7c243a1f7d9db3d170c84be1dd24467f9adb4c2e2"
+    }
+  ]
+}
