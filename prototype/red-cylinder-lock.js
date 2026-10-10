@@ -12,7 +12,7 @@ function node(tag, className, text) {
 const wrapDigit = value => (value % 10 + 10) % 10;
 const MOTION_DURATION = 150;
 
-/** A number strip moves in the direction of the finger or the indicated arrow. */
+/** The neighboring numbers signify rotation; touch and keys edit this one strip. */
 export function createCylinderLock({ getCode, setCode, onChange = () => {} }) {
   const element = node('div', 'rb-cylinder-lock');
   element.setAttribute('role', 'group');
@@ -123,12 +123,7 @@ export function createCylinderLock({ getCode, setCode, onChange = () => {} }) {
     const current = node('button', 'rb-cylinder-current rb-cylinder-control');
     const next = node('button', 'rb-cylinder-adjacent rb-cylinder-next rb-cylinder-control');
     for (const button of [previous, current, next]) button.type = 'button';
-    for (const [button, direction] of [[previous, '↑'], [next, '↓']]) {
-      const arrow = node('span', 'rb-cylinder-direction', direction);
-      arrow.setAttribute('aria-hidden', 'true');
-      button.append(arrow);
-      button.tabIndex = -1;
-    }
+    for (const button of [previous, next]) button.tabIndex = -1;
     previous.setAttribute('aria-label', `${index + 1}桁目の数字の列を上へ回す`);
     next.setAttribute('aria-label', `${index + 1}桁目の数字の列を下へ回す`);
     current.setAttribute('role', 'spinbutton');

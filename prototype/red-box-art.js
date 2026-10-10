@@ -1,11 +1,11 @@
 // Drawing extracted from PR #1 aead6e9. No journey store or input handlers.
-import { boughPoint, smooth, clamp } from './red-scene-math.js';
+import { smooth } from './red-scene-math.js';
 import { loadImage, mesh, glow } from './red-paint.js';
 import { lidQuad, quadPoint } from './red-hinge-math.js';
 import { createSnowReveal } from './red-snow-reveal.js';
 let assetPromise;
 export function loadRedArt() {
-  assetPromise ||= Promise.all(['forest-clean','globe','branch','red-body','red-lid','tanuki'].map((name,index)=>loadImage(new URL('./assets/red-box/'+name+'.png',import.meta.url).href,index!==0))).then(images=>Object.fromEntries(['forest','globe','branch','body','lid','tanuki'].map((key,index)=>[key,images[index]]))).catch(error=>{assetPromise=null;throw error;});
+  assetPromise ||= Promise.all(['red-body','red-lid','tanuki'].map(name=>loadImage(new URL('./assets/red-box/'+name+'.png',import.meta.url).href,true))).then(images=>Object.fromEntries(['body','lid','tanuki'].map((key,index)=>[key,images[index]]))).catch(error=>{assetPromise=null;throw error;});
   return assetPromise;
 }
 export function createRedArt(canvas, assets) {
@@ -14,8 +14,64 @@ export function createRedArt(canvas, assets) {
   let snowInkRatio=1;
   const snowMask=document.createElement('canvas');snowMask.width=620;snowMask.height=258;
   const snow=snowMask.getContext('2d'),baseMask=document.createElement('canvas');baseMask.width=620;baseMask.height=258;
-  const base=baseMask.getContext('2d');base.fillStyle='#edf1e9';base.fillRect(0,0,620,258);
-  for(let i=0;i<1000;i++){base.fillStyle=i%2?'#fff9e8':'#cbdbe0';base.fillRect(i*37%620,i*19%258,3,3);}
+  const base=baseMask.getContext('2d');
+  const SNOW_WIDTH=620, SNOW_HEIGHT=258, REVEALS=[{x:18,y:54,w:390,h:136},{x:420,y:12,w:184,h:184},{x:420,y:198,w:184,h:53}];
+  const measureInkRatio=()=>snowInkRatio;
+  let maskRatio;
+  function restoreMask() {
+    base.clearRect(0, 0, SNOW_WIDTH, SNOW_HEIGHT);
+    const frost = base.createLinearGradient(0, 0, 40, SNOW_HEIGHT);
+    frost.addColorStop(0, '#fff8e7'); frost.addColorStop(.35, '#edf1e9'); frost.addColorStop(1, '#c2d4dd');
+    base.save(); base.fillStyle=frost;
+    // An irregular snow edge follows the paper rather than making a second
+    // rectangular card. All three clue regions remain fully opaque underneath.
+    base.beginPath();
+    const edge=[
+      [18,19],[34,11],[51,18],[67,8],[84,15],[103,5],[124,13],[145,8],[168,19],[194,12],[217,6],[239,15],
+      [262,9],[285,17],[310,8],[339,14],[365,6],[390,13],[414,4],[438,9],[468,3],[488,10],[516,4],[538,9],[563,3],[585,9],[599,6],[612,14],
+      [610,31],[615,50],[609,71],[615,92],[609,116],[616,139],[610,165],[616,184],[608,207],[614,229],[610,251],
+      [599,255],[582,257],[555,253],[533,257],[508,253],[480,257],[453,253],[426,256],[403,249],[377,257],
+      [350,247],[326,255],[300,249],[275,257],[249,246],[226,254],[200,246],[177,255],[152,247],[129,255],[105,246],[81,254],[60,246],[42,252],[23,241],
+      [12,226],[17,209],[11,188],[15,164],[9,141],[15,118],[10,95],[15,73],[12,53],[18,35],
+    ];
+    edge.forEach(([x,y],i)=>i?base.lineTo(x,y):base.moveTo(x,y)); base.closePath(); base.fill();
+    // Guarantee coverage even where a jagged boundary meets a reveal corner.
+    for (const r of REVEALS) base.fillRect(r.x,r.y,r.w,r.h);
+    // Texture is clipped to the painted snow silhouette; it never makes holes.
+    base.beginPath(); edge.forEach(([x,y],i)=>i?base.lineTo(x,y):base.moveTo(x,y)); base.closePath(); base.clip();
+    for (let i=0;i<23;i++) {
+      const x=30+(i*137)%580, y=22+(i*73)%220, rx=45+(i*19)%70, ry=19+(i*11)%32;
+      base.save(); base.translate(x,y); base.scale(1,ry/rx);
+      const glow=base.createRadialGradient(0,0,2,0,0,rx);
+      glow.addColorStop(0,i%3?'rgba(255,254,238,.33)':'rgba(148,175,193,.13)'); glow.addColorStop(1,'rgba(255,255,255,0)');
+      base.fillStyle=glow;
+      base.fillRect(-rx,-rx,rx*2,rx*2); base.restore();
+    }
+    let seed = 19116;
+    for (let i=0;i<6800;i++) {
+      seed = (seed * 1664525 + 1013904223) >>> 0; const x=8+seed%610;
+      seed = (seed * 1664525 + 1013904223) >>> 0; const y=seed%SNOW_HEIGHT;
+      const grain=1.2+i%5;
+      base.fillStyle=['rgba(112,148,174,.16)','rgba(255,255,248,.67)','rgba(255,239,211,.26)','rgba(232,237,232,.51)','rgba(255,255,247,.38)'][i%5];
+      base.beginPath(); base.moveTo(x-grain,y); base.lineTo(x+grain*.05,y-grain*.7);
+      base.lineTo(x+grain,y+grain*.25); base.lineTo(x-grain*.15,y+grain*.8); base.closePath(); base.fill();
+    }
+    base.restore();
+    // Small parchment pockets sit in blank margins, outside all clue regions.
+    // Their silhouettes and the two tiny peeks are intentionally ambiguous.
+    base.save(); base.globalCompositeOperation='destination-out';
+    for (const pocket of [[[83,20],[93,15],[111,20],[104,29],[87,32]],[[168,214],[184,207],[201,213],[192,224],[176,221]],[[300,228],[314,223],[329,229],[322,240],[305,238]]]) {
+      base.beginPath(); pocket.forEach(([x,y],i)=>i?base.lineTo(x,y):base.moveTo(x,y)); base.closePath(); base.fill();
+    }
+    base.restore();
+    // Tiny ambiguous fragments only: no complete word, face or crossed letter.
+    base.clearRect(29, 79, 10, 11);
+    const ratio = measureInkRatio(), animalScale = Math.min(1, 1 / ratio);
+    // Follow a tiny edge of the hind paw when the painting changes size; never the face.
+    base.clearRect(512 + 168 * animalScale * .26, 194 - 172 * animalScale * ratio * .10, 8, 7);
+  }
+
+
   const reveal=createSnowReveal();
 const parchment = document.createElement('canvas');
 parchment.width = 144; parchment.height = 170;
@@ -63,23 +119,6 @@ for (let i = 0; i < 9; i++) snowDeposit(lidSnowBrush, 64 + i * 104, 98 + Math.si
 for (let i = 0; i < 7; i++) snowDeposit(lidSnowBrush, 65 + i * 140, 385 + Math.sin(i * 2) * 4, 163, 28 + i % 2 * 9, i + 12);
 for (const side of [29, 935]) for (let i = 0; i < 4; i++) snowDeposit(lidSnowBrush, side, 153 + i * 57, 66, 34, i + side);
 
-function cover(image) {
-  const scale = Math.max(width / image.width, height / image.height);
-  ctx.drawImage(image, (width - image.width * scale) / 2, (height - image.height * scale) / 2, image.width * scale, image.height * scale);
-}
-
-function forestBranches() {
-  const portrait = layout.portrait;
-  const b = { x: width * (portrait ? -.10 : .34), y: height * (portrait ? .18 : .17),
-    w: width * (portrait ? .78 : .40), h: height * (portrait ? .71 : .74) };
-  for (const side of [-1, 1]) {
-    ctx.save(); ctx.translate(side === -1 ? b.x : width * (portrait ? 1.06 : .98), b.y);
-    if (side === 1) ctx.scale(-1, 1);
-    mesh(ctx, assets.branch, (u, v) => boughPoint(u, v, side === -1 ? 0 : .055, b.w, b.h), 9, 12);
-    ctx.restore();
-  }
-}
-
 function groundShadow(box) {
   ctx.save(); ctx.translate(box.x + box.w / 2, box.y + box.h * .98); ctx.scale(1, .16);
   const shade = ctx.createRadialGradient(0, 0, 0, 0, 0, box.w * .52);
@@ -116,7 +155,7 @@ function papers(state) {
 
 function frontClue() {
   const b = layout.box;
-  const card = { x: b.x + b.w * .10, y: b.y + b.h * .53, w: b.w * .80, h: b.h * .38 };
+  const card = layout.closeup ? layout.clue : { x: b.x + b.w * .10, y: b.y + b.h * .63, w: b.w * .80, h: b.h * .28 };
   layout.clue = card;
   ctx.save();
   ctx.fillStyle = '#f9e8bc';
@@ -183,34 +222,57 @@ function lid(state) {
   return q;
 }
 
-function santa(state) {
-  const b = layout.globe;
-  mesh(ctx, assets.globe, (u, v) => {
-    const face = Math.exp(-((u - .51) ** 2 / .023 + (v - .37) ** 2 / .023)) * smooth(.14, .25, u) * (1 - smooth(.75, .84, u));
-    return { x: b.x + b.w * (u + face * state.papers * .022), y: b.y + b.h * (v - face * state.papers * .012) };
-  }, 12, 14);
+// PR #1's inspection view crops the front face and keeps the entire lock below the seam.
+function closeBox() {
+  const b=layout.box, body=assets.body, top=assets.lid, depth=Math.min(44,b.y-8);
+  ctx.drawImage(body,body.width*.035,body.height*.382,body.width*.93,body.height*.484,b.x,b.y,b.w,b.h);
+  ctx.save();ctx.beginPath();ctx.moveTo(b.x+b.w*.04,b.y-depth);ctx.lineTo(b.x+b.w*.96,b.y-depth);ctx.lineTo(b.x+b.w,b.y);ctx.lineTo(b.x,b.y);ctx.closePath();ctx.clip();
+  ctx.drawImage(top,top.width*.035,top.height*.11,top.width*.93,top.height*.77,b.x,b.y-depth,b.w,depth+3);ctx.restore();
+  ctx.strokeStyle='#641b21';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x+b.w,b.y);ctx.stroke();
+  for(const [i,[x,y,w,h]] of [[.5,-.01,.92,.028],[.06,.03,.09,.024],[.94,.03,.09,.024],[.025,.4,.05,.03],[.975,.48,.05,.03],[.12,.94,.2,.03],[.88,.94,.2,.03]].entries())snowDeposit(ctx,b.x+b.w*x,b.y+b.h*y,b.w*w,b.h*h,i);
 }
-
+function openPlate() {
+  const b=layout.box,w=b.w*.57,h=b.h*.12,x=b.x+(b.w-w)/2,y=b.y+b.h*.415;
+  ctx.fillStyle='#b18b42';ctx.strokeStyle='#f6d794';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(x,y,w,h,7);ctx.fill();ctx.stroke();
+  ctx.fillStyle='#503719';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=Math.max(18,h*.65)+'px serif';ctx.fillText('✓',x+w/2,y+h/2);
+}
 
   function paint({exam, progress, unlocked, snowStage = Math.max(0,exam-1), snowFraction = 0}) {
     width=canvas.clientWidth;height=canvas.clientHeight;if(!width||!height)return;
     const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
-    const portrait=width<height*1.3;
-    const boxW=Math.min(width*(portrait?.86:.48),height*1.12);
-    const boxH=boxW*assets.body.height/assets.body.width;
-    const box={x:width*(portrait?.55:.68)-boxW/2,y:height*.98-boxH,w:boxW,h:boxH};
-    const globeW=Math.min(width*(portrait?.26:.27),height*.58), globe={x:width*.025,y:height*.03,w:globeW,h:globeW*assets.globe.height/assets.globe.width};
-    const hinge={cx:box.x+box.w*.5,hingeY:box.y+box.h*.030,backWidth:box.w*.760,frontWidth:box.w*.988,closedDepth:box.h*.340,liftDepth:box.w*.400};
-    layout={portrait,box,globe,hinge};
-    // Compensate for the projection so the ink and animal keep their proportions.
-    snowInkRatio=(box.w*.80/620)/(box.h*.38/258);
+    const closeup=!unlocked, short=height<370&&width>height*1.7;
+    let lock,clue,box,hinge;
+    if(closeup) {
+      const seam=Math.min(80,height*.13);
+      box={x:width*.02,y:seam,w:width*.96,h:height-seam-18};
+      const lockW=Math.min(short?300:400,Math.max(244,width*(short?.36:.52)));
+      lock={x:width*(short?.72:.5)-lockW/2,y:seam+12,w:lockW,h:144};
+      clue=short?{x:width*.08,y:seam+20,w:width*.43,h:height-seam-55}:{x:width*.14,y:lock.y+208,w:width*.72,h:height-lock.y-238};
+    } else {
+      // Reserve the lid's full sweep above the body, including on short screens.
+      const boxW=Math.min(width*.96,height/1.18),boxH=boxW*assets.body.height/assets.body.width;
+      box={x:(width-boxW)/2,y:(height-boxH)/2+boxW*.215,w:boxW,h:boxH};
+      hinge={cx:box.x+box.w*.5,hingeY:box.y+box.h*.030,backWidth:box.w*.760,frontWidth:box.w*.988,closedDepth:box.h*.340,liftDepth:box.w*.400};
+      clue={x:box.x+box.w*.10,y:box.y+box.h*.63,w:box.w*.80,h:box.h*.28};
+    }
+    layout={closeup,box,hinge,lock,clue};
+    snowInkRatio=(clue.w/620)/(clue.h/258);
+    if(maskRatio!==snowInkRatio){restoreMask();maskRatio=snowInkRatio;}
     reveal.render(snow,{baseMask,stage:snowStage,fraction:snowFraction,inkRatio:snowInkRatio});
     const state={opening:smooth(0,1,progress),warmth:smooth(.02,.75,progress),papers:smooth(.2,.8,progress),firstPaper:smooth(.2,.65,progress),secondPaper:smooth(.35,.8,progress)};
-    cover(assets.forest);forestBranches();groundShadow(box);ctx.drawImage(assets.body,box.x,box.y,box.w,box.h);
-    if(unlocked)papers(state);frontClue();bodySnow();lid(state);santa(state);
-    Object.assign(canvas.dataset,{exam:String(exam),progress:progress.toFixed(3),box:JSON.stringify(box),santaContained:'true',ready:'true'});
+    const backdrop=ctx.createRadialGradient(width/2,height*.3,20,width/2,height*.3,width*.8);
+    backdrop.addColorStop(0,'#314357');backdrop.addColorStop(1,'#122233');ctx.fillStyle=backdrop;ctx.fillRect(0,0,width,height);
+    groundShadow(box);
+    if(closeup){closeBox();frontClue();}
+    else {ctx.drawImage(assets.body,box.x,box.y,box.w,box.h);papers(state);frontClue();bodySnow();openPlate();lid(state);}
+    Object.assign(canvas.dataset,{exam:String(exam),progress:progress.toFixed(3),box:JSON.stringify(box),clue:JSON.stringify(clue),lock:JSON.stringify(lock??null),lid:JSON.stringify(hinge?lidQuad(state.opening,hinge).points:null),closeup:String(closeup),ready:'true'});
+    return {lock,clue};
   }
-  return {paint, lidTarget(x,y,progress) {
+  return {paint, sweepPosition(stage,fraction) {
+    if(!layout)return null;
+    const origin=reveal.getSweepPosition({stage,fraction,inkRatio:snowInkRatio}),c=layout.clue;
+    return {...origin,x:c.x+origin.x/620*c.w,y:c.y+origin.y/258*c.h};
+  }, lidTarget(x,y,progress) {
     if (!layout) return null;
     const b=layout.box,q=lidQuad(smooth(0,1,progress),layout.hinge),top=Math.min(...q.points.map(p=>p.y));
     return x>=b.x && x<=b.x+b.w && y>=top-24 && y<=b.y+b.h*.38 ? Math.max(105,b.w*.47) : null;

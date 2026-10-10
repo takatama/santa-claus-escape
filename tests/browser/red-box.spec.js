@@ -23,10 +23,18 @@ test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid,
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   const artRequests=[];page.on('request',request=>{if(request.url().includes('/assets/red-box/'))artRequests.push(request.url());});
   await page.setViewportSize({width:390,height:844});await setup(page);
-  await expect.poll(()=>artRequests.length).toBe(6);await expect(btn(page,'start')).toBeVisible();
+  await expect.poll(()=>artRequests.length).toBe(3);await expect(btn(page,'start')).toBeVisible();
   await enterRed(page);
   expect(await page.getByRole('spinbutton').count()).toBe(4);expect(await page.locator('input[type="text"]').count()).toBe(0);
+  await expect(page.locator('.rb-cylinder-direction')).toHaveCount(0);
+  // Rubbing the illustrated snow must not bypass the one-press examination stages.
+  const painting=await page.locator('canvas').boundingBox();
+  await page.mouse.move(painting.x+40,painting.y+painting.height*.8);await page.mouse.down();await page.mouse.move(painting.x+painting.width-40,painting.y+painting.height*.8,{steps:12});await page.mouse.up();
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','1');
   await shot(page,'mobile-start');await usable(page,'examine');await btn(page,'examine').click();
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-revealing','true');
+  await expect.poll(()=>page.locator('.rb-snowflake').count()).toBeGreaterThan(0);
+  await shot(page,'mobile-snow-sweep');
   await btn(page,'examine').evaluate(button=>{for(let i=0;i<10;i++)button.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
   await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
   await expect(page.locator('canvas')).not.toHaveAttribute('aria-label',/たぬき/);
@@ -34,6 +42,7 @@ test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid,
   await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','3');
   await expect(page.locator('canvas')).not.toHaveAttribute('aria-label',/×/);
   await btn(page,'examine').click();await usable(page,'red_try');await shot(page,'mobile-clues');
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-revealing','false');
   await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','4');
   await btn(page,'red_try').click();await expect(page.locator('.red-result')).toContainText('まだ開かない');
   await digits(page,'3138');await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');
@@ -63,10 +72,26 @@ test('viewport controls remain visible on small phone, landscape, tablet and PC'
     await page.setViewportSize({width,height});
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     for(const action of ['examine','red_try']){const box=await btn(page,action).boundingBox();expect(box.y+box.height,`${width}×${height} ${action}`).toBeLessThanOrEqual(height);expect(box.height).toBeGreaterThanOrEqual(44);}
+    const canvas=page.locator('canvas'), bounds=await canvas.boundingBox(), body=JSON.parse(await canvas.getAttribute('data-box')),clue=JSON.parse(await canvas.getAttribute('data-clue'));
+    const mount=await page.locator('.red-lock-mount').boundingBox(),tryButton=await btn(page,'red_try').boundingBox();
+    expect(mount.x).toBeGreaterThanOrEqual(bounds.x+body.x);expect(mount.x+mount.width).toBeLessThanOrEqual(bounds.x+body.x+body.w);
+    expect(mount.y).toBeGreaterThan(bounds.y+body.y);expect(tryButton.y).toBeGreaterThanOrEqual(mount.y+mount.height);
+    const overlaps=tryButton.x<bounds.x+clue.x+clue.w&&tryButton.x+tryButton.width>bounds.x+clue.x&&tryButton.y<bounds.y+clue.y+clue.h&&tryButton.y+tryButton.height>bounds.y+clue.y;
+    expect(overlaps,`${width}×${height}: mounted lock must not cover a clue`).toBe(false);
+    for(const dial of await page.getByRole('spinbutton').all()){const b=await dial.boundingBox();expect(b.width).toBeGreaterThanOrEqual(44);expect(b.height).toBeGreaterThanOrEqual(44);}
     await shot(page,`viewport-${width}x${height}`);
   }
   await page.setViewportSize({width:320,height:568});await btn(page,'red_try').click();await usable(page,'red_try');
   expect((await btn(page,'red_try').boundingBox()).y+(await btn(page,'red_try').boundingBox()).height).toBeLessThanOrEqual(568);
+  await digits(page,'3138');await btn(page,'red_try').click();await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
+  for(const [width,height] of [[320,568],[390,844],[844,390],[1280,720]]){
+    await page.setViewportSize({width,height});const canvas=page.locator('canvas');
+    await expect.poll(()=>canvas.evaluate(c=>c.width/Math.min(devicePixelRatio,2))).toBeLessThanOrEqual(width);
+    const bounds=await canvas.boundingBox(),lid=JSON.parse(await canvas.getAttribute('data-lid'));
+    for(const point of lid){expect(point.y).toBeGreaterThanOrEqual(0);expect(point.y).toBeLessThanOrEqual(bounds.height);}
+    for(const action of ['continue_box','close_red_lid']){const b=await btn(page,action).boundingBox();expect(b.y+b.height).toBeLessThanOrEqual(height);}
+    await shot(page,`opened-${width}x${height}`);
+  }
 });
 
 test('audio: narration completes despite dialing, ordered success effects and paper voice',async({page})=>{
@@ -89,6 +114,7 @@ test('saved direct code and images blocked still allow play',async({page})=>{
   state.boxes.red={...state.boxes.red,inputMode:'direct',draft:'３１３８'};
   await page.route('**/assets/red-box/*.png',route=>route.abort());await setup(page,{seed:state});await btn(page,'resume').click();
   await expect(page.locator('.red-fallback')).toBeVisible();await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code','3138');
+  const tryBox=await btn(page,'red_try').boundingBox();expect(tryBox.x).toBeGreaterThanOrEqual(0);expect(tryBox.x+tryBox.width).toBeLessThanOrEqual(1280);
   await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
   await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
 });
@@ -109,18 +135,20 @@ test('reduced motion, voice stop and BGM slider preserve progress and keyboard a
   await page.locator('#bgm-volume').fill('45');await expect(page.locator('#bgm-volume-value')).toHaveText('45%');
   await btn(page,'mute').click();await page.locator('.red-settings summary').first().click();
   await btn(page,'examine').click();await usable(page,'examine');await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
+  await expect(page.locator('.red-stage')).toHaveAttribute('data-revealing','false');await expect(page.locator('.rb-snowflake')).toHaveCount(0);
   await page.reload();await btn(page,'resume').click();await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
   await page.locator('.red-settings summary').first().click();await expect(page.locator('#bgm-volume')).toHaveValue('45');
 });
 
 test.describe('touch emulation',()=>{
   test.use({hasTouch:true,isMobile:true,viewport:{width:390,height:844}});
-  test('large arrow targets edit the same four digits by touch',async({page})=>{
+  test('neighboring numbers edit the mounted four digits by touch without arrow glyphs',async({page})=>{
     await setup(page);await enterRed(page);
     const arrow=page.getByRole('button',{name:'1桁目の数字の列を上へ回す',exact:true});const box=await arrow.boundingBox();
     await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2);
     await expect(page.getByRole('spinbutton',{name:'1桁目のダイアル',exact:true})).toHaveAttribute('aria-valuenow','1');
     expect(await page.locator('input[type="text"]').count()).toBe(0);
+    await expect(page.locator('.rb-cylinder-direction')).toHaveCount(0);
   });
 });
 
