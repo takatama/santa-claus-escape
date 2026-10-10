@@ -1,5 +1,5 @@
 import { papers, BOXES } from './full-scenario.js';
-import { stageDialogueMarkup, createStageDialogue } from './stage-dialogue.js';
+import { stageDialogueMarkup, createStageDialogue, createStageSettings } from './stage-dialogue.js';
 import { createPaperArt } from './paper-art.js';
 
 /** Persistent paper DOM. Selection and gestures are session-only, never a store. */
@@ -16,7 +16,8 @@ export function createPaperStage({ getState, onPlacement, onSubmit }) {
     const target = document.createElement('button'); target.type = 'button'; target.className = 'paper-slot-target'; target.textContent = '＋';
     target.setAttribute('aria-label', `${index + 1}番目の枠に置く`); zone.append(target); slots.append(zone); return zone;
   });
-  let selected = null, drag = null, suppressUntil = 0, disposed = false, lastSettings, result = '', wasSuccess = false;
+  const settingsPanel = createStageSettings(find('.box-settings-content'));
+  let selected = null, drag = null, suppressUntil = 0, disposed = false, result = '', wasSuccess = false;
   const label = id => { const p = papers(getState()).find(p => p.id === id); return p ? `${BOXES[p.color].name}の箱の紙「${p.text}」` : ''; };
   const active = () => !disposed && getState().phase === 'spell';
   function selection(message) {
@@ -115,13 +116,7 @@ export function createPaperStage({ getState, onPlacement, onSubmit }) {
       }
       slotTargets.forEach((zone,index)=>{const target=zone.querySelector('.paper-slot-target');target.hidden=Boolean(view.spellSlots[index]);target.disabled=Boolean(view.spellReview);});
       if (focused?.dataset.paperId && !focused.disabled) focused.focus({preventScroll:true});
-      if (lastSettings!==settings) {
-        const content=find('.box-settings-content'),action=content.contains(focused)?focused?.dataset.action:null;
-        const expanded=Array.from(content.querySelectorAll('details'),node=>node.open);
-        content.innerHTML=settings;lastSettings=settings;
-        content.querySelectorAll('details').forEach((node,index)=>{node.open=expanded[index]===true;});
-        if(action)content.querySelector(`[data-action="${action}"]`)?.focus({preventScroll:true});
-      }
+      settingsPanel.update(settings);
       captions.update({dialogue,muted:view.muted,status});
       const success=view.spellReview; element.classList.toggle('paper-success',success);element.dataset.phase=view.phase;
       find('[data-paper-submit]').hidden=success;find('[data-action="continue_spell"]').hidden=!success;

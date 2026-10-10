@@ -20,3 +20,23 @@ export function createStageDialogue(element) {
     },
   };
 }
+
+/** Updating settings must not replace the stage, its input, or its captions. */
+export function createStageSettings(content) {
+  let lastSettings;
+  return {
+    update(settings) {
+      if (lastSettings === settings) return;
+      const focused = document.activeElement;
+      const action = content.contains(focused) ? focused?.dataset.action : null;
+      const volumeFocus = content.contains(focused) && focused?.id === 'bgm-volume';
+      const expanded = Array.from(content.querySelectorAll('details'), node => node.open);
+      const scroll = content.scrollTop;
+      content.innerHTML = settings; lastSettings = settings;
+      content.querySelectorAll('details').forEach((node, index) => { node.open = expanded[index] === true; });
+      if (action) content.querySelector(`[data-action="${action}"]`)?.focus({preventScroll:true});
+      if (volumeFocus) content.querySelector('#bgm-volume')?.focus({preventScroll:true});
+      content.scrollTop = scroll;
+    },
+  };
+}
