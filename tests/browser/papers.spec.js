@@ -38,7 +38,7 @@ test('papers: drag placement and occupied swap, tray return, outside drop, cance
   await page.mouse.up();expect((await saved(page)).spellSlots[4]).toBe('red-0');await expect(card(page,'red-0')).toBeFocused();
   await expect(page.locator('.paper-ghost')).toHaveCount(0);
 });
-test('papers: empty/incomplete/wrong stays editable; explicit success stays gold, rapid sends summon once, restart acknowledges',async({page})=>{
+test('papers: empty/incomplete/wrong stays editable; explicit success stays visible, rapid sends summon once, restart acknowledges',async({page})=>{
   await setupPapers(page);await page.locator('[data-paper-submit]').click();await expect(page.locator('#paper-feedback')).toContainText('空いている枠');
   await card(page,'red-0').click();await slot(page,0).click();await page.locator('[data-paper-submit]').click();await expect(page.locator('#paper-feedback')).toHaveAttribute('data-kind','error');
   const wrong=['red-0','red-1','blue-0','blue-1','yellow-0','yellow-1'];await arrangePapers(page,wrong);await page.locator('[data-paper-submit]').click();await expect(page.locator('#paper-feedback')).toContainText('見直せます');expect((await saved(page)).spellSlots).toEqual(wrong);

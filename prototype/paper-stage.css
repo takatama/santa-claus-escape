@@ -42,7 +42,7 @@ body.paper-playing { background:#102031; }
 #paper-feedback[data-kind="success"] { color:#ffe2a1;font-weight:bold; }
 .paper-stage .primary { width:min(520px,100%);min-height:48px;font-size:18px;border-radius:10px;padding:8px 12px;color:#32200d;background:linear-gradient(#ffe4a7,#d5ad69);border:1px solid #edca89;box-shadow:0 4px 0 #80592e,0 6px 10px #0005,inset 0 1px #fff3d2; }
 .paper-stage .primary:active { transform:translateY(3px);box-shadow:0 1px 0 #80592e; }
-.paper-success .paper-card:disabled { opacity:1;color:#42280a;border-color:#f8cd72;background:linear-gradient(125deg,#fff1b2,#f7d37a);box-shadow:0 0 16px #ffd48566; }
+.paper-success .paper-card:disabled { opacity:1; }
 .paper-success .paper-workspace { border-color:#f5cc82; }
 .paper-success .paper-actions,.paper-success .paper-key-help { display:none; }
 @media (max-width:420px) { .paper-work { padding-inline:6px; }.paper-workspace { padding:8px; }.paper-row { gap:4px; }.paper-card,.paper-slot-target { height:68px;min-height:68px; }.paper-home,.paper-zone { min-height:68px; }.paper-card span { font-size:32px; }.paper-card small { font-size:10px; }.paper-stage .box-header h1 { font-size:20px; }#paper-help,#selection-status { font-size:14px; } }
