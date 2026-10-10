@@ -18,6 +18,13 @@ async function enterRed(page){
 async function digits(page,code){for(let i=0;i<4;i++)await page.getByRole('spinbutton',{name:`${i+1}桁目のダイアル`,exact:true}).press(code[i]);}
 async function usable(page,action){await expect(btn(page,action)).toBeEnabled({timeout:60000});}
 async function shot(page,name){await page.screenshot({path:`test-results/red-box/${name}.png`});}
+async function waitForCanvasSize(page){
+  // Layout changes before ResizeObserver repaints the canvas and its geometry attributes.
+  await expect.poll(()=>page.locator('canvas').evaluate(canvas=>{
+    const dpr=Math.min(devicePixelRatio||1,2);
+    return canvas.width===Math.round(canvas.clientWidth*dpr)&&canvas.height===Math.round(canvas.clientHeight*dpr);
+  })).toBe(true);
+}
 
 test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid, save and reset',async({page})=>{
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
@@ -69,7 +76,7 @@ test('desktop: arrow keys, numeric keys, pointer drag, focus, early solution and
 test('viewport controls remain visible on small phone, landscape, tablet and PC',async({page})=>{
   await setup(page);await enterRed(page);
   for(const [width,height] of [[320,568],[390,844],[844,390],[768,1024],[1024,768],[1280,720]]){
-    await page.setViewportSize({width,height});
+    await page.setViewportSize({width,height});await waitForCanvasSize(page);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     for(const action of ['examine','red_try']){const box=await btn(page,action).boundingBox();expect(box.y+box.height,`${width}×${height} ${action}`).toBeLessThanOrEqual(height);expect(box.height).toBeGreaterThanOrEqual(44);}
     const canvas=page.locator('canvas'), bounds=await canvas.boundingBox(), body=JSON.parse(await canvas.getAttribute('data-box')),clue=JSON.parse(await canvas.getAttribute('data-clue'));
@@ -81,12 +88,11 @@ test('viewport controls remain visible on small phone, landscape, tablet and PC'
     for(const dial of await page.getByRole('spinbutton').all()){const b=await dial.boundingBox();expect(b.width).toBeGreaterThanOrEqual(44);expect(b.height).toBeGreaterThanOrEqual(44);}
     await shot(page,`viewport-${width}x${height}`);
   }
-  await page.setViewportSize({width:320,height:568});await btn(page,'red_try').click();await usable(page,'red_try');
+  await page.setViewportSize({width:320,height:568});await waitForCanvasSize(page);await btn(page,'red_try').click();await usable(page,'red_try');
   expect((await btn(page,'red_try').boundingBox()).y+(await btn(page,'red_try').boundingBox()).height).toBeLessThanOrEqual(568);
   await digits(page,'3138');await btn(page,'red_try').click();await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
   for(const [width,height] of [[320,568],[390,844],[844,390],[1280,720]]){
-    await page.setViewportSize({width,height});const canvas=page.locator('canvas');
-    await expect.poll(()=>canvas.evaluate(c=>c.width/Math.min(devicePixelRatio,2))).toBeLessThanOrEqual(width);
+    await page.setViewportSize({width,height});await waitForCanvasSize(page);const canvas=page.locator('canvas');
     const bounds=await canvas.boundingBox(),lid=JSON.parse(await canvas.getAttribute('data-lid'));
     for(const point of lid){expect(point.y).toBeGreaterThanOrEqual(0);expect(point.y).toBeLessThanOrEqual(bounds.height);}
     for(const action of ['continue_box','close_red_lid']){const b=await btn(page,action).boundingBox();expect(b.y+b.height).toBeLessThanOrEqual(height);}
