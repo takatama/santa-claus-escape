@@ -43,11 +43,14 @@ function speak() {
   const scene = redStage ? redSceneFor(currentState()) : sceneFor(currentState());track.configure(state);track.begin(scene.bgm);player.setEffectsEnabled(state.sfxEnabled);
   player.play(spokenSegments(scene), scene.key);
 }
-function transcript(scene) {
-  return `<section class="transcript-section" aria-label="現在の台詞"><div id="transcript" ${state.transcriptOpen ? '' : 'hidden'}>${scene.segments.map(s => `<div class="speech-block ${s.speaker}"><span class="speaker">${speakerName[s.speaker]}</span><p>${esc(s.text).replaceAll('\n', '<br>')}</p></div>`).join('')}</div>${button('transcript', state.transcriptOpen ? '− 台詞を閉じる' : '＋ 台詞を文字で読む', 'transcript-toggle', `aria-expanded="${state.transcriptOpen}" aria-controls="transcript"`)}</section>`;
+function transcriptContent(scene) {
+  return scene.segments.map(s => `<div class="speech-block ${s.speaker}"><span class="speaker">${speakerName[s.speaker]}</span><p>${esc(s.text).replaceAll('\n', '<br>')}</p></div>`).join('');
 }
-function toolbar(active) {
-  return `<div class="audio-toolbar" aria-label="音声の操作"><div class="audio-buttons">${button('replay', '↻ 聞き直す', 'audio-button', active ? '' : 'disabled')}${button('stop', '■ 停止', 'audio-button', active ? '' : 'disabled')}${button('mute', state.muted ? '音声オフ' : '音声オン', 'audio-button', `aria-pressed="${state.muted}"`)}</div><span id="audio-status" role="status">${esc(audioStatus)}</span><div class="bgm-control"><label for="bgm-volume">BGM <output id="bgm-volume-value" for="bgm-volume">${state.bgmVolume}%</output></label><input id="bgm-volume" type="range" min="0" max="100" step="1" value="${state.bgmVolume}" aria-label="BGMの音量" aria-valuetext="${state.bgmVolume}%">${button('bgm', `BGM ${state.bgmEnabled ? 'オン' : 'オフ'}`, 'audio-button', `aria-pressed="${state.bgmEnabled}"`)}</div></div>`;
+function transcript(scene) {
+  return `<section class="transcript-section" aria-label="現在の台詞"><div id="transcript" ${state.transcriptOpen ? '' : 'hidden'}>${transcriptContent(scene)}</div>${button('transcript', state.transcriptOpen ? '− 台詞を閉じる' : '＋ 台詞を文字で読む', 'transcript-toggle', `aria-expanded="${state.transcriptOpen}" aria-controls="transcript"`)}</section>`;
+}
+function toolbar(active,showMute=true) {
+  return `<div class="audio-toolbar" aria-label="音声の操作"><div class="audio-buttons">${button('replay', '↻ 聞き直す', 'audio-button', active ? '' : 'disabled')}${button('stop', '■ 停止', 'audio-button', active ? '' : 'disabled')}${showMute ? button('mute', state.muted ? '音声オフ' : '音声オン', 'audio-button', `aria-pressed="${state.muted}"`) : ''}</div><span id="audio-status" role="status">${esc(audioStatus)}</span><div class="bgm-control"><label for="bgm-volume">BGM <output id="bgm-volume-value" for="bgm-volume">${state.bgmVolume}%</output></label><input id="bgm-volume" type="range" min="0" max="100" step="1" value="${state.bgmVolume}" aria-label="BGMの音量" aria-valuetext="${state.bgmVolume}%">${button('bgm', `BGM ${state.bgmEnabled ? 'オン' : 'オフ'}`, 'audio-button', `aria-pressed="${state.bgmEnabled}"`)}</div></div>`;
 }
 function soundSettings() { return `<details class="sound-settings"><summary>音の設定・クレジット</summary>${button('sfx', `効果音 ${state.sfxEnabled ? 'オン' : 'オフ'}`, 'secondary', `aria-pressed="${state.sfxEnabled}"`)}<p>BGM: <a href="https://peritune.com/blog/2017/01/25/laid_back/">Laid_Back</a> / <a href="https://peritune.com/blog/2018/09/28/spook4/">Spook4</a> — PeriTune / <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>。原作のループ版を使用し、音量・ループ・フェードを調整。効果音: 回復魔法2・間抜け3・きらきら輝く1/3 — <a href="https://soundeffect-lab.info/">効果音ラボ</a> / <a href="https://soundeffect-lab.info/agreement/">利用規約</a>（MIT対象外）。ダイヤル: Zott820 / <a href="https://freesound.org/people/Zott820/sounds/174770/">Clicking Dial on Toy</a> / CC0。解錠: <a href="https://sounddictionary.info/machines-1/">効果音辞典</a> / <a href="https://sounddictionary.info/terms-of-use/">利用規約</a>（MIT対象外）。原作の音声ファイルを使用。声はGemini TTSで事前収録。数字の誤答も同じ声で読み、再生できない場合だけ端末の読み上げに切り替えます。</p></details>`; }
 function paperCollection(view, full = false) {
@@ -92,7 +95,7 @@ function render(focus = false, scroll = false) {
       });
       app.replaceChildren(redStage.element);
     }
-    redStage.update(state, {settings:toolbar(true)+transcript(redSceneFor(state))+soundSettings(), status:audioStatus, saved:storageAvailable});
+    redStage.update(state, {settings:toolbar(true,false)+soundSettings(), dialogue:transcriptContent(redSceneFor(state)), status:audioStatus, saved:storageAvailable});
     document.querySelector('#bgm-volume').addEventListener('input',e=>{state=transition(state,{type:'BGM_VOLUME',value:Number(e.target.value)});track.setVolume(state.bgmVolume);save();document.querySelector('#bgm-volume-value').textContent=`${state.bgmVolume}%`;e.target.setAttribute('aria-valuetext',`${state.bgmVolume}%`);});
     if (focus) document.querySelector('#screen-heading').focus({preventScroll:true});
     return;

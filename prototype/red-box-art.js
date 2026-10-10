@@ -11,13 +11,12 @@ export function loadRedArt() {
 export function createRedArt(canvas, assets) {
   const ctx=canvas.getContext('2d',{alpha:false});
   let width=0,height=0,layout;
-  let snowInkRatio=1;
+  const snowInkRatio=1;
   const snowMask=document.createElement('canvas');snowMask.width=620;snowMask.height=258;
   const snow=snowMask.getContext('2d'),baseMask=document.createElement('canvas');baseMask.width=620;baseMask.height=258;
   const base=baseMask.getContext('2d');
   const SNOW_WIDTH=620, SNOW_HEIGHT=258, REVEALS=[{x:18,y:54,w:390,h:136},{x:420,y:12,w:184,h:184},{x:420,y:198,w:184,h:53}];
   const measureInkRatio=()=>snowInkRatio;
-  let maskRatio;
   function restoreMask() {
     base.clearRect(0, 0, SNOW_WIDTH, SNOW_HEIGHT);
     const frost = base.createLinearGradient(0, 0, 40, SNOW_HEIGHT);
@@ -72,6 +71,8 @@ export function createRedArt(canvas, assets) {
   }
 
 
+  // Uniform camera scaling keeps the ink ratio fixed, so reuse this texture.
+  restoreMask();
   const reveal=createSnowReveal();
 const parchment = document.createElement('canvas');
 parchment.width = 144; parchment.height = 170;
@@ -155,7 +156,7 @@ function papers(state) {
 
 function frontClue() {
   const b = layout.box;
-  const card = layout.closeup ? layout.clue : { x: b.x + b.w * .10, y: b.y + b.h * .63, w: b.w * .80, h: b.h * .28 };
+  const card = layout.clue;
   layout.clue = card;
   ctx.save();
   ctx.fillStyle = '#f9e8bc';
@@ -222,50 +223,39 @@ function lid(state) {
   return q;
 }
 
-// PR #1's inspection view crops the front face and keeps the entire lock below the seam.
-function closeBox() {
-  const b=layout.box, body=assets.body, top=assets.lid, depth=Math.min(44,b.y-8);
-  ctx.drawImage(body,body.width*.035,body.height*.382,body.width*.93,body.height*.484,b.x,b.y,b.w,b.h);
-  ctx.save();ctx.beginPath();ctx.moveTo(b.x+b.w*.04,b.y-depth);ctx.lineTo(b.x+b.w*.96,b.y-depth);ctx.lineTo(b.x+b.w,b.y);ctx.lineTo(b.x,b.y);ctx.closePath();ctx.clip();
-  ctx.drawImage(top,top.width*.035,top.height*.11,top.width*.93,top.height*.77,b.x,b.y-depth,b.w,depth+3);ctx.restore();
-  ctx.strokeStyle='#641b21';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(b.x,b.y);ctx.lineTo(b.x+b.w,b.y);ctx.stroke();
-  for(const [i,[x,y,w,h]] of [[.5,-.01,.92,.028],[.06,.03,.09,.024],[.94,.03,.09,.024],[.025,.4,.05,.03],[.975,.48,.05,.03],[.12,.94,.2,.03],[.88,.94,.2,.03]].entries())snowDeposit(ctx,b.x+b.w*x,b.y+b.h*y,b.w*w,b.h*h,i);
-}
 function openPlate() {
-  const b=layout.box,w=b.w*.57,h=b.h*.12,x=b.x+(b.w-w)/2,y=b.y+b.h*.415;
+  const {x,y,w,h}=layout.lock;
   ctx.fillStyle='#b18b42';ctx.strokeStyle='#f6d794';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(x,y,w,h,7);ctx.fill();ctx.stroke();
   ctx.fillStyle='#503719';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=Math.max(18,h*.65)+'px serif';ctx.fillText('✓',x+w/2,y+h/2);
 }
 
-  function paint({exam, progress, unlocked, snowStage = Math.max(0,exam-1), snowFraction = 0}) {
+  function paint({exam, progress, unlocked, camera = unlocked?1:0, snowStage = Math.max(0,exam-1), snowFraction = 0}) {
     width=canvas.clientWidth;height=canvas.clientHeight;if(!width||!height)return;
     const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
-    const closeup=!unlocked, short=height<370&&width>height*1.7;
-    let lock,clue,box,hinge;
-    if(closeup) {
-      const seam=Math.min(80,height*.13);
-      box={x:width*.02,y:seam,w:width*.96,h:height-seam-18};
-      const lockW=Math.min(short?300:400,Math.max(244,width*(short?.36:.52)));
-      lock={x:width*(short?.72:.5)-lockW/2,y:seam+12,w:lockW,h:144};
-      clue=short?{x:width*.08,y:seam+20,w:width*.43,h:height-seam-55}:{x:width*.14,y:lock.y+208,w:width*.72,h:height-lock.y-238};
-    } else {
-      // Reserve the lid's full sweep above the body, including on short screens.
-      const boxW=Math.min(width*.96,height/1.18),boxH=boxW*assets.body.height/assets.body.width;
-      box={x:(width-boxW)/2,y:(height-boxH)/2+boxW*.215,w:boxW,h:boxH};
-      hinge={cx:box.x+box.w*.5,hingeY:box.y+box.h*.030,backWidth:box.w*.760,frontWidth:box.w*.988,closedDepth:box.h*.340,liftDepth:box.w*.400};
-      clue={x:box.x+box.w*.10,y:box.y+box.h*.63,w:box.w*.80,h:box.h*.28};
-    }
+    // A fixed inspection camera reveals more ornament on wider windows. The
+    // original image, clue and snow keep their aspect ratios; only the crop changes.
+    const closeup=!unlocked, horizontal=width>=600&&height<344;
+    const sceneW=1000/.93,sceneH=sceneW*assets.body.height/assets.body.width;
+    const seam=(height-(horizontal?208:333))/2;
+    const closeBox={x:(width-sceneW)/2,y:seam-sceneH*.382,w:sceneW,h:sceneH};
+    // Pull back once after unlocking so the entire lid sweep and papers fit.
+    const wide=Math.min(width*.96,height/1.18,560),tall=wide*assets.body.height/assets.body.width;
+    const distant={x:(width-wide)/2,y:(height-tall)/2+wide*.215,w:wide,h:tall};
+    const amount=unlocked?camera:0,mix=(a,b)=>a+(b-a)*amount;
+    const box=Object.fromEntries(['x','y','w','h'].map(key=>[key,mix(closeBox[key],distant[key])]));
+    const scale=box.w/sceneW;
+    const at=(x,y,w,h)=>({x:box.x+x*scale,y:box.y+y*scale,w:w*scale,h:h*scale});
+    const lock=at(sceneW/2+(horizontal?16:-140),sceneH*.382+8,280,144);
+    const clue=at(sceneW/2+(horizontal?-296:-150),sceneH*.382+(horizontal?44:208),300,300*258/620);
+    const hinge={cx:box.x+box.w*.5,hingeY:box.y+box.h*.030,backWidth:box.w*.760,frontWidth:box.w*.988,closedDepth:box.h*.340,liftDepth:box.w*.400};
     layout={closeup,box,hinge,lock,clue};
-    snowInkRatio=(clue.w/620)/(clue.h/258);
-    if(maskRatio!==snowInkRatio){restoreMask();maskRatio=snowInkRatio;}
     reveal.render(snow,{baseMask,stage:snowStage,fraction:snowFraction,inkRatio:snowInkRatio});
     const state={opening:smooth(0,1,progress),warmth:smooth(.02,.75,progress),papers:smooth(.2,.8,progress),firstPaper:smooth(.2,.65,progress),secondPaper:smooth(.35,.8,progress)};
     const backdrop=ctx.createRadialGradient(width/2,height*.3,20,width/2,height*.3,width*.8);
     backdrop.addColorStop(0,'#314357');backdrop.addColorStop(1,'#122233');ctx.fillStyle=backdrop;ctx.fillRect(0,0,width,height);
     groundShadow(box);
-    if(closeup){closeBox();frontClue();}
-    else {ctx.drawImage(assets.body,box.x,box.y,box.w,box.h);papers(state);frontClue();bodySnow();openPlate();lid(state);}
-    Object.assign(canvas.dataset,{exam:String(exam),progress:progress.toFixed(3),box:JSON.stringify(box),clue:JSON.stringify(clue),lock:JSON.stringify(lock??null),lid:JSON.stringify(hinge?lidQuad(state.opening,hinge).points:null),closeup:String(closeup),ready:'true'});
+    ctx.drawImage(assets.body,box.x,box.y,box.w,box.h);papers(state);frontClue();bodySnow();if(unlocked)openPlate();lid(state);
+    Object.assign(canvas.dataset,{exam:String(exam),progress:progress.toFixed(3),camera:amount.toFixed(3),box:JSON.stringify(box),clue:JSON.stringify(clue),lock:JSON.stringify(closeup?lock:null),lid:JSON.stringify(unlocked?lidQuad(state.opening,hinge).points:null),closeup:String(closeup),ready:'true'});
     return {lock,clue};
   }
   return {paint, sweepPosition(stage,fraction) {

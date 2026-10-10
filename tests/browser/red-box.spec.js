@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { initialState, transition, STORAGE_KEY } from '../../prototype/full-game.js';
+import { SCENARIO } from '../../prototype/scenario.js';
 
 const btn = (page,action) => page.locator(`[data-action="${action}"]`);
 async function setup(page,{muted=true,seed=null,unavailable=false}={}){
@@ -75,12 +76,18 @@ test('desktop: arrow keys, numeric keys, pointer drag, focus, early solution and
 
 test('viewport controls remain visible on small phone, landscape, tablet and PC',async({page})=>{
   await setup(page);await enterRed(page);
+  const bodyRatio=await page.evaluate(async()=>{const {loadImage}=await import('/red-paint.js');const body=await loadImage('/assets/red-box/red-body.png');return body.width/body.height;});
+  let inspectionSize;
   for(const [width,height] of [[320,568],[390,844],[844,390],[768,1024],[1024,768],[1280,720]]){
     await page.setViewportSize({width,height});await waitForCanvasSize(page);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     for(const action of ['examine','red_try']){const box=await btn(page,action).boundingBox();expect(box.y+box.height,`${width}×${height} ${action}`).toBeLessThanOrEqual(height);expect(box.height).toBeGreaterThanOrEqual(44);}
     const canvas=page.locator('canvas'), bounds=await canvas.boundingBox(), body=JSON.parse(await canvas.getAttribute('data-box')),clue=JSON.parse(await canvas.getAttribute('data-clue'));
     const mount=await page.locator('.red-lock-mount').boundingBox(),tryButton=await btn(page,'red_try').boundingBox();
+    const size=[body.w,body.h,clue.w,clue.h,mount.width,mount.height];inspectionSize ||= size;
+    size.forEach((value,index)=>expect(value,`${width}×${height}: inspection size`).toBeCloseTo(inspectionSize[index],2));
+    expect(body.w/body.h).toBeCloseTo(bodyRatio,4);expect(clue.w/clue.h).toBeCloseTo(620/258,4);
+    const dialogue=await page.locator('.red-dialogue').boundingBox();expect(dialogue.y+dialogue.height).toBeLessThanOrEqual(height);
     expect(mount.x).toBeGreaterThanOrEqual(bounds.x+body.x);expect(mount.x+mount.width).toBeLessThanOrEqual(bounds.x+body.x+body.w);
     expect(mount.y).toBeGreaterThan(bounds.y+body.y);expect(tryButton.y).toBeGreaterThanOrEqual(mount.y+mount.height);
     const overlaps=tryButton.x<bounds.x+clue.x+clue.w&&tryButton.x+tryButton.width>bounds.x+clue.x&&tryButton.y<bounds.y+clue.y+clue.h&&tryButton.y+tryButton.height>bounds.y+clue.y;
@@ -98,6 +105,33 @@ test('viewport controls remain visible on small phone, landscape, tablet and PC'
     for(const action of ['continue_box','close_red_lid']){const b=await btn(page,action).boundingBox();expect(b.y+b.height).toBeLessThanOrEqual(height);}
     await shot(page,`opened-${width}x${height}`);
   }
+});
+
+test('permanent dialogue: original stage text, keyboard scrolling, mute and stable camera',async({page})=>{
+  const seed=initialState(true);seed.transcriptOpen=false;
+  await page.setViewportSize({width:320,height:568});await setup(page,{seed});await enterRed(page);
+  const text=page.locator('#transcript'),canvas=page.locator('canvas');
+  await expect(text).toBeVisible();await expect(page.locator('.red-settings')).not.toHaveAttribute('open','');
+  await expect(text.locator('p')).toHaveText(SCENARIO.messages.red1[0].text.replaceAll('\n',''));
+  await expect(text).not.toContainText('たぬき');
+  await text.press('End');await expect.poll(()=>text.evaluate(e=>Math.abs(e.scrollHeight-e.clientHeight-e.scrollTop)<1)).toBe(true);
+  expect(await page.evaluate(()=>scrollY)).toBe(0);
+  const scroll=await text.evaluate(e=>e.scrollTop),box=await canvas.getAttribute('data-box');
+  await page.getByRole('spinbutton',{name:'1桁目のダイアル',exact:true}).press('1');
+  await btn(page,'mute').click();await btn(page,'mute').click();
+  expect(await text.evaluate(e=>e.scrollTop)).toBe(scroll);await expect(canvas).toHaveAttribute('data-box',box);
+  await usable(page,'examine');await btn(page,'examine').click();await usable(page,'examine');
+  await expect(text.locator('p')).toHaveText(SCENARIO.messages.red2[0].text.replaceAll('\n',''));
+  await expect(text).not.toContainText('たぬき');expect(await text.evaluate(e=>e.scrollTop)).toBe(0);
+  await page.setViewportSize({width:568,height:320});await waitForCanvasSize(page);
+  const picture=page.locator('.red-picture');
+  expect(await picture.evaluate(e=>e.scrollHeight)).toBeGreaterThan(await picture.evaluate(e=>e.clientHeight));
+  await digits(page,'3138');await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');
+  await expect(canvas).toHaveAttribute('data-camera','1.000');
+  expect(JSON.parse(await canvas.getAttribute('data-box')).w).toBeLessThan(JSON.parse(box).w);
+  await btn(page,'open_red_lid').click();await usable(page,'continue_box');await expect(text).toContainText('スイカ');
+  for(const action of ['continue_box','close_red_lid']){const b=await btn(page,action).boundingBox();expect(b.y+b.height).toBeLessThanOrEqual(320);}
+  await shot(page,'short-landscape-dialogue');
 });
 
 test('audio: narration completes despite dialing, ordered success effects and paper voice',async({page})=>{
@@ -129,8 +163,8 @@ test('storage unavailable and audio playback unavailable: mute, subtitles, reset
   await page.addInitScript(()=>{window.speechSynthesis?.cancel();Object.defineProperty(window,'speechSynthesis',{value:null});window.AudioContext=window.webkitAudioContext=undefined;HTMLMediaElement.prototype.play=function(){return Promise.reject(new Error('test: blocked media'));};});
   await setup(page,{unavailable:true});await enterRed(page);
   await expect(page.locator('#save-status')).toContainText('保存できません');await expect(page.locator('.red-stage')).toHaveAttribute('data-busy','false');
-  await page.locator('.red-settings summary').first().click();await expect(page.locator('#transcript')).toContainText('あなたは赤色の箱を調べました。');
-  await btn(page,'mute').click();await page.locator('.red-settings summary').first().click();
+  await expect(page.locator('#transcript')).toBeVisible();await expect(page.locator('#transcript')).toContainText('あなたは赤色の箱を調べました。');
+  await btn(page,'mute').click();
   await digits(page,'3138');await btn(page,'red_try').click();await usable(page,'open_red_lid');await btn(page,'open_red_lid').click();await usable(page,'continue_box');
   await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
 });
@@ -139,7 +173,7 @@ test('reduced motion, voice stop and BGM slider preserve progress and keyboard a
   await page.emulateMedia({reducedMotion:'reduce'});await setup(page,{muted:false});await enterRed(page);
   await page.locator('.red-settings summary').first().click();await btn(page,'stop').click();await expect(page.locator('.red-stage')).toHaveAttribute('data-busy','false');
   await page.locator('#bgm-volume').fill('45');await expect(page.locator('#bgm-volume-value')).toHaveText('45%');
-  await btn(page,'mute').click();await page.locator('.red-settings summary').first().click();
+  await page.locator('.red-settings summary').first().click();await btn(page,'mute').click();
   await btn(page,'examine').click();await usable(page,'examine');await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
   await expect(page.locator('.red-stage')).toHaveAttribute('data-revealing','false');await expect(page.locator('.rb-snowflake')).toHaveCount(0);
   await page.reload();await btn(page,'resume').click();await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
