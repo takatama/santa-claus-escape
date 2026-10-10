@@ -1,6 +1,7 @@
 import { createCylinderLock } from './red-cylinder-lock.js';
 import { BOXES } from './full-scenario.js';
 import { BoxActionGate } from './box-presentation.js';
+import { stageDialogueMarkup, createStageDialogue } from './stage-dialogue.js';
 
 /** A main-state view. It owns drawing and motion, never another save or puzzle. */
 export function createBoxStage({ color, presentation, setCode, onDial, getCode, onLid }) {
@@ -13,10 +14,11 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
   element.innerHTML = `<header class="box-header"><button type="button" data-action="boxes" class="box-back">三つの箱へ</button><h1 id="screen-heading" tabindex="-1">${name}</h1><details class="box-settings"><summary>音の設定</summary><div class="box-settings-content"></div></details></header>
     <div class="box-content"><div class="box-play"><div class="box-picture"><canvas class="box-canvas" role="img" aria-label="大きく見た${name}"></canvas><div class="box-snowfall" aria-hidden="true"></div><div class="box-lock-panel" aria-label="${name}の錠"><div class="box-lock-mount"><span class="box-lock-screw left" aria-hidden="true"></span><span class="box-lock-screw right" aria-hidden="true"></span></div><button type="button" class="primary" data-action="box_try">ためす</button></div><button type="button" class="box-lid-grip" data-action="open_lid" aria-label="ふたをあける" hidden>${gripIcon}</button><button type="button" class="box-lid-grip box-grip-close" data-action="close_lid" aria-label="ふたをとじる" hidden>${gripIcon}</button><p class="box-loading" role="status">絵を読み込んでいます。</p><p class="box-wait" role="status" hidden></p><p class="box-fallback" hidden>${name}の絵を読み込めませんでした。手がかりとダイヤルで続けられます。</p></div>
     <div class="box-actions"><p class="box-discovery" role="status"></p><button type="button" class="primary box-examine" data-action="examine">調べる</button><p class="box-result" role="status"></p><div class="box-papers" hidden>${letters.map(letter=>`<span>${letter}</span>`).join('')}</div><button type="button" class="primary" data-action="continue_box" hidden>ほかの箱を調べる</button></div></div>
-    <section class="box-dialogue" aria-labelledby="box-dialogue-title"><header><h2 id="box-dialogue-title">お話</h2><span class="box-voice" role="status" hidden><span class="box-voice-icon" aria-hidden="true"><svg viewBox="0 0 24 32"><path d="M2 12h5l8-8v24l-8-8H2z" fill="currentColor"/><path d="M19 10q7 6 0 12" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="box-voice-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span><span>声を再生中</span></span><button type="button" data-action="mute" class="box-dialogue-mute"></button></header><div id="transcript" class="box-dialogue-scroll" role="region" aria-label="現在の台詞、スクロールして読む" tabindex="0"></div></section></div>
+    ${stageDialogueMarkup()}</div>
     <footer class="box-footer"><span id="save-status"></span><button type="button" data-action="reset">やり直す</button></footer>`;
   const find = selector => element.querySelector(selector);
   const canvas = find('canvas'), gate = new BoxActionGate();
+  const captions = createStageDialogue(element);
   const controls = presentation.createControls?.();
   if (controls) find('.box-actions').append(controls.element);
   const lock = createCylinderLock({ getCode, setCode, onChange: onDial });
@@ -24,7 +26,7 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let view, art, disposed = false, frame = 0, progress = 0, from = 0, target = 0, started = 0, lastExam;
   let revealFrom = null, revealFraction = 0, revealStarted = 0, revealDuration = 0;
-  let camera = 0, cameraStarted = 0, lastDialogue;
+  let camera = 0, cameraStarted = 0;
   const flakes = new Map();let lastSnowfall=-Infinity;
   let drag = null, gripDistance = 105, suppressClick = null;
   const grips=Array.from(element.querySelectorAll('.box-lid-grip'));
@@ -185,9 +187,7 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
       controls?.update(view);
       element.classList.toggle('box-has-extra',Boolean(controls&&!controls.element.hidden));
       find('.box-settings-content').innerHTML = settings;
-      const text=find('#transcript');
-      if(lastDialogue!==dialogue){text.innerHTML=dialogue;text.scrollTop=0;lastDialogue=dialogue;}
-      const mute=find('.box-dialogue-mute');mute.textContent=view.muted?'音声オフ':'音声オン';mute.setAttribute('aria-pressed',String(view.muted));
+      captions.update({dialogue, muted:view.muted, status});
       find('#save-status').textContent = saved ? 'この端末に自動保存' : '保存できません・このまま遊べます';
       for (const button of element.querySelectorAll('button[data-action]')) button.dataset.revision = String(view.revision);
       lock.setDisabled(b.opened); lock.refresh(); paint(); syncBusy();

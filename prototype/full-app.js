@@ -10,13 +10,15 @@ import { createBoxStage } from './box-stage.js';
 import { BOX_PRESENTATIONS } from './box-presentations.js';
 import { boxSceneFor, boxTimeline, BoxNarrationQueue } from './box-presentation.js';
 import { loadRedArt } from './red-box-art.js';
+import { createPaperStage } from './paper-stage.js';
+import { arrangedWord } from './paper-layout.js';
 
 const app = document.querySelector('#app');
 let storage; try { storage = window.localStorage; } catch {}
 const loaded = readSave(storage);
 let state = loaded.state || initialState(), resumePending = state.phase !== 'welcome', storageAvailable = loaded.available;
 let readingIndex = null, feedback = '', inputError = false, lastAction = -Infinity;
-let boxStage = null, boxNarration;
+let boxStage = null, paperStage = null, boxNarration;
 let audioStatus = state.muted ? '音声オフ・文字で遊べます' : '開始ボタンで読み上げます';
 const track = new Soundtrack(src=>{const audio=new Audio(src);audio.preload='metadata';document.querySelector('#music-host').replaceChildren(audio);return audio;});
 const voiceTimeline = new AudioTimeline();
@@ -29,6 +31,7 @@ const player = new SpeechPlayer(
   status => {
     audioStatus = status;
     boxStage?.setStatus(status);
+    paperStage?.setStatus(status);
     const element = document.querySelector('#audio-status'); if (element) element.textContent = status;
     document.querySelector('.santa-device')?.classList.toggle('speaking', status === '読み上げ中');
     if (status !== '読み上げ中') track.quiet();
@@ -94,7 +97,10 @@ function render(focus = false, scroll = false) {
   const view = currentState(), scene = sceneFor(view), reading = readingIndex !== null;
   const cover = resumePending || view.phase === 'welcome';
   const illustrated = !cover && !reading && BOX_PRESENTATIONS[view.selectedBox] && ['box','boxResponse'].includes(view.phase);
+  const illustratedPapers = !cover && !reading && ((view.phase === 'spell' && papers(view).length === 6) || (view.phase === 'witchInvite' && view.spellReview));
   document.body.classList.toggle('box-playing', illustrated);
+  document.body.classList.toggle('paper-playing', illustratedPapers);
+  if (!illustratedPapers) { paperStage?.destroy(); paperStage = null; }
   if (illustrated) {
     // A resumed legacy direct input is reflected in the same four cylinders.
     const color=state.selectedBox;
@@ -118,6 +124,26 @@ function render(focus = false, scroll = false) {
     return;
   }
   boxStage?.destroy(); boxStage = null;
+  if (illustratedPapers) {
+    if (!paperStage) {
+      paperStage = createPaperStage({
+        getState:()=>state,
+        onPlacement:event=>{const next=transition(state,event);if(next!==state){state=next;save();render();}},
+        onSubmit:revision=>{
+          if (revision!==state.revision || state.phase!=='spell') return;
+          if (!arrangedWord(state.spellSlots,papers(state))) return paperStage.feedback('まだ空いている枠があります。六枚の紙を置いてみよう。');
+          if (transition(state,{type:'SPELL',source:'papers',revision})===state) return paperStage.feedback('まだ合っていないようです。紙を動かして見直せます。');
+          apply({type:'SPELL',source:'papers',revision});
+        },
+      });
+      app.replaceChildren(paperStage.element);
+    }
+    paperStage.update(state,{settings:toolbar(true,false)+soundSettings(),dialogue:transcriptContent(scene),status:audioStatus,saved:storageAvailable});
+    const volume=document.querySelector('#bgm-volume');
+    volume.oninput=e=>{state=transition(state,{type:'BGM_VOLUME',value:Number(e.target.value)});track.setVolume(state.bgmVolume);save();document.querySelector('#bgm-volume-value').textContent=`${state.bgmVolume}%`;e.target.setAttribute('aria-valuetext',`${state.bgmVolume}%`);};
+    if(focus&&!state.spellReview)document.querySelector('#screen-heading').focus({preventScroll:true});
+    return;
+  }
   let visual = '', controls = '', extra = '', title = scene.title;
   if (cover) {
     visual = santaScene(); title = 'サンタの脱出';
@@ -160,6 +186,9 @@ function apply(event) {
   const next = transition(state, event); if (next === state) return;
   const sequenceBox = boxStage && ['EXAMINE','INFORMATION','ANSWER','OPEN_LID','CLOSE_LID','LID'].includes(event.type);
   state = next; feedback = ''; inputError = false; save();
+  // SPELL has already started the original invite audio. Acknowledgment only
+  // changes its presentation, so it cannot summon or replay it a second time.
+  if (event.type === 'CONTINUE_SPELL') { render(true,true); return; }
   const narrate = !['FINISH','CLOSE_LID'].includes(event.type) && (event.type !== 'LID' || (!wasLidOpen && state.boxes[color].lidOpen));
   if (sequenceBox) {
     // A new trial supersedes the previous voice, effects and pending results.
@@ -214,6 +243,7 @@ app.addEventListener('click', event => {
     document.querySelectorAll('.dial-column output').forEach((output, i) => { output.textContent = state.boxes[state.selectedBox].dial[i]; }); return;
   }
   if (action === 'mode') { state = transition(state, { type: 'MODE' }); feedback = ''; inputError = false; save(); render(); return; }
+  if (action === 'continue_spell') return apply({type:'CONTINUE_SPELL',revision:Number(target.dataset.revision)});
   if (performance.now() - lastAction < 450) return; lastAction = performance.now();
   if (action === 'resume') { resumePending = false; render(true, true); speak(); return; }
   if (action === 'read' && state.phase === 'complete') readingIndex = 0;
