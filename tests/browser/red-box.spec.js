@@ -148,7 +148,7 @@ test('permanent dialogue: original stage text, keyboard scrolling, mute and stab
   await shot(page,'short-landscape-dialogue');
 });
 
-test('audio: actions during voice, animated speaker, complete voices and ordered effects',async({page})=>{
+test('audio: exploration voices queue naturally, trying replaces them, and lid discovery waits for unlocking',async({page})=>{
   const requested=[];page.on('request',req=>{if(req.url().includes('/assets/audio/'))requested.push(req.url().split('/').pop());});
   await setup(page,{muted:false});await enterRed(page);
   await expect(btn(page,'examine')).toBeEnabled();await expect(page.locator('.red-voice')).toBeVisible();
@@ -163,23 +163,75 @@ test('audio: actions during voice, animated speaker, complete voices and ordered
   await btn(page,'examine').evaluate(button=>{button.click();for(let i=0;i<5;i++)button.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
   await expect(page.locator('.red-stage')).toHaveAttribute('data-exam','2');
   expect(await firstClip.evaluate(audio=>audio.ended)).toBe(false);await expect(page.locator('#transcript')).toContainText('このあと');
+  // Exploration narration completes naturally when the player does not try the lock.
+  await firstClip.evaluate(audio=>{audio.playbackRate=4;});
+  await expect(clip).toHaveAttribute('src',/red2\.wav$/,{timeout:20000});expect(await firstClip.evaluate(audio=>audio.ended)).toBe(true);
+  const secondClip=await clip.elementHandle();await expect.poll(()=>secondClip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(0);
   await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');
+  expect(await secondClip.evaluate(audio=>audio.paused&&audio.currentTime===0)).toBe(true);
+  await expect(page.locator('#transcript')).not.toContainText('このあと');
   await expect(page.locator('canvas')).toHaveAttribute('data-progress','0.000');
   await expect(page.locator('.red-lock-mount')).toBeVisible();await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code','3138');
   await expect(page.getByRole('spinbutton').first()).toBeDisabled();
-  expect(requested).not.toContain('unlocking-1.mp3');expect(requested).not.toContain('cue-box-red-paper.wav');
+  expect(requested).not.toContain('cue-box-red-paper.wav');
   await btn(page,'open_red_lid').click();await usable(page,'continue_box');
   await expect(page.locator('canvas')).toHaveAttribute('data-progress','1.000');
-  expect(await firstClip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(before);
-  // Speed up only the recorded voices in this test; assert native ended events, not a forced stop.
-  await firstClip.evaluate(audio=>{audio.playbackRate=4;});
-  await expect(clip).toHaveAttribute('src',/red2\.wav$/,{timeout:20000});expect(await firstClip.evaluate(audio=>audio.ended)).toBe(true);
-  const secondClip=await clip.elementHandle();await secondClip.evaluate(audio=>{audio.playbackRate=4;});
   await expect.poll(()=>requested.includes('unlocking-1.mp3'),{timeout:20000}).toBe(true);
-  expect(await secondClip.evaluate(audio=>audio.ended)).toBe(true);expect(requested).not.toContain('cue-box-red-paper.wav');
+  expect(requested).not.toContain('cue-box-red-paper.wav');
   await expect.poll(()=>requested.includes('cue-box-red-paper.wav'),{timeout:30000}).toBe(true);
   expect(requested).toContain('magic-cure2.mp3');expect(requested.indexOf('unlocking-1.mp3')).toBeLessThan(requested.indexOf('magic-cure2.mp3'));
   await expect(page.locator('.red-voice')).toBeHidden({timeout:30000});
+});
+
+test('trying repeatedly: cancel old voice, effects and pending clues; only the latest trial survives stale completion',async({page})=>{
+  const requested=[];page.on('request',req=>{if(req.url().includes('/assets/audio/'))requested.push(req.url().split('/').pop());});
+  await page.addInitScript(()=>{
+    window.trialSources=[];
+    const create=AudioContext.prototype.createBufferSource;
+    AudioContext.prototype.createBufferSource=function(){
+      const node=create.call(this),start=node.start.bind(node),stop=node.stop.bind(node);
+      const record={node,stopped:0,ended:false,lateEnd:null};
+      node.addEventListener('ended',()=>{record.ended=true;});
+      node.start=(...args)=>{
+        // Timeline voice/effect pairs have a scheduled start, while the dial's
+        // short standalone sound has explicit offset/duration arguments.
+        if(args.length===1){record.lateEnd=node.onended;node.playbackRate.value=.25;window.trialSources.push(record);}
+        return start(...args);
+      };
+      node.stop=(...args)=>{record.stopped++;return stop(...args);};
+      return node;
+    };
+  });
+  await setup(page,{muted:false});await enterRed(page);
+  const firstClip=await page.locator('#audio-host audio').elementHandle();
+  await expect.poll(()=>firstClip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(0);
+  await btn(page,'examine').click();await expect(page.locator('#transcript')).toContainText('このあと');
+  await digits(page,'0001');await usable(page,'red_try');
+  await btn(page,'red_try').evaluate(button=>{button.click();for(let i=0;i<8;i++)button.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
+  expect(await firstClip.evaluate(audio=>audio.paused&&audio.currentTime===0)).toBe(true);
+  await expect(page.locator('#transcript')).toContainText('0001');await expect(page.locator('#transcript')).not.toContainText('このあと');
+  await expect.poll(()=>page.evaluate(()=>window.trialSources.length)).toBe(2);
+  expect(requested).not.toContain('red2.wav');
+  await digits(page,'0002');await usable(page,'red_try');
+  expect(await page.evaluate(()=>window.trialSources[0].ended)).toBe(false);
+  await btn(page,'red_try').click();await expect.poll(()=>page.evaluate(()=>window.trialSources.length)).toBe(4);
+  expect(await page.evaluate(()=>window.trialSources.slice(0,2).every(s=>s.stopped>0))).toBe(true);
+  await expect(page.locator('#transcript')).toContainText('0002');await expect(page.locator('#transcript')).not.toContainText('0001');
+  // The same wrong input must replace/restart its result, without queueing duplicates.
+  await usable(page,'red_try');await btn(page,'red_try').click();await expect.poll(()=>page.evaluate(()=>window.trialSources.length)).toBe(6);
+  expect(await page.evaluate(()=>window.trialSources.slice(2,4).every(s=>s.stopped>0))).toBe(true);
+  await expect(page.locator('#transcript .speech-block')).toHaveCount(1);
+  await digits(page,'3138');await usable(page,'red_try');await btn(page,'red_try').click();await usable(page,'open_red_lid');
+  await expect.poll(()=>page.evaluate(()=>window.trialSources.length)).toBe(8);
+  expect(await page.evaluate(()=>window.trialSources.slice(4,6).every(s=>s.stopped>0))).toBe(true);
+  await page.evaluate(()=>{for(const old of window.trialSources.slice(0,6))old.lateEnd?.();});
+  await expect(page.locator('.red-voice')).toBeVisible();await expect(page.locator('.red-stage')).toHaveAttribute('data-lid-open','false');
+  await expect(page.locator('#transcript')).toContainText('3138');await expect(page.locator('#transcript')).not.toContainText('0002');
+  await expect(page.locator('#transcript')).not.toContainText('このあと');expect(requested).not.toContain('red2.wav');
+  await page.evaluate(()=>{for(const current of window.trialSources.slice(-2))current.node.playbackRate.value=4;});
+  await expect(page.locator('.red-voice')).toBeHidden({timeout:30000});
+  await btn(page,'open_red_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();
+  await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
 });
 
 test('saved direct code and images blocked still allow play',async({page})=>{

@@ -159,6 +159,9 @@ function apply(event) {
   state = next; feedback = ''; inputError = false; save();
   const narrate = !['FINISH','CLOSE_RED_LID'].includes(event.type) && (event.type !== 'RED_LID' || (!wasRedLidOpen && state.boxes.red.lidOpen));
   if (sequenceRed) {
+    // A new trial supersedes the previous voice, effects and pending results.
+    // Examination and lid discovery still keep their narration in order.
+    if (event.type === 'ANSWER') stop();
     if (narrate && !state.muted) redNarration.enqueue(redSceneFor(state));
     render(true, true);
   } else { stop(); render(true, true); if (narrate) speak(); }
