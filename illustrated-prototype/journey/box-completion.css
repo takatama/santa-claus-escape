@@ -1,0 +1,59 @@
+.box-storybook.has-box-completion { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+.box-completion {
+  position: fixed;
+  z-index: 5;
+  inset: auto 0 0;
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  padding: 11px 20px max(12px, env(safe-area-inset-bottom));
+  border-top: 1px solid #b79a63;
+  background: linear-gradient(180deg, #243a4d, #142a40);
+  box-shadow: 0 -8px 28px rgb(6 17 29 / .32);
+}
+.box-completion .collected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #e6d6b7;
+}
+.box-completion .collected > span {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 30px;
+  border: 1px solid #cba66b;
+  border-radius: 2px;
+  background: #f3e2ba;
+  color: #533d2a;
+  font: 600 22px/1 "Yu Mincho", serif;
+}
+.box-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: min(100%, 370px);
+  min-height: 48px;
+  padding: 10px 16px;
+  border: 1px solid #f2d69b;
+  border-radius: 7px;
+  background: #e8c582;
+  color: #243343;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+}
+.box-next:hover { background: #f5dba5; }
+.box-next [aria-hidden] { font: 27px/1 serif; }
+.box-paper-count { margin: 0; color: #becbd3; font-size: 10px; line-height: 1.3; }
+@media (max-width: 600px) {
+  .box-storybook.has-box-completion { padding-bottom: calc(125px + env(safe-area-inset-bottom)); }
+  .box-completion { gap: 6px; padding-inline: 18px; }
+}

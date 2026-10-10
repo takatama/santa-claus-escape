@@ -1,0 +1,87 @@
+.rescue-storybook .reader-panel {
+  gap: 10px;
+  padding: 16px 28px max(14px, env(safe-area-inset-bottom));
+}
+
+.prototype-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 22px;
+  min-width: 0;
+  max-width: 100%;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #8d9bad;
+}
+
+.prototype-links a {
+  color: #c8b991;
+  text-decoration-color: rgb(200 185 145 / .35);
+  text-underline-offset: 4px;
+}
+
+.prototype-links a:hover { color: #f3dfb9; }
+.prototype-links span { font-size: 9px; color: #8795a8; }
+
+@media (max-width: 600px) {
+  .rescue-storybook .reader-panel {
+    gap: 9px;
+    padding: 14px 20px max(14px, env(safe-area-inset-bottom));
+  }
+
+  .rescue-storybook .narration {
+    min-height: 3.2em;
+    height: 3.2em;
+    font-size: 15px;
+    letter-spacing: .045em;
+  }
+
+  .rescue-storybook .controls { gap: 9px 12px; }
+  .rescue-storybook .interaction-hint { font-size: 9px; }
+  .rescue-storybook .title-block p { letter-spacing: .035em; font-size: 8px; }
+
+  .prototype-links { column-gap: 12px; row-gap: 3px; font-size: 9px; }
+  .prototype-links span { font-size: 8px; }
+}
+
+@media (max-height: 620px) and (min-width: 601px) {
+  .rescue-storybook .reader-panel { gap: 7px; padding-top: 10px; padding-bottom: 10px; }
+}
+/* Original closing dialogue appears after the connected release completes. */
+.conclusion { max-width: 660px; margin: 0 auto; font-size: 16px; line-height: 1.9; }
+.conclusion p { margin: 0 0 1.2em; }
+.journey-rescue { height: auto; min-height: 100svh; grid-template-rows: clamp(430px, 58svh, 620px) auto; overflow: visible; }
+.journey-rescue .reader-panel { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
+.conclusion { scroll-margin-top: 24px; }
+.rescue-next {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  padding: 12px 20px calc(14px + env(safe-area-inset-bottom));
+  background: linear-gradient(transparent, #101f35 28%);
+  pointer-events: none;
+}
+.rescue-next button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: min(100%, 460px);
+  min-height: 54px;
+  padding: 12px 20px;
+  border: 1px solid #f0cd8c;
+  border-radius: 9px;
+  background: linear-gradient(#a37b40, #6e4e27);
+  box-shadow: 0 4px 18px #07152299, inset 0 1px #ffe4ac55;
+  color: #fff0d0;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: center;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.rescue-next button:hover { background: linear-gradient(#b28b4e, #7c5a30); }

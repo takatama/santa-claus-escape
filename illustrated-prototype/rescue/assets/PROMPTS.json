@@ -1,0 +1,26 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "reference": "../../assets/globe.png",
+  "prompts": [
+    {
+      "key": "empty-globe",
+      "prompt": "Use case: precise-object-edit. Asset type: transparent empty snow-globe layer for a moving illustrated story. Image 1 is the EDIT TARGET. Change ONLY by removing Santa entirely from INSIDE the snow globe; reconstruct the miniature snow and tiny blue firs behind where Santa was. Keep the same round sphere geometry, low round wooden base, glass highlights, paper gouache grain, blue-white snow, warm gold colors, stars and snow flecks. Keep the sphere empty, with no character or red garment remaining. Do not add other objects. Match original framing and proportions; whole sphere and low wooden base fully contained. Outside the globe stays genuinely transparent. No forest outside, no text, no UI, no book. The interior remains the little snowy world, with generous clear space in center for a separate Santa sprite.",
+      "transparent_background": true
+    },
+    {
+      "key": "santa",
+      "prompt": "Use case: background-extraction / identity-preserve. Asset type: ONE transparent full-body Santa character cutout for a moving illustrated story. Image 1 is the exact EDIT TARGET and character reference. Isolate the SAME Santa from this image as a full-body transparent cutout, reconstruct only the small hidden edges needed. Preserve his face exactly as closely as possible: kindly round rosy old man, tiny dark eyes, ivory moustache and thick textured white beard, red hat, same raised viewer-right red mitten and viewer-left red mitten near chest, same red wool coat ivory trim, black belt with square antique gold buckle, red trousers and little brown boots. Preserve the SAME POSE and silhouette, the same curious smile looking a little upper-right. His two full boots must be visible, both standing naturally on one flat baseline with no snow covering boots, feet separated very slightly for later articulated motion. Match rough gouache watercolor on textured fibrous paper, soft original warm golden light. ONE Santa only. Genuine transparent background; remove ALL glass sphere, reflection arcs, miniature pines, stars, snow floor and wooden base. No surrounding forest or scenery, NO book, no text, no UI, no other character, no new prop, no missing gloves, no halos. Full hat, beard, mittens, boots fully inside frame with transparent padding.",
+      "transparent_background": true
+    }
+  ],
+  "generated": [
+    {
+      "key": "empty-globe",
+      "hint": "Generated images are saved to C:\\Users\\takat\\.codex\\generated_images\\01a114e0-c603-7121-823b-dc5c1537e7ab as C:\\Users\\takat\\.codex\\generated_images\\01a114e0-c603-7121-823b-dc5c1537e7ab\\exec-50b48196-e4a8-4525-b260-663806b4234c.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "key": "santa",
+      "hint": "Generated images are saved to C:\\Users\\takat\\.codex\\generated_images\\01a114e0-c603-7121-823b-dc5c1537e7ab as C:\\Users\\takat\\.codex\\generated_images\\01a114e0-c603-7121-823b-dc5c1537e7ab\\exec-cb7baf45-6dc7-4822-95e3-6428af9c578a.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+:root{font-family:"Yu Gothic UI","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;color:#283a47;background:#f4f0e7;font-synthesis:none;line-height:1.5;--ink:#283a47;--gold:#8b6b2a;--cream:#fcf4dd}
+*{box-sizing:border-box}
+body{margin:0;min-width:0}
+a{color:#665020;text-underline-offset:3px}
+button{font:inherit;touch-action:manipulation;cursor:pointer}
+button:disabled{cursor:default;opacity:.45}
+button:focus-visible,a:focus-visible{outline:3px solid #ba8130;outline-offset:3px}
+[hidden]{display:none!important}
+.page-header{max-width:900px;margin:auto;min-height:55px;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid #ded7c9;font-size:12px}
+.page-header span{font-family:"Yu Mincho",serif;font-size:16px}
+main{width:100%;max-width:760px;margin:auto;padding:20px 24px}
+.review-note{margin:0;color:#74786d;font-size:11px}
+h1{font-family:"Yu Mincho",serif;font-size:29px;font-weight:500;line-height:1.4;margin:8px 0 5px}
+.lead{font-size:15px;margin:0 0 16px}
+.puzzle{border:1px solid #c4b799;border-radius:9px;overflow:hidden;background:var(--cream);box-shadow:0 9px 25px #25364513}
+.forest-window{position:relative;height:126px;background:#123047 url('../assets/forest-clean.png') center 58%/cover;overflow:hidden}
+.forest-window::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 45px #0a203750;pointer-events:none}
+.forest-window img{position:absolute;width:160px;height:145px;object-fit:contain;left:10%;top:-8px}
+.forest-window span{position:absolute;left:45%;right:5%;top:44%;color:#fff0cf;font-family:"Yu Mincho",serif;font-size:17px;text-shadow:0 2px 8px #0a2037;z-index:1}
+.paper-area{padding:15px 24px 18px;background:radial-gradient(ellipse at 20% 0%,#fff9e9,transparent 75%),#f7edcf}
+.box-writing{display:grid;grid-template-columns:1fr 1.4fr;gap:2px 14px;margin:0 0 12px;padding:0 0 11px;border-bottom:1px solid #c7ac7460;font-family:"Yu Mincho",serif;color:#6b522b}
+.box-writing span{grid-column:1/-1;font-family:"Yu Gothic UI",sans-serif;font-size:10px;letter-spacing:.08em;color:#8d7d62}
+.box-writing p{margin:0;font-size:15px}
+h2{display:flex;justify-content:center;align-items:center;gap:14px;font-size:14px;font-weight:500;margin:0 0 4px}
+#step-number{color:#7c632d;font-size:13px;border:1px solid #cbb789;padding:2px 9px;border-radius:20px}
+.opponent{display:flex;align-items:center;justify-content:center;gap:22px;min-height:105px}
+.opponent svg{width:100px;height:100px;filter:drop-shadow(0 3px 2px #6b522b20)}
+.opponent strong{font-family:"Yu Mincho",serif;font-size:23px;font-weight:500}
+h3{font-size:13px;font-weight:500;margin:5px 0 8px;text-align:center}
+.hand-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;max-width:430px;margin:auto}
+.hand-button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:100px;min-width:0;padding:8px 5px;border:1px solid #baa679;background:#fffaf0;color:#3b474c;border-radius:8px;box-shadow:0 3px 0 #baab8720}
+.hand-button svg{width:56px;height:56px}
+.hand-button .hand-name{font-size:16px}
+.hand-button[aria-pressed=true]{border:2px solid #365d68;padding:7px 4px;background:#e7efdf;box-shadow:0 0 0 2px #365d6820}
+.hand-button .selection-mark{visibility:hidden;font-size:10px;line-height:1.2;color:#365d68}
+.hand-button[aria-pressed=true] .selection-mark{visibility:visible}
+.choice-status{min-height:25px;text-align:center;font-size:12px;color:#586266;margin:10px 0}
+.step-navigation{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:430px;margin:auto}
+.step-navigation button,footer button{min-height:44px;border:1px solid #b9ad91;background:#fffaf0;color:#46535a;border-radius:6px;padding:7px 10px;font-size:13px}
+.step-navigation .primary{background:#274958;border-color:#274958;color:#fff4d7}
+.step-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:430px;margin:17px auto 0}
+.step-list button{display:flex;align-items:center;justify-content:center;gap:5px;min-width:0;min-height:44px;border:1px solid #cabc9c;border-radius:5px;background:#fbf4e4;color:#6e7364;padding:6px;font-size:12px}
+.step-list button[aria-current=step]{border-color:#45626c;background:#e1e8dc;color:#284c58;font-weight:700}
+.step-list button span{font-size:11px;white-space:nowrap}
+.step-list button:disabled{opacity:.35}
+.summary-title{font-family:"Yu Mincho",serif;font-size:23px;line-height:1.5;margin:8px 0;display:block;text-align:center;outline-offset:4px}
+.summary-note,.edit-note{text-align:center;font-size:12px;margin:6px 0 15px;color:#6b6d5e}
+.summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:15px 0}
+.summary-column{min-width:0;text-align:center;border:1px solid #d4c399;border-radius:6px;background:#fff7e6;padding:10px 4px}
+.summary-column h3{margin:0 0 7px;font-size:11px;color:#7f714e}
+.summary-column svg{width:58px;height:58px;display:block;margin:auto}
+.summary-column p{font-size:12px;margin:2px 0 7px}
+.summary-column .summary-arrow{color:#978468;font-size:16px;line-height:1;margin:10px 0}
+.summary-column button{min-height:44px;width:100%;border:1px solid #bdb18f;border-radius:4px;background:#f8f0dc;color:#485960;padding:6px 2px;font-size:11px}
+footer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:13px 0 0}
+footer p{font-size:10px;color:#7d8177;margin:0}
+@media(max-width:480px){
+  .page-header{padding:10px 12px;min-height:45px;font-size:11px}.page-header span{font-size:13px}
+  main{padding:12px}.review-note{font-size:10px}h1{font-size:23px;margin:6px 0 4px}.lead{font-size:13px;margin-bottom:11px}
+  .forest-window{height:84px}.forest-window img{width:119px;height:111px;left:6%;top:-14px}.forest-window span{left:43%;top:40%;font-size:12px}
+  .paper-area{padding:11px 12px 13px}.box-writing{gap:3px 8px;grid-template-columns:1fr;margin-bottom:9px;padding-bottom:9px}.box-writing span{font-size:9px}.box-writing p{font-size:13px;line-height:1.35}
+  .opponent{min-height:96px;gap:17px}.opponent svg{width:90px;height:90px}.opponent strong{font-size:21px}h3{margin:4px 0 6px}
+  .hand-choices{gap:8px}.hand-button{min-height:96px;padding:7px 3px}.hand-button[aria-pressed=true]{padding:6px 2px}.hand-button svg{width:52px;height:52px}.hand-button .hand-name{font-size:14px}
+  .choice-status{font-size:11px;min-height:21px;margin:9px 0}.step-navigation{gap:8px}.step-navigation button{font-size:12px}.step-list{margin-top:12px;gap:6px}.step-list button{padding:5px 3px;gap:3px;font-size:11px}.step-list button span{font-size:10px}
+  .summary-grid{gap:5px}.summary-column{padding:8px 3px}.summary-column svg{width:49px;height:49px}.summary-column p{font-size:11px}.summary-column button{font-size:10px}.summary-title{font-size:21px}footer{gap:8px}footer p{max-width:45%;line-height:1.6}
+}
+@media(max-width:340px){.page-header span{font-size:12px}.box-writing p{font-size:12px}.forest-window span{left:43%;right:3%;font-size:11px}.hand-button .hand-name{font-size:13px}.step-list button{gap:2px}.step-list button span{font-size:9px}.summary-column svg{width:43px;height:43px}}

@@ -1,0 +1,14 @@
+{
+  "name": "santa-illustrated-prototype",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node serve.mjs",
+    "check": "node --experimental-vm-modules check.mjs",
+    "test": "node test.mjs && node rescue/test.mjs && node red-box/test.mjs && node red-box/hinge-test.mjs && node blue-box/test.mjs && node yellow-box/test.mjs && node letters/test.mjs && node journey/test.mjs && node journey/box-completion.test.mjs && node witch/test.mjs && node intro/test.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>サンタの脱出 — 全編の絵コンテ</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="storyboard.js" type="module"></script>
+</head>
+<body>
+  <header class="page-header">
+    <a class="brand" href="../index.html">サンタの脱出<span>絵の中の発見</span></a>
+    <nav aria-label="試作と資料"><a href="../index.html">発見の試作</a><a href="../red-box/index.html">赤い箱の試作</a><a href="../rescue/index.html">救出の試作</a><a href="PLAN.md">制作計画</a></nav>
+  </header>
+  <main>
+    <div class="intro-line"><span class="eyebrow">STORYBOARD / 10 COMPOSITIONS</span><span class="label">制作レビュー用ラフ</span></div>
+    <h1>一枚の絵で、最後まで。</h1>
+    <p class="lead">今の森と人物を軸に、原作の流れを10の構図で見渡します。完成絵でも、全編を遊べるゲームでもありません。</p>
+    <div class="workspace">
+      <nav class="scene-list" id="scene-list" aria-label="絵コンテの場面"></nav>
+      <section class="composition" aria-labelledby="scene-title">
+        <div class="scene-heading"><div><span id="scene-number" class="eyebrow"></span><h2 id="scene-title"></h2></div><span id="status" class="status"></span></div>
+        <div class="stage" id="stage" aria-label="場面の構図ラフ"></div>
+        <div class="demo-controls" id="demo-controls"></div>
+        <p class="rough-note">森・枝・球・人物の位置と縮尺をそろえ、小道具を図形で重ねたラフです。赤い箱の実素材と開閉は、上の「赤い箱の試作」で確認できます。場面選択は制作比較用で、ゲームの進行・保存は行いません。</p>
+      </section>
+    </div>
+    <section class="scene-detail" aria-label="選択場面の表現設計">
+      <div><h3>読者の操作</h3><p id="operation"></p></div>
+      <div><h3>動かす部分</h3><p id="motion"></p></div>
+      <div><h3>素材と確かめること</h3><p id="assets"></p><p id="gate" class="gate"></p></div>
+    </section>
+    <section class="conclusion">
+      <span class="eyebrow">NEXT DECISION</span>
+      <h2>全場面を同じ仕掛けにせず、同じ絵の世界につなぐ。</h2>
+      <p>探索は隠れたものを見つける。謎は読みやすい文字と入力。会話は目線と小さな反応。救出は球の内と外の変化。森と球の構図は固定し、枝は最初からそこにあり、開いたあとも端に残ります。球外ではサンタをまほう使いより大きく描きます。</p>
+      <a href="../red-box/index.html">実素材で調べる・開ける：赤い箱の動作試作へ <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+  <footer>音・外部API・実行時AIなし。原作の答えと進行を変えず、表現の実現性を調べる段階です。</footer>
+</body>
+</html>

@@ -1,0 +1,881 @@
+{
+  "date": "2026-10-08 JST",
+  "url": "http://127.0.0.1:4190/letters/index.html",
+  "browser": "Codex in-app browser",
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "testGroupsPassed": 53,
+  "staticChecks": {
+    "javascriptFiles": 35,
+    "localReferences": 143,
+    "sourceFilesInspected": 43
+  },
+  "consoleWarningsAndErrors": 0,
+  "observations": [
+    {
+      "view": "desktop-initial",
+      "data": {
+        "feedback": "",
+        "focused": "BODY",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 644,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":38.2950614947966,\"y\":190.8,\"w\":226.0898770104068,\"h\":238.5}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "動かす紙を選んでください。",
+        "viewport": {
+          "height": 884,
+          "width": 659
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-drag",
+      "data": {
+        "feedback": "",
+        "focused": "1番目、赤い箱の紙「だ」",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[\"red-1\",null,null,null,null,null]"
+        },
+        "selected": "赤い箱の紙「だ」を1番目に置きました。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1",
+          "red-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-tap-key-two-da",
+      "data": {
+        "feedback": "",
+        "focused": "1番目、赤い箱の紙「だ」",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[\"red-1\",null,\"red-0\",null,\"yellow-1\",null]"
+        },
+        "selected": "赤い箱の紙「だ」を1番目に置きました。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "red-1",
+          "red-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-key-right",
+      "data": {
+        "feedback": "",
+        "focused": "2番目、赤い箱の紙「だ」",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,\"red-1\",\"red-0\",null,\"yellow-1\",null]"
+        },
+        "selected": "赤い箱の紙「だ」を2番目に置きました。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "red-1",
+          "red-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-key-swap",
+      "data": {
+        "feedback": "",
+        "focused": "3番目、赤い箱の紙「だ」",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,\"red-0\",\"red-1\",null,\"yellow-1\",null]"
+        },
+        "selected": "赤い箱の紙「だ」を3番目に置きました。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "red-0",
+          "red-1",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-return",
+      "data": {
+        "feedback": "",
+        "focused": "赤い箱の紙「だ」",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,\"red-0\",null,null,\"yellow-1\",null]"
+        },
+        "selected": "赤い箱の紙「だ」を手元に戻しました。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "red-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-outside-drop",
+      "data": {
+        "feedback": "",
+        "focused": "青い箱の紙「い」",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,\"red-0\",null,null,\"yellow-1\",null]"
+        },
+        "selected": "紙は元の場所に戻りました。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "red-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-hand-to-occupied-preserves-draft",
+      "data": {
+        "feedback": "",
+        "focused": "2番目、青い箱の紙「い」",
+        "input": "まだ",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "まだ",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,\"blue-0\",null,null,\"yellow-1\",null]"
+        },
+        "selected": "青い箱の紙「い」を2番目に置きました。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "red-1",
+          "blue-1",
+          "yellow-0",
+          "blue-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-empty",
+      "data": {
+        "feedback": "ひみつの言葉を入力してください。",
+        "focused": "word-answer",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "動かす紙を選んでください。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-wrong",
+      "data": {
+        "feedback": "ひみつの言葉は、まだ合っていないようです。見つけた文字を見直せます。",
+        "focused": "word-answer",
+        "input": "だいすき",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "だいすき",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "動かす紙を選んでください。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-direct-call",
+      "data": {
+        "feedback": "ひみつの言葉を伝えました。",
+        "focused": "discovery-link",
+        "input": " ダイスキ ダヨ ",
+        "linkVisible": true,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "true",
+          "branchesOpen": "false",
+          "called": "true",
+          "draft": " ダイスキ ダヨ ",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "ひみつの言葉を伝えました。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "desktop-reset",
+      "data": {
+        "feedback": "",
+        "focused": "reset",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "動かす紙を選んでください。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "mobile-initial",
+      "data": {
+        "feedback": "",
+        "focused": "reset",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "動かす紙を選んでください。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "mobile-drag",
+      "data": {
+        "feedback": "",
+        "focused": "1番目、赤い箱の紙「だ」",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[\"red-1\",null,null,null,null,null]"
+        },
+        "selected": "赤い箱の紙「だ」を1番目に置きました。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1",
+          "red-1"
+        ]
+      }
+    },
+    {
+      "view": "mobile-full-wrong-row-unsent",
+      "data": {
+        "feedback": "",
+        "focused": "6番目、黄色い箱の紙「だ」",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[\"red-1\",\"blue-0\",\"red-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]"
+        },
+        "selected": "黄色い箱の紙「だ」を6番目に置きました。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": [
+          "red-1",
+          "blue-0",
+          "red-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "mobile-wrong-arrangement",
+      "data": {
+        "feedback": "ひみつの言葉は、まだ合っていないようです。見つけた文字を見直せます。",
+        "focused": "use-arrangement",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[\"red-1\",\"blue-0\",\"red-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]"
+        },
+        "selected": "黄色い箱の紙「だ」を6番目に置きました。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": [
+          "red-1",
+          "blue-0",
+          "red-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "mobile-correct-row-unsent",
+      "data": {
+        "feedback": "",
+        "focused": "5番目、黄色い箱の紙「だ」",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[\"red-1\",\"blue-0\",\"red-0\",\"yellow-0\",\"yellow-1\",\"blue-1\"]"
+        },
+        "selected": "黄色い箱の紙「だ」を5番目に置きました。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": [
+          "red-1",
+          "blue-0",
+          "red-0",
+          "yellow-0",
+          "yellow-1",
+          "blue-1"
+        ]
+      }
+    },
+    {
+      "view": "mobile-arranged-call",
+      "data": {
+        "feedback": "ひみつの言葉を伝えました。",
+        "focused": "discovery-link",
+        "input": "",
+        "linkVisible": true,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "true",
+          "branchesOpen": "false",
+          "called": "true",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[\"red-1\",\"blue-0\",\"red-0\",\"yellow-0\",\"yellow-1\",\"blue-1\"]"
+        },
+        "selected": "ひみつの言葉を伝えました。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": [
+          "red-1",
+          "blue-0",
+          "red-0",
+          "yellow-0",
+          "yellow-1",
+          "blue-1"
+        ]
+      }
+    },
+    {
+      "view": "discovery-link",
+      "url": "http://127.0.0.1:4190/index.html",
+      "data": {
+        "pageWidth": 390,
+        "scene": {
+          "progress": "0.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "stage": "start"
+        }
+      }
+    },
+    {
+      "view": "mobile-no-papers",
+      "data": {
+        "feedback": "",
+        "focused": "BODY",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "動かす紙を選んでください。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": []
+      }
+    },
+    {
+      "view": "mobile-no-papers-call",
+      "data": {
+        "feedback": "ひみつの言葉を伝えました。",
+        "focused": "BODY",
+        "input": "大好きだよ",
+        "linkVisible": true,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "true",
+          "branchesOpen": "false",
+          "called": "true",
+          "draft": "大好きだよ",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "ひみつの言葉を伝えました。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": []
+      }
+    },
+    {
+      "view": "mobile-no-papers-reset",
+      "data": {
+        "feedback": "",
+        "focused": "reset",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "動かす紙を選んでください。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": []
+      }
+    },
+    {
+      "view": "mobile-light-final",
+      "data": {
+        "feedback": "ひみつの言葉を伝えました。",
+        "focused": "discovery-link",
+        "input": "大好きだよ",
+        "linkVisible": true,
+        "pageWidth": 375,
+        "scene": {
+          "accepted": "true",
+          "branchesOpen": "false",
+          "callLight": "{\"x\":226.08695425834227,\"y\":256.5478412057938}",
+          "called": "true",
+          "draft": "大好きだよ",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "ひみつの言葉を伝えました。",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visiblePaperIds": []
+      }
+    },
+    {
+      "view": "desktop-light-final",
+      "data": {
+        "feedback": "ひみつの言葉を伝えました。",
+        "focused": "discovery-link",
+        "input": "だいすきだよ",
+        "linkVisible": true,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "true",
+          "branchesOpen": "false",
+          "callLight": "{\"x\":543.95,\"y\":336.451977733191}",
+          "called": "true",
+          "draft": "だいすきだよ",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "ひみつの言葉を伝えました。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    },
+    {
+      "view": "yellow-link-entry",
+      "data": {
+        "feedback": "",
+        "focused": "BODY",
+        "input": "",
+        "linkVisible": false,
+        "pageWidth": 1265,
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "callLight": "null",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "selected": "動かす紙を選んでください。",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visiblePaperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "Independent scene; box progress is not imported or persisted to discovery",
+    "Browser viewport is not physical mobile touch validation",
+    "IME physical keyboard and reduced-motion browser interaction are unverified"
+  ]
+}

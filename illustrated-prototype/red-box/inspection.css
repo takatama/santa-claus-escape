@@ -1,0 +1,78 @@
+.rb-inspection-dialog {
+  color-scheme: dark;
+  width: min(900px, calc(100vw - 32px)); max-width: none; max-height: calc(100svh - 24px);
+  margin: auto; padding: 0; overflow: hidden; border: 1px solid #917b56; border-radius: 14px;
+  background: radial-gradient(ellipse at 50% 25%, #314357, #17283d 75%); color: #f3e3c4;
+  box-shadow: 0 24px 100px #030b18b3; font-family: "Yu Gothic", Meiryo, sans-serif;
+}
+.rb-inspection-dialog::backdrop { background: rgb(6 16 29 / .77); }
+.rb-inspection-dialog:not([open]), .rb-inspection-dialog [hidden] { display: none !important; }
+.rb-inspection-dialog button { font: inherit; -webkit-tap-highlight-color: transparent; }
+.rb-inspection-dialog :focus-visible { outline: 2px solid #f8d997; outline-offset: 3px; }
+.rb-inspection-panel { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; max-height: calc(100svh - 26px); }
+.rb-inspection-header { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 20px; border-bottom: 1px solid #c5ac7a24; background: #12223399; }
+.rb-inspection-title { margin: 0; font: 500 23px/1.4 "Yu Mincho", serif; letter-spacing: .1em; }
+.rb-inspection-close { min-height: 44px; padding: 8px 15px; border: 1px solid #87765a; border-radius: 22px; color: #e5dccd; background: #192b3e; font-size: 12px !important; cursor: pointer; }
+.rb-inspection-close:hover { border-color: #ddbf84; }
+.rb-inspection-body { min-height: 0; overflow-x: hidden; overflow-y: auto; padding: 0 18px 12px; scrollbar-width: thin; scrollbar-color: #867554 transparent; }
+.rb-box-stage { position: relative; width: min(100%, 780px); height: clamp(540px, calc(100svh - 220px), 680px); margin: 0 auto; user-select: none; }
+.rb-box-art { display: block; position: absolute; width: 100%; height: 100%; }
+.rb-box-snow { position: absolute; display: block; pointer-events: none; }
+.rb-snowfall { position: absolute; overflow: visible; pointer-events: none; }
+.rb-snowflake { position: absolute; display: block; width: var(--snow-size); height: var(--snow-size); border-radius: 1px; background: #fffbed; box-shadow: 0 1px 1px #7f9aaa66; animation: rb-snow-fall var(--snow-duration) ease-in forwards; }
+@keyframes rb-snow-fall { 0% { opacity: .9; transform: translate(var(--snow-start-x), -2px) rotate(0); } 30% { opacity: .9; } 100% { opacity: 0; transform: translate(var(--snow-drift), var(--snow-fall)) rotate(var(--snow-turn)); } }
+.rb-snow-actions { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: -12px 0 12px; position: relative; }
+.rb-investigate-button { min-height: 46px; min-width: 180px; padding: 10px 24px; border: 1px solid #dab77a; border-radius: 23px; color: #fae6bb; background: linear-gradient(#aa7739,#704920); box-shadow: inset 0 0 0 3px #f3d88f24,0 3px 8px #07142466; cursor: pointer; }
+.rb-investigate-button:hover { filter: brightness(1.1); }
+.rb-investigate-button:disabled { cursor: default; opacity: .65; }
+.rb-snow-caption { margin: 0; min-height: 1.5em; color: #c5c9c4; font-size: 12px; }
+.rb-lock-controls {
+  position: absolute; top: 18%; left: 50%; transform: translateX(-50%); width: min(52%, 400px); min-width: 244px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.rb-inspection-lock {
+  position: relative; width: 100%;
+  padding: 10px 20px; border: 2px solid #a77b37; border-radius: 10px;
+  background: linear-gradient(115deg,#74562e,#b59252 13%,#614622 17%,#bc9956 53%,#70502b 84%,#c9a464);
+  box-shadow: 0 4px 7px #42141799,inset 0 0 0 3px #f2d49633;
+}
+.rb-lock-screw { position: absolute; width: 11px; height: 11px; top: 49%; border-radius: 50%; background: linear-gradient(#f3d385,#a37a32); border: 1px solid #61441d; box-shadow: 0 1px 2px #42210d; }
+.rb-lock-screw::after { content: ''; position: absolute; left: 2px; right: 2px; top: 4px; height: 1px; background: #684a26; }
+.rb-lock-screw-left { left: 4px; } .rb-lock-screw-right { right: 4px; }
+.rb-cylinder-lock { display: grid; grid-template-columns: repeat(4,minmax(44px,1fr)); gap: 8px; width: 100%; --rb-cylinder-row-height: 44px; }
+.rb-cylinder { position: relative; min-width: 44px; height: calc(var(--rb-cylinder-row-height) * 3); overflow: hidden; border: 1px solid #c7a367; border-radius: 6px; background: linear-gradient(#4b341e,#ddba78 20%,#f3dfac 50%,#c4a069 80%,#422c1d); box-shadow: inset 0 0 0 2px #2c1e1299,0 2px 3px #33200f66; touch-action: none; }
+.rb-cylinder::after { content: ''; position: absolute; pointer-events: none; inset: 0; background: linear-gradient(#20120688,transparent 30%,transparent 69%,#20120688); }
+.rb-cylinder-viewport { position: absolute; inset: 0; overflow: hidden; }
+.rb-cylinder-strip { position: absolute; width: 100%; transform: translateY(calc(0px - var(--rb-cylinder-row-height) + var(--rb-cylinder-offset, 0px))); will-change: transform; }
+.rb-cylinder-number { display: block; height: var(--rb-cylinder-row-height); line-height: var(--rb-cylinder-row-height); text-align: center; font: 32px/var(--rb-cylinder-row-height) Georgia,"Yu Mincho",serif; color: #392616; text-shadow: 0 1px #f7e6bb; font-variant-numeric: tabular-nums; }
+.rb-cylinder button { position: absolute; z-index: 1; left: 0; display: block; width: 100%; min-width: 44px; height: var(--rb-cylinder-row-height); padding: 0; border: 0; border-radius: 0; background: transparent; color: transparent; cursor: ns-resize; user-select: none; touch-action: none; }
+.rb-cylinder-previous { top: 0; } .rb-cylinder-current { top: var(--rb-cylinder-row-height); box-shadow: 0 -1px #fff0c788,0 1px #36251399; } .rb-cylinder-next { top: calc(var(--rb-cylinder-row-height) * 2); }
+.rb-cylinder-direction { position: absolute; right: 3px; top: 2px; color: #68471eb3; font: 12px/1 sans-serif; }
+.rb-cylinder-current:focus-visible { outline-offset: -3px; outline: 2px solid #855823; }
+.rb-cylinder[data-dragging="true"] { box-shadow: inset 0 0 0 2px #fbe2a755; }
+.rb-cylinder button:disabled { cursor: default; }
+.rb-cylinder-lock[aria-disabled="true"] { opacity: .75; }
+.rb-lock-hint { margin: 4px auto 10px; max-width: 490px; font-size: 11px; line-height: 1.7; text-align: center; color: #bdc6c8; }
+.rb-clue-readable { width: min(100%,540px); margin: 0 auto; padding: 0 8px; color: #e5d1aa; font-size: 15px; line-height: 1.8; }
+.rb-clue-readable summary { min-height: 44px; padding: 8px 0; cursor: pointer; } .rb-clue-readable p { margin: 4px 0 10px; white-space: pre-line; }
+.rb-clue-readable[data-readable="false"] { visibility: hidden; pointer-events: none; }
+.rb-inspection-footer { display: grid; justify-items: center; padding: 6px 18px max(6px,env(safe-area-inset-bottom)); border-top: 1px solid #c6aa7626; background: #0d1d2de6; }
+.rb-try-button { width: 100%; min-height: 44px; padding: 9px 18px; border: 1px solid #b69458; border-radius: 6px; background: linear-gradient(#675538,#4c402e); color: #f5e3bc; font-size: 13px !important; cursor: pointer; }
+.rb-try-button:hover { filter: brightness(1.15); } .rb-try-button:disabled { opacity: .6; cursor: default; }
+.rb-inspection-feedback { min-height: 1.6em; max-width: 100%; margin: 0; color: #c3ccd0; font-size: 12px; line-height: 1.6; text-align: center; overflow-wrap: anywhere; }
+.rb-inspection-feedback[data-kind="error"] { color: #e7bdab; } .rb-inspection-feedback[data-kind="success"] { color: #edcf91; }
+@media (max-width:600px) {
+  .rb-inspection-dialog { width: calc(100vw - 16px); max-height: calc(100svh - 16px); border-radius: 12px; }
+  .rb-inspection-panel { max-height: calc(100svh - 18px); }
+  .rb-inspection-header { padding: 8px 12px; } .rb-inspection-title { font-size: 21px; }
+  .rb-inspection-body { padding: 0 4px 10px; }
+  .rb-box-stage { height: 540px; }
+  .rb-lock-controls { width: 72%; min-width: 244px; }
+  .rb-inspection-lock { padding-inline: 16px; }
+  .rb-cylinder-lock { gap: 5px; } .rb-cylinder-number { font-size: 28px; }
+  .rb-lock-hint { padding-inline: 10px; font-size: 10px; }
+  .rb-snow-actions { margin-top: -12px; }
+  .rb-inspection-footer { padding-inline: 16px; }
+  .rb-inspection-feedback { font-size: 11px; }
+}
+@media (prefers-reduced-motion:reduce) { .rb-snowfall { display: none; } .rb-inspection-dialog *, .rb-inspection-dialog *::before, .rb-inspection-dialog *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
