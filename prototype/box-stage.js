@@ -2,10 +2,6 @@ import { createCylinderLock } from './red-cylinder-lock.js';
 import { BOXES } from './full-scenario.js';
 import { BoxActionGate } from './box-presentation.js';
 
-const readings = [ '', '雪の下に、何かある。', 'サンタ、イタチ\nサンタ、ハタチ',
-  'サンタ、イタチ\nサンタ、ハタチ\nその横に、たぬきの絵。',
-  'サンタ、イタチ\nサンタ、ハタチ\nその横に、たぬきの絵。\n「たぬき」の最初の「た」に×。' ];
-
 /** A main-state view. It owns drawing and motion, never another save or puzzle. */
 export function createBoxStage({ color, presentation, setCode, onDial, getCode, onLid }) {
   const { name, readings, examineLabels, loadArt, createArt } = presentation;
@@ -21,6 +17,8 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
     <footer class="box-footer"><span id="save-status"></span><button type="button" data-action="reset">やり直す</button></footer>`;
   const find = selector => element.querySelector(selector);
   const canvas = find('canvas'), gate = new BoxActionGate();
+  const controls = presentation.createControls?.();
+  if (controls) find('.box-actions').append(controls.element);
   const lock = createCylinderLock({ getCode, setCode, onChange: onDial });
   find('.box-lock-mount').append(lock.element);
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -40,6 +38,13 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
       ...(revealFrom === null ? {} : {snowStage:revealFrom, snowFraction:revealFraction}) });
     if(placement?.lock){const {x,y,w}=placement.lock;Object.assign(find('.box-lock-panel').style,{left:x+'px',top:y+'px',width:'280px',transform:`scale(${w/280})`});}
     if(placement?.clue && !compact){const c=placement.clue;Object.assign(examine.style,{left:(c.x+c.w/2-130)+'px',top:(c.y+c.h+12)+'px'});}
+    if (controls) {
+      const host=find(compact?'.box-actions':'.box-picture');
+      if(controls.element.parentElement!==host)host.append(controls.element);
+      if(placement?.clue&&!compact) { const c=placement.clue;Object.assign(controls.element.style,{left:(c.x+c.w/2-155)+'px',top:(c.y+c.h+12+(examine.hidden?0:56))+'px'}); }
+      const info=controls.element.querySelector('[data-action="information"]');
+      if(info)info.disabled=gate.blocked(performance.now());
+    }
     if(placement?.clue){const c=placement.clue;Object.assign(find('.box-fallback').style,{left:c.x+'px',top:c.y+'px',width:c.w+'px'});}
     if(placement?.grip){const {x,y,distance}=placement.grip;gripDistance=distance;for(const grip of grips)Object.assign(grip.style,{left:x+'px',top:y+'px'});}
     element.dataset.revealing=String(revealFrom!==null);
@@ -52,7 +57,7 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
   function syncBusy() {
     const busy = gate.blocked(performance.now());
     for (const name of ['examine','box_try','open_lid','close_lid','continue_box']) find(`[data-action="${name}"]`).disabled = busy;
-    find('[data-action="examine"]').disabled ||= view?.boxes.red.exam >= 4;
+    find('[data-action="examine"]').disabled ||= view?.boxes[color].exam >= 4;
     element.dataset.busy = String(busy);
     const wait=find('.box-wait');wait.hidden=!busy || revealFrom===null;if(wait.textContent!=='雪を払っています')wait.textContent='雪を払っています';
     find('.box-voice').hidden=!gate.speaking;
@@ -94,7 +99,7 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
   const observer = new ResizeObserver(paint); observer.observe(canvas);
   // PR #1's lid gesture: movement maps directly to the same painted hinge.
   function startDrag(event){
-    if (!view?.boxes.red.opened || gate.blocked(performance.now()) || event.button!==0 || drag) return;
+    if (!view?.boxes[color].opened || gate.blocked(performance.now()) || event.button!==0 || drag) return;
     const source=event.currentTarget,bounds=canvas.getBoundingClientRect();
     const distance=source===canvas?art?.lidTarget(event.clientX-bounds.left,event.clientY-bounds.top,progress):gripDistance;
     // Without artwork, the same grip remains a tap/keyboard alternative.
@@ -147,7 +152,7 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
     },
     hold() { gate.hold(performance.now()); motion(target); syncBusy(); },
     update(nextView, { settings, dialogue, status, saved }) {
-      const first = !view, wasUnlocked=view?.boxes.red.opened; view = nextView;
+      const first = !view, wasUnlocked=view?.boxes[color].opened; view = nextView;
       const b = view.boxes[color], open = b.opened && b.lidOpen !== false;
       find('.box-fallback').textContent='箱の絵を読み込めませんでした。お話の文字とダイヤルで続けられます。';
       const destination = b.lidProgress ?? (open ? 1 : 0);
@@ -177,6 +182,8 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
       find('[data-action="continue_box"]').textContent = Object.values(view.boxes).every(box=>box.opened) ? 'ひみつの言葉を考える' : 'ほかの箱を調べる';
       find('[data-action="close_lid"]').hidden = !open;
       find('[data-action="boxes"]').hidden = b.opened;
+      controls?.update(view);
+      element.classList.toggle('box-has-extra',Boolean(controls&&!controls.element.hidden));
       find('.box-settings-content').innerHTML = settings;
       const text=find('#transcript');
       if(lastDialogue!==dialogue){text.innerHTML=dialogue;text.scrollTop=0;lastDialogue=dialogue;}
@@ -185,6 +192,6 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
       for (const button of element.querySelectorAll('button[data-action]')) button.dataset.revision = String(view.revision);
       lock.setDisabled(b.opened); lock.refresh(); paint(); syncBusy();
     },
-    destroy() { disposed = true; cancelAnimationFrame(frame); observer.disconnect(); clearSnowfall(); lock.destroy(); },
+    destroy() { disposed = true; cancelAnimationFrame(frame); observer.disconnect(); clearSnowfall(); lock.destroy(); controls?.destroy?.(); },
   };
 }

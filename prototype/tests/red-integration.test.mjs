@@ -25,7 +25,7 @@ test('red: original four examinations and answer at any stage remain available',
 test('red: valid old direct input migrates into the only lock and old open saves stay open',()=>{
   let state=redState();state.boxes.red={...state.boxes.red,inputMode:'direct',draft:'３１３８'};
   let restored=restoreState(state);assert.equal(restored.boxes.red.dial,'3138');assert.equal(restored.boxes.red.inputMode,'dial');
-  restored=transition(restored,{type:'ANSWER'});delete restored.boxes.red.lidOpen;
+  restored=transition(restored,{type:'ANSWER'});delete restored.boxes.red.lidOpen;delete restored.boxes.red.lidProgress;
   assert.equal(restoreState(restored).boxes.red.lidOpen,true);
   assert.equal(transition(redState(),{type:'OPEN_LID'}).phase,'box');
   assert.equal(transition(redState(),{type:'BOX_DIAL',value:'31380'}).boxes.red.dial,'0000');

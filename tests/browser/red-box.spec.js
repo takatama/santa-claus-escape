@@ -324,8 +324,7 @@ test('lid grip: direction moves, drag releases at the chosen position, keyboard 
 test('main regression: all boxes, decline and recall, three wrong answers and original ending',async({page})=>{
   await setup(page);await enterRed(page);await digits(page,'3138');await usable(page,'box_try');await btn(page,'box_try').click();await usable(page,'open_lid');await btn(page,'open_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();
   for(const [color,code] of [['blue','8848'],['yellow','2502']]){
-    await page.waitForTimeout(470);await page.locator(`[data-action="select"][data-color="${color}"]`).click();await btn(page,'mode').click();await page.locator('#answer').fill(code);await page.locator('#answer-form button[type="submit"]').click();
-    await page.waitForTimeout(470);await btn(page,'continue_box').click();
+    await page.waitForTimeout(470);await page.locator(`[data-action="select"][data-color="${color}"]`).click();await digits(page,code);await btn(page,'box_try').click();await usable(page,'open_lid');await btn(page,'open_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();
   }
   await expect(page.locator('.collected-count')).toHaveText('見つけた文字 6 / 6');await page.locator('#word-answer').fill('だいすきだよ');await page.locator('#spell-form button[type="submit"]').click();
   for(const action of ['decline','call_again','accept']){await page.waitForTimeout(470);await btn(page,action).click();}

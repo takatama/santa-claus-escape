@@ -93,18 +93,19 @@ function wordForm(kind, value) {
 function render(focus = false, scroll = false) {
   const view = currentState(), scene = sceneFor(view), reading = readingIndex !== null;
   const cover = resumePending || view.phase === 'welcome';
-  const illustrated = !cover && !reading && view.selectedBox === 'red' && ['box','boxResponse'].includes(view.phase);
+  const illustrated = !cover && !reading && BOX_PRESENTATIONS[view.selectedBox] && ['box','boxResponse'].includes(view.phase);
   document.body.classList.toggle('box-playing', illustrated);
   if (illustrated) {
     // A resumed legacy direct input is reflected in the same four cylinders.
-    if (state.boxes.red.inputMode === 'direct') {
-      const value = validateDigits(state.boxes.red.draft, 'red');
-      state = transition(state, {type:'BOX_DIAL', value:value.digits || state.boxes.red.dial}); save();
+    const color=state.selectedBox;
+    if (state.boxes[color].inputMode === 'direct') {
+      const value = validateDigits(state.boxes[color].draft, color);
+      state = transition(state, {type:'BOX_DIAL', value:value.digits || state.boxes[color].dial}); save();
     }
     if (!boxStage) {
       boxStage = createBoxStage({
         color:state.selectedBox, presentation:BOX_PRESENTATIONS[state.selectedBox],
-        getCode:()=>state.boxes.red.dial,
+        getCode:()=>state.boxes[color].dial,
         setCode:value=>{state=transition(state,{type:'BOX_DIAL',value});save();},
         onDial:()=>track.effect('dial'),
         onLid:value=>apply({type:'LID',value}),
@@ -155,11 +156,11 @@ function render(focus = false, scroll = false) {
   if (scroll) window.scrollTo({ top: 0, behavior: 'auto' });
 }
 function apply(event) {
-  const wasLidOpen = state.boxes.red.lidOpen;
+  const color=state.selectedBox, wasLidOpen = state.boxes[color]?.lidOpen;
   const next = transition(state, event); if (next === state) return;
-  const sequenceBox = boxStage && ['EXAMINE','ANSWER','OPEN_LID','CLOSE_LID','LID'].includes(event.type);
+  const sequenceBox = boxStage && ['EXAMINE','INFORMATION','ANSWER','OPEN_LID','CLOSE_LID','LID'].includes(event.type);
   state = next; feedback = ''; inputError = false; save();
-  const narrate = !['FINISH','CLOSE_LID'].includes(event.type) && (event.type !== 'LID' || (!wasLidOpen && state.boxes.red.lidOpen));
+  const narrate = !['FINISH','CLOSE_LID'].includes(event.type) && (event.type !== 'LID' || (!wasLidOpen && state.boxes[color].lidOpen));
   if (sequenceBox) {
     // A new trial supersedes the previous voice, effects and pending results.
     // Examination and lid discovery still keep their narration in order.
@@ -195,9 +196,9 @@ app.addEventListener('click', event => {
   if (action === 'stop') return stop();
   if (action === 'reset') { stop(); document.querySelector('#reset-dialog').showModal(); return; }
   if (action === 'replay') { speak(); return; }
-  if (boxStage && ['examine','box_try','open_lid','close_lid','continue_box'].includes(action)) {
+  if (boxStage && ['examine','information','box_try','open_lid','close_lid','continue_box'].includes(action)) {
     if (boxStage.blocked() || event.detail > 1) return;
-    boxStage.hold();
+    if(action!=='information')boxStage.hold();
     return apply({type:action === 'box_try' ? 'ANSWER' : action.toUpperCase(), revision:Number(target.dataset.revision)});
   }
   if (['mute', 'bgm', 'sfx', 'transcript'].includes(action)) {

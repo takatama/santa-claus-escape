@@ -1,4 +1,4 @@
-/* PR A: the box-box inspection is the stage; the mounted DOM lock is its only numeric input. */
+/* The box inspection is the stage; the mounted DOM lock is its only numeric input. */
 body.box-playing { background:#102031; }
 .box-playing .site-header,.box-playing .site-footer { display:none; }
 .box-playing #app { width:100%; max-width:none; margin:0; padding:0; }
@@ -72,6 +72,25 @@ body.box-playing { background:#102031; }
 .box-opened .box-result { display:none; }
 .box-opened .box-actions .primary { width:auto; flex:2; max-width:420px; }
 .box-papers { display:none; }
+.box-extra { flex:0 1 auto; text-align:center; }
+.box-extra .primary { width:310px; max-width:100%; }
+.box-stage:not(.box-compact-controls) .box-picture > .box-extra { position:absolute; width:310px; }
+.box-compact-controls.box-has-extra[data-color="yellow"] .box-examine { width:auto; flex:1; }
+.box-stage .box-extra .secondary { font-size:16px; }
+.hand-help { width:min(440px,calc(100vw - 24px)); max-height:calc(100svh - 24px); overflow:auto; overscroll-behavior:contain; padding:16px; border:2px solid #cba85d; border-radius:18px; color:#40301d; background:#f8edce; box-shadow:0 16px 64px #0008; }
+.hand-help::backdrop { background:#081827bf; }
+.hand-help header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.hand-help h2 { margin:0; font-size:20px; }
+.hand-help button { border:1px solid #a48143; border-radius:10px; color:#40301d; background:#f3dcaa; padding:8px 12px; }
+.hand-help button:focus-visible { outline-color:#7e531d; }
+.hand-help figure { margin:8px 0; text-align:center; }
+.hand-help img { width:100%; height:clamp(100px,30svh,250px); object-fit:contain; }
+.hand-help .hand-mirrored { transform:scaleX(-1); }
+.hand-position { margin:8px 0; text-align:center; }
+.hand-help figcaption { font-size:24px; }
+.hand-rule { white-space:pre-line; font-size:18px; line-height:1.6; }
+.hand-rule:empty { display:none; }
+.hand-help nav { display:flex; justify-content:space-between; gap:12px; }
 .box-dialogue { min-height:0; min-width:0; display:flex; flex-direction:column; background:#f7eedb; color:#30291f; border-top:1px solid #b99a65; }
 .box-dialogue header { display:flex; flex:0 0 44px; justify-content:space-between; align-items:center; padding:0 16px; gap:12px; }
 .box-dialogue h2 { margin:0; font-size:14px; font-weight:normal; color:#725c3d; }
