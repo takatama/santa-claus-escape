@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { readFile, readdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { redArtFiles } from './red-box-files.mjs';
+import { boxArtFiles } from './box-files.mjs';
 const root=new URL('../',import.meta.url),dist=new URL('dist/',root);
 const server=spawn(process.execPath,['prototype/serve.mjs','--pages'],{cwd:root,env:{...process.env,SANTA_PORT:'0'},stdio:['ignore','pipe','pipe']});
 try{
@@ -15,9 +15,9 @@ try{
   const page=await fetch(base);assert.equal(page.status,200);assert.match(page.headers.get('content-security-policy'),/default-src 'self'/);assert.match(await page.text(),/full-app\.js/);
   const files=(await readdir(dist)).filter(name=>name.endsWith('.js')||name.endsWith('.css')||['LICENSE','NOTICE.txt'].includes(name));
   const audio=(await readdir(new URL('assets/audio/',dist))).map(name=>`assets/audio/${name}`);
-  for(const name of [...files,...audio,...redArtFiles]){
+  for(const name of [...files,...audio,...boxArtFiles]){
     const response=await fetch(`${base}/${name}`);assert.equal(response.status,200,name);
-    if(redArtFiles.includes(name))assert.equal(response.headers.get('content-type'),'image/png',name);
+    if(boxArtFiles.includes(name))assert.equal(response.headers.get('content-type'),'image/png',name);
     const original=await readFile(new URL(name,dist));const served=Buffer.from(await response.arrayBuffer());
     assert.equal(createHash('sha256').update(served).digest('hex'),createHash('sha256').update(original).digest('hex'),name);
   }

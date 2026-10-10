@@ -6,8 +6,9 @@ import { AudioTimeline } from './audio-timeline.js';
 import { resolveAudioTimeline } from './timed-audio.js';
 import { Soundtrack } from './soundtrack.js';
 import { santaScene, winterScene, gift, tanuki, witchScene, rescueScene, mountain } from './illustrations.js';
-import { createRedBoxStage } from './red-box-stage.js';
-import { redSceneFor, redTimeline, RedNarrationQueue } from './red-box-presentation.js';
+import { createBoxStage } from './box-stage.js';
+import { BOX_PRESENTATIONS } from './box-presentations.js';
+import { boxSceneFor, boxTimeline, BoxNarrationQueue } from './box-presentation.js';
 import { loadRedArt } from './red-box-art.js';
 
 const app = document.querySelector('#app');
@@ -15,7 +16,7 @@ let storage; try { storage = window.localStorage; } catch {}
 const loaded = readSave(storage);
 let state = loaded.state || initialState(), resumePending = state.phase !== 'welcome', storageAvailable = loaded.available;
 let readingIndex = null, feedback = '', inputError = false, lastAction = -Infinity;
-let redStage = null, redNarration;
+let boxStage = null, boxNarration;
 let audioStatus = state.muted ? '音声オフ・文字で遊べます' : '開始ボタンで読み上げます';
 const track = new Soundtrack(src=>{const audio=new Audio(src);audio.preload='metadata';document.querySelector('#music-host').replaceChildren(audio);return audio;});
 const voiceTimeline = new AudioTimeline();
@@ -27,38 +28,38 @@ const player = new SpeechPlayer(
   'SpeechSynthesisUtterance' in window ? text => new SpeechSynthesisUtterance(text) : null,
   status => {
     audioStatus = status;
-    redStage?.setStatus(status);
+    boxStage?.setStatus(status);
     const element = document.querySelector('#audio-status'); if (element) element.textContent = status;
     document.querySelector('.santa-device')?.classList.toggle('speaking', status === '読み上げ中');
     if (status !== '読み上げ中') track.quiet();
-    if (status === '読み上げが終わりました') redNarration?.finish();
-    else if (/未対応|再生できません/.test(status)) redNarration?.finish();
+    if (status === '読み上げが終わりました') boxNarration?.finish();
+    else if (/未対応|再生できません/.test(status)) boxNarration?.finish();
   },
-  { clips: FULL_AUDIO_CLIPS, resolveClip: resolveAudioClip, resolveTimeline:key=>redTimeline(key,resolveAudioTimeline), sequencePlayer:voiceTimeline, makeAudio: src => { const audio = new Audio(src); audio.preload = 'auto'; document.querySelector('#audio-host').replaceChildren(audio); return audio; } },
+  { clips: FULL_AUDIO_CLIPS, resolveClip: resolveAudioClip, resolveTimeline:key=>boxTimeline(key,resolveAudioTimeline), sequencePlayer:voiceTimeline, makeAudio: src => { const audio = new Audio(src); audio.preload = 'auto'; document.querySelector('#audio-host').replaceChildren(audio); return audio; } },
 );
-redNarration = new RedNarrationQueue(playScene, () => { if (redStage) render(); });
+boxNarration = new BoxNarrationQueue(playScene, () => { if (boxStage) render(); });
 player.setMuted(state.muted);player.setEffectsEnabled(state.sfxEnabled); track.configure(state);
 audioStatus = state.muted ? '音声オフ・文字で遊べます' : resumePending ? '再開ボタンで読み上げます' : '開始ボタンで読み上げます';
 function save() { storageAvailable = writeSave(storage, state); const label = document.querySelector('#save-status'); if (label) label.textContent = storageAvailable ? 'しおりは、この端末に自動保存' : '保存できません・このまま遊べます'; }
 const currentState = () => readingIndex === null ? state : readingState(state, readingIndex);
-function stop() { redNarration.clear(); player.stop(); track.stop(); }
+function stop() { boxNarration.clear(); player.stop(); track.stop(); }
 function playScene(scene) {
-  if (redStage && !state.muted) voiceTimeline.prepare();
+  if (boxStage && !state.muted) voiceTimeline.prepare();
   track.configure(state); track.begin(scene.bgm); player.setEffectsEnabled(state.sfxEnabled); player.play(spokenSegments(scene), scene.key);
 }
 function speak() {
   if (resumePending) return;
-  redNarration.clear();
-  const scene = redStage ? redSceneFor(currentState()) : sceneFor(currentState());
-  if (redStage && !state.muted) redNarration.enqueue(scene); else playScene(scene);
+  boxNarration.clear();
+  const scene = boxStage ? boxSceneFor(currentState()) : sceneFor(currentState());
+  if (boxStage && !state.muted) boxNarration.enqueue(scene); else playScene(scene);
 }
 function transcriptContent(scene) {
   return scene.segments.map(s => `<div class="speech-block ${s.speaker}"><span class="speaker">${speakerName[s.speaker]}</span><p>${esc(s.text).replaceAll('\n', '<br>')}</p></div>`).join('');
 }
-function redDialogue(view) {
-  const scenes = redNarration.scenes();
-  if (scenes.length < 2) return transcriptContent(scenes[0] || redSceneFor(view));
-  return `<p class="red-caption-label">再生中</p>${transcriptContent(scenes[0])}<p class="red-caption-label">このあと</p>${scenes.slice(1).map(transcriptContent).join('')}`;
+function boxDialogue(view) {
+  const scenes = boxNarration.scenes();
+  if (scenes.length < 2) return transcriptContent(scenes[0] || boxSceneFor(view));
+  return `<p class="box-caption-label">再生中</p>${transcriptContent(scenes[0])}<p class="box-caption-label">このあと</p>${scenes.slice(1).map(transcriptContent).join('')}`;
 }
 function transcript(scene) {
   return `<section class="transcript-section" aria-label="現在の台詞"><div id="transcript" ${state.transcriptOpen ? '' : 'hidden'}>${transcriptContent(scene)}</div>${button('transcript', state.transcriptOpen ? '− 台詞を閉じる' : '＋ 台詞を文字で読む', 'transcript-toggle', `aria-expanded="${state.transcriptOpen}" aria-controls="transcript"`)}</section>`;
@@ -92,29 +93,31 @@ function wordForm(kind, value) {
 function render(focus = false, scroll = false) {
   const view = currentState(), scene = sceneFor(view), reading = readingIndex !== null;
   const cover = resumePending || view.phase === 'welcome';
-  const red = !cover && !reading && view.selectedBox === 'red' && ['box','boxResponse'].includes(view.phase);
-  document.body.classList.toggle('red-playing', red);
-  if (red) {
+  const illustrated = !cover && !reading && BOX_PRESENTATIONS[view.selectedBox] && ['box','boxResponse'].includes(view.phase);
+  document.body.classList.toggle('box-playing', illustrated);
+  if (illustrated) {
     // A resumed legacy direct input is reflected in the same four cylinders.
-    if (state.boxes.red.inputMode === 'direct') {
-      const value = validateDigits(state.boxes.red.draft, 'red');
-      state = transition(state, {type:'RED_DIAL', value:value.digits || state.boxes.red.dial}); save();
+    const color=state.selectedBox;
+    if (state.boxes[color].inputMode === 'direct') {
+      const value = validateDigits(state.boxes[color].draft, color);
+      state = transition(state, {type:'BOX_DIAL', value:value.digits || state.boxes[color].dial}); save();
     }
-    if (!redStage) {
-      redStage = createRedBoxStage({
-        getCode:()=>state.boxes.red.dial,
-        setCode:value=>{state=transition(state,{type:'RED_DIAL',value});save();},
+    if (!boxStage) {
+      boxStage = createBoxStage({
+        color:state.selectedBox, presentation:BOX_PRESENTATIONS[state.selectedBox],
+        getCode:()=>state.boxes[color].dial,
+        setCode:value=>{state=transition(state,{type:'BOX_DIAL',value});save();},
         onDial:()=>track.effect('dial'),
-        onLid:value=>apply({type:'RED_LID',value}),
+        onLid:value=>apply({type:'LID',value}),
       });
-      app.replaceChildren(redStage.element);
+      app.replaceChildren(boxStage.element);
     }
-    redStage.update(state, {settings:toolbar(true,false)+soundSettings(), dialogue:redDialogue(state), status:audioStatus, saved:storageAvailable});
+    boxStage.update(state, {settings:toolbar(true,false)+soundSettings(), dialogue:boxDialogue(state), status:audioStatus, saved:storageAvailable});
     document.querySelector('#bgm-volume').addEventListener('input',e=>{state=transition(state,{type:'BGM_VOLUME',value:Number(e.target.value)});track.setVolume(state.bgmVolume);save();document.querySelector('#bgm-volume-value').textContent=`${state.bgmVolume}%`;e.target.setAttribute('aria-valuetext',`${state.bgmVolume}%`);});
     if (focus) document.querySelector('#screen-heading').focus({preventScroll:true});
     return;
   }
-  redStage?.destroy(); redStage = null;
+  boxStage?.destroy(); boxStage = null;
   let visual = '', controls = '', extra = '', title = scene.title;
   if (cover) {
     visual = santaScene(); title = 'サンタの脱出';
@@ -153,16 +156,16 @@ function render(focus = false, scroll = false) {
   if (scroll) window.scrollTo({ top: 0, behavior: 'auto' });
 }
 function apply(event) {
-  const wasRedLidOpen = state.boxes.red.lidOpen;
+  const color=state.selectedBox, wasLidOpen = state.boxes[color]?.lidOpen;
   const next = transition(state, event); if (next === state) return;
-  const sequenceRed = redStage && ['EXAMINE','ANSWER','OPEN_RED_LID','CLOSE_RED_LID','RED_LID'].includes(event.type);
+  const sequenceBox = boxStage && ['EXAMINE','INFORMATION','ANSWER','OPEN_LID','CLOSE_LID','LID'].includes(event.type);
   state = next; feedback = ''; inputError = false; save();
-  const narrate = !['FINISH','CLOSE_RED_LID'].includes(event.type) && (event.type !== 'RED_LID' || (!wasRedLidOpen && state.boxes.red.lidOpen));
-  if (sequenceRed) {
+  const narrate = !['FINISH','CLOSE_LID'].includes(event.type) && (event.type !== 'LID' || (!wasLidOpen && state.boxes[color].lidOpen));
+  if (sequenceBox) {
     // A new trial supersedes the previous voice, effects and pending results.
     // Examination and lid discovery still keep their narration in order.
     if (event.type === 'ANSWER') stop();
-    if (narrate && !state.muted) redNarration.enqueue(redSceneFor(state));
+    if (narrate && !state.muted) boxNarration.enqueue(boxSceneFor(state));
     render(true, true);
   } else { stop(); render(true, true); if (narrate) speak(); }
 }
@@ -193,14 +196,14 @@ app.addEventListener('click', event => {
   if (action === 'stop') return stop();
   if (action === 'reset') { stop(); document.querySelector('#reset-dialog').showModal(); return; }
   if (action === 'replay') { speak(); return; }
-  if (redStage && ['examine','red_try','open_red_lid','close_red_lid','continue_box'].includes(action)) {
-    if (redStage.blocked() || event.detail > 1) return;
-    redStage.hold();
-    return apply({type:action === 'red_try' ? 'ANSWER' : action.toUpperCase(), revision:Number(target.dataset.revision)});
+  if (boxStage && ['examine','information','box_try','open_lid','close_lid','continue_box'].includes(action)) {
+    if (boxStage.blocked() || event.detail > 1) return;
+    if(action!=='information')boxStage.hold();
+    return apply({type:action === 'box_try' ? 'ANSWER' : action.toUpperCase(), revision:Number(target.dataset.revision)});
   }
   if (['mute', 'bgm', 'sfx', 'transcript'].includes(action)) {
     state = transition(state, { type: action.toUpperCase() }); save();
-    if (action === 'mute') { redNarration.clear(); player.setMuted(state.muted); track.configure(state); }
+    if (action === 'mute') { boxNarration.clear(); player.setMuted(state.muted); track.configure(state); }
     if (['bgm', 'sfx'].includes(action)) track.configure(state);
     if(action==='bgm'&&state.bgmEnabled&&!state.muted&&audioStatus==='読み上げ中')track.begin(sceneFor(currentState()).bgm);
     if(action==='sfx')player.setEffectsEnabled(state.sfxEnabled);

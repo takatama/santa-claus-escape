@@ -42,6 +42,12 @@ Gemini TTSで制作した台詞のWAVと、その台詞だけを結合した音�
 
 `prototype/assets/red-box/` の三枚（赤い箱の本体・ふた、たぬき）は PR #1（aead6e9）の制作済み生成イラストを無加工で再利用しています。PR #1の制作情報・出典は `illustrated-prototype/` にあります。コードと生成イラストには本リポジトリのMIT Licenseを適用します。参照元の第三者の製品写真は同梱しません。音声・音楽・効果音はmainの素材と条件を引き継ぎ、新規生成や結末の鈴の追加はありません。事前生成音声の利用条件に関するPR #2の指摘の解消は、本番公開前の確認事項です。
 
+## PR Bで再利用した絵と操作
+
+`prototype/assets/blue-box/` の三枚（青い本体・ふた・山）と `prototype/assets/yellow-box/` の五枚（黄色い本体・ふた・グー・チョキ・パー）は、PR #1の `aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c` から無加工で再利用。生成イラストには本リポジトリのMIT Licenseを適用します。生成記録は同コミットの `illustrated-prototype/blue-box/assets/PROMPTS.json` と `illustrated-prototype/yellow-box/assets/PROMPTS.json`、配布ファイル・出典・SHA-256は `docs/pr-b/art-provenance.json` に記録しています。手の描画だけ、PR #1と同じ右手向き・掌の尺度に合わせます。素材自体は変更しません。
+
+箱本体・ヒンジ・紙・ダイヤル・雪払いの共通部分と、色別の手がかり描画をPR A・PR #1から取り出しました。黄色の一手表示は既存の四枚の絵を拡大する補助です。新しい絵・声・音楽・効果音の生成はありません。原作の台詞・答え・音素材と、その利用条件を引き継ぎます。音声利用条件に関するPR #2の指摘は、本番公開前の確認事項として残ります。
+
 ## 同梱しないもの
 
 原作ソース全文、Drive原本・一覧、APIキー・認証情報、取得・解析用ライブラリは非公開。原作の jingle.mp3 は現在の [OpenTracks利用ライセンス](https://opentracks.com/help/articles/license/) の公開形態の条件を確認中で、同梱・代替とも行わない。原作制作時の許諾記録を利用者へ質問中。

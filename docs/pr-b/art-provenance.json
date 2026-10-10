@@ -1,0 +1,56 @@
+{
+  "sourcePR": "https://github.com/takatama/santa-claus-escape/pull/1",
+  "sourceCommit": "aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c",
+  "copiedWithoutModification": true,
+  "totalBytes": 15668162,
+  "assets": [
+    {
+      "file": "prototype/assets/blue-box/blue-body.png",
+      "source": "illustrated-prototype/blue-box/assets/blue-body.png",
+      "bytes": 2154321,
+      "sha256": "68bccd2318d4014d304476947ce542d3c3cd0774ae5712f5db0ef0dc13ecfd50"
+    },
+    {
+      "file": "prototype/assets/blue-box/blue-lid.png",
+      "source": "illustrated-prototype/blue-box/assets/blue-lid.png",
+      "bytes": 2093274,
+      "sha256": "ec6f6deaa0ecb6434078ccc2b4d4efc85050292c00b2ec2ba1ccec4b5f4205f6"
+    },
+    {
+      "file": "prototype/assets/blue-box/mountain.png",
+      "source": "illustrated-prototype/blue-box/assets/mountain.png",
+      "bytes": 2201726,
+      "sha256": "14cede2ea86afaf8ea0070fa61fe2def22b3d9b97e369e8ab1ee2b4c10574e9f"
+    },
+    {
+      "file": "prototype/assets/yellow-box/yellow-body.png",
+      "source": "illustrated-prototype/yellow-box/assets/yellow-body.png",
+      "bytes": 2004506,
+      "sha256": "14586674440364529180ce231a9110755fd1093f2f8df57311fbb0d169f7a5f9"
+    },
+    {
+      "file": "prototype/assets/yellow-box/yellow-lid.png",
+      "source": "illustrated-prototype/yellow-box/assets/yellow-lid.png",
+      "bytes": 2099611,
+      "sha256": "80a346a807a68072576d12f7681970cfd180874260d9f07b4fb268988387657a"
+    },
+    {
+      "file": "prototype/assets/yellow-box/rock.png",
+      "source": "illustrated-prototype/yellow-box/assets/rock.png",
+      "bytes": 1369527,
+      "sha256": "e4620a30d1a69c80a16baa9aceda9af427cf51dc88bfb5afddbe2738c28fd331"
+    },
+    {
+      "file": "prototype/assets/yellow-box/scissors.png",
+      "source": "illustrated-prototype/yellow-box/assets/scissors.png",
+      "bytes": 2147871,
+      "sha256": "6c45a45c0ab5f959d56f254e4b89b422f35f39452d471a535f64fba8fd5794db"
+    },
+    {
+      "file": "prototype/assets/yellow-box/paper.png",
+      "source": "illustrated-prototype/yellow-box/assets/paper.png",
+      "bytes": 1597326,
+      "sha256": "cc60a480821b4729115bf02c0836bd93bb9f527037cacfe9b70f46fc237447d4"
+    }
+  ]
+}
