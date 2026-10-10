@@ -21,7 +21,10 @@ async function shot(page,name){await page.screenshot({path:`test-results/red-box
 
 test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid, save and reset',async({page})=>{
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
-  await page.setViewportSize({width:390,height:844});await setup(page);await enterRed(page);
+  const artRequests=[];page.on('request',request=>{if(request.url().includes('/assets/red-box/'))artRequests.push(request.url());});
+  await page.setViewportSize({width:390,height:844});await setup(page);
+  await expect.poll(()=>artRequests.length).toBe(6);await expect(btn(page,'start')).toBeVisible();
+  await enterRed(page);
   expect(await page.getByRole('spinbutton').count()).toBe(4);expect(await page.locator('input[type="text"]').count()).toBe(0);
   await shot(page,'mobile-start');await usable(page,'examine');await btn(page,'examine').click();
   await btn(page,'examine').evaluate(button=>{for(let i=0;i<10;i++)button.dispatchEvent(new MouseEvent('click',{bubbles:true}));});

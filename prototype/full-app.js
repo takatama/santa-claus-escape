@@ -8,6 +8,7 @@ import { Soundtrack } from './soundtrack.js';
 import { santaScene, winterScene, gift, tanuki, witchScene, rescueScene, mountain } from './illustrations.js';
 import { createRedBoxStage } from './red-box-stage.js';
 import { redSceneFor, redTimeline } from './red-box-presentation.js';
+import { loadRedArt } from './red-box-art.js';
 
 const app = document.querySelector('#app');
 let storage; try { storage = window.localStorage; } catch {}
@@ -204,3 +205,6 @@ document.querySelector('#cancel-reset').addEventListener('click', () => document
 document.querySelector('#confirm-reset').addEventListener('click', () => { stop(); state = transition(state, { type: 'RESET' }); readingIndex = null; resumePending = false; feedback = ''; inputError = false; lastAction = -Infinity; save(); document.querySelector('#reset-dialog').close(); render(true, true); });
 window.addEventListener('pagehide', stop); document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
 render();
+// Prepare the first illustrated stage while the cover/introduction is visible.
+// Reuses the stage's one promise; failure leaves the text fallback available.
+if (typeof Image === 'function') loadRedArt().catch(()=>{});
