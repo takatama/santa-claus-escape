@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { btn, card, slot, paperState, setupPapers, arrangePapers, saved } from './paper-helpers.js';
+import { btn, card, slot, paperState, setupPapers, arrangePapers, saved, discover } from './paper-helpers.js';
 
 test('paper audio: operate during original letters voice; replay, stop/mute and stale HTML completion keep text and placement',async({page})=>{
   await setupPapers(page,paperState(false));const original=await page.locator('#audio-host audio').elementHandle();
@@ -25,7 +25,7 @@ test('paper audio: explicit SPELL uses original magic/invite once; replay, ackno
   await page.locator('[data-paper-submit]').evaluate(b=>{for(let i=0;i<10;i++)b.click();});await expect.poll(()=>page.evaluate(()=>window.paperSources.length)).toBe(2);expect(requested).toContain('shine1.mp3');expect(requested).toContain('ja-leda-invite.wav');expect(await old.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);
   await page.locator('.box-settings>summary').click();await btn(page,'replay').click();await expect.poll(()=>page.evaluate(()=>window.paperSources.length)).toBe(4);expect(await page.evaluate(()=>window.paperSources.slice(0,2).every(s=>s.stopped>0))).toBe(true);
   await page.evaluate(()=>{window.lettersEnd?.();for(const old of window.paperSources.slice(0,2))old.lateEnd?.();});await expect(page.locator('.box-voice')).toBeVisible();await expect(page.locator('#transcript')).toContainText('まほう使いがあらわれました');
-  const revision=(await saved(page)).revision;await btn(page,'continue_spell').click();await expect(btn(page,'decline')).toBeVisible();expect(await page.evaluate(()=>window.paperSources.length)).toBe(4);expect((await saved(page)).revision).toBe(revision+1);
+  const revision=(await saved(page)).revision;await btn(page,'continue_spell').click();await discover(page);await expect(btn(page,'decline')).toBeVisible();expect(await page.evaluate(()=>window.paperSources.length)).toBe(4);expect((await saved(page)).revision).toBe(revision+3);
   await page.waitForTimeout(470);await btn(page,'decline').click();expect(await page.evaluate(()=>window.paperSources.every(s=>s.stopped>0))).toBe(true);await page.evaluate(()=>{for(const s of window.paperSources)s.lateEnd?.();});await expect(btn(page,'call_again')).toBeVisible();expect((await saved(page)).phase).toBe('witchPaused');
   await page.reload();await btn(page,'resume').click();await expect(btn(page,'call_again')).toBeVisible();await page.waitForTimeout(470);await btn(page,'call_again').click();expect((await saved(page)).reinvited).toBe(true);expect((await saved(page)).spellSlots.filter(Boolean)).toHaveLength(6);
 });
@@ -41,5 +41,5 @@ test('paper audio: late SPELL timeline load after screen departure cannot start 
   let release;await page.route('**/ja-leda-invite.wav',async route=>{await new Promise(resolve=>{release=resolve;});await route.continue();});
   await page.addInitScript(()=>{window.scheduledSources=0;const create=AudioContext.prototype.createBufferSource;AudioContext.prototype.createBufferSource=function(){const node=create.call(this),start=node.start.bind(node);node.start=(...args)=>{if(args.length===1)window.scheduledSources++;return start(...args);};return node;};});
   await setupPapers(page,paperState(false));await arrangePapers(page);await page.locator('[data-paper-submit]').click();await expect.poll(()=>Boolean(release)).toBe(true);
-  await btn(page,'continue_spell').click();await page.waitForTimeout(470);await btn(page,'decline').click();release();await page.waitForTimeout(300);expect(await page.evaluate(()=>window.scheduledSources)).toBe(0);await expect(btn(page,'call_again')).toBeVisible();expect((await saved(page)).phase).toBe('witchPaused');
+  await btn(page,'continue_spell').click();await discover(page);await page.waitForTimeout(470);await btn(page,'decline').click();release();await page.waitForTimeout(300);expect(await page.evaluate(()=>window.scheduledSources)).toBe(0);await expect(btn(page,'call_again')).toBeVisible();expect((await saved(page)).phase).toBe('witchPaused');
 });

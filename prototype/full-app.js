@@ -12,13 +12,14 @@ import { boxSceneFor, boxTimeline, BoxNarrationQueue } from './box-presentation.
 import { loadRedArt } from './red-box-art.js';
 import { createPaperStage } from './paper-stage.js';
 import { arrangedWord } from './paper-layout.js';
+import { createWitchStage } from './witch-stage.js';
 
 const app = document.querySelector('#app');
 let storage; try { storage = window.localStorage; } catch {}
 const loaded = readSave(storage);
 let state = loaded.state || initialState(), resumePending = state.phase !== 'welcome', storageAvailable = loaded.available;
 let readingIndex = null, feedback = '', inputError = false, lastAction = -Infinity;
-let boxStage = null, paperStage = null, boxNarration;
+let boxStage = null, paperStage = null, witchStage = null, boxNarration;
 let audioStatus = state.muted ? '音声オフ・文字で遊べます' : '開始ボタンで読み上げます';
 const track = new Soundtrack(src=>{const audio=new Audio(src);audio.preload='metadata';document.querySelector('#music-host').replaceChildren(audio);return audio;});
 const voiceTimeline = new AudioTimeline();
@@ -32,6 +33,7 @@ const player = new SpeechPlayer(
     audioStatus = status;
     boxStage?.setStatus(status);
     paperStage?.setStatus(status);
+    witchStage?.setStatus(status);
     const element = document.querySelector('#audio-status'); if (element) element.textContent = status;
     document.querySelector('.santa-device')?.classList.toggle('speaking', status === '読み上げ中');
     if (status !== '読み上げ中') track.quiet();
@@ -98,9 +100,12 @@ function render(focus = false, scroll = false) {
   const cover = resumePending || view.phase === 'welcome';
   const illustrated = !cover && !reading && BOX_PRESENTATIONS[view.selectedBox] && ['box','boxResponse'].includes(view.phase);
   const illustratedPapers = !cover && !reading && ((view.phase === 'spell' && papers(view).length === 6) || (view.phase === 'witchInvite' && view.spellReview));
+  const illustratedWitch = !cover && !reading && view.phase.startsWith('witch') && !view.spellReview;
   document.body.classList.toggle('box-playing', illustrated);
   document.body.classList.toggle('paper-playing', illustratedPapers);
+  document.body.classList.toggle('witch-playing', illustratedWitch);
   if (!illustratedPapers) { paperStage?.destroy(); paperStage = null; }
+  if (!illustratedWitch) { witchStage?.destroy(); witchStage = null; }
   if (illustrated) {
     // A resumed legacy direct input is reflected in the same four cylinders.
     const color=state.selectedBox;
@@ -124,6 +129,21 @@ function render(focus = false, scroll = false) {
     return;
   }
   boxStage?.destroy(); boxStage = null;
+  if (illustratedWitch) {
+    if (!witchStage) {
+      witchStage = createWitchStage({
+        getState:()=>state,
+        onProgress:value=>{const next=transition(state,{type:'DISCOVERY_PROGRESS',value});if(next!==state){state=next;save();render();}},
+        onDraft:event=>{state=transition(state,event);save();},
+        onReply:event=>apply(event),
+      });
+      app.replaceChildren(witchStage.element);
+    }
+    witchStage.update(state,{settings:toolbar(true,false)+soundSettings(),dialogue:transcriptContent(scene),status:audioStatus,saved:storageAvailable});
+    document.querySelector('#bgm-volume').oninput=e=>{state=transition(state,{type:'BGM_VOLUME',value:Number(e.target.value)});track.setVolume(state.bgmVolume);save();document.querySelector('#bgm-volume-value').textContent=`${state.bgmVolume}%`;e.target.setAttribute('aria-valuetext',`${state.bgmVolume}%`);};
+    if(focus)document.querySelector('#screen-heading').focus({preventScroll:true});
+    return;
+  }
   if (illustratedPapers) {
     if (!paperStage) {
       paperStage = createPaperStage({
@@ -186,9 +206,9 @@ function apply(event) {
   const next = transition(state, event); if (next === state) return;
   const sequenceBox = boxStage && ['EXAMINE','INFORMATION','ANSWER','OPEN_LID','CLOSE_LID','LID'].includes(event.type);
   state = next; feedback = ''; inputError = false; save();
-  // SPELL has already started the original invite audio. Acknowledgment only
-  // changes its presentation, so it cannot summon or replay it a second time.
-  if (event.type === 'CONTINUE_SPELL') { render(true,true); return; }
+  // The original invite starts once at SPELL. Both acknowledgments and branch
+  // gestures change presentation only, without cancelling/restarting that voice.
+  if (['CONTINUE_SPELL','CONTINUE_DISCOVERY'].includes(event.type)) { render(true,true); return; }
   const narrate = !['FINISH','CLOSE_LID'].includes(event.type) && (event.type !== 'LID' || (!wasLidOpen && state.boxes[color].lidOpen));
   if (sequenceBox) {
     // A new trial supersedes the previous voice, effects and pending results.
@@ -243,9 +263,16 @@ app.addEventListener('click', event => {
     document.querySelectorAll('.dial-column output').forEach((output, i) => { output.textContent = state.boxes[state.selectedBox].dial[i]; }); return;
   }
   if (action === 'mode') { state = transition(state, { type: 'MODE' }); feedback = ''; inputError = false; save(); render(); return; }
-  if (action === 'continue_spell') return apply({type:'CONTINUE_SPELL',revision:Number(target.dataset.revision)});
+  if (['continue_spell','continue_discovery'].includes(action)) return apply({type:action.toUpperCase(),revision:Number(target.dataset.revision)});
   if (performance.now() - lastAction < 450) return; lastAction = performance.now();
-  if (action === 'resume') { resumePending = false; render(true, true); speak(); return; }
+  if (action === 'resume') {
+    resumePending = false;
+    // Resuming a summoned save must not summon again. Explicit replay remains
+    // available; other original scenes still read when the player resumes.
+    const summoned = state.phase === 'witchInvite' && !state.reinvited;
+    if(summoned)audioStatus=state.muted?'音声オフ・文字で遊べます':'聞き直しでお話を再生';
+    render(true, true); if(!summoned)speak(); return;
+  }
   if (action === 'read' && state.phase === 'complete') readingIndex = 0;
   else if (action === 'read-prev' && readingIndex !== null) readingIndex = Math.max(0, readingIndex - 1);
   else if (action === 'read-next' && readingIndex !== null) readingIndex = Math.min(state.history.length - 1, readingIndex + 1);
@@ -255,7 +282,7 @@ app.addEventListener('click', event => {
     const revision = Number(target.dataset.revision);
     if (action === 'select') return apply({ type: 'SELECT', color: target.dataset.color, revision });
     if (action === 'choice') return apply({ type: 'REPLY', value: target.dataset.value, questionId: target.dataset.questionId, revision });
-    return apply({ type: action.toUpperCase(), revision });
+    return apply({ type: action.toUpperCase(), revision, questionId: target.dataset.questionId });
   }
   stop(); render(true, true); speak();
 });

@@ -10,7 +10,7 @@ import { Soundtrack } from '../soundtrack.js';
 const send=(s,type,extra={})=>transition(s,{type,...extra});
 const start=()=>send(send(initialState(),'START'),'BOXES');
 const open=(s,c)=>{s=send(s,'SELECT',{color:c});s=send(s,'MODE');s=send(s,'DRAFT',{value:BOXES[c].answer});return send(s,'ANSWER');};
-const summon=s=>send(send(s,'DRAFT',{value:'　ダイ スキ ダヨ　',field:'spell'}),'SPELL');
+const summon=s=>send(send(send(send(s,'DRAFT',{value:'　ダイ スキ ダヨ　',field:'spell'}),'SPELL'),'DISCOVERY_PROGRESS',{value:1}),'CONTINUE_DISCOVERY');
 
 test('三箱の全六順序で開封・保存・紙の取得・最後まで実際の状態遷移が通る',()=>{
   const orders=[['red','blue','yellow'],['red','yellow','blue'],['blue','red','yellow'],['blue','yellow','red'],['yellow','red','blue'],['yellow','blue','red']];

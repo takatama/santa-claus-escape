@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { initialState, transition, STORAGE_KEY } from '../../prototype/full-game.js';
-import { btn, card, slot, paperState, setupPapers, arrangePapers, correctOrder, saved, dragTo } from './paper-helpers.js';
+import { btn, card, slot, paperState, setupPapers, arrangePapers, correctOrder, saved, dragTo, discover } from './paper-helpers.js';
 
 test('papers: keyboard alone completes all six; resize and pointer cancellation keep the last saved positions',async({page})=>{
   await setupPapers(page);
@@ -9,7 +9,7 @@ test('papers: keyboard alone completes all six; resize and pointer cancellation 
   const source=card(page,'red-1'),b=await source.boundingBox();await page.mouse.move(b.x+20,b.y+20);await page.mouse.down();await page.mouse.move(b.x+80,b.y+40);await source.dispatchEvent('pointercancel',{pointerId:1});await page.mouse.up();
   expect((await saved(page)).spellSlots).toEqual(Array(6).fill(null));await expect(page.locator('.paper-ghost')).toHaveCount(0);
   for(const [index,id] of correctOrder.entries()){await card(page,id).press('Escape');await card(page,id).press('Enter');await slot(page,index).locator('.paper-slot-target').press('Space');await expect(card(page,id)).toBeFocused();}
-  await page.locator('[data-paper-submit]').press('Enter');await expect(page.locator('.paper-success')).toBeVisible();await btn(page,'continue_spell').press('Space');await expect(btn(page,'accept')).toBeVisible();
+  await page.locator('[data-paper-submit]').press('Enter');await expect(page.locator('.paper-success')).toBeVisible();await btn(page,'continue_spell').press('Space');await discover(page);await expect(btn(page,'accept')).toBeVisible();
 });
 
 test('papers: tap selection, separate da IDs, exchanges, return, keyboard and stable focus',async({page})=>{
@@ -48,7 +48,7 @@ test('papers: empty/incomplete/wrong stays editable; explicit success stays visi
   await expect(page.locator('#paper-feedback')).toHaveAttribute('data-kind','success');await expect(page.locator('.paper-stage')).toHaveClass(/paper-success/);await expect(btn(page,'continue_spell')).toBeFocused();
   expect(await card(page,'red-1').evaluate(e=>getComputedStyle(e).opacity)).toBe('1');await page.waitForTimeout(1300);await expect(page.locator('.paper-success')).toBeVisible();
   await page.reload();await btn(page,'resume').click();await expect(page.locator('.paper-success')).toBeVisible();expect((await saved(page)).revision).toBe(success.revision);
-  await btn(page,'continue_spell').click();await expect(btn(page,'accept')).toBeVisible();await expect(page.locator('button[data-paper-id]')).toHaveCount(0);
+  await btn(page,'continue_spell').click();await discover(page);await expect(btn(page,'accept')).toBeVisible();await expect(page.locator('button[data-paper-id]')).toHaveCount(0);
 });
 test('papers: intermediate save and reset confirmation, old kana draft and corrupted optional layout',async({page})=>{
   const s=paperState();s.spellSlots[2]='blue-1';await setupPapers(page,s);await expect(card(page,'blue-1')).toHaveAttribute('aria-label',/^3番目/);
@@ -88,7 +88,7 @@ test.describe('paper touch emulation',()=>{
 });
 test('early: zero-paper alias, decline/save/reload/recall and all wrong answers rescue without awards',async({page})=>{
   await page.goto('/');await btn(page,'mute').click();await btn(page,'start').click();await page.waitForTimeout(470);await btn(page,'boxes').click();
-  await page.locator('.secret-entry summary').click();await page.locator('#word-answer').fill('　ダイ スキ ダヨ　');await page.locator('#spell-form button[type="submit"]').click();await expect(btn(page,'decline')).toBeVisible();expect((await saved(page)).boxes.red.opened).toBe(false);
+  await page.locator('.secret-entry summary').click();await page.locator('#word-answer').fill('　ダイ スキ ダヨ　');await page.locator('#spell-form button[type="submit"]').click();await discover(page);await expect(btn(page,'decline')).toBeVisible();expect((await saved(page)).boxes.red.opened).toBe(false);
   await page.waitForTimeout(470);await btn(page,'decline').click();await page.reload();await btn(page,'resume').click();await page.waitForTimeout(470);await btn(page,'call_again').click();await page.waitForTimeout(470);await btn(page,'accept').click();
   for(let i=0;i<3;i++){
     await page.waitForTimeout(470);if(i===1)await page.locator('[data-action="choice"][data-value="太陽"]').click();else{await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button[type="submit"]').click();}
@@ -103,5 +103,5 @@ test('papers: blocked storage, art and audio still allow the session from cover 
   for(const [color,code] of [['red','3138'],['blue','8848'],['yellow','2502']]){
     await page.waitForTimeout(470);await page.locator(`[data-action="select"][data-color="${color}"]`).click();for(let i=0;i<4;i++)await page.getByRole('spinbutton',{name:`${i+1}桁目のダイアル`,exact:true}).press(code[i]);await btn(page,'box_try').click();await expect(btn(page,'open_lid')).toBeEnabled();await btn(page,'open_lid').click();await expect(btn(page,'continue_box')).toBeEnabled();await btn(page,'continue_box').click();
   }
-  await expect(page.locator('.paper-art-error')).toBeVisible();await expect(page.locator('#save-status')).toContainText('このまま遊べます');await arrangePapers(page);await page.locator('[data-paper-submit]').click();await expect(btn(page,'continue_spell')).toBeVisible();await btn(page,'continue_spell').click();await expect(btn(page,'accept')).toBeVisible();expect(errors).toEqual([]);
+  await expect(page.locator('.paper-art-error')).toBeVisible();await expect(page.locator('#save-status')).toContainText('このまま遊べます');await arrangePapers(page);await page.locator('[data-paper-submit]').click();await expect(btn(page,'continue_spell')).toBeVisible();await btn(page,'continue_spell').click();await discover(page);await expect(btn(page,'accept')).toBeVisible();expect(errors).toEqual([]);
 });

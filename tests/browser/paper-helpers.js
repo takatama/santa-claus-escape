@@ -20,6 +20,11 @@ export async function arrangePapers(page,ids=correctOrder) {
   }
 }
 export const saved=page=>page.evaluate(key=>JSON.parse(localStorage.getItem(key)),STORAGE_KEY);
+export async function discover(page) {
+  await expect(page.locator('.witch-stage')).toHaveAttribute('data-discovery','true');
+  await page.locator('[data-branch-side="1"]').press('End');await btn(page,'continue_discovery').click();
+  await expect(page.locator('.witch-stage')).toHaveAttribute('data-discovery','false');
+}
 export async function dragTo(page,source,target,{cancel=false,outside=false}={}) {
   await source.scrollIntoViewIfNeeded();const a=await source.boundingBox();
   const b=outside?{x:5,y:5,width:1,height:1}:await target.boundingBox();

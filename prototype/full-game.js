@@ -7,7 +7,7 @@ export const normalizeDigits = raw => String(raw).normalize('NFKC').replace(/[\s
 export const normalizeWord = raw => normalizeDigits(raw).replace(/[ァ-ヶ]/gu, c => String.fromCharCode(c.charCodeAt(0) - 0x60)).toLowerCase();
 export function matchesWord(raw, aliases) { return aliases.some(alias => normalizeWord(raw) === normalizeWord(alias)); }
 export function initialState(muted = false) {
-  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '', lidOpen:false }])), spellDraft: '', spellSlots: emptySlots(), spellReview: false, questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, bgmVolume: DEFAULT_BGM_VOLUME, sfxEnabled: true, transcriptOpen: true, history: [] };
+  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '', lidOpen:false }])), spellDraft: '', spellSlots: emptySlots(), spellReview: false, witchDiscovery: null, questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, bgmVolume: DEFAULT_BGM_VOLUME, sfxEnabled: true, transcriptOpen: true, history: [] };
 }
 export function validateDigits(raw, color) {
   const digits = normalizeDigits(raw);
@@ -41,7 +41,7 @@ export function transition(state, event) {
     const text = String(event.value).slice(0, 64);
     if (state.phase === 'box') return { ...state, boxes: updateBox({ draft: text.slice(0, 32) }) };
     if (state.phase === 'spell' || (state.phase === 'boxes' && event.field === 'spell')) return { ...state, spellDraft: text };
-    if (state.phase === 'witchQuestion') return { ...state, questionDraft: text };
+    if (state.phase === 'witchQuestion' && (event.questionId === undefined || event.questionId === QUESTIONS[state.questionIndex].id)) return { ...state, questionDraft: text };
     return state;
   }
   if (event.type === 'BOX_DIAL' && state.phase === 'box' && /^\d{4}$/.test(event.value)) {
@@ -75,18 +75,24 @@ export function transition(state, event) {
   if (event.type === 'SPELL' && ['boxes', 'spell'].includes(state.phase)) {
     if (event.source === 'papers' && state.phase !== 'spell') return state;
     const word = event.source === 'papers' ? arrangedWord(state.spellSlots, papers(state)) : state.spellDraft;
-    if (matchesWord(word, ['だいすきだよ', '大好きだよ'])) next = { ...state, spellDraft: word, spellReview: event.source === 'papers', phase: 'witchInvite', selectedBox: null, reinvited: false };
+    if (matchesWord(word, ['だいすきだよ', '大好きだよ'])) next = { ...state, spellDraft: word, spellReview: event.source === 'papers', witchDiscovery: {progress:0,pending:true}, phase: 'witchInvite', selectedBox: null, reinvited: false };
   }
+  // Discovery is reversible presentation inside the already summoned phase.
+  // It never changes owned papers, answers, history, or the original scene key.
+  if (event.type === 'DISCOVERY_PROGRESS' && state.phase === 'witchInvite' && !state.spellReview && state.witchDiscovery?.pending && Number.isFinite(event.value) && event.value >= 0 && event.value <= 1) {
+    return event.value === state.witchDiscovery.progress ? state : {...state,witchDiscovery:{progress:event.value,pending:true},revision:state.revision+1};
+  }
+  if (event.type === 'CONTINUE_DISCOVERY' && state.phase === 'witchInvite' && !state.spellReview && state.witchDiscovery?.pending && state.witchDiscovery.progress >= .98) next = {...state,witchDiscovery:{progress:1,pending:false}};
   if (event.type === 'CONTINUE_SPELL' && state.phase === 'witchInvite' && state.spellReview) next = { ...state, spellReview: false };
-  if (event.type === 'ACCEPT' && state.phase === 'witchInvite' && !state.spellReview) next = { ...state, phase: 'witchQuestion' };
-  if (event.type === 'DECLINE' && state.phase === 'witchInvite' && !state.spellReview) next = { ...state, phase: 'witchPaused' };
+  if (event.type === 'ACCEPT' && state.phase === 'witchInvite' && !state.spellReview && !state.witchDiscovery?.pending) next = { ...state, phase: 'witchQuestion' };
+  if (event.type === 'DECLINE' && state.phase === 'witchInvite' && !state.spellReview && !state.witchDiscovery?.pending) next = { ...state, phase: 'witchPaused' };
   if (event.type === 'CALL_AGAIN' && state.phase === 'witchPaused') next = { ...state, phase: 'witchInvite', reinvited: true };
   if (event.type === 'REPLY' && state.phase === 'witchQuestion') {
     const q = QUESTIONS[state.questionIndex], input = event.value === undefined ? state.questionDraft : String(event.value);
     if (event.questionId !== q.id || !normalizeWord(input) || (q.kind === 'choice' && !q.choices.includes(input))) return state;
     next = { ...state, phase: 'witchResponse', responses: [...state.responses, { id: q.id, input: input.slice(0, 64), correct: matchesWord(input, q.aliases) }] };
   }
-  if (event.type === 'CONTINUE_WITCH' && state.phase === 'witchResponse') next = state.questionIndex === 2 ? { ...state, phase: 'rescue' } : { ...state, phase: 'witchQuestion', questionIndex: state.questionIndex + 1, questionDraft: '' };
+  if (event.type === 'CONTINUE_WITCH' && state.phase === 'witchResponse' && (event.questionId === undefined || event.questionId === QUESTIONS[state.questionIndex].id)) next = state.questionIndex === 2 ? { ...state, phase: 'rescue' } : { ...state, phase: 'witchQuestion', questionIndex: state.questionIndex + 1, questionDraft: '' };
   if (event.type === 'FINISH' && state.phase === 'rescue') next = { ...state, phase: 'complete' };
   return next ? remember({ ...next, revision: state.revision + 1 }) : state;
 }
@@ -135,7 +141,13 @@ export function restoreState(raw) {
   // Missing fields migrate kana from the reader's own old draft, using owned IDs.
   const spellSlots = raw.spellSlots === undefined ? slotsFromDraft(normalizeWord(raw.spellDraft || ''), items) : validSlots(raw.spellSlots, items) || emptySlots();
   const spellReview = raw.spellReview === true && raw.phase === 'witchInvite' && !raw.reinvited && matchesWord(arrangedWord(spellSlots, items), ['だいすきだよ', '大好きだよ']);
-  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), spellSlots, spellReview, questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
+  // Old invite/question/paused saves already reached the conversation. Missing
+  // or invalid optional presentation data cannot rewind that progress.
+  const summoned = raw.phase.startsWith('witch') || ['rescue','complete'].includes(raw.phase);
+  const pending = raw.phase === 'witchInvite' && !raw.reinvited && (spellReview || raw.witchDiscovery?.pending === true);
+  const progress = pending && Number.isFinite(raw.witchDiscovery?.progress) && raw.witchDiscovery.progress >= 0 && raw.witchDiscovery.progress <= 1 ? raw.witchDiscovery.progress : pending ? 0 : 1;
+  const witchDiscovery = summoned ? {progress,pending} : null;
+  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), spellSlots, spellReview, witchDiscovery, questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
 }
 export function readSave(storage) {
   try {
