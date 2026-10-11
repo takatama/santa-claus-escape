@@ -73,22 +73,5 @@ test('フェード中の音量変更でもフェードを維持し、二重に�
   }finally{globalThis.setTimeout=realSet;globalThis.clearTimeout=realClear;}
 });
 
-test('画面のスライダー操作が保存と表示に反映され、画面再構築や音の開始を起こさない',async()=>{
-  // 実ブラウザではなく、要素とイベント境界を模したDOMで本番のハンドラーを確認。
-  const previous=Object.fromEntries(['window','document','Audio'].map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)])),memory=new Map(),elements=new Map();let renders=0;
-  class Element{
-    constructor(){this.events=new Map();this.attributes={};this.textContent='';}
-    addEventListener(type,fn){this.events.set(type,fn);}setAttribute(key,value){this.attributes[key]=value;}focus(){}close(){}replaceChildren(){}
-    set innerHTML(html){this.html=html;renders++;for(const id of [...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1])){const element=new Element();const range=html.match(new RegExp(`<input id="${id}"[^>]*value="([^"]+)"`));if(range)element.value=range[1];elements.set('#'+id,element);}}
-    get innerHTML(){return this.html;}
-  }
-  for(const id of ['#app','#cancel-reset','#confirm-reset','#reset-dialog','#music-host','#audio-host'])elements.set(id,new Element());
-  globalThis.window={localStorage:{getItem:key=>memory.get(key)||null,setItem:(key,value)=>memory.set(key,value)},addEventListener(){},scrollTo(){}};
-  globalThis.document={body:{classList:{toggle(){}}},querySelector:selector=>elements.get(selector)||null,addEventListener(){}};
-  globalThis.Audio=class{constructor(){assert.fail('slider must not start audio');}};
-  try{
-    await import('../full-app.js?bgm-volume-test');const range=elements.get('#bgm-volume');assert.ok(range);assert.equal(range.value,'25');assert.match(elements.get('#app').html,/type="range" min="0" max="100"/);
-    const renderCount=renders;range.value='45';range.events.get('input')({target:range});
-    const saved=JSON.parse(memory.get(STORAGE_KEY));assert.equal(saved.bgmVolume,45);assert.equal(saved.phase,'welcome');assert.equal(saved.revision,0);assert.equal(elements.get('#bgm-volume-value').textContent,'45%');assert.equal(range.attributes['aria-valuetext'],'45%');assert.equal(renders,renderCount);assert.strictEqual(elements.get('#bgm-volume'),range);
-  }finally{for(const [key,descriptor] of Object.entries(previous)){if(descriptor)Object.defineProperty(globalThis,key,descriptor);else delete globalThis[key];}}
-});
+// The production slider handler is exercised in tests/browser/story.spec.js
+// against the real stage DOM, including focus, audio and settings updates.

@@ -27,7 +27,7 @@ test('三箱の全六順序で開封・保存・紙の取得・最後まで実�
 });
 test('空・誤答・別箱の数字・古いイベントでは箱や次の問題を進めない',()=>{
   let s=send(start(),'SELECT',{color:'blue'});s=send(s,'MODE');
-  for(const draft of ['', '3138','8849','8848.86','a8848']){s=send(s,'DRAFT',{value:draft});const next=send(s,'ANSWER');assert.ok(!next.boxes.blue.opened);s=next;}
+  for(const draft of ['', '3138','8850','8848.86','a8848']){s=send(s,'DRAFT',{value:draft});const next=send(s,'ANSWER');assert.ok(!next.boxes.blue.opened);s=next;}
   assert.equal(validateDigits('','blue').kind,'empty');assert.equal(validateDigits('　８８ ４８　','blue').kind,'correct');
   const revision=s.revision;s=send(s,'DRAFT',{value:'8848'});s=send(s,'ANSWER');assert.strictEqual(send(s,'CONTINUE_BOX',{revision}),s);
   let w=send(summon(start()),'ACCEPT');assert.strictEqual(send(w,'REPLY',{value:' ',questionId:QUESTIONS[0].id}),w);assert.strictEqual(send(w,'REPLY',{value:'くま',questionId:QUESTIONS[2].id}),w);
@@ -75,7 +75,7 @@ test('未到達の救出・問題の回答を含む壊れた読み返し履歴�
 test('全編の主要な原作台詞と正解を原本と照合する',async t=>{
   let source;try{source=await readFile(new URL('../reference/legacy-index.js',import.meta.url),'utf8');}catch(e){if(e.code!=='ENOENT')throw e;t.skip('原本コピーは非公開');return;}
   const compact=s=>s.replace(/\s/g,'');
-  for(const key of ['blue1','blue2','blue3','yellow1','yellow2','yellow3','yellow4','information','letters']){
+  for(const key of ['blue1','blue2','blue3','yellow1','yellow2','yellow3','yellow4','letters']){
     const text=sceneFor({phase:key==='letters'?'spell':'box',selectedBox:key.startsWith('yellow')?'yellow':'blue',boxes:{blue:{exam:Number(key.at(-1))||4},yellow:{exam:Number(key.at(-1))||4}},boxMessage:key==='information'?'information':''}).segments[0].text;
     const substantive=key==='letters'?text.split('\n').slice(0,4).join(''):key==='yellow4'?text.split('\n').slice(0,3).join(''):text;
     assert.ok(compact(source.replaceAll('$janken','グー、チョキ、パー、グー')).includes(compact(substantive)),key);

@@ -1,3 +1,4 @@
+import { BLUE_CLUE } from './storybook-content.js';
 export const CLUE_WIDTH = 620;
 export const CLUE_HEIGHT = 258;
 
@@ -14,9 +15,9 @@ export function getClueGeometry(inkRatio = 1, mountainImage) {
     mountain: { x: 148 - w / 2, y: 229 - h, w, h },
     name: { text: 'サガルマータ', x: 292, y: 55, size: Math.min(48, 52 / ratio) },
     statement: { x: 294, size: Math.min(38, 44 / ratio), lines: [
-      { text: 'その高さは、', y: 122 },
-      { text: 'この端末が', y: 170 },
-      { text: '知っている', y: 218 },
+      { text: BLUE_CLUE.split('。')[0]+'。', y: 122 },
+      { text: '高さがカギを', y: 170 },
+      { text: '開く', y: 218 },
     ] },
   };
 }

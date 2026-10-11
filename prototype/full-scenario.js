@@ -1,11 +1,15 @@
 // 原作日本語版の固定出題。根拠と操作案内の差分は FULL-GAME-NOTES.md。
 import { SCENARIO } from './scenario.js';
+import { storybookSegments } from './storybook-content.js';
 export const COLORS = ['red', 'blue', 'yellow'];
 export const BOXES = Object.freeze({
   red: { name: '赤色', answer: '3138', letters: ['す', 'だ'], words: SCENARIO.words },
-  blue: { name: '青色', answer: '8848', letters: ['い', 'よ'] },
+  blue: { name: '青色', answer: '8848', answers: ['8848','8849'], letters: ['い', 'よ'] },
   yellow: { name: '黄色', answer: '2502', letters: ['き', 'だ'], hands: ['グー', 'チョキ', 'パー', 'グー'] },
 });
+export function isBoxAnswer(color,digits) {
+  const box=BOXES[color];return Boolean(box)&&(box.answers||[box.answer]).includes(digits);
+}
 const narrator = text => ({ speaker: 'narrator', text });
 const witch = text => ({ speaker: 'witch', text });
 const santa = text => ({ speaker: 'santa', text });
@@ -62,7 +66,7 @@ export function sceneFor(state) {
       }
       break;
     case 'boxResponse':
-      key = `${color}-open`; title = '箱の中に、ふたつのひらがな。'; chapter = `${box.name}の箱が開いた`; effect = 'unlock';
+      key = `${color}-open${saved.lastSubmitted&&saved.lastSubmitted!==box.answer?`-${saved.lastSubmitted}`:''}`; title = '箱の中に、ふたつのひらがな。'; chapter = `${box.name}の箱が開いた`; effect = 'unlock';
       { const meanings = { red: 'スイカの「す」と、大根の「だ」です。', blue: 'イルカの「い」と、ヨーグルトの「よ」です。', yellow: 'キリンの「き」と、大根の「だ」です。' };
         const text = `カチカチ、カチカチ...。あなたは${box.name}の箱の数字を${saved.lastSubmitted}に合わせました。\n...カチャ！${box.name}の箱が開きました！\n中には「${box.letters[0]}」と「${box.letters[1]}」と書かれた紙が入っています。${meanings[color]}`;
         segments = [{ ...narrator(text), spoken: text.replace('カチカチ、カチカチ...。', '').replace('...カチャ！', '') }]; }
@@ -87,10 +91,10 @@ export function sceneFor(state) {
     }
     case 'rescue': case 'complete': key = 'rescue'; title = 'クリスマスの夜を、楽しみに。'; chapter = 'サンタの脱出'; effect = 'rescue'; break;
   }
-  return { key, title, chapter, segments: segments || messages[key], bgm: state.phase.startsWith('witch') ? 'witch' : 'normal', effect };
+  return { key, title, chapter, segments: storybookSegments(key,segments || messages[key]), bgm: state.phase.startsWith('witch') ? 'witch' : 'normal', effect };
 }
 export function spokenSegments(scene) { return scene.segments.map(segment => ({ ...segment, text: segment.spoken || segment.text })); }
-export function productionScenes() {
+export function productionScenes({original=false}={}) {
   const scenes = Object.fromEntries(Object.entries(messages).map(([key, segments]) => [key, segments]));
   for(const [key,text] of Object.entries(REMAINING_BOX_MESSAGES))scenes[key]=[narrator(text)];
   for (const color of COLORS) {
@@ -104,5 +108,6 @@ export function productionScenes() {
     scenes[`response-${q.id}-right`] = [witch(`その通り！${q.response}`)];
     scenes[`response-${q.id}-wrong`] = [witch(q.response)];
   });
-  return scenes;
+  return original?scenes:Object.fromEntries(Object.entries(scenes).map(([key,segments])=>[key,storybookSegments(key,segments)]));
 }
+export const originalProductionScenes=()=>productionScenes({original:true});

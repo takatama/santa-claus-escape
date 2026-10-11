@@ -3,6 +3,7 @@ import { createBlueArt, loadBlueArt } from './blue-box-art.js';
 import { createYellowArt, loadYellowArt } from './yellow-box-art.js';
 import { createBlueControls } from './blue-box-controls.js';
 import { createYellowControls } from './yellow-box-controls.js';
+import { BLUE_CLUE } from './storybook-content.js';
 
 // Drawing and reached clues belong to each box; stage mechanics are shared.
 export const BOX_PRESENTATIONS = {
@@ -16,7 +17,7 @@ export const BOX_PRESENTATIONS = {
   blue: {
     name:'青い箱', loadArt:loadBlueArt, createArt:createBlueArt, createControls:createBlueControls,
     readings:['','雪の下に、何かある。','山の絵。','山の絵。その横に「サガルマータ」。',
-      '山の絵。その横に「サガルマータ」。\n「その高さは、この端末が知っている」'],
+      `山の絵。その横に「サガルマータ」。\n「${BLUE_CLUE}」`],
     examineLabels:['','調べる','絵の横を調べる','続きの書き込みを調べる'],
   },
   yellow: {

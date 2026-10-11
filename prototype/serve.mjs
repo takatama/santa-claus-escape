@@ -1,3 +1,4 @@
+import { storyCodeFiles } from '../scripts/story-files.mjs';
 import { rescueCodeFiles,rescueArtFiles } from '../scripts/rescue-files.mjs';
 import http from 'node:http';
 import { readFile } from 'node:fs/promises';
@@ -11,7 +12,7 @@ const pages = process.argv.includes('--pages');
 const root = fileURLToPath(new URL(pages ? '../dist/' : '.', import.meta.url));
 const port = Number(process.env.SANTA_PORT || (pages ? 4174 : 4173));
 const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'game.js', 'scenario.js', 'speech.js', 'illustrations.js', 'audio.js']);
-for(const name of [...boxCodeFiles,...boxArtFiles,...paperCodeFiles,...paperArtFiles,...witchCodeFiles,...witchArtFiles,...rescueCodeFiles,...rescueArtFiles])publicFiles.add(name);
+for(const name of [...storyCodeFiles,...boxCodeFiles,...boxArtFiles,...paperCodeFiles,...paperArtFiles,...witchCodeFiles,...witchArtFiles,...rescueCodeFiles,...rescueArtFiles])publicFiles.add(name);
 if(pages)publicFiles.add('404.html');
 for(const name of ['full-app.js','full-game.js','full-scenario.js','full-audio.js','audio-sequence.js','audio-timeline.js','timed-audio.js','soundtrack.js','sound-settings.js'])publicFiles.add(name);
 if(pages){publicFiles.delete('app.js');publicFiles.add('LICENSE');publicFiles.add('NOTICE.txt');}

@@ -3,7 +3,7 @@ import {STORAGE_KEY,transition} from '../../prototype/full-game.js';
 import {setupRescue,rescueState,btn,saved,light,dragLight,finishRescue} from './rescue-helpers.js';
 
 test('rescue: partial forward/reverse/pause, save resume and explicit completion keep original answers; release cannot be reversed',async({page})=>{
-  await setupRescue(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');const original=await saved(page);await expect(btn(page,'finish')).toHaveCount(0);await expect(page.locator('#transcript')).not.toContainText('端末の中からサンタが');
+  await setupRescue(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');const original=await saved(page);await expect(btn(page,'finish')).toHaveCount(0);await expect(page.locator('#transcript')).not.toContainText('スノードームの中からサンタが');
   await dragLight(page,.5);const half=(await saved(page)).rescueMotion.progress;expect(half).toBeCloseTo(.5,1);await page.waitForTimeout(400);expect((await saved(page)).rescueMotion.progress).toBe(half);await dragLight(page,-.2);expect((await saved(page)).rescueMotion.progress).toBeCloseTo(.3,1);
   await page.reload();await btn(page,'resume').click();expect((await saved(page)).rescueMotion.progress).toBeCloseTo(.3,1);await expect(btn(page,'finish')).toHaveCount(0);
   await btn(page,'reset').click();await page.locator('#cancel-reset').click();expect((await saved(page)).rescueMotion.progress).toBeCloseTo(.3,1);await light(page).press('Home');await light(page).press('ArrowRight');expect((await saved(page)).rescueMotion.progress).toBe(.05);await light(page).press('ArrowLeft');expect((await saved(page)).rescueMotion.progress).toBe(0);

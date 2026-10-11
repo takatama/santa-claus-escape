@@ -2,7 +2,7 @@
 // 本編の音声を上書きせず、Pagesにも含めない。自動再試行はしない。
 import { mkdir, stat, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { productionScenes } from '../full-scenario.js';
+import { originalProductionScenes as productionScenes } from '../full-scenario.js';
 
 const model='gemini-3.8-flash-tts', maxOutputTokens=1024;
 const output=new URL('../qa/fairy-voice-auditions/',import.meta.url);

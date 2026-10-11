@@ -2,7 +2,7 @@
 import { writeFile, mkdir, stat } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { SCENARIO } from '../scenario.js';
-import { productionScenes } from '../full-scenario.js';
+import { originalProductionScenes as productionScenes } from '../full-scenario.js';
 import { ANSWER_AUDIO_SEGMENTS } from '../full-audio.js';
 
 const MODEL = 'gemini-3.8-flash-tts';

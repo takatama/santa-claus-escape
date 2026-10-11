@@ -11,12 +11,12 @@ test('rescue audio: actual cover/zero-paper/branches/all-wrong questions reach r
 
 test('rescue audio: fast release holds first voice, then actual shine3/appeared/dialogue/ending sources; automatic completion keeps same scene speaking',async({page})=>{
   const requests=[];page.on('request',r=>requests.push(r.url()));await recordRescueAudio(page);await setupRescue(page,rescueState(false));await expect.poll(()=>page.evaluate(()=>window.rescueSources.length)).toBe(2);
-  expect(requests.some(x=>x.endsWith('/shine3.mp3'))).toBe(false);await expect(page.locator('#transcript')).not.toContainText('端末の中からサンタがあらわれました');
+  expect(requests.some(x=>x.endsWith('/shine3.mp3'))).toBe(false);await expect(page.locator('#transcript')).not.toContainText('スノードームの中からサンタが出てきました');
   await dragLight(page,.3);await dragLight(page,-.1);expect(await page.evaluate(()=>window.rescueSources.every(x=>x.stopped===0))).toBe(true);await light(page).press('End');await expect(page.locator('canvas')).toHaveAttribute('data-santa-outside','true');expect(await page.evaluate(()=>window.rescueSources.length)).toBe(2);
   await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');await expect(page.locator('.box-voice')).toBeVisible();expect(await page.evaluate(()=>window.rescueSources.every(x=>x.stopped===0))).toBe(true);
   // Finish the real first buffer; the same original timeline continues in part 2.
   await page.evaluate(()=>{window.firstRescueEnd=window.rescueSources[0].end;window.firstRescueEnd();});await expect.poll(()=>page.evaluate(()=>window.rescueSources.length)).toBe(4);
-  for(const name of ['shine3.mp3','cue-rescue-appeared.wav','rescue-dialogue.wav','rescue-ending.wav'])expect(requests.some(x=>x.endsWith('/'+name))).toBe(true);expect(requests.some(x=>x.endsWith('/shine1.mp3'))).toBe(false);
+  for(const name of ['shine3.mp3','storybook-rescue-appeared.wav','rescue-dialogue.wav','rescue-ending.wav'])expect(requests.some(x=>x.endsWith('/'+name))).toBe(true);expect(requests.some(x=>x.endsWith('/shine1.mp3'))).toBe(false);
   const duration=await page.evaluate(()=>window.rescueSources[2].node.buffer.duration);expect(duration).toBeGreaterThan(15);await page.evaluate(()=>window.firstRescueEnd());expect(await page.evaluate(()=>window.rescueSources.length)).toBe(4);await expect(page.locator('.box-voice')).toBeVisible();
   await page.locator('.box-settings>summary').click();await btn(page,'stop').click();expect(await page.evaluate(()=>window.rescueSources.every(x=>x.stopped>0))).toBe(true);await page.evaluate(()=>window.rescueSources.forEach(x=>x.end?.()));await expect(page.locator('.box-voice')).toBeHidden();
 });

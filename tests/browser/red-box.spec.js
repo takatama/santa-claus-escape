@@ -12,7 +12,7 @@ async function setup(page,{muted=true,seed=null,unavailable=false}={}){
   await page.goto('/');
 }
 async function enterRed(page){
-  await btn(page,'start').click();await expect(page.locator('.book')).toHaveAttribute('data-phase','intro');
+  await btn(page,'start').click();await expect(page.locator('.story-stage')).toHaveAttribute('data-phase','intro');
   await page.waitForTimeout(470);await btn(page,'boxes').click();await expect(btn(page,'select').first()).toBeVisible();
   await page.waitForTimeout(470);await page.locator('[data-action="select"][data-color="red"]').click();
   await expect(page.locator('.box-stage')).toBeVisible();await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');

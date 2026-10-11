@@ -66,16 +66,16 @@ for(const color of ['blue','yellow']){
     } else await expect(btn(page,'information')).toBeHidden();
     await examine(page);await expect(stage(page)).toHaveAttribute('data-exam','3');
     await expect(page.locator('#transcript')).toContainText(color==='blue'?'サガルマータ':'負けるが勝ち');
-    await expect(page.locator('#transcript')).not.toContainText(color==='blue'?'その高さは':'指の数');
+    await expect(page.locator('#transcript')).not.toContainText(color==='blue'?'その名を調べよ':'指の数');
     await examine(page);await expect(stage(page)).toHaveAttribute('data-exam','4');await shot(page,color,'clues-mobile');
     if(color==='blue'){
-      await btn(page,'information').click();await expect(page.locator('#transcript')).toContainText('エベレストの高さは、8848メートルです');
+      await btn(page,'information').click();await expect(page.locator('#transcript')).toContainText('今の高さは、およそ8849メートルです');
       await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code','0000');
     } else {
       await page.locator('[data-hand-help]').click();await expect(page.locator('.hand-rule')).toContainText('指の数があなたをみちびく');
       await expect(page.locator('.hand-help')).not.toContainText('2502');await page.locator('[data-hand-close]').click();
     }
-    await digits(page,color==='blue'?'8849':'0000');await btn(page,'box_try').click();await expect(page.locator('.box-result')).toContainText('まだ開かない');
+    await digits(page,color==='blue'?'8850':'0000');await btn(page,'box_try').click();await expect(page.locator('.box-result')).toContainText('まだ開かない');
     await ready(page);await digits(page,BOXES[color].answer);await btn(page,'box_try').click();await ready(page,'open_lid');
     await expect(stage(page)).toHaveAttribute('data-lid-open','false');await expect(page.locator('#transcript')).not.toContainText('中には');
     await btn(page,'open_lid').press('Enter');await ready(page,'continue_box');

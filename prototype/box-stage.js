@@ -46,6 +46,7 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
       if(placement?.clue&&!compact) { const c=placement.clue;Object.assign(controls.element.style,{left:(c.x+c.w/2-155)+'px',top:(c.y+c.h+12+(examine.hidden?0:56))+'px'}); }
       const info=controls.element.querySelector('[data-action="information"]');
       if(info)info.disabled=gate.blocked(performance.now());
+      controls.setBusy?.(gate.blocked(performance.now()));
     }
     if(placement?.clue){const c=placement.clue;Object.assign(find('.box-fallback').style,{left:c.x+'px',top:c.y+'px',width:c.w+'px'});}
     if(placement?.grip){const {x,y,distance}=placement.grip;gripDistance=distance;for(const grip of grips)Object.assign(grip.style,{left:x+'px',top:y+'px'});}

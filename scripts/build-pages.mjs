@@ -1,3 +1,4 @@
+import { storyCodeFiles } from './story-files.mjs';
 import { rescueCodeFiles,rescueArtFiles } from './rescue-files.mjs';
 // 公開する静的ファイルだけを dist/ へ集める。Pages Functions / Workers は使用しない。
 import { mkdir, copyFile, readdir, readFile, writeFile, stat, lstat } from 'node:fs/promises';
@@ -7,7 +8,7 @@ import { witchCodeFiles, witchArtFiles } from './witch-files.mjs';
 const root=new URL('../',import.meta.url),dist=new URL('dist/',root),prototype=new URL('prototype/',root);
 const files=['index.html','styles.css','full-app.js','full-game.js','full-scenario.js','full-audio.js','audio-sequence.js','audio-timeline.js','timed-audio.js','game.js','scenario.js','audio.js','speech.js','soundtrack.js','sound-settings.js','illustrations.js'];
 const clips=(await readdir(new URL('assets/audio/',prototype))).filter(name=>/^[a-z0-9-]+\.(wav|mp3|ogg)$/.test(name));
-files.push(...boxCodeFiles,...paperCodeFiles,...witchCodeFiles,...rescueCodeFiles);
+files.push(...storyCodeFiles,...boxCodeFiles,...paperCodeFiles,...witchCodeFiles,...rescueCodeFiles);
 const artFiles=[...boxArtFiles,...paperArtFiles,...witchArtFiles,...rescueArtFiles];
 const allowed=new Set([...files,'LICENSE','NOTICE.txt','_headers','404.html',...artFiles,...clips.map(c=>`assets/audio/${c}`)]);
 async function inspect(folder,prefix=''){

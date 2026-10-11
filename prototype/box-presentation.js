@@ -1,4 +1,4 @@
-import { sceneFor } from './full-scenario.js';
+import { sceneFor, BOXES } from './full-scenario.js';
 
 // Keep every original sentence; pause the existing success sequence at the lid.
 export function boxSceneFor(view) {
@@ -10,13 +10,14 @@ export function boxSceneFor(view) {
     text: open ? segment.text.slice(split) : segment.text.slice(0, split).trim(),
     spoken: open ? segment.spoken.slice(segment.spoken.indexOf('中には')) : segment.spoken.slice(0, segment.spoken.indexOf('中には')).trim(),
   }));
-  return { ...scene, key: `${view.selectedBox}-${open ? 'paper' : 'unlocked'}`, segments };
+  const digits=view.boxes[view.selectedBox].lastSubmitted;
+  return { ...scene, key: `${view.selectedBox}-${open ? 'paper' : `unlocked${digits&&digits!==BOXES[view.selectedBox].answer?`-${digits}`:''}`}`, segments };
 }
 
 export function boxTimeline(key, resolve) {
-  const match = /^(red|blue|yellow)-(unlocked|paper)$/.exec(key);
+  const match = /^(red|blue|yellow)-(unlocked|paper)(?:-(\d{4}))?$/.exec(key);
   if (!match) return resolve(key);
-  const full = resolve(`${match[1]}-open`);
+  const full = resolve(`${match[1]}-open${match[3]?`-${match[3]}`:''}`);
   const split = full.findIndex(step => step.type === 'effect' && step.src.endsWith('/magic-cure2.mp3'));
   return match[2] === 'unlocked' ? full.slice(0, split) : full.slice(split);
 }

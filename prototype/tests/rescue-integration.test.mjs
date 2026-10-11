@@ -31,7 +31,7 @@ test('rescue: legacy reached saves, corrupt optional data, complete/reading neve
 });
 test('rescue: original sentences concatenate unchanged, first audio holds before shine3 and ending retains every relative cue',()=>{
   const view=reached(),first=rescueSceneFor(view,'first'),ending=rescueSceneFor(view,'ending');assert.deepEqual([...first.segments,...ending.segments],sceneFor(view).segments);
-  const full=resolveAudioTimeline('rescue'),a=rescueTimeline(first.key,resolveAudioTimeline),b=rescueTimeline(ending.key,resolveAudioTimeline);assert.deepEqual([...a,...b],full);assert.match(a[0].sources[0],/cue-rescue-fairy-first/);assert.equal(a[1].seconds,.5);assert.match(b[0].src,/shine3/);assert.match(b[1].sources[0],/cue-rescue-appeared/);assert.equal(b[2].seconds,.5);assert.match(b[3].sources[0],/rescue-dialogue/);assert.equal(b[4].seconds,1);assert.match(b[5].sources[0],/rescue-ending/);assert.ok(!JSON.stringify(full).includes('shine1'));
+  const full=resolveAudioTimeline('rescue'),a=rescueTimeline(first.key,resolveAudioTimeline),b=rescueTimeline(ending.key,resolveAudioTimeline);assert.deepEqual([...a,...b],full);assert.match(a[0].sources[0],/cue-rescue-fairy-first/);assert.equal(a[1].seconds,.5);assert.match(b[0].src,/shine3/);assert.match(b[1].sources[0],/storybook-rescue-appeared/);assert.equal(b[2].seconds,.5);assert.match(b[3].sources[0],/rescue-dialogue/);assert.equal(b[4].seconds,1);assert.match(b[5].sources[0],/rescue-ending/);assert.ok(!JSON.stringify(full).includes('shine1'));
 });
 test('rescue: fast/slow completion, repeated completion and cancelled reservations keep first before ending exactly once',()=>{
   for(const fast of [true,false]){

@@ -55,10 +55,10 @@ test('結合音声を再生できた誤答はブラウザ読み上げを使わ�
   const spoken=[];let fail,end,stops=0;
   const sequence={stop(){stops++;},play(parts,onEnd,onFailure){assert.equal(parts.length,7);end=onEnd;fail=onFailure;}};
   const player=new SpeechPlayer({cancel(){},speak(u){spoken.push(u.text);}},text=>({text}),()=>{}, {resolveClip:resolveAudioClip,sequencePlayer:sequence});
-  const segments=[{speaker:'narrator',text:'あなたは青色の箱の数字を8849に合わせました。あれれ？箱は開きませんでした。'}];
-  player.play(segments,'blue-wrong-8849');end();await tick();assert.equal(spoken.length,0);
-  player.play(segments,'blue-wrong-8849');const stale=fail;player.stop();stale();await tick();assert.equal(spoken.length,0);
-  player.play(segments,'blue-wrong-8849');fail();await tick();assert.match(spoken[0],/8、8、4、9/);assert.ok(stops>=4);player.stop();
+  const segments=[{speaker:'narrator',text:'あなたは青色の箱の数字を8850に合わせました。あれれ？箱は開きませんでした。'}];
+  player.play(segments,'blue-wrong-8850');end();await tick();assert.equal(spoken.length,0);
+  player.play(segments,'blue-wrong-8850');const stale=fail;player.stop();stale();await tick();assert.equal(spoken.length,0);
+  player.play(segments,'blue-wrong-8850');fail();await tick();assert.match(spoken[0],/8、8、5、0/);assert.ok(stops>=4);player.stop();
 });
 test('原作の四音は保存された原作参照ファイルで、停止・効果音オフ・ミュートが再生中の音を止める',async()=>{
   const provenance=JSON.parse(await readFile(new URL('../assets/audio/sound-effects-provenance.json',import.meta.url),'utf8'));

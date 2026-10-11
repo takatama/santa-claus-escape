@@ -1,4 +1,4 @@
-import { BOXES, COLORS, QUESTIONS, papers } from './full-scenario.js';
+import { BOXES, COLORS, QUESTIONS, papers, isBoxAnswer } from './full-scenario.js';
 import { emptySlots, validSlots, slotsFromDraft, placePaper, removePaper, arrangedWord } from './paper-layout.js';
 import { restoreState as restoreLegacy, STORAGE_KEY as LEGACY_KEY } from './game.js';
 import { DEFAULT_BGM_VOLUME,normalizeBgmVolume } from './sound-settings.js';
@@ -13,7 +13,7 @@ export function validateDigits(raw, color) {
   const digits = normalizeDigits(raw);
   if (!digits) return { kind: 'empty', text: '四つの数字を入力してください。' };
   if (!/^\d{4}$/.test(digits)) return { kind: 'invalid', text: '0〜9の数字を四つ入力してください。' };
-  return { kind: digits === BOXES[color]?.answer ? 'correct' : 'wrong', digits };
+  return { kind: isBoxAnswer(color,digits) ? 'correct' : 'wrong', digits };
 }
 function remember(state) {
   const entry = { phase: state.phase, box: state.selectedBox, exam: state.boxes[state.selectedBox]?.exam || 0, message: state.boxMessage, digits: state.boxes[state.selectedBox]?.lastSubmitted || '', opened: COLORS.filter(c => state.boxes[c].opened), questionIndex: state.questionIndex, reinvited: state.reinvited };
@@ -108,7 +108,7 @@ export function restoreState(raw) {
   const state = initialState(raw.muted === true);
   for (const c of COLORS) {
     const b = raw.boxes?.[c];
-    if (!b || !Number.isInteger(b.exam) || b.exam < 0 || b.exam > 4 || typeof b.opened !== 'boolean' || !/^\d{4}$/.test(b.dial) || !['dial', 'direct'].includes(b.inputMode) || typeof b.draft !== 'string' || typeof b.lastSubmitted !== 'string' || (b.lastSubmitted && !/^\d{4}$/.test(b.lastSubmitted)) || (b.opened && (b.exam < 1 || b.lastSubmitted !== BOXES[c].answer)) || (!b.opened && b.lastSubmitted === BOXES[c].answer)) return null;
+    if (!b || !Number.isInteger(b.exam) || b.exam < 0 || b.exam > 4 || typeof b.opened !== 'boolean' || !/^\d{4}$/.test(b.dial) || !['dial', 'direct'].includes(b.inputMode) || typeof b.draft !== 'string' || typeof b.lastSubmitted !== 'string' || (b.lastSubmitted && !/^\d{4}$/.test(b.lastSubmitted)) || (b.opened && (b.exam < 1 || !isBoxAnswer(c,b.lastSubmitted))) || (!b.opened && b.lastSubmitted === BOXES[c].answer)) return null;
     state.boxes[c] = { exam: b.exam, opened: b.opened, dial: b.dial, inputMode: b.inputMode, draft: b.draft.slice(0, 32), lastSubmitted: b.lastSubmitted };
     {
       if (b.lidOpen !== undefined && (typeof b.lidOpen !== 'boolean' || (b.lidOpen && !b.opened))) return null;
@@ -137,7 +137,7 @@ export function restoreState(raw) {
   } else if (state.responses.length) return null;
   const history = Array.isArray(raw.history) ? raw.history : [];
   if (history.length > 64 || history.some(e => !e || !phases.includes(e.phase) || typeof e.id !== 'string' || !Array.isArray(e.opened) || e.opened.some(c => !COLORS.includes(c)) || !Number.isInteger(e.exam) || e.exam < 0 || e.exam > 4 || !Number.isInteger(e.questionIndex) || e.questionIndex < 0 || e.questionIndex > 2 || (['box', 'boxResponse'].includes(e.phase) && !COLORS.includes(e.box)))) return null;
-  if (new Set(history.map(e=>e.id)).size!==history.length || history.some(e=>e.id.length>150 || typeof e.message!=='string' || !['','wrong','information'].includes(e.message) || typeof e.digits!=='string' || (e.digits&&!/^\d{4}$/.test(e.digits)) || e.opened.some(c=>!state.boxes[c].opened) || (['box','boxResponse'].includes(e.phase)&&e.exam<1) || (e.phase==='boxResponse'&&(!e.opened.includes(e.box)||e.digits!==BOXES[e.box].answer)) || (e.phase==='witchResponse'&&e.questionIndex>=state.responses.length) || (['rescue','complete'].includes(e.phase)&&state.responses.length!==3))) return null;
+  if (new Set(history.map(e=>e.id)).size!==history.length || history.some(e=>e.id.length>150 || typeof e.message!=='string' || !['','wrong','information'].includes(e.message) || typeof e.digits!=='string' || (e.digits&&!/^\d{4}$/.test(e.digits)) || e.opened.some(c=>!state.boxes[c].opened) || (['box','boxResponse'].includes(e.phase)&&e.exam<1) || (e.phase==='boxResponse'&&(!e.opened.includes(e.box)||!isBoxAnswer(e.box,e.digits))) || (e.phase==='witchResponse'&&e.questionIndex>=state.responses.length) || (['rescue','complete'].includes(e.phase)&&state.responses.length!==3))) return null;
   const items = papers(state);
   // Reject the entire optional arrangement, never the otherwise valid save.
   // Missing fields migrate kana from the reader's own old draft, using owned IDs.

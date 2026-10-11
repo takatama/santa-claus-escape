@@ -137,7 +137,7 @@ function introGlow() {
     layout.handle={x:handleStart+layout.dragDistance*progress,y:clamp(b.y+b.h*.90,30,height-30)};
     onLayout(layout);
     Object.assign(canvas.dataset,{progress:String(progress),glowPulse:String(pulse),globeSource:originalOnly?'original':assets.globe?'edited-empty':'fallback',santaContained:String(progress===0),santaOutside:String(progress===1),santaCount:'1',dragDistance:String(layout.dragDistance),globe:JSON.stringify(layout.globe),wizard:JSON.stringify(layout.wizard),santa:JSON.stringify(state.santa),circle:JSON.stringify(layout.circle)});
-    canvas.setAttribute('aria-label',progress===1?'雪の森。空の球の外にサンタとまほう使い':progress===0?'雪の森。サンタは球の中、右にまほう使い':'雪の森。光の開口からサンタが外へ移っています');
+    canvas.setAttribute('aria-label',progress===1?'雪の森。空のスノードームの外にサンタとまほう使い':progress===0?'雪の森。サンタはスノードームの中、右にまほう使い':'雪の森。光の開口からサンタが外へ移っています');
   }
   const observer=new ResizeObserver(paint);observer.observe(canvas);paint();
   const assign=(promise,names)=>promise.then(images=>{if(!disposed){names.forEach((name,index)=>assets[name]=images[index]);paint();}return images;});
