@@ -12,12 +12,12 @@ const reveal=s=>send(s,'DISCOVERY_PROGRESS',{value:1});
 const orders=[['red','blue','yellow'],['red','yellow','blue'],['blue','red','yellow'],['blue','yellow','red'],['yellow','red','blue'],['yellow','blue','red']];
 
 test('witch: reversible discovery records first appearance once, then one guarded choice starts play without an acknowledgment',()=>{
-  let s=summon(start());assert.equal(papers(s).length,0);assert.equal(sceneFor(s).key,'invite');
+  let s=summon(start());assert.equal(papers(s).length,0);assert.equal(sceneFor(s).key,'branch-discovery');
   assert.equal(s.witchDiscovery.appeared,false);for(const type of ['ACCEPT','DECLINE'])assert.strictEqual(send(s,type),s);
   const history=JSON.stringify(s.history),boxes=JSON.stringify(s.boxes);
   for(const value of [.25,.8,.4,1,.7,0,.51]){
     const before=s.revision;s=send(s,'DISCOVERY_PROGRESS',{value});assert.equal(s.revision,before+1);
-    assert.equal(sceneFor(s).key,'invite');assert.equal(JSON.stringify(s.history),history);assert.equal(JSON.stringify(s.boxes),boxes);
+    assert.equal(sceneFor(s).key,s.witchDiscovery.appeared?'invite':'branch-discovery');assert.equal(JSON.stringify(s.history),history);assert.equal(JSON.stringify(s.boxes),boxes);
     assert.deepEqual(restoreState(s),s);assert.strictEqual(send(s,'SPELL'),s);
   }
   for(const value of [NaN,Infinity,-.1,1.1,'1',null])assert.strictEqual(send(s,'DISCOVERY_PROGRESS',{value}),s);

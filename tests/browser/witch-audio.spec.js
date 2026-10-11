@@ -7,13 +7,16 @@ async function recordSources(page) {
     AudioContext.prototype.createBufferSource=function(){const node=create.call(this),start=node.start.bind(node),stop=node.stop.bind(node),record={node,stopped:0,end:null};node.start=(...args)=>{if(args.length===1){record.end=node.onended;node.playbackRate.value=.25;window.witchSources.push(record);}return start(...args);};node.stop=(...args)=>{record.stopped++;return stop(...args);};return node;};
   });
 }
-test('witch audio: correct word stays silent, first full opening starts original shine/voice once, one play click starts question',async({page})=>{
+test('witch audio: correct word starts branch narration, first full opening cancels it for original shine/voice once, one play click starts question',async({page})=>{
   const requests=[];page.on('request',r=>requests.push(r.url()));await recordSources(page);await early(page,false);
   expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);expect(requests.some(url=>/shine1\.mp3|ja-leda-invite\.wav/.test(url))).toBe(false);
-  await expect(page.locator('#transcript')).toHaveText('');await expect(page.locator('.box-voice')).toBeHidden();await expect(btn(page,'accept')).toBeHidden();
+  await expect(page.locator('#transcript')).toContainText('枝の向こうに誰かがいるようです。');await expect(page.locator('.box-voice')).toBeVisible();await expect(btn(page,'accept')).toBeHidden();
+  const branchVoice=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>branchVoice.evaluate(a=>a.currentTime)).toBeGreaterThan(0);await branchVoice.evaluate(a=>{window.branchEnd=a.onended;window.branchError=a.onerror;});
+  expect(await branchVoice.evaluate(a=>a.src.endsWith('/ja-branch-discovery.wav'))).toBe(true);
   await expect(page.getByText('枝のつまみを外へ引こう。押しても開けます。')).toHaveCount(0);await expect(btn(page,'continue_discovery')).toHaveCount(0);
-  await dragBranch(page,1,.5);expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);
+  await dragBranch(page,1,.5);expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);expect(await branchVoice.evaluate(a=>!a.paused)).toBe(true);
   await grip(page).press('End');await expect(page.locator('canvas')).toHaveAttribute('data-wizard-visible','true');await expect.poll(()=>page.evaluate(()=>window.witchSources.length)).toBe(2);await expect(btn(page,'accept')).toBeVisible();await expect(page.locator('.box-voice')).toBeVisible();
+  expect(await branchVoice.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);await page.evaluate(()=>{window.branchEnd?.();window.branchError?.();});await expect(page.locator('.box-voice')).toBeVisible();await expect(page.locator('#transcript')).toContainText('まほう使いがあらわれました');
   const text=page.locator('#transcript');await text.press('End');await expect.poll(()=>text.evaluate(e=>Math.abs(e.scrollHeight-e.clientHeight-e.scrollTop)<1)).toBe(true);const scroll=await text.evaluate(e=>e.scrollTop);
   await dragBranch(page,1,-.3);await expect(btn(page,'accept')).toBeHidden();await grip(page).press('End');expect(await page.evaluate(()=>window.witchSources.length)).toBe(2);expect(await text.evaluate(e=>e.scrollTop)).toBe(scroll);expect(await page.evaluate(()=>window.witchSources.every(r=>r.stopped===0))).toBe(true);
   await btn(page,'accept').click();await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchQuestion');expect(await page.evaluate(()=>window.witchSources.every(r=>r.stopped>0))).toBe(true);
@@ -23,6 +26,27 @@ test('witch audio: correct word stays silent, first full opening starts original
   expect(await question.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);await expect(page.locator('#transcript')).toContainText('その通り！');await expect(page.getByText('まほう使いの答えは、お話で読めます。')).toHaveCount(0);const response=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>response.evaluate(a=>a.currentTime)).toBeGreaterThan(0);
   await page.evaluate(()=>{window.oldQuestionEnd?.();window.oldQuestionError?.();for(const source of window.witchSources)source.end?.();});expect((await saved(page)).responses).toHaveLength(1);await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchResponse');
   await page.waitForTimeout(470);await btn(page,'continue_witch').click();await page.evaluate(()=>window.oldLiveForm.requestSubmit());await expect(page.locator('[data-action="choice"]')).toHaveCount(3);expect((await saved(page)).responses).toHaveLength(1);
+});
+
+test('witch audio: branch narration supports replay/stop/mute and partial-save resume without an appearance sound',async({page})=>{
+  await recordSources(page);await early(page,false);await dragBranch(page,1,.3);const progress=(await saved(page)).witchDiscovery.progress;
+  const original=await page.locator('#audio-host audio').elementHandle();await page.locator('.box-settings>summary').click();await btn(page,'replay').click();expect(await original.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);
+  const replay=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>replay.evaluate(a=>a.currentTime)).toBeGreaterThan(0);await btn(page,'stop').click();expect(await replay.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);await expect(page.locator('.box-voice')).toBeHidden();
+  await btn(page,'replay').click();const muted=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>muted.evaluate(a=>a.currentTime)).toBeGreaterThan(0);await page.locator('.box-settings>summary').click();await btn(page,'mute').click();expect(await muted.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);await btn(page,'mute').click();await expect(page.locator('.box-voice')).toBeHidden();
+  await page.reload();await btn(page,'resume').click();const resumed=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>resumed.evaluate(a=>a.currentTime)).toBeGreaterThan(0);expect(await resumed.evaluate(a=>a.src.endsWith('/ja-branch-discovery.wav'))).toBe(true);expect((await saved(page)).witchDiscovery.progress).toBe(progress);expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);await expect(btn(page,'accept')).toBeHidden();
+});
+
+for(const action of ['open','stop','mute','reset','pagehide'])test(`witch audio: late branch narration after ${action} stays cancelled`,async({page})=>{
+  let release;const gate=new Promise(resolve=>{release=resolve;});let requested=false;await page.route('**/ja-branch-discovery.wav',async route=>{requested=true;await gate;await route.continue();});await recordSources(page);await early(page,false);await expect.poll(()=>requested).toBe(true);
+  const branch=await page.locator('#audio-host audio').elementHandle();await branch.evaluate(a=>{window.delayedBranchEnd=a.onended;window.delayedBranchError=a.onerror;});
+  if(action==='open'){await grip(page).press('End');await expect.poll(()=>page.evaluate(()=>window.witchSources.length)).toBe(2);}
+  if(action==='stop'){await page.locator('.box-settings>summary').click();await btn(page,'stop').click();}
+  if(action==='mute')await btn(page,'mute').click();
+  if(action==='reset'){await btn(page,'reset').click();await page.locator('#confirm-reset').click();}
+  if(action==='pagehide')await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));
+  const before=await saved(page);release();await page.evaluate(()=>{window.delayedBranchEnd?.();window.delayedBranchError?.();});await page.waitForTimeout(300);expect(await branch.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);expect(await page.evaluate(()=>window.witchSources.length)).toBe(action==='open'?2:0);expect((await saved(page)).phase).toBe(before.phase);
+  if(action==='open'){await expect(page.locator('#transcript')).toContainText('まほう使いがあらわれました');await expect(page.locator('.box-voice')).toBeVisible();}
+  else if(action!=='reset'){await expect(page.locator('#transcript')).toContainText('枝の向こうに誰かがいるようです。');await expect(page.locator('.box-voice')).toBeHidden();}
 });
 
 test('witch audio: replay/stop/mute clear sources and pending loads; resume never repeats original summon',async({page})=>{

@@ -27,6 +27,7 @@ const messages = {
   yellow4: [narrator('あなたは黄色の箱を調べました。\n箱には「グー、チョキ、パー、グー」がかいてあります。その横に「負けるが勝ち」と書いてあります。\nよく見ると「指の数があなたをみちびく」と書いてあります。\nこの箱は調べつくしたようです。')],
   information: [narrator('サガルマータは、ネパール語で、エベレストのことです。\nエベレストは、世界で一番高い山です。エベレストの高さは、8848メートルです。')],
   letters: [narrator('すべての箱が開きました。\nそれぞれの箱に、「す」「だ」「い」「よ」「き」「だ」が入っていました。\nスイカの「す」、大根の「だ」、イルカの「い」、ヨーグルトの「よ」、キリンの「き」、大根の「だ」です。\n六つのひらがなを並べなおして、ひみつの言葉を作ってください。')],
+  'branch-discovery': [narrator('枝の向こうに誰かがいるようです。')],
   invite: [witch('はーい！よばれて、とびでて、ジャジャジャジャーン！あなたが大好きな、まほう使いが来ましたよー！あれれ？あなた、だれ？'), narrator('まほう使いがあらわれました。'), witch('サンタじゃなくて、あなたが私をよんだのね。ふーん。まあ、いいわ。私とあそんでよ。あそんでくれたら、サンタを自由にしてあげる'), narrator('まほう使いと遊びますか？')],
   paused: [witch('あら、ざんねん。せっかくあそぶ相手が見つかったと思ったのに。じゃ、サンタはこのままね。あそびたくなったら、ひみつの言葉で私をよんでね'), santa('まったく、まほう使いのやつめ。きみがたすけにきてくれるのを心待ちにしておるぞ'), narrator('私の中にサンタさんがいるのは変な感じです。サンタの脱出でした。また会いに来てくださいね。')],
   reinvite: [narrator('箱は消えてしまいました。まほう使いと遊びますか？')],
@@ -67,7 +68,13 @@ export function sceneFor(state) {
         segments = [{ ...narrator(text), spoken: text.replace('カチカチ、カチカチ...。', '').replace('...カチャ！', '') }]; }
       break;
     case 'spell': key = 'letters'; title = '六つの文字を、並べなおして。'; chapter = 'ひみつの言葉'; break;
-    case 'witchInvite': key = state.reinvited ? 'reinvite' : 'invite'; title = 'まほう使いが、あらわれた。'; chapter = 'まほう使い'; effect = state.reinvited ? undefined : 'magic'; break;
+    case 'witchInvite':
+      if(state.witchDiscovery?.pending && !state.witchDiscovery.appeared) {
+        key = 'branch-discovery'; title = '枝の向こうに、誰かが。'; chapter = '雪の森';
+      } else {
+        key = state.reinvited ? 'reinvite' : 'invite'; title = 'まほう使いが、あらわれた。'; chapter = 'まほう使い'; effect = state.reinvited ? undefined : 'magic';
+      }
+      break;
     case 'witchPaused': key = 'paused'; title = 'また、会いに来てね。'; chapter = 'しおりをはさんで'; break;
     case 'witchQuestion': {
       const q = QUESTIONS[state.questionIndex]; key = `question-${q.id}`; title = q.title; chapter = `${state.questionIndex + 1} / 3 の遊び`;

@@ -7,11 +7,19 @@ import { AudioTimeline,compileTimeline } from '../audio-timeline.js';
 import { initialState,transition,restoreState,readingState } from '../full-game.js';
 import { sceneFor,BOXES,COLORS } from '../full-scenario.js';
 import { SpeechPlayer } from '../speech.js';
+import { resolveAudioClip } from '../full-audio.js';
 const tick=()=>new Promise(resolve=>setTimeout(resolve,0));
 function buffer(rate,length,channels=1){const tracks=Array.from({length:channels},()=>new Float32Array(length));return {sampleRate:rate,length,numberOfChannels:channels,getChannelData:channel=>tracks[channel]};}
 function context(){
   const sources=[],c={sampleRate:1000,currentTime:2,sources,resume(){this.resumed=true;return Promise.resolve();},createBuffer:(channels,length,rate)=>buffer(rate,length,channels),destination:{},createGain:()=>({gain:{value:1},connect(){},disconnect(){}}),decodeAudioData:()=>{const b=buffer(1000,300);b.getChannelData(0).fill(.2,60,240);return Promise.resolve(b);},createBufferSource(){const s={connect(){},disconnect(){},start(at){this.at=at;},stop(){this.stopped=true;}};sources.push(s);return s;}};return c;
 }
+test('枝の案内は指定の一文と既存のSulafatで収録し、登場後・読み返しは原作の誘いへ接続する',async()=>{
+  let s=transition(transition(initialState(),{type:'START'}),{type:'BOXES'});s=transition(s,{type:'DRAFT',field:'spell',value:'だいすきだよ'});s=transition(s,{type:'SPELL'});
+  const scene=sceneFor(s);assert.equal(scene.key,'branch-discovery');assert.equal(scene.effect,undefined);assert.deepEqual(scene.segments,[{speaker:'narrator',text:'枝の向こうに誰かがいるようです。'}]);assert.equal(resolveAudioTimeline(scene.key),null);
+  const clip=resolveAudioClip(scene.key);assert.equal(clip,'./assets/audio/ja-branch-discovery.wav');const bytes=await readFile(new URL(`../${clip.slice(2)}`,import.meta.url)),meta=JSON.parse(await readFile(new URL('../reference/audio-generation/ja-branch-discovery.json',import.meta.url),'utf8'));
+  assert.deepEqual(meta.segments,scene.segments);assert.equal(meta.voices.narrator,'Sulafat');assert.equal(meta.model,'gemini-3.8-flash-tts');assert.equal(createHash('sha256').update(bytes).digest('hex'),meta.sha256);assert.ok(meta.usage.total_output_tokens<meta.maxOutputTokens);
+  s=transition(s,{type:'DISCOVERY_PROGRESS',value:1});assert.equal(sceneFor(s).key,'invite');s=transition(s,{type:'DISCOVERY_PROGRESS',value:0});assert.equal(sceneFor(s).key,'invite');assert.equal(sceneFor(restoreState(s)).key,'invite');assert.equal(sceneFor(readingState(s,s.history.length-1)).key,'invite');
+});
 test('三箱の正解は数字確認の後に解錠・開箱宣言・正解音、不正解は閉じた台詞の後に鳴る',()=>{
   for(const color of COLORS){
     const steps=resolveAudioTimeline(`${color}-open`);

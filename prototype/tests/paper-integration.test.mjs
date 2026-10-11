@@ -16,7 +16,7 @@ test('paper: both da identities, all six box orders, explicit original SPELL and
     for(const ids of [order,['yellow-1',...order.slice(1,4),'red-1','blue-1']]) {
       let s=full(colors);assert.equal(papers(s).length,6);assert.equal(new Set(papers(s).map(p=>p.id)).size,6);
       s=arrange(s,ids);assert.equal(s.phase,'spell');assert.equal(s.spellDraft,'');assert.equal(arrangedWord(s.spellSlots,papers(s)),'だいすきだよ');
-      const revision=s.revision;s=send(s,'SPELL',{source:'papers',revision});assert.equal(s.phase,'witchInvite');assert.equal(s.spellReview,false);assert.equal(sceneFor(s).key,'invite');
+      const revision=s.revision;s=send(s,'SPELL',{source:'papers',revision});assert.equal(s.phase,'witchInvite');assert.equal(s.spellReview,false);assert.equal(sceneFor(s).key,'branch-discovery');
       assert.strictEqual(send(s,'SPELL',{source:'papers',revision}),s);assert.strictEqual(send(s,'SPELL',{source:'papers'}),s);assert.strictEqual(send(s,'ACCEPT'),s);
       s=restoreState(s);assert.equal(s.spellReview,false);assert.equal(s.witchDiscovery.appeared,false);s=discover(s);s=send(s,'DECLINE');s=restoreState(s);s=send(s,'CALL_AGAIN');assert.equal(sceneFor(s).key,'reinvite');assert.equal(papers(s).length,6);
     }

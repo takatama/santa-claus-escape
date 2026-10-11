@@ -9,6 +9,9 @@ const MODEL = 'gemini-3.8-flash-tts';
 const output = new URL('../assets/audio/', import.meta.url);
 const provenance = new URL('../reference/audio-generation/', import.meta.url);
 const mode = process.argv[2] || '--plan';
+const idIndex = process.argv.indexOf('--id');
+const requestedId = idIndex < 0 ? null : process.argv[idIndex + 1];
+if(idIndex >= 0 && !requestedId)throw new Error('--id requires a job id');
 const styles = {
   santa: '日本語。心優しい年配のサンタクロース。柔らかく落ち着いた低めの声で、親しみと少しの困りごとを自然に表す。大げさな物まね、怖い声、うなり声にしない。普段の会話より少しゆっくり、聞き取りやすく。台詞の語句は一切変えず、追加の挨拶や説明をしない。',
   narrator: '日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。',
@@ -23,12 +26,13 @@ const jobs = [
 ];
 const fullJobs = Object.entries(productionScenes()).filter(([key])=>!['intro','help','red1','red2','red3','red4'].includes(key)).map(([key,segments])=>({id:`ja-${key}`,segments:segments.map(s=>({...s,text:s.spoken||s.text}))}));
 const answerJobs = Object.entries(ANSWER_AUDIO_SEGMENTS).map(([id,text])=>({id,segments:[{speaker:'narrator',text}]}));
-const selected = mode === '--sample' ? jobs.slice(0,1) : mode === '--all' ? jobs.slice(1) : mode === '--full' ? fullJobs : mode === '--answers' ? answerJobs : [];
+const candidates = mode === '--sample' ? jobs.slice(0,1) : mode === '--all' ? jobs.slice(1) : mode === '--full' ? fullJobs : mode === '--answers' ? answerJobs : [];
+const selected = requestedId ? candidates.filter(job=>job.id===requestedId) : candidates;
 if (mode === '--plan') {
   console.log(JSON.stringify({model:MODEL,jobs:[...jobs,...fullJobs,...answerJobs].map(job=>({id:job.id,characters:job.segments.map(s=>s.text).join('').length})),notes:'生成は --sample / --all / --full / --answers の明示的な実行のみ。契約・課金設定は変更しない。'}));
   process.exit(0);
 }
-if (!selected.length) throw new Error('Use --plan, --sample, --all, --full or --answers');
+if (!selected.length) throw new Error('Use --plan, --sample, --all, --full or --answers with an existing --id');
 if (!process.env.GEMINI_API_KEY) throw new Error('GEMINI_API_KEY is not configured');
 await mkdir(output,{recursive:true});
 await mkdir(provenance,{recursive:true});
@@ -44,7 +48,8 @@ for (const job of selected) {
     text:segment.text.replace(/\d{4}/g,digits=>digits.split('').join('、')),
     annotations:[{type:'speech_metadata',...(multiple?{speaker:audioSpeaker(segment.speaker)}:{}),style:styles[segment.speaker]}],
   }));
-  const body = {model:MODEL,store:false,input:[{type:'user_input',content}],response_format:{type:'audio'},generation_config:{speech_config:config,max_output_tokens:mode==='--answers'?512:4096}};
+  const maxOutputTokens = mode==='--answers' || requestedId ? 512 : 4096;
+  const body = {model:MODEL,store:false,input:[{type:'user_input',content}],response_format:{type:'audio'},generation_config:{speech_config:config,max_output_tokens:maxOutputTokens}};
   const started = Date.now();
   const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions',{
     method:'POST',headers:{'x-goog-api-key':process.env.GEMINI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(180000),
@@ -61,7 +66,7 @@ for (const job of selected) {
   const bytes = Buffer.from(encoded,'base64');
   if (bytes.subarray(0,4).toString() !== 'RIFF' || bytes.subarray(8,12).toString() !== 'WAVE') throw new Error('Expected a WAV file');
   await writeFile(file,bytes);
-  const metadata = {id:job.id,model:MODEL,created:new Date().toISOString(),voices:{santa:'Algieba',narrator:'Sulafat'},segments:job.segments,spokenInput:content,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),usage:result.usage||result.usage_metadata||result.usageMetadata||null,durationMs:Date.now()-started};
+  const metadata = {id:job.id,model:MODEL,created:new Date().toISOString(),voices:Object.fromEntries([...new Set(job.segments.map(s=>s.speaker))].map(s=>[s,s==='santa'?'Algieba':'Sulafat'])),segments:job.segments,spokenInput:content,maxOutputTokens,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),usage:result.usage||result.usage_metadata||result.usageMetadata||null,durationMs:Date.now()-started};
   await writeFile(new URL(`${job.id}.json`,provenance),JSON.stringify(metadata,null,2)+'\n');
   console.log(JSON.stringify({id:job.id,bytes:bytes.length,elapsedMs:metadata.durationMs,usage:metadata.usage}));
 }

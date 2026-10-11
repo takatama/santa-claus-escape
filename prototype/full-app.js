@@ -56,9 +56,6 @@ function playScene(scene) {
 function speak() {
   if (resumePending) return;
   boxNarration.clear();
-  if(readingIndex===null && state.phase==='witchInvite' && state.witchDiscovery?.pending && !state.witchDiscovery.appeared) {
-    reportAudioStatus('音声は待機中');return;
-  }
   const scene = boxStage ? boxSceneFor(currentState()) : sceneFor(currentState());
   if (boxStage && !state.muted) boxNarration.enqueue(scene); else playScene(scene);
 }
@@ -139,8 +136,12 @@ function render(focus = false, scroll = false) {
         getState:()=>state,
         onProgress:value=>{
           const appeared=state.witchDiscovery?.appeared,next=transition(state,{type:'DISCOVERY_PROGRESS',value});
-          if(next===state)return;state=next;save();render();
-          if(!appeared && state.witchDiscovery.appeared) {
+          if(next===state)return;
+          const firstAppearance=!appeared && next.witchDiscovery.appeared;
+          if(firstAppearance)stop();
+          state=next;save();render();
+          if(firstAppearance) {
+            if(!state.muted)voiceTimeline.prepare();
             // Paint the revealed figure before the original shine -> voice.
             // A stop, mute, navigation or reset also cancels an asset wait.
             const stage=witchStage,generation=player.generation;
@@ -154,8 +155,7 @@ function render(focus = false, scroll = false) {
       });
       app.replaceChildren(witchStage.element);
     }
-    const appearanceWaiting=state.witchDiscovery?.pending && !state.witchDiscovery.appeared;
-    witchStage.update(state,{settings:toolbar(true,false)+soundSettings(),dialogue:appearanceWaiting?'':transcriptContent(scene),status:audioStatus,saved:storageAvailable});
+    witchStage.update(state,{settings:toolbar(true,false)+soundSettings(),dialogue:transcriptContent(scene),status:audioStatus,saved:storageAvailable});
     document.querySelector('#bgm-volume').oninput=e=>{state=transition(state,{type:'BGM_VOLUME',value:Number(e.target.value)});track.setVolume(state.bgmVolume);save();document.querySelector('#bgm-volume-value').textContent=`${state.bgmVolume}%`;e.target.setAttribute('aria-valuetext',`${state.bgmVolume}%`);};
     if(focus)document.querySelector('#screen-heading').focus({preventScroll:true});
     return;
@@ -285,7 +285,7 @@ app.addEventListener('click', event => {
     resumePending = false;
     // Resuming a summoned save must not summon again. Explicit replay remains
     // available; other original scenes still read when the player resumes.
-    const summoned = state.phase === 'witchInvite' && !state.reinvited;
+    const summoned = state.phase === 'witchInvite' && sceneFor(state).key === 'invite';
     if(summoned)audioStatus=state.muted?'音声オフ・文字で遊べます':'聞き直しでお話を再生';
     render(true, true); if(!summoned)speak(); return;
   }

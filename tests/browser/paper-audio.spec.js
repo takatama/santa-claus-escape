@@ -14,7 +14,7 @@ test('paper audio: operate during original letters voice; replay, stop/mute and 
   await btn(page,'mute').click();await expect(page.locator('.box-voice')).toBeHidden();expect(await muted.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);await btn(page,'mute').click();await expect(page.locator('.box-voice')).toBeHidden();
   expect((await saved(page)).spellSlots[0]).toBe('red-1');expect((await saved(page)).phase).toBe('spell');expect(await text.evaluate(e=>e.scrollTop)).toBe(scroll);
 });
-test('paper audio: correct paper send opens silent branches, full opening starts original magic/invite once and leaving cancels',async({page})=>{
+test('paper audio: correct paper send replaces letters with branch narration, full opening starts original magic/invite once and leaving cancels',async({page})=>{
   const requested=[];page.on('request',r=>{if(r.url().includes('/assets/audio/'))requested.push(r.url().split('/').pop());});
   await page.addInitScript(()=>{
     window.paperSources=[];const create=AudioContext.prototype.createBufferSource;
@@ -23,7 +23,9 @@ test('paper audio: correct paper send opens silent branches, full opening starts
   await setupPapers(page,paperState(false));const old=await page.locator('#audio-host audio').elementHandle();await old.evaluate(a=>{window.lettersEnd=a.onended;});await arrangePapers(page);
   expect((await saved(page)).phase).toBe('spell');expect(requested).not.toContain('ja-leda-invite.wav');
   await page.locator('[data-paper-submit]').evaluate(b=>{for(let i=0;i<10;i++)b.click();});await expect(page.locator('.witch-stage')).toBeVisible();expect(await page.evaluate(()=>window.paperSources.length)).toBe(0);expect(requested).not.toContain('shine1.mp3');expect(requested).not.toContain('ja-leda-invite.wav');expect(await old.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);
+  const branch=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>branch.evaluate(a=>a.currentTime)).toBeGreaterThan(0);expect(await branch.evaluate(a=>a.src.endsWith('/ja-branch-discovery.wav'))).toBe(true);await expect(page.locator('#transcript')).toContainText('枝の向こうに誰かがいるようです。');
   await discover(page);await expect.poll(()=>page.evaluate(()=>window.paperSources.length)).toBe(2);expect(requested).toContain('shine1.mp3');expect(requested).toContain('ja-leda-invite.wav');
+  expect(await branch.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);
   await page.locator('.box-settings>summary').click();await btn(page,'replay').click();await expect.poll(()=>page.evaluate(()=>window.paperSources.length)).toBe(4);expect(await page.evaluate(()=>window.paperSources.slice(0,2).every(s=>s.stopped>0))).toBe(true);
   await page.evaluate(()=>{window.lettersEnd?.();for(const old of window.paperSources.slice(0,2))old.lateEnd?.();});await expect(page.locator('.box-voice')).toBeVisible();await expect(page.locator('#transcript')).toContainText('まほう使いがあらわれました');
   const revision=(await saved(page)).revision;await discover(page);await expect(btn(page,'decline')).toBeVisible();expect(await page.evaluate(()=>window.paperSources.length)).toBe(4);expect((await saved(page)).revision).toBe(revision);

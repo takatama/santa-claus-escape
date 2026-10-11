@@ -1,12 +1,12 @@
 # 素材とライセンスの記録
 
-2026-10-06更新。コード等のMITと、第三者音源の条件を分ける。
+2026-10-11更新。コード等のMITと、第三者音源の条件を分ける。
 
 ## MITの対象
 
 実装、SVG/CSSの絵、設計・確認スクリプト、原作をもとにした台詞・謎のデータはMIT。原作参照・変更点は prototype/SOURCE-NOTES.md と prototype/FULL-GAME-NOTES.md に記録。
 
-Gemini TTSで制作した台詞のWAVと、その台詞だけを結合した音声はMIT。生成入力・声・ハッシュは prototype/reference/audio-generation/。API受信原音のC2PAを保持し、派生音声は元のハッシュと処理を記録する。rescue-dialogue.wav と rescue-ending.wav は既存の生成原音をバイト一致で再利用。BGMの *-loop.wav は第三者素材で、このMIT表記に含めない。声選びの試聴・試聴派生ファイルはMITだが、Pages配信対象ではない。今回新しいTTS生成は行わない。
+Gemini TTSで制作した台詞のWAVと、その台詞だけを結合した音声はMIT。生成入力・声・ハッシュは prototype/reference/audio-generation/。API受信原音のC2PAを保持し、派生音声は元のハッシュと処理を記録する。rescue-dialogue.wav と rescue-ending.wav は既存の生成原音をバイト一致で再利用。BGMの *-loop.wav は第三者素材で、このMIT表記に含めない。声選びの試聴・試聴派生ファイルはMITだが、Pages配信対象ではない。PR Dでは、利用者の指定により枝の場面の案内一文だけを追加収録した。
 
 ## 原作から復元した第三者音源
 
@@ -58,7 +58,9 @@ Gemini TTSで制作した台詞のWAVと、その台詞だけを結合した音�
 
 `prototype/assets/witch/branch.png` と `wizard-feet-v2.png` は、PR #1の `aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c` の `illustrated-prototype/assets/` から無加工で再利用。本リポジトリのMIT Licenseを適用します。生成記録は参照コミットの `PROMPTS.json` と `WIZARD-FEET-EDIT.md`、出典・バイト数・SHA-256・原本のバイト一致は `docs/pr-d/art-provenance.json` に記録しています。PR Cの森・球の画像は同じファイルを共用し、複製しません。
 
-同コミットの `scene-math.js` の枝の変形・方向計算、`main.js` の枝と操作点、`witch/scene.js` の会話構図とサンタを球内に保つ表示を参照し、既存の原作状態・字幕・音声へ統合しました。PR #1のjourney、保存キー、会話モデル、約2秒の自動移動は移しません。新しい画像・声・効果音・BGMは生成していません。既存の音素材と利用条件を引き継ぎ、事前生成音声の利用条件は本番公開前の確認事項として残します。
+同コミットの `scene-math.js` の枝の変形・方向計算、`main.js` の枝と操作点、`witch/scene.js` の会話構図とサンタを球内に保つ表示を参照し、既存の原作状態・字幕・音声へ統合しました。PR #1のjourney、保存キー、会話モデル、約2秒の自動移動は移しません。新しい画像・効果音・BGMは生成していません。既存の音素材と利用条件を引き継ぎ、事前生成音声の利用条件は本番公開前の確認事項として残します。
+
+2026-10-11の利用者の明示指定により「枝の向こうに誰かがいるようです。」をGemini TTS（`gemini-3.8-flash-tts`、既存の案内役と同じ `Sulafat` と演技指定）で一文だけ生成しました。`prototype/assets/audio/ja-branch-discovery.wav` はAPI受信原音を無加工で保存。生成入力・日時・使用量・SHA-256は `prototype/reference/audio-generation/ja-branch-discovery.json`。生成は制作時だけ行い、ゲームから外部APIを呼びません。
 
 ## 同梱しないもの
 

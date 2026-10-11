@@ -49,6 +49,9 @@ test('witch: both branch directions, partial pause/reverse/cancel/resize/reload,
 test('witch: seven viewport sizes keep fixed scene geometry, visible controls, settings/input/caption focus and reduced motion',async({page})=>{
   await early(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
   for(const [width,height]of [[320,568],[390,844],[568,320],[844,390],[768,1024],[1024,768],[1280,720]]){
+    await page.setViewportSize({width,height});const text=page.locator('#transcript');await expect(text).toContainText('枝の向こうに誰かがいるようです。');await text.press('End');const r=await text.boundingBox();expect(r.y).toBeGreaterThanOrEqual(0);expect(r.y+r.height).toBeLessThanOrEqual(height-44);expect(await text.evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await expect(btn(page,'accept')).toBeHidden();await page.screenshot({path:`test-results/pr-d/branch-narration-${width}x${height}.png`});
+  }
+  for(const [width,height]of [[320,568],[390,844],[568,320],[844,390],[768,1024],[1024,768],[1280,720]]){
     await page.setViewportSize({width,height});await grip(page).press('End');await expect(btn(page,'accept')).toBeVisible();
     for(const action of ['accept','decline']){const main=await btn(page,action).boundingBox();expect(main.y).toBeGreaterThanOrEqual(0);expect(main.y+main.height).toBeLessThanOrEqual(height-44);expect(main.height).toBeGreaterThanOrEqual(44);}
     for(const side of [-1,1]){const r=await grip(page,side).boundingBox();expect(r.width).toBeGreaterThanOrEqual(44);expect(r.height).toBeGreaterThanOrEqual(44);expect(r.x).toBeGreaterThanOrEqual(0);expect(r.y+r.height).toBeLessThanOrEqual(height);}

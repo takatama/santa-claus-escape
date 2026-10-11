@@ -1,0 +1,83 @@
+{
+  "id": "ja-branch-discovery",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-11T03:54:53.804Z",
+  "voices": {
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "枝の向こうに誰かがいるようです。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "枝の向こうに誰かがいるようです。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 512,
+  "bytes": 175076,
+  "sha256": "d1cfc5dfc9b44659c91d40023782fded49347d71b726493137cc111e33e78211",
+  "usage": {
+    "total_tokens": 99,
+    "total_input_tokens": 11,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 11
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 88,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 88
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 375,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 174
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 90
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 174
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 90
+          }
+        ]
+      }
+    ]
+  },
+  "durationMs": 2778
+}
