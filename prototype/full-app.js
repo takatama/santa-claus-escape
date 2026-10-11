@@ -103,7 +103,7 @@ function answerForm(view) {
 function wordForm(kind, value) {
   return `<form id="${kind}-form" novalidate><label for="word-answer">${kind === 'spell' ? 'ひみつの言葉' : 'あなたの答え'}</label><div class="word-answer-row"><input id="word-answer" type="text" maxlength="64" value="${esc(value)}" autocomplete="off" autocapitalize="off" aria-describedby="word-feedback" aria-invalid="${inputError}"><button class="primary" type="submit">${kind === 'spell' ? '言葉を伝える' : '答えを伝える'}</button></div><p id="word-feedback" class="answer-feedback" role="status">${esc(feedback)}</p></form>`;
 }
-function render(focus = false, scroll = false) {
+function render(focus = false, scroll = false, rescueIntro = false) {
   const view = currentState(), scene = sceneFor(view), reading = readingIndex !== null;
   const cover = resumePending || view.phase === 'welcome';
   const illustrated = !cover && !reading && BOX_PRESENTATIONS[view.selectedBox] && ['box','boxResponse'].includes(view.phase);
@@ -142,12 +142,12 @@ function render(focus = false, scroll = false) {
   boxStage?.destroy(); boxStage = null;
   if (illustratedRescue) {
     if(!rescueStage) {
-      rescueStage=createRescueStage({getState:()=>state,onProgress:value=>{
+      rescueStage=createRescueStage({getState:()=>state,intro:rescueIntro,onProgress:value=>{
         const next=transition(state,{type:'RESCUE_PROGRESS',value});if(next===state)return;
         const released=!state.rescueMotion.released && next.rescueMotion.released;
         if(!state.muted)voiceTimeline.prepare();
         state=next;save();render();
-        if(released)rescueNarration.release(state);
+        if(released){lastAction=-Infinity;document.querySelector('#transcript').focus({preventScroll:true});rescueNarration.release(state);}
       }});
       app.replaceChildren(rescueStage.element);
     }
@@ -233,7 +233,7 @@ function render(focus = false, scroll = false) {
     visual = witchScene(); controls = `<p class="response-card">${esc(scene.segments[0].text)}</p>${button('continue_witch', view.questionIndex === 2 ? 'まほう使いとの約束へ' : 'つづきを読む')}`;
   } else {
     visual = rescueScene();
-    controls = view.phase === 'rescue' ? button('finish', '絵本を閉じる') : `<div class="end-note"><h2>サンタを助けてくれて、ありがとう。</h2><p>この絵本は、ここまで。</p></div>${button('read', 'この絵本を読み返す')}${button('reset', '最初から謎を解く', 'text-button')}`;
+    controls = `<div class="end-note"><h2>サンタを助けてくれて、ありがとう。</h2><p>この絵本は、ここまで。</p></div>${button('read', 'この絵本を読み返す')}${button('reset', '最初から謎を解く', 'text-button')}`;
   }
   if (reading) controls = `<nav class="reading-nav" aria-label="読み返すページ">${button('read-prev', '前のページ', 'secondary', readingIndex === 0 ? 'disabled' : '')}<span>${readingIndex + 1} / ${state.history.length}</span>${button('read-next', '次のページ', 'secondary', readingIndex === state.history.length - 1 ? 'disabled' : '')}</nav>${button('read-exit', '読み返しを終える', 'text-button')}`;
   app.innerHTML = `<div class="book-meta"><span>${reading ? '読み返しの時間' : '声と仕掛けを楽しむ、謎解き絵本'}</span><span>${esc(scene.chapter)}</span></div>${toolbar(!cover)}<div class="book full-book ${cover ? 'cover' : ''} ${scroll ? 'page-enter' : ''}" data-phase="${view.phase}"><section class="illustration-page" aria-label="絵本の絵と操作">${visual}<div class="scene-controls">${controls}</div><span class="page-corner" aria-hidden="true"></span></section><section class="story-page"><span class="eyebrow">${cover ? 'A CHRISTMAS POP-UP STORY' : esc(scene.chapter)}</span><h1 id="screen-heading" tabindex="-1" ${cover ? 'class="cover-title"' : ''}>${esc(title)}${cover ? '<span>Santa Claus Escape</span>' : ''}</h1>${cover ? extra : transcript(scene)}${reading ? '<p class="scope-note">遊んだ場面を読み返しています。進行は変わりません。</p>' : ''}<span class="page-number" aria-hidden="true">✧</span></section><span class="book-spine" aria-hidden="true"></span></div><div class="session-bar"><span id="save-status">${storageAvailable ? 'しおりは、この端末に自動保存' : '保存できません・このまま遊べます'}</span>${cover ? '' : button('reset', '進行をリセット', 'text-button')}</div>${soundSettings()}`;
@@ -249,19 +249,17 @@ function apply(event) {
   const next = transition(state, event); if (next === state) return;
   const sequenceBox = boxStage && ['EXAMINE','INFORMATION','ANSWER','OPEN_LID','CLOSE_LID','LID'].includes(event.type);
   state = next; feedback = ''; inputError = false; save();
-  // FINISH records the read ending on the same stage; it cannot cut off its voice.
-  if(event.type==='FINISH'){lastAction=-Infinity;render();document.querySelector('#transcript').focus({preventScroll:true});return;}
   // Paper acknowledgment only changes presentation. Appearance audio begins
   // once when the branches first open fully; there is no second acknowledgment.
   if (event.type==='CONTINUE_SPELL') { render(true,true); return; }
-  const narrate = !['FINISH','CLOSE_LID'].includes(event.type) && (event.type !== 'LID' || (!wasLidOpen && state.boxes[color].lidOpen));
+  const narrate = event.type!=='CLOSE_LID' && (event.type !== 'LID' || (!wasLidOpen && state.boxes[color].lidOpen));
   if (sequenceBox) {
     // A new trial supersedes the previous voice, effects and pending results.
     // Examination and lid discovery still keep their narration in order.
     if (event.type === 'ANSWER') stop();
     if (narrate && !state.muted) boxNarration.enqueue(boxSceneFor(state));
     render(true, true);
-  } else { stop(); render(true, true); if (narrate) speak(); }
+  } else { stop(); render(true, true, event.type==='CONTINUE_WITCH' && state.phase==='rescue'); if (narrate) speak(); }
 }
 function fail(text) {
   feedback = text; inputError = true;
@@ -309,10 +307,11 @@ app.addEventListener('click', event => {
   }
   if (action === 'mode') { state = transition(state, { type: 'MODE' }); feedback = ''; inputError = false; save(); render(); return; }
   if (action==='continue_spell') return apply({type:'CONTINUE_SPELL',revision:Number(target.dataset.revision)});
-  if(action==='finish' && readingIndex===null)return apply({type:'FINISH',revision:Number(target.dataset.revision)});
   if (performance.now() - lastAction < 450) return; lastAction = performance.now();
   if (action === 'resume') {
     resumePending = false;
+    // Old released rescue saves need no removed confirmation button.
+    if(state.phase==='rescue' && state.rescueMotion?.released){state=transition(state,{type:'FINISH'});save();}
     // Resuming a summoned save must not summon again. Explicit replay remains
     // available; other original scenes still read when the player resumes.
     const summoned = state.phase === 'witchInvite' && sceneFor(state).key === 'invite';

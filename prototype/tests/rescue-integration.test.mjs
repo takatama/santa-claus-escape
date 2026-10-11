@@ -10,13 +10,13 @@ import { RescueNarration,rescueSceneFor,rescueTimeline } from '../rescue-present
 import { resolveAudioTimeline } from '../timed-audio.js';
 const send=(s,type,extra={})=>transition(s,{type,...extra});
 function reached(){let s=send(send(initialState(true),'START'),'BOXES');s=send(send(s,'DRAFT',{value:'だいすきだよ',field:'spell'}),'SPELL');s=send(send(s,'DISCOVERY_PROGRESS',{value:1}),'ACCEPT');for(let i=0;i<3;i++){s=send(s,'REPLY',{value:i===1?'太陽':'わからない',questionId:QUESTIONS[i].id});s=send(s,'CONTINUE_WITCH');}return s;}
-test('rescue: explicit third reply continuation starts reversible motion; only actual full release permits FINISH',()=>{
+test('rescue: explicit third reply continuation starts reversible motion; actual full release completes once without confirmation',()=>{
   let s=reached();assert.equal(s.phase,'rescue');assert.deepEqual(s.rescueMotion,{progress:0,released:false});assert.strictEqual(send(s,'FINISH'),s);
   const boxes=s.boxes,answers=s.responses,history=JSON.stringify(s.history);
   for(const value of [.3,.65,.2,.99,0,.45]){s=send(s,'RESCUE_PROGRESS',{value});assert.equal(s.rescueMotion.progress,value);assert.deepEqual(restoreState(JSON.parse(JSON.stringify(s))),s);assert.strictEqual(s.boxes,boxes);assert.strictEqual(s.responses,answers);assert.equal(JSON.stringify(s.history),history);assert.equal(papers(s).length,0);assert.strictEqual(send(s,'FINISH'),s);}
   for(const value of [-1,2,NaN,Infinity,null,'1'])assert.strictEqual(send(s,'RESCUE_PROGRESS',{value}),s);
-  const old=s.revision;s=send(s,'RESCUE_PROGRESS',{value:1});for(const value of [0,.5,1])assert.strictEqual(send(s,'RESCUE_PROGRESS',{value}),s);assert.strictEqual(send(s,'FINISH',{revision:old}),s);
-  s=send(s,'FINISH');assert.equal(s.phase,'complete');assert.deepEqual(restoreState(s),s);assert.strictEqual(s.responses,answers);assert.equal(send(s,'RESET').rescueMotion,undefined);
+  const old=s.revision;s=send(s,'RESCUE_PROGRESS',{value:1});assert.equal(s.phase,'complete');assert.equal(s.revision,old+1);for(const value of [0,.5,1])assert.strictEqual(send(s,'RESCUE_PROGRESS',{value}),s);assert.strictEqual(send(s,'FINISH',{revision:old}),s);
+  assert.strictEqual(send(s,'FINISH'),s);assert.deepEqual(restoreState(s),s);assert.strictEqual(s.responses,answers);assert.equal(JSON.stringify(s.history),history);assert.equal(send(s,'RESET').rescueMotion,undefined);
 });
 test('rescue: legacy reached saves, corrupt optional data, complete/reading never force a rescue again; original corruption still rejects',()=>{
   const s=reached();

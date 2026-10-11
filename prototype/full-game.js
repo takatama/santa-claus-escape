@@ -93,7 +93,7 @@ export function transition(state, event) {
   if (event.type === 'CONTINUE_WITCH' && state.phase === 'witchResponse' && (event.questionId === undefined || event.questionId === QUESTIONS[state.questionIndex].id)) next = state.questionIndex === 2 ? { ...state, phase: 'rescue', rescueMotion:{progress:0,released:false} } : { ...state, phase: 'witchQuestion', questionIndex: state.questionIndex + 1, questionDraft: '' };
   if (event.type === 'RESCUE_PROGRESS' && state.phase === 'rescue' && state.rescueMotion?.released===false && Number.isFinite(event.value) && event.value>=0 && event.value<=1) {
     if(event.value===state.rescueMotion.progress)return state;
-    return {...state,rescueMotion:{progress:event.value,released:event.value===1},revision:state.revision+1};
+    return {...state,phase:event.value===1?'complete':'rescue',rescueMotion:{progress:event.value,released:event.value===1},revision:state.revision+1};
   }
   if (event.type === 'FINISH' && state.phase === 'rescue' && state.rescueMotion?.released!==false) next = { ...state, phase: 'complete',rescueMotion:{progress:1,released:true} };
   return next ? remember({ ...next, revision: state.revision + 1 }) : state;

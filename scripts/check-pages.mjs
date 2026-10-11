@@ -25,7 +25,7 @@ try{
     const original=await readFile(new URL(name,dist));const served=Buffer.from(await response.arrayBuffer());
     assert.equal(createHash('sha256').update(served).digest('hex'),createHash('sha256').update(original).digest('hex'),name);
   }
-  for(const name of ['reference/legacy-index.js','.env','scripts/generate-audio.mjs','docs/PR-D-WITCH.md','illustrated-prototype/witch/conversation.js','illustrated-prototype/journey/state.js','assets/witch/README.md','docs/PR-E-RESCUE.md','docs/pr-e/art-provenance.json','assets/rescue/PROMPTS.json','tests/rescue-integration.test.mjs'])assert.equal((await fetch(`${base}/${name}`)).status,404,name);
+  for(const name of ['reference/legacy-index.js','.env','scripts/generate-audio.mjs','docs/PR-D-WITCH.md','illustrated-prototype/witch/conversation.js','illustrated-prototype/journey/state.js','assets/witch/README.md','docs/PR-E-RESCUE.md','docs/pr-e/art-provenance.json','assets/rescue/PROMPTS.json','tests/rescue-integration.test.mjs','docs/pr-e/rescue-glow.png','tests/browser/rescue-glow.spec.js'])assert.equal((await fetch(`${base}/${name}`)).status,404,name);
   const partial=await fetch(`${base}/${audio[0]}`,{headers:{Range:'bytes=0-15'}});assert.equal(partial.status,206);assert.equal((await partial.arrayBuffer()).byteLength,16);
   console.log(JSON.stringify({output:'dist',staticFiles:files.length+1,audioFiles:audio.length,headers:'checked',audioRange:'checked',privateFiles:'404',browserRendering:'not checked here'}));
 }finally{server.kill();}

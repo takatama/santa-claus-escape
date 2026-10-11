@@ -22,5 +22,5 @@ export async function answerAll(page,inputs=['わからない','太陽','トナ�
     await page.waitForTimeout(470);await btn(page,'continue_witch').click();
   }
   await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','rescue');await expect(page.locator('#transcript')).toContainText('うふふ。ああ楽しかった！');await page.locator('.rescue-handle').press('End');await expect(page.locator('#transcript')).toContainText('クリスマスの夜を楽しみにしていてくれ');
-  await page.waitForTimeout(470);await btn(page,'finish').click();await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');
+  await page.waitForTimeout(470);await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');
 }

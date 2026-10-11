@@ -95,7 +95,7 @@ test('early: zero-paper alias, decline/save/reload/recall and all wrong answers 
     await page.waitForTimeout(470);await btn(page,'continue_witch').click();
   }
   await expect(page.locator('#transcript')).toContainText('うふふ。ああ楽しかった！');await page.locator('.rescue-handle').press('End');await expect(page.locator('#transcript')).toContainText('クリスマスの夜を楽しみにしていてくれ');const s=await saved(page);expect(Object.values(s.boxes).every(b=>!b.opened)).toBe(true);expect(s.spellSlots).toEqual(Array(6).fill(null));expect(s.responses.every(r=>!r.correct)).toBe(true);
-  await page.waitForTimeout(470);await btn(page,'finish').click();await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');
+  await page.waitForTimeout(470);await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');
 });
 test('papers: blocked storage, art and audio still allow the session from cover through all boxes and success',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw Error('storage unavailable');}});HTMLMediaElement.prototype.play=function(){return Promise.reject(Error('no playback'));};window.speechSynthesis=undefined;});

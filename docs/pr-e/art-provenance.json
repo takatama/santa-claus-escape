@@ -26,5 +26,12 @@
     "illustrated-prototype/rescue/rescue-math.js",
     "illustrated-prototype/rescue/main.js"
   ],
-  "newGeneration": false
+  "newGeneration": false,
+  "runtimeComposition": {
+    "original": "prototype/assets/papers/globe.png",
+    "interior": "prototype/assets/rescue/empty-globe.png",
+    "preserved": "original glass, rim, surrounding trees and wooden base",
+    "replacement": "only the interior region occupied by the flattened Santa",
+    "filesModified": false
+  }
 }
