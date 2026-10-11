@@ -48,7 +48,10 @@ test('rescue: same camera as the questions; single opaque Santa inside initially
     let previous=start;for(let i=0;i<=1000;i++){const state=rescue(i/1000,l);assert.equal(state.santa.opacity,1);assert.ok(state.travel>=previous.travel);assert.ok(state.santa.x>=0&&state.santa.y>=0&&state.santa.x+state.santa.w<=w&&state.santa.foot<=h);assert.deepEqual(rescue(i/1000,l),state);previous=state;}
   }
 });
-test('rescue: reused art hashes/bytes match the reference record',async()=>{
-  const record=JSON.parse(await readFile(new URL('../../docs/pr-e/art-provenance.json',import.meta.url),'utf8'));assert.equal(record.newGeneration,false);
+test('rescue: reused and explicitly edited art hashes/bytes match the provenance record',async()=>{
+  const record=JSON.parse(await readFile(new URL('../../docs/pr-e/art-provenance.json',import.meta.url),'utf8'));assert.equal(record.newGeneration,true);
   for(const item of record.files){const bytes=await readFile(new URL('../../'+item.target,import.meta.url));assert.equal(bytes.length,item.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256);assert.equal(item.originalByteEquality,true);}
+  assert.equal(record.generatedEdits.length,1);const edit=record.generatedEdits[0],source=await readFile(new URL('../../'+edit.source,import.meta.url)),bytes=await readFile(new URL('../../'+edit.target,import.meta.url));
+  assert.equal(createHash('sha256').update(source).digest('hex'),edit.sourceSha256);assert.equal(bytes.length,edit.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),edit.sha256);
+  assert.equal(bytes.readUInt32BE(16),edit.width);assert.equal(bytes.readUInt32BE(20),edit.height);assert.equal(bytes[25],6);assert.equal(record.runtimeComposition.patchOrSantaMask,false);
 });

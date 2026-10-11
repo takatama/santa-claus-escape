@@ -33,7 +33,7 @@ export function createRescueStage({getState,onProgress,intro=false}) {
   },options);
   const art=createRescueArt(find('canvas'),value=>{if(drag&&(value.width!==drag.width||value.height!==drag.height))finish();layout=value;handle.style.left=`${value.handle.x}px`;handle.style.top=`${value.handle.y}px`;},()=>{find('.rescue-art-error').hidden=false;});
   // One short presentation pulse on entry only, independent of voice/art fetches.
-  if(introPending){let started;const tick=time=>{if(disposed||!introPending)return;started??=time;const t=Math.min(1,(time-started)/850);art.setGlow(Math.sin(Math.PI*t)**2);if(t===1)finishIntro();else introFrame=requestAnimationFrame(tick);};introFrame=requestAnimationFrame(tick);}
+  if(introPending){let started;const tick=time=>{if(disposed||!introPending)return;started??=time;const t=Math.min(1,(time-started)/1100);art.setGlow(Math.sin(Math.PI*t)**2);if(t===1)finishIntro();else introFrame=requestAnimationFrame(tick);};introFrame=requestAnimationFrame(tick);}
   return {element,ready:art.ready,setStatus:status=>captions.setStatus(status),
     update(view,{settings,dialogue,status,saved,reading=false,navigation=''}) {
       const complete=view.phase==='complete',released=view.rescueMotion?.released!==false;
