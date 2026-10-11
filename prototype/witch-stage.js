@@ -7,7 +7,7 @@ import { clamp, dragProgress } from './witch-math.js';
 /** DOM input/gestures only. Original transitions, judgments and audio stay in full-app. */
 export function createWitchStage({getState,onProgress,onDraft,onReply}) {
   const element=document.createElement('section');element.className='witch-stage';
-  element.innerHTML=`<header class="box-header"><h1 id="screen-heading" tabindex="-1">まほう使い</h1><details class="box-settings"><summary>音の設定</summary><div class="box-settings-content"></div></details></header><div class="witch-content"><div class="witch-play"><div class="witch-picture"><canvas role="img" aria-label="雪の森。サンタは球の中、枝の奥にまほう使い"></canvas><div class="branch-handles"><button type="button" data-branch-side="-1" aria-describedby="branch-help">←</button><button type="button" data-branch-side="1" aria-describedby="branch-help">→</button></div><p class="witch-art-error" role="status" hidden>絵を読み込めませんでした。枝のつまみとお話で続けられます。</p></div><section class="witch-controls" aria-label="まほう使いとのお話と回答"><p id="witch-chapter"></p><div class="witch-actions"></div></section></div>${stageDialogueMarkup()}</div><footer class="box-footer"><span id="save-status"></span><button type="button" data-action="reset">やり直す</button></footer>`;
+  element.innerHTML=`<header class="box-header"><h1 id="screen-heading" tabindex="-1">まほう使い</h1><details class="box-settings"><summary>音の設定</summary><div class="box-settings-content"></div></details></header><div class="witch-content"><div class="witch-play"><div class="witch-picture"><canvas role="img" aria-label="雪の森。サンタは球の中、枝の奥にまほう使い"></canvas><div class="branch-handles"><button type="button" data-branch-side="-1">←</button><button type="button" data-branch-side="1">→</button></div><p class="witch-art-error" role="status" hidden>絵を読み込めませんでした。枝のつまみとお話で続けられます。</p></div><section class="witch-controls" aria-label="まほう使いとのお話と回答"><p id="witch-chapter"></p><div class="witch-actions"></div></section></div>${stageDialogueMarkup()}</div><footer class="box-footer"><span id="save-status"></span><button type="button" data-action="reset">やり直す</button></footer>`;
   const find=s=>element.querySelector(s),captions=createStageDialogue(element),settingsPanel=createStageSettings(find('.box-settings-content'));
   const listeners=new AbortController(),options={signal:listeners.signal};
   let disposed=false,layout,drag=null,suppressUntil=0,lastKey='',composing=false;
@@ -62,13 +62,10 @@ export function createWitchStage({getState,onProgress,onDraft,onReply}) {
       const b=document.createElement('button');b.type='button';b.className=style;b.dataset.action=action;b.textContent=label;Object.assign(b.dataset,attrs);host.append(b);return b;
     }
     if(view.witchDiscovery?.pending){
-      const help=document.createElement('p');help.id='branch-help';help.textContent='枝のつまみを外へ引こう。押しても開けます。';host.append(help);
-      const status=document.createElement('p');status.id='branch-status';status.setAttribute('role','status');host.append(status);
-      button('continue_discovery','まほう使いと話す');
+      button('accept','まほう使いと遊ぶ');button('decline','今は遊ばない','secondary');
     } else if(view.phase==='witchInvite'){button('accept','まほう使いと遊ぶ');button('decline','今は遊ばない','secondary');}
     else if(view.phase==='witchPaused')button('call_again','まほう使いを、もう一度呼ぶ');
     else if(view.phase==='witchResponse'){
-      const p=document.createElement('p');p.className='witch-response-note';p.textContent='まほう使いの答えは、お話で読めます。';host.append(p);
       button('continue_witch',view.questionIndex===2?'サンタのもとへ':'次の問題を聞く','primary',{questionId:QUESTIONS[view.questionIndex].id});
     } else if(view.phase==='witchQuestion') {
       const q=QUESTIONS[view.questionIndex],revision=view.revision;
@@ -91,16 +88,16 @@ export function createWitchStage({getState,onProgress,onDraft,onReply}) {
     }
   }
   return {
-    element,setStatus:status=>captions.setStatus(status),
+    element,ready:art.ready,setStatus:status=>captions.setStatus(status),
     update(view,{settings,dialogue,status,saved}) {
       const discovering=active(),key=discovering?'discovery':`${view.phase}:${view.questionIndex}`;
       if(key!==lastKey){finish();actions(view);lastKey=key;}
       element.dataset.phase=view.phase;element.dataset.discovery=String(discovering);
-      find('#witch-chapter').textContent=discovering?'枝の奥をのぞいてみよう':sceneFor(view).chapter;
+      find('#witch-chapter').textContent=discovering && progress()<.98?'雪の森':sceneFor(view).chapter;
       find('.branch-handles').hidden=!discovering;
       if(discovering){
-        const complete=progress()>=.98;find('#branch-status').textContent=complete?'まほう使いが見えました。話しかけてみよう。':'枝を開いています。';
-        find('[data-action="continue_discovery"]').hidden=!complete;
+        const complete=progress()>=.98;
+        for(const action of ['accept','decline'])find(`[data-action="${action}"]`).hidden=!complete;
         for(const b of element.querySelectorAll('[data-branch-side]')){b.textContent=complete?Number(b.dataset.branchSide)===-1?'→':'←':Number(b.dataset.branchSide)===-1?'←':'→';b.setAttribute('aria-label',`${Number(b.dataset.branchSide)===-1?'左':'右'}の枝を${complete?'戻す':'外へ開く'}`);}
       }
       settingsPanel.update(settings);captions.update({dialogue,muted:view.muted,status});

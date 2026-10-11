@@ -75,17 +75,15 @@ export function transition(state, event) {
   if (event.type === 'SPELL' && ['boxes', 'spell'].includes(state.phase)) {
     if (event.source === 'papers' && state.phase !== 'spell') return state;
     const word = event.source === 'papers' ? arrangedWord(state.spellSlots, papers(state)) : state.spellDraft;
-    if (matchesWord(word, ['だいすきだよ', '大好きだよ'])) next = { ...state, spellDraft: word, spellReview: event.source === 'papers', witchDiscovery: {progress:0,pending:true}, phase: 'witchInvite', selectedBox: null, reinvited: false };
+    if (matchesWord(word, ['だいすきだよ', '大好きだよ'])) next = { ...state, spellDraft: word, spellReview: false, witchDiscovery: {progress:0,pending:true,appeared:false}, phase: 'witchInvite', selectedBox: null, reinvited: false };
   }
   // Discovery is reversible presentation inside the already summoned phase.
   // It never changes owned papers, answers, history, or the original scene key.
   if (event.type === 'DISCOVERY_PROGRESS' && state.phase === 'witchInvite' && !state.spellReview && state.witchDiscovery?.pending && Number.isFinite(event.value) && event.value >= 0 && event.value <= 1) {
-    return event.value === state.witchDiscovery.progress ? state : {...state,witchDiscovery:{progress:event.value,pending:true},revision:state.revision+1};
+    return event.value === state.witchDiscovery.progress ? state : {...state,witchDiscovery:{progress:event.value,pending:true,appeared:state.witchDiscovery.appeared || event.value>=.98},revision:state.revision+1};
   }
-  if (event.type === 'CONTINUE_DISCOVERY' && state.phase === 'witchInvite' && !state.spellReview && state.witchDiscovery?.pending && state.witchDiscovery.progress >= .98) next = {...state,witchDiscovery:{progress:1,pending:false}};
   if (event.type === 'CONTINUE_SPELL' && state.phase === 'witchInvite' && state.spellReview) next = { ...state, spellReview: false };
-  if (event.type === 'ACCEPT' && state.phase === 'witchInvite' && !state.spellReview && !state.witchDiscovery?.pending) next = { ...state, phase: 'witchQuestion' };
-  if (event.type === 'DECLINE' && state.phase === 'witchInvite' && !state.spellReview && !state.witchDiscovery?.pending) next = { ...state, phase: 'witchPaused' };
+  if (['ACCEPT','DECLINE'].includes(event.type) && state.phase === 'witchInvite' && !state.spellReview && (!state.witchDiscovery?.pending || state.witchDiscovery.progress>=.98)) next = { ...state, phase: event.type==='ACCEPT'?'witchQuestion':'witchPaused', witchDiscovery:{progress:1,pending:false,appeared:true} };
   if (event.type === 'CALL_AGAIN' && state.phase === 'witchPaused') next = { ...state, phase: 'witchInvite', reinvited: true };
   if (event.type === 'REPLY' && state.phase === 'witchQuestion') {
     const q = QUESTIONS[state.questionIndex], input = event.value === undefined ? state.questionDraft : String(event.value);
@@ -146,8 +144,11 @@ export function restoreState(raw) {
   const summoned = raw.phase.startsWith('witch') || ['rescue','complete'].includes(raw.phase);
   const pending = raw.phase === 'witchInvite' && !raw.reinvited && (spellReview || raw.witchDiscovery?.pending === true);
   const progress = pending && Number.isFinite(raw.witchDiscovery?.progress) && raw.witchDiscovery.progress >= 0 && raw.witchDiscovery.progress <= 1 ? raw.witchDiscovery.progress : pending ? 0 : 1;
-  const witchDiscovery = summoned ? {progress,pending} : null;
-  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), spellSlots, spellReview, witchDiscovery, questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
+  // Older saves already played the appearance at SPELL. Only new explicit
+  // appeared:false saves may start it on their first completed branch opening.
+  const appeared = !pending || progress>=.98 || raw.witchDiscovery?.appeared !== false;
+  const witchDiscovery = summoned ? {progress,pending,appeared} : null;
+  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), spellSlots, spellReview:false, witchDiscovery, questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
 }
 export function readSave(storage) {
   try {

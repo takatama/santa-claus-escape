@@ -10,9 +10,9 @@ export function paperState(muted=true) {
   for(const color of COLORS)for(const event of [{type:'SELECT',color},{type:'BOX_DIAL',value:BOXES[color].answer},{type:'ANSWER'},{type:'OPEN_LID'},{type:'CONTINUE_BOX'}])s=transition(s,event);
   return s;
 }
-export async function setupPapers(page,state=paperState()) {
+export async function setupPapers(page,state=paperState(),{stage='paper'}={}) {
   await page.addInitScript(({state,key})=>{if(!sessionStorage.getItem('seeded')){localStorage.setItem(key,JSON.stringify(state));sessionStorage.setItem('seeded','yes');}},{state,key:STORAGE_KEY});
-  await page.goto('/');await btn(page,'resume').click();await expect(page.locator('.paper-stage')).toBeVisible();
+  await page.goto('/');await btn(page,'resume').click();await expect(page.locator(`.${stage}-stage`)).toBeVisible();
 }
 export async function arrangePapers(page,ids=correctOrder) {
   for(const [index,id] of ids.entries()){
@@ -22,8 +22,8 @@ export async function arrangePapers(page,ids=correctOrder) {
 export const saved=page=>page.evaluate(key=>JSON.parse(localStorage.getItem(key)),STORAGE_KEY);
 export async function discover(page) {
   await expect(page.locator('.witch-stage')).toHaveAttribute('data-discovery','true');
-  await page.locator('[data-branch-side="1"]').press('End');await btn(page,'continue_discovery').click();
-  await expect(page.locator('.witch-stage')).toHaveAttribute('data-discovery','false');
+  await page.locator('[data-branch-side="1"]').press('End');
+  await expect(btn(page,'accept')).toBeVisible();
 }
 export async function dragTo(page,source,target,{cancel=false,outside=false}={}) {
   await source.scrollIntoViewIfNeeded();const a=await source.boundingBox();

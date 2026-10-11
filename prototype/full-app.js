@@ -26,10 +26,7 @@ const voiceTimeline = new AudioTimeline();
 const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const speakerName = { santa: 'サンタ', narrator: '端末からの声', witch: 'まほう使い' };
 const button = (action, label, style = 'primary', attrs = '') => `<button type="button" class="${style}" data-action="${action}" data-revision="${state.revision}" ${attrs}>${label}</button>`;
-const player = new SpeechPlayer(
-  window.speechSynthesis || null,
-  'SpeechSynthesisUtterance' in window ? text => new SpeechSynthesisUtterance(text) : null,
-  status => {
+function reportAudioStatus(status) {
     audioStatus = status;
     boxStage?.setStatus(status);
     paperStage?.setStatus(status);
@@ -39,7 +36,11 @@ const player = new SpeechPlayer(
     if (status !== '読み上げ中') track.quiet();
     if (status === '読み上げが終わりました') boxNarration?.finish();
     else if (/未対応|再生できません/.test(status)) boxNarration?.finish();
-  },
+}
+const player = new SpeechPlayer(
+  window.speechSynthesis || null,
+  'SpeechSynthesisUtterance' in window ? text => new SpeechSynthesisUtterance(text) : null,
+  reportAudioStatus,
   { clips: FULL_AUDIO_CLIPS, resolveClip: resolveAudioClip, resolveTimeline:key=>boxTimeline(key,resolveAudioTimeline), sequencePlayer:voiceTimeline, makeAudio: src => { const audio = new Audio(src); audio.preload = 'auto'; document.querySelector('#audio-host').replaceChildren(audio); return audio; } },
 );
 boxNarration = new BoxNarrationQueue(playScene, () => { if (boxStage) render(); });
@@ -55,6 +56,9 @@ function playScene(scene) {
 function speak() {
   if (resumePending) return;
   boxNarration.clear();
+  if(readingIndex===null && state.phase==='witchInvite' && state.witchDiscovery?.pending && !state.witchDiscovery.appeared) {
+    reportAudioStatus('音声は待機中');return;
+  }
   const scene = boxStage ? boxSceneFor(currentState()) : sceneFor(currentState());
   if (boxStage && !state.muted) boxNarration.enqueue(scene); else playScene(scene);
 }
@@ -133,13 +137,25 @@ function render(focus = false, scroll = false) {
     if (!witchStage) {
       witchStage = createWitchStage({
         getState:()=>state,
-        onProgress:value=>{const next=transition(state,{type:'DISCOVERY_PROGRESS',value});if(next!==state){state=next;save();render();}},
+        onProgress:value=>{
+          const appeared=state.witchDiscovery?.appeared,next=transition(state,{type:'DISCOVERY_PROGRESS',value});
+          if(next===state)return;state=next;save();render();
+          if(!appeared && state.witchDiscovery.appeared) {
+            // Paint the revealed figure before the original shine -> voice.
+            // A stop, mute, navigation or reset also cancels an asset wait.
+            const stage=witchStage,generation=player.generation;
+            stage.ready.then(()=>{
+              if(witchStage===stage && generation===player.generation && state.phase==='witchInvite' && state.witchDiscovery?.pending && state.witchDiscovery.progress>=.98 && !resumePending && readingIndex===null && !document.hidden)speak();
+            });
+          }
+        },
         onDraft:event=>{state=transition(state,event);save();},
         onReply:event=>apply(event),
       });
       app.replaceChildren(witchStage.element);
     }
-    witchStage.update(state,{settings:toolbar(true,false)+soundSettings(),dialogue:transcriptContent(scene),status:audioStatus,saved:storageAvailable});
+    const appearanceWaiting=state.witchDiscovery?.pending && !state.witchDiscovery.appeared;
+    witchStage.update(state,{settings:toolbar(true,false)+soundSettings(),dialogue:appearanceWaiting?'':transcriptContent(scene),status:audioStatus,saved:storageAvailable});
     document.querySelector('#bgm-volume').oninput=e=>{state=transition(state,{type:'BGM_VOLUME',value:Number(e.target.value)});track.setVolume(state.bgmVolume);save();document.querySelector('#bgm-volume-value').textContent=`${state.bgmVolume}%`;e.target.setAttribute('aria-valuetext',`${state.bgmVolume}%`);};
     if(focus)document.querySelector('#screen-heading').focus({preventScroll:true});
     return;
@@ -206,9 +222,9 @@ function apply(event) {
   const next = transition(state, event); if (next === state) return;
   const sequenceBox = boxStage && ['EXAMINE','INFORMATION','ANSWER','OPEN_LID','CLOSE_LID','LID'].includes(event.type);
   state = next; feedback = ''; inputError = false; save();
-  // The original invite starts once at SPELL. Both acknowledgments and branch
-  // gestures change presentation only, without cancelling/restarting that voice.
-  if (['CONTINUE_SPELL','CONTINUE_DISCOVERY'].includes(event.type)) { render(true,true); return; }
+  // Paper acknowledgment only changes presentation. Appearance audio begins
+  // once when the branches first open fully; there is no second acknowledgment.
+  if (event.type==='CONTINUE_SPELL') { render(true,true); return; }
   const narrate = !['FINISH','CLOSE_LID'].includes(event.type) && (event.type !== 'LID' || (!wasLidOpen && state.boxes[color].lidOpen));
   if (sequenceBox) {
     // A new trial supersedes the previous voice, effects and pending results.
@@ -263,7 +279,7 @@ app.addEventListener('click', event => {
     document.querySelectorAll('.dial-column output').forEach((output, i) => { output.textContent = state.boxes[state.selectedBox].dial[i]; }); return;
   }
   if (action === 'mode') { state = transition(state, { type: 'MODE' }); feedback = ''; inputError = false; save(); render(); return; }
-  if (['continue_spell','continue_discovery'].includes(action)) return apply({type:action.toUpperCase(),revision:Number(target.dataset.revision)});
+  if (action==='continue_spell') return apply({type:'CONTINUE_SPELL',revision:Number(target.dataset.revision)});
   if (performance.now() - lastAction < 450) return; lastAction = performance.now();
   if (action === 'resume') {
     resumePending = false;

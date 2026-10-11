@@ -8,12 +8,12 @@ import { discovery, boughPoint, dragProgress } from '../witch-math.js';
 const send=(s,type,extra={})=>transition(s,{type,...extra});
 const start=()=>send(send(initialState(true),'START'),'BOXES');
 const summon=s=>send(send(s,'DRAFT',{value:'だいすきだよ',field:'spell'}),'SPELL');
-const reveal=s=>send(send(s,'DISCOVERY_PROGRESS',{value:1}),'CONTINUE_DISCOVERY');
+const reveal=s=>send(s,'DISCOVERY_PROGRESS',{value:1});
 const orders=[['red','blue','yellow'],['red','yellow','blue'],['blue','red','yellow'],['blue','yellow','red'],['yellow','red','blue'],['yellow','blue','red']];
 
-test('witch: discovery is reversible presentation with one original summon, no grant, guarded acknowledgments and saved interruption',()=>{
+test('witch: reversible discovery records first appearance once, then one guarded choice starts play without an acknowledgment',()=>{
   let s=summon(start());assert.equal(papers(s).length,0);assert.equal(sceneFor(s).key,'invite');
-  for(const type of ['ACCEPT','DECLINE','CONTINUE_DISCOVERY'])assert.strictEqual(send(s,type),s);
+  assert.equal(s.witchDiscovery.appeared,false);for(const type of ['ACCEPT','DECLINE'])assert.strictEqual(send(s,type),s);
   const history=JSON.stringify(s.history),boxes=JSON.stringify(s.boxes);
   for(const value of [.25,.8,.4,1,.7,0,.51]){
     const before=s.revision;s=send(s,'DISCOVERY_PROGRESS',{value});assert.equal(s.revision,before+1);
@@ -21,10 +21,12 @@ test('witch: discovery is reversible presentation with one original summon, no g
     assert.deepEqual(restoreState(s),s);assert.strictEqual(send(s,'SPELL'),s);
   }
   for(const value of [NaN,Infinity,-.1,1.1,'1',null])assert.strictEqual(send(s,'DISCOVERY_PROGRESS',{value}),s);
-  const old=s.revision;s=send(s,'DISCOVERY_PROGRESS',{value:1});assert.strictEqual(send(s,'CONTINUE_DISCOVERY',{revision:old}),s);
-  s=send(s,'CONTINUE_DISCOVERY',{revision:s.revision});assert.equal(s.witchDiscovery.pending,false);
-  for(const type of ['CONTINUE_DISCOVERY','DISCOVERY_PROGRESS','SPELL'])assert.strictEqual(send(s,type,{value:0}),s);
-  s=send(s,'DECLINE');s=restoreState(s);s=send(s,'CALL_AGAIN');assert.equal(sceneFor(s).key,'reinvite');assert.equal(s.witchDiscovery.pending,false);
+  assert.equal(s.witchDiscovery.appeared,true);assert.strictEqual(send(s,'ACCEPT'),s);
+  const old=s.revision;s=send(s,'DISCOVERY_PROGRESS',{value:1});assert.strictEqual(send(s,'ACCEPT',{revision:old}),s);
+  const opened=s,accepted=send(s,'ACCEPT',{revision:s.revision});assert.equal(accepted.phase,'witchQuestion');assert.equal(accepted.questionIndex,0);assert.equal(accepted.witchDiscovery.pending,false);
+  assert.strictEqual(send(accepted,'ACCEPT',{revision:s.revision}),accepted);
+  s=send(opened,'DECLINE');for(const type of ['DISCOVERY_PROGRESS','SPELL'])assert.strictEqual(send(s,type,{value:0}),s);
+  s=restoreState(s);s=send(s,'CALL_AGAIN');assert.equal(sceneFor(s).key,'reinvite');assert.equal(s.witchDiscovery.pending,false);
 });
 
 test('witch: all eight correct/wrong combinations through all six box orders keep original replies, explicit continuation and save/reading',()=>{

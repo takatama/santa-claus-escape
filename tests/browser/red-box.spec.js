@@ -327,7 +327,7 @@ test('main regression: all boxes, decline and recall, three wrong answers and or
   for(const [color,code] of [['blue','8848'],['yellow','2502']]){
     await page.waitForTimeout(470);await page.locator(`[data-action="select"][data-color="${color}"]`).click();await digits(page,code);await btn(page,'box_try').click();await usable(page,'open_lid');await btn(page,'open_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();
   }
-  await expect(page.locator('button[data-paper-id]')).toHaveCount(6);await arrangePapers(page);await page.locator('[data-paper-submit]').click();await expect(page.locator('.paper-success')).toBeVisible();await btn(page,'continue_spell').click();await discover(page);
+  await expect(page.locator('button[data-paper-id]')).toHaveCount(6);await arrangePapers(page);await page.locator('[data-paper-submit]').click();await expect(page.locator('.witch-stage')).toBeVisible();await discover(page);
   for(const action of ['decline','call_again','accept']){await page.waitForTimeout(470);await btn(page,action).click();}
   await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button[type="submit"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
   await page.waitForTimeout(470);await page.locator('[data-action="choice"][data-value="トナカイの鼻"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
