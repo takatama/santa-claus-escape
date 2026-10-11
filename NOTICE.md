@@ -65,3 +65,9 @@ Gemini TTSで制作した台詞のWAVと、その台詞だけを結合した音�
 ## 同梱しないもの
 
 原作ソース全文、Drive原本・一覧、APIキー・認証情報、取得・解析用ライブラリは非公開。原作の jingle.mp3 は現在の [OpenTracks利用ライセンス](https://opentracks.com/help/articles/license/) の公開形態の条件を確認中で、同梱・代替とも行わない。原作制作時の許諾記録を利用者へ質問中。
+
+## PR Eで再利用した救出の絵と操作
+
+`prototype/assets/rescue/empty-globe.png` と `santa.png` は、PR #1の `aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c` の `illustrated-prototype/rescue/assets/` から無加工で再利用。本リポジトリのMIT Licenseを適用します。制作記録は同コミットの `PROMPTS.json`、出典・バイト数・SHA-256・参照コミットとのバイト一致は `docs/pr-e/art-provenance.json` にあります。森・元の球・枝・まほう使いはC/Dの画像を共用します。
+
+同コミットの救出の開口・単一サンタの移動、倍率、足・服の局所変形と光の計算を既存の原作状態に統合。森と球のカメラはDの会話と共通です。つまみは指と同じ距離で右へ進み、完了前の逆操作とタップ・キーに対応します。PR #1のjourney、別保存、約2秒の自動移動、試作のスライダー・百分率は移しません。画像・声・音源の新規生成はありません。救出には既存の発話区間とshine3を使い、未許諾の結末の鈴は追加しません。事前生成音声の利用条件は引き続き本番公開前の未解決事項です。

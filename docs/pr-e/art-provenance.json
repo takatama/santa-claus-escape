@@ -1,0 +1,30 @@
+{
+  "ref": "aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c",
+  "files": [
+    {
+      "source": "illustrated-prototype/rescue/assets/empty-globe.png",
+      "target": "prototype/assets/rescue/empty-globe.png",
+      "bytes": 1850031,
+      "sha256": "a88655fa67bab6c168ecd56507faa408fd1fed8056bc99d76677b1109392e2fd",
+      "originalByteEquality": true
+    },
+    {
+      "source": "illustrated-prototype/rescue/assets/santa.png",
+      "target": "prototype/assets/rescue/santa.png",
+      "bytes": 1596665,
+      "sha256": "13389855422bf5f637ab58d6dc0dede672664c1b09b0a653cdd3223dd5736be3",
+      "originalByteEquality": true
+    }
+  ],
+  "reusedWithoutCopy": [
+    "prototype/assets/papers/forest-clean.png",
+    "prototype/assets/papers/globe.png",
+    "prototype/assets/witch/branch.png",
+    "prototype/assets/witch/wizard-feet-v2.png"
+  ],
+  "codeReference": [
+    "illustrated-prototype/rescue/rescue-math.js",
+    "illustrated-prototype/rescue/main.js"
+  ],
+  "newGeneration": false
+}

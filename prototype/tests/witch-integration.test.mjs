@@ -46,7 +46,7 @@ test('witch: all eight correct/wrong combinations through all six box orders kee
       s=send(s,'CONTINUE_WITCH',{revision:s.revision});assert.strictEqual(send(s,'CONTINUE_WITCH',{revision}),s);
     }
     assert.equal(s.phase,'rescue');assert.deepEqual(restoreState(s),s);assert.equal(papers(s).length,order.length?6:0);
-    s=send(s,'FINISH');assert.equal(s.phase,'complete');assert.deepEqual(restoreState(s),s);
+    s=send(send(s,'RESCUE_PROGRESS',{value:1}),'FINISH');assert.equal(s.phase,'complete');assert.deepEqual(restoreState(s),s);
     const before=JSON.stringify(s);for(let i=0;i<s.history.length;i++)assert.ok(sceneFor(readingState(s,i)).segments.length);assert.equal(JSON.stringify(s),before);
   }
 });
@@ -54,7 +54,7 @@ test('witch: all eight correct/wrong combinations through all six box orders kee
 test('witch: optional legacy fields recover without rewinding reached conversation or corrupting original saves',()=>{
   let s=reveal(summon(start()));
   const phases=[s,send(s,'DECLINE'),send(s,'ACCEPT')];
-  s=phases[2];for(let i=0;i<3;i++){s=send(s,'REPLY',{value:i===1?'りんご':'わからない',questionId:QUESTIONS[i].id});phases.push(s);s=send(s,'CONTINUE_WITCH');phases.push(s);}phases.push(send(s,'FINISH'));
+  s=phases[2];for(let i=0;i<3;i++){s=send(s,'REPLY',{value:i===1?'りんご':'わからない',questionId:QUESTIONS[i].id});phases.push(s);s=send(s,'CONTINUE_WITCH');phases.push(s);}phases.push(send(send(s,'RESCUE_PROGRESS',{value:1}),'FINISH'));
   for(const state of phases)for(const field of [undefined,null,{},[],{progress:'bad',pending:'true'},{progress:NaN,pending:true}]){
     const old={...state,witchDiscovery:field};delete old.spellSlots;delete old.spellReview;
     // A true pending marker is only meaningful before the first invitation.
@@ -64,7 +64,7 @@ test('witch: optional legacy fields recover without rewinding reached conversati
   for(const value of [-1,2,'1',null,Infinity]){const restored=restoreState({...summon(start()),witchDiscovery:{progress:value,pending:true}});assert.equal(restored.witchDiscovery.progress,0);assert.equal(restored.phase,'witchInvite');}
   const memory=new Map(),storage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)};
   assert.equal(writeSave(storage,s),true);assert.deepEqual(readSave(storage).state,s);assert.equal(STORAGE_KEY,'santa-claus-escape:ja-full:v2');
-  assert.equal(writeSave({setItem(){throw Error('disabled');}},s),false);assert.equal(send(s,'FINISH').phase,'complete');
+  assert.equal(writeSave({setItem(){throw Error('disabled');}},s),false);assert.equal(send(send(s,'RESCUE_PROGRESS',{value:1}),'FINISH').phase,'complete');
   assert.equal(send(s,'RESET').witchDiscovery,null);
 });
 

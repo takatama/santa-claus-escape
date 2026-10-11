@@ -27,9 +27,9 @@ test('witch: zero-paper early full path with correct aliases, drafts/responses/r
   await btn(page,'continue_witch').click();await page.evaluate(()=>window.oldForm?.requestSubmit());await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchQuestion');expect((await saved(page)).responses).toHaveLength(1);
   await expect(page.locator('[data-action="choice"]')).toHaveText(QUESTIONS[1].choices);await page.waitForTimeout(470);await page.locator('[data-action="choice"][data-value="りんご"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
   await expect(page.locator('#transcript')).not.toContainText('ソリ');await page.locator('#word-answer').fill('　ソ リ　');await page.locator('#reply-form button').click();await page.waitForTimeout(2200);await expect(btn(page,'continue_witch')).toBeVisible();await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchResponse');
-  await btn(page,'continue_witch').click();await page.reload();await btn(page,'resume').click();await expect(page.locator('.book')).toHaveAttribute('data-phase','rescue');await page.waitForTimeout(470);await btn(page,'finish').click();
+  await btn(page,'continue_witch').click();await page.reload();await btn(page,'resume').click();await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','rescue');await page.waitForTimeout(470);await page.locator('.rescue-handle').press('End');await btn(page,'finish').click();
   const complete=await saved(page);expect(complete.responses.map(r=>r.correct)).toEqual([true,true,true]);expect(Object.values(complete.boxes).every(b=>!b.opened)).toBe(true);expect(complete.spellSlots).toEqual(Array(6).fill(null));
-  await page.waitForTimeout(470);await btn(page,'read').click();await page.waitForTimeout(470);await btn(page,'read-next').click();await page.reload();await btn(page,'resume').click();await expect(page.locator('.book')).toHaveAttribute('data-phase','complete');expect((await saved(page)).responses).toEqual(complete.responses);
+  await page.waitForTimeout(470);await btn(page,'read').click();await page.waitForTimeout(470);await btn(page,'read-next').click();await page.reload();await btn(page,'resume').click();await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');expect((await saved(page)).responses).toEqual(complete.responses);
 });
 
 test('witch: both branch directions, partial pause/reverse/cancel/resize/reload, tap/keys and one summon',async({page})=>{
@@ -86,7 +86,7 @@ test('witch: legacy already summoned and C success saves do not rewind; reset ca
 
 test('witch: unavailable image/audio/storage still completes the early session',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw Error('disabled');}});window.speechSynthesis=undefined;HTMLMediaElement.prototype.play=function(){return Promise.reject(Error('no playback'));};});
-  await page.route('**/assets/witch/*.png',r=>r.abort());await page.route('**/assets/papers/*.png',r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());
+  await page.route('**/assets/witch/*.png',r=>r.abort());await page.route('**/assets/papers/*.png',r=>r.abort());await page.route('**/assets/rescue/*.png',r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());
   await early(page,false);await expect(page.locator('.witch-art-error')).toBeVisible();await expect(page.locator('#save-status')).toContainText('このまま遊べます');for(let i=0;i<5;i++)await grip(page).click();await page.waitForTimeout(470);await btn(page,'accept').click();await answerAll(page);expect(errors).toEqual([]);
 });
 

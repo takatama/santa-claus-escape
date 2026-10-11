@@ -13,13 +13,15 @@ import { loadRedArt } from './red-box-art.js';
 import { createPaperStage } from './paper-stage.js';
 import { arrangedWord } from './paper-layout.js';
 import { createWitchStage } from './witch-stage.js';
+import { createRescueStage } from './rescue-stage.js';
+import { rescueSceneFor,rescueTimeline,RescueNarration } from './rescue-presentation.js';
 
 const app = document.querySelector('#app');
 let storage; try { storage = window.localStorage; } catch {}
 const loaded = readSave(storage);
 let state = loaded.state || initialState(), resumePending = state.phase !== 'welcome', storageAvailable = loaded.available;
 let readingIndex = null, feedback = '', inputError = false, lastAction = -Infinity;
-let boxStage = null, paperStage = null, witchStage = null, boxNarration;
+let boxStage = null, paperStage = null, witchStage = null, rescueStage = null, boxNarration, rescueNarration;
 let audioStatus = state.muted ? '音声オフ・文字で遊べます' : '開始ボタンで読み上げます';
 const track = new Soundtrack(src=>{const audio=new Audio(src);audio.preload='metadata';document.querySelector('#music-host').replaceChildren(audio);return audio;});
 const voiceTimeline = new AudioTimeline();
@@ -31,31 +33,36 @@ function reportAudioStatus(status) {
     boxStage?.setStatus(status);
     paperStage?.setStatus(status);
     witchStage?.setStatus(status);
+    rescueStage?.setStatus(status);
     const element = document.querySelector('#audio-status'); if (element) element.textContent = status;
     document.querySelector('.santa-device')?.classList.toggle('speaking', status === '読み上げ中');
     if (status !== '読み上げ中') track.quiet();
     if (status === '読み上げが終わりました') boxNarration?.finish();
     else if (/未対応|再生できません/.test(status)) boxNarration?.finish();
+    if(status==='読み上げが終わりました' || /未対応|再生できません/.test(status))rescueNarration?.finish();
 }
 const player = new SpeechPlayer(
   window.speechSynthesis || null,
   'SpeechSynthesisUtterance' in window ? text => new SpeechSynthesisUtterance(text) : null,
   reportAudioStatus,
-  { clips: FULL_AUDIO_CLIPS, resolveClip: resolveAudioClip, resolveTimeline:key=>boxTimeline(key,resolveAudioTimeline), sequencePlayer:voiceTimeline, makeAudio: src => { const audio = new Audio(src); audio.preload = 'auto'; document.querySelector('#audio-host').replaceChildren(audio); return audio; } },
+  { clips: FULL_AUDIO_CLIPS, resolveClip: resolveAudioClip, resolveTimeline:key=>rescueTimeline(key,k=>boxTimeline(k,resolveAudioTimeline)), sequencePlayer:voiceTimeline, makeAudio: src => { const audio = new Audio(src); audio.preload = 'auto'; document.querySelector('#audio-host').replaceChildren(audio); return audio; } },
 );
 boxNarration = new BoxNarrationQueue(playScene, () => { if (boxStage) render(); });
+rescueNarration = new RescueNarration(playScene);
 player.setMuted(state.muted);player.setEffectsEnabled(state.sfxEnabled); track.configure(state);
 audioStatus = state.muted ? '音声オフ・文字で遊べます' : resumePending ? '再開ボタンで読み上げます' : '開始ボタンで読み上げます';
 function save() { storageAvailable = writeSave(storage, state); const label = document.querySelector('#save-status'); if (label) label.textContent = storageAvailable ? 'しおりは、この端末に自動保存' : '保存できません・このまま遊べます'; }
 const currentState = () => readingIndex === null ? state : readingState(state, readingIndex);
-function stop() { boxNarration.clear(); player.stop(); track.stop(); }
+function stop() { boxNarration.clear(); rescueNarration.clear(); player.stop(); track.stop(); }
 function playScene(scene) {
-  if (boxStage && !state.muted) voiceTimeline.prepare();
+  if ((boxStage || rescueStage) && !state.muted) voiceTimeline.prepare();
   track.configure(state); track.begin(scene.bgm); player.setEffectsEnabled(state.sfxEnabled); player.play(spokenSegments(scene), scene.key);
 }
 function speak() {
   if (resumePending) return;
   boxNarration.clear();
+  if(rescueStage && readingIndex===null)return rescueNarration.start(currentState());
+  rescueNarration.clear();
   const scene = boxStage ? boxSceneFor(currentState()) : sceneFor(currentState());
   if (boxStage && !state.muted) boxNarration.enqueue(scene); else playScene(scene);
 }
@@ -101,10 +108,13 @@ function render(focus = false, scroll = false) {
   const cover = resumePending || view.phase === 'welcome';
   const illustrated = !cover && !reading && BOX_PRESENTATIONS[view.selectedBox] && ['box','boxResponse'].includes(view.phase);
   const illustratedPapers = !cover && !reading && ((view.phase === 'spell' && papers(view).length === 6) || (view.phase === 'witchInvite' && view.spellReview));
+  const illustratedRescue = !cover && ['rescue','complete'].includes(view.phase);
   const illustratedWitch = !cover && !reading && view.phase.startsWith('witch') && !view.spellReview;
   document.body.classList.toggle('box-playing', illustrated);
   document.body.classList.toggle('paper-playing', illustratedPapers);
   document.body.classList.toggle('witch-playing', illustratedWitch);
+  document.body.classList.toggle('rescue-playing', illustratedRescue);
+  if(!illustratedRescue){rescueStage?.destroy();rescueStage=null;}
   if (!illustratedPapers) { paperStage?.destroy(); paperStage = null; }
   if (!illustratedWitch) { witchStage?.destroy(); witchStage = null; }
   if (illustrated) {
@@ -130,6 +140,23 @@ function render(focus = false, scroll = false) {
     return;
   }
   boxStage?.destroy(); boxStage = null;
+  if (illustratedRescue) {
+    if(!rescueStage) {
+      rescueStage=createRescueStage({getState:()=>state,onProgress:value=>{
+        const next=transition(state,{type:'RESCUE_PROGRESS',value});if(next===state)return;
+        const released=!state.rescueMotion.released && next.rescueMotion.released;
+        if(!state.muted)voiceTimeline.prepare();
+        state=next;save();render();
+        if(released)rescueNarration.release(state);
+      }});
+      app.replaceChildren(rescueStage.element);
+    }
+    const navigation=reading?`<nav class="reading-nav" aria-label="読み返すページ">${button('read-prev','前のページ','secondary',readingIndex===0?'disabled':'')}<span>${readingIndex+1} / ${state.history.length}</span>${button('read-next','次のページ','secondary',readingIndex===state.history.length-1?'disabled':'')}</nav>${button('read-exit','読み返しを終える','text-button')}`:'';
+    rescueStage.update(view,{settings:toolbar(true,false)+soundSettings(),dialogue:transcriptContent(rescueSceneFor(view)),status:audioStatus,saved:storageAvailable,reading,navigation});
+    document.querySelector('#bgm-volume').oninput=e=>{state=transition(state,{type:'BGM_VOLUME',value:Number(e.target.value)});track.setVolume(state.bgmVolume);save();document.querySelector('#bgm-volume-value').textContent=`${state.bgmVolume}%`;e.target.setAttribute('aria-valuetext',`${state.bgmVolume}%`);};
+    if(focus)document.querySelector('#screen-heading').focus({preventScroll:true});
+    return;
+  }
   if (illustratedWitch) {
     if (!witchStage) {
       witchStage = createWitchStage({
@@ -222,6 +249,8 @@ function apply(event) {
   const next = transition(state, event); if (next === state) return;
   const sequenceBox = boxStage && ['EXAMINE','INFORMATION','ANSWER','OPEN_LID','CLOSE_LID','LID'].includes(event.type);
   state = next; feedback = ''; inputError = false; save();
+  // FINISH records the read ending on the same stage; it cannot cut off its voice.
+  if(event.type==='FINISH'){lastAction=-Infinity;render();document.querySelector('#transcript').focus({preventScroll:true});return;}
   // Paper acknowledgment only changes presentation. Appearance audio begins
   // once when the branches first open fully; there is no second acknowledgment.
   if (event.type==='CONTINUE_SPELL') { render(true,true); return; }
@@ -268,7 +297,7 @@ app.addEventListener('click', event => {
   }
   if (['mute', 'bgm', 'sfx', 'transcript'].includes(action)) {
     state = transition(state, { type: action.toUpperCase() }); save();
-    if (action === 'mute') { boxNarration.clear(); player.setMuted(state.muted); track.configure(state); }
+    if (action === 'mute') { boxNarration.clear(); rescueNarration.clear(); player.setMuted(state.muted); track.configure(state); }
     if (['bgm', 'sfx'].includes(action)) track.configure(state);
     if(action==='bgm'&&state.bgmEnabled&&!state.muted&&audioStatus==='読み上げ中')track.begin(sceneFor(currentState()).bgm);
     if(action==='sfx')player.setEffectsEnabled(state.sfxEnabled);
@@ -280,6 +309,7 @@ app.addEventListener('click', event => {
   }
   if (action === 'mode') { state = transition(state, { type: 'MODE' }); feedback = ''; inputError = false; save(); render(); return; }
   if (action==='continue_spell') return apply({type:'CONTINUE_SPELL',revision:Number(target.dataset.revision)});
+  if(action==='finish' && readingIndex===null)return apply({type:'FINISH',revision:Number(target.dataset.revision)});
   if (performance.now() - lastAction < 450) return; lastAction = performance.now();
   if (action === 'resume') {
     resumePending = false;

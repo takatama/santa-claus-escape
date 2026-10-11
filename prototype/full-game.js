@@ -7,7 +7,7 @@ export const normalizeDigits = raw => String(raw).normalize('NFKC').replace(/[\s
 export const normalizeWord = raw => normalizeDigits(raw).replace(/[ァ-ヶ]/gu, c => String.fromCharCode(c.charCodeAt(0) - 0x60)).toLowerCase();
 export function matchesWord(raw, aliases) { return aliases.some(alias => normalizeWord(raw) === normalizeWord(alias)); }
 export function initialState(muted = false) {
-  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '', lidOpen:false }])), spellDraft: '', spellSlots: emptySlots(), spellReview: false, witchDiscovery: null, questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, bgmVolume: DEFAULT_BGM_VOLUME, sfxEnabled: true, transcriptOpen: true, history: [] };
+  return { version: 2, phase: 'welcome', revision: 0, selectedBox: null, boxMessage: '', boxes: Object.fromEntries(COLORS.map(c => [c, { exam: 0, opened: false, draft: '', dial: '0000', inputMode: 'dial', lastSubmitted: '', lidOpen:false }])), spellDraft: '', spellSlots: emptySlots(), spellReview: false, witchDiscovery: null, rescueMotion: undefined, questionIndex: 0, questionDraft: '', responses: [], reinvited: false, muted, bgmEnabled: true, bgmVolume: DEFAULT_BGM_VOLUME, sfxEnabled: true, transcriptOpen: true, history: [] };
 }
 export function validateDigits(raw, color) {
   const digits = normalizeDigits(raw);
@@ -90,13 +90,17 @@ export function transition(state, event) {
     if (event.questionId !== q.id || !normalizeWord(input) || (q.kind === 'choice' && !q.choices.includes(input))) return state;
     next = { ...state, phase: 'witchResponse', responses: [...state.responses, { id: q.id, input: input.slice(0, 64), correct: matchesWord(input, q.aliases) }] };
   }
-  if (event.type === 'CONTINUE_WITCH' && state.phase === 'witchResponse' && (event.questionId === undefined || event.questionId === QUESTIONS[state.questionIndex].id)) next = state.questionIndex === 2 ? { ...state, phase: 'rescue' } : { ...state, phase: 'witchQuestion', questionIndex: state.questionIndex + 1, questionDraft: '' };
-  if (event.type === 'FINISH' && state.phase === 'rescue') next = { ...state, phase: 'complete' };
+  if (event.type === 'CONTINUE_WITCH' && state.phase === 'witchResponse' && (event.questionId === undefined || event.questionId === QUESTIONS[state.questionIndex].id)) next = state.questionIndex === 2 ? { ...state, phase: 'rescue', rescueMotion:{progress:0,released:false} } : { ...state, phase: 'witchQuestion', questionIndex: state.questionIndex + 1, questionDraft: '' };
+  if (event.type === 'RESCUE_PROGRESS' && state.phase === 'rescue' && state.rescueMotion?.released===false && Number.isFinite(event.value) && event.value>=0 && event.value<=1) {
+    if(event.value===state.rescueMotion.progress)return state;
+    return {...state,rescueMotion:{progress:event.value,released:event.value===1},revision:state.revision+1};
+  }
+  if (event.type === 'FINISH' && state.phase === 'rescue' && state.rescueMotion?.released!==false) next = { ...state, phase: 'complete',rescueMotion:{progress:1,released:true} };
   return next ? remember({ ...next, revision: state.revision + 1 }) : state;
 }
 export function readingState(state, index) {
   const entry = state.history[index]; if (!entry) return state;
-  return { ...state, phase: entry.phase, selectedBox: entry.box, boxMessage: entry.message, questionIndex: entry.questionIndex, reinvited: entry.reinvited, boxes: Object.fromEntries(COLORS.map(c => [c, { ...state.boxes[c], opened: entry.opened.includes(c), ...(entry.box === c ? { exam: entry.exam, lastSubmitted: entry.digits } : {}) }])) };
+  return { ...state, phase: entry.phase, rescueMotion:['rescue','complete'].includes(entry.phase)?{progress:1,released:true}:undefined, selectedBox: entry.box, boxMessage: entry.message, questionIndex: entry.questionIndex, reinvited: entry.reinvited, boxes: Object.fromEntries(COLORS.map(c => [c, { ...state.boxes[c], opened: entry.opened.includes(c), ...(entry.box === c ? { exam: entry.exam, lastSubmitted: entry.digits } : {}) }])) };
 }
 const phases = ['welcome', 'intro', 'boxes', 'box', 'boxResponse', 'spell', 'witchInvite', 'witchPaused', 'witchQuestion', 'witchResponse', 'rescue', 'complete'];
 export function restoreState(raw) {
@@ -148,7 +152,12 @@ export function restoreState(raw) {
   // appeared:false saves may start it on their first completed branch opening.
   const appeared = !pending || progress>=.98 || raw.witchDiscovery?.appeared !== false;
   const witchDiscovery = summoned ? {progress,pending,appeared} : null;
-  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), spellSlots, spellReview:false, witchDiscovery, questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
+  // Missing/invalid optional data belongs to a reached legacy rescue, which
+  // already displayed the ending. Never require that reader to rescue again.
+  const motion=raw.rescueMotion;
+  const validMotion=motion && Number.isFinite(motion.progress) && motion.progress>=0 && motion.progress<=1 && typeof motion.released==='boolean' && motion.released===(motion.progress===1);
+  const rescueMotion=['rescue','complete'].includes(raw.phase)?(raw.phase==='rescue'&&validMotion?{progress:motion.progress,released:motion.released}:{progress:1,released:true}):undefined;
+  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), spellSlots, spellReview:false, witchDiscovery, rescueMotion, questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
 }
 export function readSave(storage) {
   try {

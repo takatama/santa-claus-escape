@@ -20,7 +20,7 @@ test('三箱の全六順序で開封・保存・紙の取得・最後まで実�
     assert.equal(s.phase,'spell');assert.equal(papers(s).length,6);assert.equal(papers(s).filter(p=>p.text==='だ').length,2);assert.equal(new Set(papers(s).map(p=>p.id)).size,6);
     s=summon(s);assert.equal(s.phase,'witchInvite');s=send(s,'ACCEPT');
     for(let i=0;i<3;i++){const input=i===1?'太陽':'わからない';s=send(s,'REPLY',{value:input,questionId:QUESTIONS[i].id});assert.equal(s.phase,'witchResponse');const duplicate=send(s,'REPLY',{value:input,questionId:QUESTIONS[i].id});assert.strictEqual(duplicate,s);assert.ok(restoreState(s));s=send(s,'CONTINUE_WITCH');}
-    assert.equal(s.phase,'rescue');assert.ok(s.responses.every(r=>!r.correct));s=send(s,'FINISH');assert.equal(s.phase,'complete');assert.ok(restoreState(s));
+    assert.equal(s.phase,'rescue');assert.ok(s.responses.every(r=>!r.correct));s=send(send(s,'RESCUE_PROGRESS',{value:1}),'FINISH');assert.equal(s.phase,'complete');assert.ok(restoreState(s));
     for(let i=0;i<s.history.length;i++)assert.ok(sceneFor(readingState(s,i)).segments?.length);
     const before=JSON.stringify(s);readingState(s,0);assert.equal(JSON.stringify(s),before);
   }
