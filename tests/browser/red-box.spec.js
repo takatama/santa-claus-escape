@@ -332,5 +332,5 @@ test('main regression: all boxes, decline and recall, three wrong answers and or
   await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button[type="submit"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
   await page.waitForTimeout(470);await page.locator('[data-action="choice"][data-value="トナカイの鼻"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
   await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button[type="submit"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
-  await page.locator('.rescue-handle').press('End');await expect(page.locator('#transcript')).toContainText('クリスマスの夜を楽しみにしていてくれ');await page.waitForTimeout(470);await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');
+  await expect(page.locator('.rescue-handle')).toBeVisible();await page.locator('.rescue-handle').press('End');await expect(page.locator('#transcript')).toContainText('クリスマスの夜を楽しみにしていてくれ');await page.waitForTimeout(470);await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');
 });
