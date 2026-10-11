@@ -25,6 +25,9 @@ test('finale: release shows one uncropped illustration at seven sizes; resume an
     for(const action of ['read-prev','read-next','read-exit']){const r=await btn(page,action).boundingBox();expect(r.height).toBeGreaterThanOrEqual(44);expect(r.y).toBeGreaterThanOrEqual(0);expect(r.y+r.height).toBeLessThanOrEqual(height-44);expect(r.x+r.width).toBeLessThanOrEqual(width);}
     expect(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight&&document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await saved(page)).toEqual(before);if(width===390||width===568)await page.screenshot({path:`test-results/finale/reading-last-${width}x${height}.png`});
   }
+  // Minimum targets must survive smaller font metrics than Windows Japanese fonts.
+  await page.addStyleTag({content:'.rescue-stage .reading-nav button{line-height:1}'});
+  await page.setViewportSize({width:390,height:844});for(const action of ['read-prev','read-next'])expect((await btn(page,action).boundingBox()).height).toBeGreaterThanOrEqual(44);
   await page.waitForTimeout(470);await btn(page,'read-exit').click();await expect(finale(page)).toBeVisible();expect(await saved(page)).toEqual(before);
 });
 

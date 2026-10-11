@@ -38,7 +38,8 @@ await mkdir(output,{recursive:true});
 await mkdir(provenance,{recursive:true});
 for (const job of selected) {
   const file = new URL(`${job.id}.wav`,output);
-  try { await stat(file); console.log(JSON.stringify({id:job.id,cached:true})); continue; } catch {}
+  const maxOutputTokens = mode==='--answers' || job.id==='ja-branch-discovery' ? 512 : 4096;
+  try { await stat(file); console.log(JSON.stringify({id:job.id,cached:true,maxOutputTokens})); continue; } catch {}
   // 語り手と魔法使いは同じ声を、台詞ごとの演技指定で使い分ける。API上は二話者。
   const audioSpeaker = speaker => speaker === 'witch' ? 'narrator' : speaker;
   const multiple = new Set(job.segments.map(s=>audioSpeaker(s.speaker))).size > 1;
@@ -48,7 +49,6 @@ for (const job of selected) {
     text:segment.text.replace(/\d{4}/g,digits=>digits.split('').join('、')),
     annotations:[{type:'speech_metadata',...(multiple?{speaker:audioSpeaker(segment.speaker)}:{}),style:styles[segment.speaker]}],
   }));
-  const maxOutputTokens = mode==='--answers' || requestedId ? 512 : 4096;
   const body = {model:MODEL,store:false,input:[{type:'user_input',content}],response_format:{type:'audio'},generation_config:{speech_config:config,max_output_tokens:maxOutputTokens}};
   const started = Date.now();
   const response = await fetch('https://generativelanguage.googleapis.com/v1beta/interactions',{
