@@ -26,7 +26,7 @@ test('finale: release shows one uncropped illustration at seven sizes; resume an
     expect(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight&&document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await saved(page)).toEqual(before);if(width===390||width===568)await page.screenshot({path:`test-results/finale/reading-last-${width}x${height}.png`});
   }
   // Minimum targets must survive smaller font metrics than Windows Japanese fonts.
-  await page.addStyleTag({content:'.rescue-stage .reading-nav button{line-height:1}'});
+  await page.evaluate(()=>{const sheet=[...document.styleSheets].find(s=>s.href?.endsWith('/rescue-stage.css'));sheet.insertRule('.rescue-stage .reading-nav button{line-height:1}',sheet.cssRules.length);});
   await page.setViewportSize({width:390,height:844});for(const action of ['read-prev','read-next'])expect((await btn(page,action).boundingBox()).height).toBeGreaterThanOrEqual(44);
   await page.waitForTimeout(470);await btn(page,'read-exit').click();await expect(finale(page)).toBeVisible();expect(await saved(page)).toEqual(before);
 });
