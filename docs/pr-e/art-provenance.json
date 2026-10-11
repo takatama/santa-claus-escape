@@ -1,0 +1,58 @@
+{
+  "ref": "aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c",
+  "files": [
+    {
+      "source": "illustrated-prototype/rescue/assets/empty-globe.png",
+      "target": "prototype/assets/rescue/empty-globe.png",
+      "bytes": 1850031,
+      "sha256": "a88655fa67bab6c168ecd56507faa408fd1fed8056bc99d76677b1109392e2fd",
+      "originalByteEquality": true
+    },
+    {
+      "source": "illustrated-prototype/rescue/assets/santa.png",
+      "target": "prototype/assets/rescue/santa.png",
+      "bytes": 1596665,
+      "sha256": "13389855422bf5f637ab58d6dc0dede672664c1b09b0a653cdd3223dd5736be3",
+      "originalByteEquality": true
+    }
+  ],
+  "reusedWithoutCopy": [
+    "prototype/assets/papers/forest-clean.png",
+    "prototype/assets/papers/globe.png",
+    "prototype/assets/witch/branch.png",
+    "prototype/assets/witch/wizard-feet-v2.png"
+  ],
+  "codeReference": [
+    "illustrated-prototype/rescue/rescue-math.js",
+    "illustrated-prototype/rescue/main.js"
+  ],
+  "newGeneration": true,
+  "generatedEdits": [
+    {
+      "date": "2026-10-11",
+      "mode": "built-in image_gen edit",
+      "useCase": "precise-object-edit",
+      "authorization": "User explicitly requested Image to remove only Santa from the original globe, retaining an empty snow globe.",
+      "source": "prototype/assets/papers/globe.png",
+      "sourceSha256": "d36289fce83a2c9306136ca693dc9e61bff273f2dc603aded8e0d8b972381f45",
+      "target": "prototype/assets/rescue/empty-globe-original-v2.png",
+      "bytes": 1840840,
+      "sha256": "bd39cf15d4e9a1d98c58febb3ca12c3ecf884c06cdc3b288c05ed2c53db1dca0",
+      "width": 1312,
+      "height": 1199,
+      "transparentBackground": true,
+      "originalByteEquality": false,
+      "prompt": "Edit the supplied original illustrated snow globe asset. Make one precise change: remove Santa Claus completely from inside the globe. Remove his hat, face, beard, both arms and hands, red coat, belt, legs, boots, all red fragments and Santa-specific shadows. Seamlessly reconstruct the background that Santa was hiding: continuous pale blue-gray wintry sky, delicate snowflakes and small golden stars, and the snowy ground, using the exact existing illustration style and colors. Preserve all existing snowy evergreen trees, the entire round glass globe, its outline, glass reflections, sparkling rim and highlights, snow mound, and the dark brown wooden circular base. Preserve the exact original framing, canvas size, globe position, proportions, perspective, and outer silhouette. Do not enlarge, crop, rotate, redesign, relight, change the background palette, add objects or characters, or leave a blank silhouette where Santa was. Keep the interior blue-gray sky as part of the glass globe illustration; the only transparent area must be outside the original snow globe and wooden base silhouette. Deliver a clean complete empty snow globe PNG with genuine alpha transparency outside the object. The result must look like this same original globe was always empty, with no patches, seams, leftover Santa fragments, or halos.",
+      "review": "Santa removed; continuous sky/snow, glass, trees and wooden base retained in the illustration. Actual alpha verified. Whole edited image used directly; no old sky patch or Santa-shaped mask. Generator changed some pixels outside the removed figure; pixel-identical glass/base preservation is not claimed."
+    }
+  ],
+  "runtimeComposition": {
+    "beforeEntryGlowPeak": "prototype/assets/papers/globe.png",
+    "atRest": "prototype/assets/rescue/empty-globe-original-v2.png plus one opaque prototype/assets/rescue/santa.png",
+    "duringAndAfterRelease": "prototype/assets/rescue/empty-globe-original-v2.png plus one opaque prototype/assets/rescue/santa.png",
+    "reveal": "Switch under the bright entry glow before the grip appears, at progress zero. Resume, reduced motion and reverse to zero retain the same composition. Assets preload during the questions; unavailable art retains the existing playable fallback.",
+    "patchOrSantaMask": false,
+    "originalFilesModified": false,
+    "unusedReferenceRetained": "prototype/assets/rescue/empty-globe.png"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "id": "storybook-paused",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-11T12:27:45.642Z",
+  "voices": {
+    "witch": "Leda",
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "あら、ざんねん。せっかくあそぶ相手が見つかったと思ったのに。じゃ、サンタはこのままね。あそびたくなったら、ひみつの言葉で私をよんでね"
+    },
+    {
+      "speaker": "santa",
+      "text": "まったく、まほう使いのやつめ。きみがたすけにきてくれるのを心待ちにしておるぞ"
+    },
+    {
+      "speaker": "narrator",
+      "text": "サンタさんは、まだガラスの中です。サンタの脱出でした。また会いに来てくださいね。"
+    }
+  ],
+  "derivedFrom": [
+    {
+      "id": "ja-leda-paused-part-0",
+      "file": "qa/fairy-production/ja-leda-paused-part-0.wav",
+      "sha256": "2b4522c0887d49a5db9f94321af3b60bab30c8c283568ba315b9da8dee63b9b3",
+      "startFrame": 0,
+      "endFrame": 494400
+    },
+    {
+      "id": "storybook-paused-narration",
+      "file": "assets/audio/storybook-paused-narration.wav",
+      "sha256": "9671e32d0252e15034ef7d43a0ace12dca5ccfa028a900c00c1d7546788cd21b",
+      "startFrame": 0,
+      "endFrame": 189120
+    }
+  ],
+  "processing": {
+    "type": "concatenate PCM",
+    "gapSeconds": 0.28,
+    "guardSeconds": 0.08,
+    "quietThreshold": 0.001007080078125,
+    "pitchChange": false,
+    "speedChange": false,
+    "gainChange": false,
+    "c2pa": "retained in raw sources; not copied to derived WAV"
+  },
+  "bytes": 1380524,
+  "sha256": "bd719e63f9f2c614a62fbc6fe2ea52c95672e04df92c16bdec119f13e47ccdb9",
+  "usage": null
+}

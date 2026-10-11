@@ -1,10 +1,10 @@
 // 順番の修正に必要な短い発話区間だけを制作。既存録音は上書きしない。
 import { readFile,writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { TIMED_VOICE_SEGMENTS } from '../timed-audio.js';
+import { TIMED_VOICE_SEGMENTS,timedVoiceId } from '../timed-audio.js';
 import { MODEL,VOICES,VOICE_STYLES } from './fairy-production-plan.mjs';
 const root=new URL('../',import.meta.url),hash=bytes=>createHash('sha256').update(bytes).digest('hex');
-const jobs=Object.entries(TIMED_VOICE_SEGMENTS).map(([key,segment])=>({id:key.startsWith('remaining-')?`ja-${key}`:`cue-${key}`,segment}));
+const jobs=Object.entries(TIMED_VOICE_SEGMENTS).map(([key,segment])=>({id:timedVoiceId(key),segment}));
 if(process.argv[2]==='--plan'){console.log(JSON.stringify({model:MODEL,jobs:jobs.map(({id,segment})=>({id,...segment,voice:VOICES[segment.speaker]})),requests:jobs.length,characters:jobs.reduce((n,j)=>n+j.segment.text.length,0),maxOutputTokensPerRequest:512,paidTierReferenceCeilingUsd:(jobs.length*(8192*.5+512*9))/1e6}));process.exit(0);}
 if(process.argv[2]!=='--generate')throw Error('Use --plan or --generate');
 if(!process.env.GEMINI_API_KEY)throw Error('GEMINI_API_KEY is not configured');

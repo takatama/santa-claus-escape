@@ -1,5 +1,5 @@
 // 制作時専用。採用されたAの声・演技を固定し、原作の場面を二話者以内に分ける。
-import { productionScenes } from '../full-scenario.js';
+import { originalProductionScenes as productionScenes } from '../full-scenario.js';
 export const MODEL='gemini-3.8-flash-tts';
 export const VOICES=Object.freeze({witch:'Leda',narrator:'Sulafat',santa:'Algieba'});
 const fairyStyle='日本語の絵本に登場する、子どもっぽく無邪気で、少しいたずら好きな妖精。年配の魔女や大人のナレーターの声ではなく、小さく若々しい、自然な高めの声。怖がらせず、甘えたい気持ちをにじませる。聞き取りやすい普通の会話の速さ。極端な裏声、叫び声、赤ちゃん言葉にはしない。台詞を一字も変えず、挨拶、説明、効果音、謎の答えを付け足さない。明るく素直な子どものように。軽い声で、遊び相手が見つかったうれしさを自然に表す。';

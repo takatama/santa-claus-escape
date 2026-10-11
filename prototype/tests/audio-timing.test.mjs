@@ -2,16 +2,24 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { resolveAudioTimeline,TIMED_VOICE_SEGMENTS } from '../timed-audio.js';
+import { resolveAudioTimeline,TIMED_VOICE_SEGMENTS,timedVoiceId } from '../timed-audio.js';
 import { AudioTimeline,compileTimeline } from '../audio-timeline.js';
 import { initialState,transition,restoreState,readingState } from '../full-game.js';
 import { sceneFor,BOXES,COLORS } from '../full-scenario.js';
 import { SpeechPlayer } from '../speech.js';
+import { resolveAudioClip } from '../full-audio.js';
 const tick=()=>new Promise(resolve=>setTimeout(resolve,0));
 function buffer(rate,length,channels=1){const tracks=Array.from({length:channels},()=>new Float32Array(length));return {sampleRate:rate,length,numberOfChannels:channels,getChannelData:channel=>tracks[channel]};}
 function context(){
   const sources=[],c={sampleRate:1000,currentTime:2,sources,resume(){this.resumed=true;return Promise.resolve();},createBuffer:(channels,length,rate)=>buffer(rate,length,channels),destination:{},createGain:()=>({gain:{value:1},connect(){},disconnect(){}}),decodeAudioData:()=>{const b=buffer(1000,300);b.getChannelData(0).fill(.2,60,240);return Promise.resolve(b);},createBufferSource(){const s={connect(){},disconnect(){},start(at){this.at=at;},stop(){this.stopped=true;}};sources.push(s);return s;}};return c;
 }
+test('枝の案内は指定の一文と既存のSulafatで収録し、登場後・読み返しは原作の誘いへ接続する',async()=>{
+  let s=transition(transition(initialState(),{type:'START'}),{type:'BOXES'});s=transition(s,{type:'DRAFT',field:'spell',value:'だいすきだよ'});s=transition(s,{type:'SPELL'});
+  const scene=sceneFor(s);assert.equal(scene.key,'branch-discovery');assert.equal(scene.effect,undefined);assert.deepEqual(scene.segments,[{speaker:'narrator',text:'枝の向こうに誰かがいるようです。'}]);assert.equal(resolveAudioTimeline(scene.key),null);
+  const clip=resolveAudioClip(scene.key);assert.equal(clip,'./assets/audio/ja-branch-discovery.wav');const bytes=await readFile(new URL(`../${clip.slice(2)}`,import.meta.url)),meta=JSON.parse(await readFile(new URL('../reference/audio-generation/ja-branch-discovery.json',import.meta.url),'utf8'));
+  assert.deepEqual(meta.segments,scene.segments);assert.equal(meta.voices.narrator,'Sulafat');assert.equal(meta.model,'gemini-3.8-flash-tts');assert.equal(createHash('sha256').update(bytes).digest('hex'),meta.sha256);assert.ok(meta.usage.total_output_tokens<meta.maxOutputTokens);
+  s=transition(s,{type:'DISCOVERY_PROGRESS',value:1});assert.equal(sceneFor(s).key,'invite');s=transition(s,{type:'DISCOVERY_PROGRESS',value:0});assert.equal(sceneFor(s).key,'invite');assert.equal(sceneFor(restoreState(s)).key,'invite');assert.equal(sceneFor(readingState(s,s.history.length-1)).key,'invite');
+});
 test('三箱の正解は数字確認の後に解錠・開箱宣言・正解音、不正解は閉じた台詞の後に鳴る',()=>{
   for(const color of COLORS){
     const steps=resolveAudioTimeline(`${color}-open`);
@@ -22,7 +30,7 @@ test('三箱の正解は数字確認の後に解錠・開箱宣言・正解音�
     assert.equal(steps[5].sources[0],`./assets/audio/cue-box-${color}-opened.wav`);assert.ok(steps[6].src.endsWith('magic-cure2.mp3'));assert.ok(steps[7].sources[0].endsWith(`cue-box-${color}-paper.wav`));
     const wrong=resolveAudioTimeline(`${color}-wrong-0000`);assert.ok(wrong[0].src.endsWith('dial.mp3'));assert.equal(wrong.at(-2).sources[0],'./assets/audio/answer-closed.wav');assert.ok(wrong.at(-1).src.endsWith('stupid3.mp3'));
   }
-  const rescue=resolveAudioTimeline('rescue');assert.ok(rescue[0].sources[0].endsWith('cue-rescue-fairy-first.wav'));assert.equal(rescue[1].seconds,.5);assert.ok(rescue[2].src.endsWith('shine3.mp3'));assert.ok(rescue[3].sources[0].endsWith('cue-rescue-appeared.wav'));assert.ok(rescue[5].sources[0].endsWith('rescue-dialogue.wav'));
+  const rescue=resolveAudioTimeline('rescue');assert.ok(rescue[0].sources[0].endsWith('cue-rescue-fairy-first.wav'));assert.equal(rescue[1].seconds,.5);assert.ok(rescue[2].src.endsWith('shine3.mp3'));assert.ok(rescue[3].sources[0].endsWith('storybook-rescue-appeared.wav'));assert.ok(rescue[5].sources[0].endsWith('rescue-dialogue.wav'));
 });
 test('効果音と声は同じ時計で順番どおりに並び、左右チャンネルと音量を保つ',()=>{
   const c=context(),a=buffer(1000,100),effect=buffer(1000,200,2),b=buffer(1000,50);a.getChannelData(0).fill(.2);effect.getChannelData(1).fill(.8);b.getChannelData(0).fill(.4);
@@ -64,7 +72,7 @@ test('箱を開けた後は全六順序で残りだけを案内し、再開と�
 });
 test('発話区間の新しい音声が原作と案内文に一致し、救出の長い会話は原音を再利用する',async()=>{
   for(const [key,segment] of Object.entries(TIMED_VOICE_SEGMENTS)){
-    const id=key.startsWith('remaining-')?`ja-${key}`:`cue-${key}`,meta=JSON.parse(await readFile(new URL(`../reference/audio-generation/${id}.json`,import.meta.url),'utf8')),bytes=await readFile(new URL(`../assets/audio/${id}.wav`,import.meta.url));
+    const id=timedVoiceId(key),meta=JSON.parse(await readFile(new URL(`../reference/audio-generation/${id}.json`,import.meta.url),'utf8')),bytes=await readFile(new URL(`../assets/audio/${id}.wav`,import.meta.url));
     assert.deepEqual(meta.segments,[segment]);assert.equal(meta.voices[segment.speaker],segment.speaker==='witch'?'Leda':'Sulafat');assert.equal(createHash('sha256').update(bytes).digest('hex'),meta.sha256);
   }
   for(const [id,source] of [['rescue-dialogue','ja-leda-rescue-part-1'],['rescue-ending','ja-leda-rescue-part-2']]){

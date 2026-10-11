@@ -1,0 +1,32 @@
+body.rescue-playing{background:#102031}
+.rescue-playing .site-header,.rescue-playing .site-footer{display:none}
+.rescue-playing #app{width:100%;max-width:none;margin:0;padding:0}
+.rescue-stage{height:100svh;min-height:320px;display:grid;grid-template-rows:48px minmax(0,1fr) 44px;color:#f7e7c8;background:#122233;font-family:'Yu Gothic',Meiryo,sans-serif}
+.rescue-stage [hidden]{display:none!important}
+.rescue-stage button,.rescue-stage summary{min-height:44px;font:inherit;cursor:pointer}
+.rescue-stage button:focus-visible,.rescue-stage summary:focus-visible{outline:3px solid #ffe1a2;outline-offset:2px}
+.rescue-content{min-height:0;display:grid;grid-template-rows:minmax(0,1fr) clamp(110px,21svh,180px)}
+.rescue-play{min-width:0;min-height:0;display:grid;grid-template-rows:minmax(0,1fr) 184px}
+.rescue-picture{position:relative;min-height:0;overflow:hidden}
+.rescue-picture canvas{display:block;width:100%;height:100%;pointer-events:none}
+.rescue-finale{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain;background:#122233;pointer-events:none}
+.rescue-handle{position:absolute;transform:translate(-50%,-50%);width:60px;height:60px;border:2px solid #f0cb85;border-radius:24px;background:linear-gradient(#344e63,#142c41);box-shadow:0 4px 0 #071b2a,0 7px 14px #0006;color:#ffdf9c;font-size:30px!important;touch-action:none;user-select:none;cursor:grab!important}
+.rescue-dragging .rescue-handle{cursor:grabbing!important}
+.rescue-actions{min-height:0;padding:6px 12px 10px;background:linear-gradient(#173048,#122233);display:flex;flex-direction:column;align-items:center;gap:8px}
+.rescue-actions p{margin:0;font-size:16px;line-height:22px}
+.rescue-actions .primary,.rescue-actions .secondary{width:min(520px,100%);border-radius:10px;padding:6px 12px;font-size:18px}
+.rescue-actions .primary{min-height:48px;color:#32200d;background:linear-gradient(#ffe4a7,#d5ad69);border:1px solid #edca89;box-shadow:0 4px 0 #80592e,0 6px 10px #0005}
+.rescue-actions .primary:active{transform:translateY(3px);box-shadow:0 1px 0 #80592e}
+.rescue-actions .secondary{color:#f7e7c8;background:linear-gradient(#675538,#4c402e);border:1px solid #b69458}
+.rescue-art-error{position:absolute;top:6px;left:10px;right:10px;margin:0;padding:8px;background:#122233dc;color:#ffdf9c;font-size:14px;pointer-events:none}
+.rescue-stage .box-voice,.rescue-stage .box-dialogue-mute{white-space:nowrap}
+.rescue-stage .box-voice-icon{flex-shrink:0}
+.reading-nav-host{width:100%;text-align:center}.reading-nav-host .reading-nav{margin:0;display:flex;align-items:center;justify-content:center;gap:8px}
+.rescue-stage .reading-nav button{min-height:44px}
+.rescue-stage[data-reading="true"] .rescue-play{grid-template-rows:minmax(0,1fr) auto}
+@media(min-width:840px) and (min-aspect-ratio:6/5),(orientation:landscape) and (max-height:500px){.rescue-content{grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr) clamp(180px,26vw,320px)}.rescue-stage .box-dialogue{border-top:0;border-left:1px solid #b99a65}.rescue-play{grid-template-rows:minmax(0,1fr) 152px}}
+@media(orientation:landscape) and (max-height:500px){.rescue-stage{grid-template-rows:44px minmax(0,1fr) 44px}.rescue-play{grid-template-rows:minmax(0,1fr) 120px}.rescue-actions{padding:2px 8px 8px;gap:4px}.rescue-actions .secondary{min-height:44px}.rescue-stage .box-dialogue header{padding-inline:8px;gap:6px;flex-basis:36px}.rescue-stage .box-dialogue-scroll{font-size:16px}.rescue-stage .box-voice>span:last-child{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.rescue-stage .box-voice-icon svg{width:20px}.rescue-stage .box-voice-bars{gap:2px}.rescue-stage .box-voice-bars i{width:3px}}
+@media(prefers-reduced-motion:reduce){.rescue-stage *,.rescue-stage *::before,.rescue-stage *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+@media(orientation:landscape) and (max-height:500px){.rescue-stage[data-phase="complete"] .rescue-actions:has([data-action="read"]:not([hidden])){display:grid;grid-template-columns:1fr 1fr;align-content:start}.rescue-stage[data-phase="complete"] .rescue-caption{grid-column:1/-1}.rescue-stage[data-phase="complete"] .rescue-actions button{font-size:16px;padding-inline:6px}}
+@media(orientation:landscape) and (max-height:500px){.rescue-stage[data-phase="complete"] .rescue-play{grid-template-rows:minmax(0,1fr) auto}.rescue-stage[data-reading="true"] .rescue-caption{display:none}}

@@ -1,8 +1,10 @@
 import { AUDIO_CLIPS } from './audio.js';
 import { productionScenes } from './full-scenario.js';
+import { STORYBOOK_AUDIO_IDS } from './storybook-content.js';
 export const FULL_AUDIO_CLIPS = Object.freeze({
   ...Object.fromEntries(Object.entries(productionScenes()).map(([key,segments])=>[key, `./assets/audio/${segments.some(s=>s.speaker==='witch')?'ja-leda':'ja'}-${key}.wav`])),
   ...Object.fromEntries(['intro','help','red1','red2','red3','red4'].map(key=>[key,AUDIO_CLIPS[key]])),
+  ...Object.fromEntries(Object.entries(STORYBOOK_AUDIO_IDS).filter(([key])=>key!=='rescue-appeared').map(([key,id])=>[key,`./assets/audio/${id}.wav`])),
 });
 // 原作の任意の四桁を、同じ語り手の事前収録音声で読む。
 export const ANSWER_AUDIO_SEGMENTS = Object.freeze({

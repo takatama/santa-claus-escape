@@ -1,0 +1,99 @@
+{
+  "id": "storybook-help",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-11T12:27:16.670Z",
+  "voices": {
+    "santa": "Algieba",
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "santa",
+      "text": "そうか、そうか。本当にありがとう！\nまほう使いは三つの箱をのこしていきおった。一つの箱に、それぞれ二つのひらがなが入っているそうじゃ。\nすべてのひらがなをならびかえて、ひみつの言葉をわしに伝えてくれれば、わしはここから出ることができる。\nでは早速、三つの箱を調べてくれるかの"
+    },
+    {
+      "speaker": "narrator",
+      "text": "赤、青、黄色の箱があります。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "そうか、そうか。本当にありがとう！\nまほう使いは三つの箱をのこしていきおった。一つの箱に、それぞれ二つのひらがなが入っているそうじゃ。\nすべてのひらがなをならびかえて、ひみつの言葉をわしに伝えてくれれば、わしはここから出ることができる。\nでは早速、三つの箱を調べてくれるかの",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "santa",
+          "style": "日本語。心優しい年配のサンタクロース。柔らかく落ち着いた低めの声で、親しみと少しの困りごとを自然に表す。大げさな物まね、怖い声、うなり声にしない。普段の会話より少しゆっくり、聞き取りやすく。台詞の語句は一切変えず、追加の挨拶や説明をしない。"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "赤、青、黄色の箱があります。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "speaker": "narrator",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 2048,
+  "bytes": 1565156,
+  "sha256": "29e27a448ee620c82231291a61c185400ddac34d00c6879ca7083380f6b5c7cd",
+  "usage": {
+    "total_tokens": 904,
+    "total_input_tokens": 92,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 92
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 812,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 812
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 915,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 455
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 842
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 455
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 842
+          }
+        ]
+      }
+    ]
+  }
+}

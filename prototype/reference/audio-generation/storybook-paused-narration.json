@@ -1,0 +1,82 @@
+{
+  "id": "storybook-paused-narration",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-11T12:27:42.791Z",
+  "voices": {
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "サンタさんは、まだガラスの中です。サンタの脱出でした。また会いに来てくださいね。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "サンタさんは、まだガラスの中です。サンタの脱出でした。また会いに来てくださいね。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 1024,
+  "bytes": 384356,
+  "sha256": "9671e32d0252e15034ef7d43a0ace12dca5ccfa028a900c00c1d7546788cd21b",
+  "usage": {
+    "total_tokens": 221,
+    "total_input_tokens": 24,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 24
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 197,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 197
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 400,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 199
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 199
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 199
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 199
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "sourcePR": "https://github.com/takatama/santa-claus-escape/pull/1",
+  "sourceCommit": "aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c",
+  "copiedWithoutModification": true,
+  "totalBytes": 6112300,
+  "assets": [
+    {
+      "file": "prototype/assets/red-box/red-body.png",
+      "source": "illustrated-prototype/red-box/assets/red-body.png",
+      "bytes": 2182912,
+      "sha256": "04e30fc8195aeab1633741da9219cfc919708d40faffc0693b6ad51754334841"
+    },
+    {
+      "file": "prototype/assets/red-box/red-lid.png",
+      "source": "illustrated-prototype/red-box/assets/red-lid.png",
+      "bytes": 2293133,
+      "sha256": "091ef9e3e51a644d28182242fa37373969b87b1ddc98cc2afa5ab3f70ee3bb4d"
+    },
+    {
+      "file": "prototype/assets/red-box/tanuki.png",
+      "source": "illustrated-prototype/red-box/assets/tanuki.png",
+      "bytes": 1636255,
+      "sha256": "de508241384053c4f4d71de7c243a1f7d9db3d170c84be1dd24467f9adb4c2e2"
+    }
+  ]
+}

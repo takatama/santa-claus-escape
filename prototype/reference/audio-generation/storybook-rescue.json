@@ -1,0 +1,80 @@
+{
+  "id": "storybook-rescue",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-11T12:27:45.668Z",
+  "voices": {
+    "witch": "Leda",
+    "narrator": "Sulafat",
+    "santa": "Algieba"
+  },
+  "segments": [
+    {
+      "speaker": "witch",
+      "text": "うふふ。ああ楽しかった！"
+    },
+    {
+      "speaker": "narrator",
+      "text": "スノードームの中からサンタが出てきました。",
+      "spoken": "スノードームの中からサンタが出てきました。"
+    },
+    {
+      "speaker": "santa",
+      "text": "どうもありがとう！君のおかげで、やっと外に出られたよ。まほう使いめ。かまってやらなかったからって、とじこめることはないじゃろう"
+    },
+    {
+      "speaker": "witch",
+      "text": "だって、だって、さびしかったんだもの。けど、今日はきみと遊べて、とっても楽しかったよ！どうもありがとう！"
+    },
+    {
+      "speaker": "santa",
+      "text": "さてさて、早速、プレゼントのじゅんびにとりかからねば。きみのおかげで、みんなをよろばせてやれるわい。クリスマスの夜を楽しみにしていてくれ"
+    },
+    {
+      "speaker": "narrator",
+      "text": "これで脱出ゲームは終わりです。あそんでくれてありがとうございました。"
+    }
+  ],
+  "derivedFrom": [
+    {
+      "id": "cue-rescue-fairy-first",
+      "file": "assets/audio/cue-rescue-fairy-first.wav",
+      "sha256": "a8e4daa22f790c8f37c3ca62f41b6334cee470658c0545a777030abd5a0d7e9b",
+      "startFrame": 0,
+      "endFrame": 81600
+    },
+    {
+      "id": "storybook-rescue-appeared",
+      "file": "assets/audio/storybook-rescue-appeared.wav",
+      "sha256": "cdbd0e733cbe1015a2ad99eb6fcb3d85203a1a5260d58e04aa6588cc6ce2783f",
+      "startFrame": 0,
+      "endFrame": 103680
+    },
+    {
+      "id": "rescue-dialogue",
+      "file": "assets/audio/rescue-dialogue.wav",
+      "sha256": "7eecf20c1dcb514ee6680d2c9a1d9103a9eb7aebe6f815b0e377593cd1900a0c",
+      "startFrame": 0,
+      "endFrame": 893786
+    },
+    {
+      "id": "rescue-ending",
+      "file": "assets/audio/rescue-ending.wav",
+      "sha256": "aa05841dac53d5b6b94b6e7ccaa7686a91e9daa9589cef78b41366410f84fa99",
+      "startFrame": 0,
+      "endFrame": 153600
+    }
+  ],
+  "processing": {
+    "type": "concatenate PCM",
+    "gapSeconds": 0.28,
+    "guardSeconds": 0.08,
+    "quietThreshold": 0.001007080078125,
+    "pitchChange": false,
+    "speedChange": false,
+    "gainChange": false,
+    "c2pa": "retained in raw sources; not copied to derived WAV"
+  },
+  "bytes": 2505696,
+  "sha256": "ee22d55f63f13e12f02be0bfc843d662192072bb2075fbd5cf45b038b6a0307a",
+  "usage": null
+}

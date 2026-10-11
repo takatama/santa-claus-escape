@@ -1,0 +1,83 @@
+{
+  "id": "storybook-information",
+  "model": "gemini-3.8-flash-tts",
+  "created": "2026-10-11T12:27:38.081Z",
+  "voices": {
+    "narrator": "Sulafat"
+  },
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "サガルマータは、ネパール語で、エベレストのことです。エベレストは、世界で一番高い山です。今の高さは、およそ八千八百四十九メートルです。昔の資料では、八千八百四十八メートルと書かれています。この箱は、どちらの数字でも開きます。",
+      "spoken": "サガルマータは、ネパール語で、エベレストのことです。エベレストは、世界で一番高い山です。今の高さは、およそ八千八百四十九メートルです。昔の資料では、八千八百四十八メートルと書かれています。この箱は、どちらの数字でも開きます。"
+    }
+  ],
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "サガルマータは、ネパール語で、エベレストのことです。エベレストは、世界で一番高い山です。今の高さは、およそ八千八百四十九メートルです。昔の資料では、八千八百四十八メートルと書かれています。この箱は、どちらの数字でも開きます。",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "日本語。温かく明瞭な案内の声。絵本を一緒に読んでいるように、穏やかで自然な抑揚。謎の言葉は一語ずつはっきり、解釈や答えを付け足さない。大げさな演技は避ける。台詞の語句を一切変えず、そのまま読む。"
+        }
+      ]
+    }
+  ],
+  "maxOutputTokens": 2048,
+  "bytes": 1232996,
+  "sha256": "83a4a56ef0af75217d6ec4a272ec339add506012ccd208ba871dca147e11de13",
+  "usage": {
+    "total_tokens": 712,
+    "total_input_tokens": 73,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 73
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 639,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 639
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0,
+    "raw_prompt_token": 498,
+    "model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 297
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 641
+          }
+        ]
+      }
+    ],
+    "non_grounding_model_invocation_token_counts": [
+      {
+        "prompt_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 297
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "text",
+            "tokens": 641
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -6,6 +6,8 @@ node_modules/
 .DS_Store
 Thumbs.db
 dist/
+test-results/
+playwright-report/
 
 # 原作の参照コピー、旧画面、Driveの原本と調査用メタデータは非公開。
 prototype/reference/*
