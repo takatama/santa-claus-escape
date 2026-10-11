@@ -10,7 +10,7 @@ export function createRescueStage({getState,onProgress,intro=false}) {
   const listeners=new AbortController(),options={signal:listeners.signal},reduced=matchMedia('(prefers-reduced-motion: reduce)');let disposed=false,layout,drag=null,suppressUntil=0,introPending=intro&&!reduced.matches,introFrame,latest;
   const active=()=>!disposed&&!introPending&&getState().phase==='rescue'&&getState().rescueMotion?.released===false;
   const syncHandle=()=>{if(latest){handle.hidden=introPending||latest.reading||latest.view.rescueMotion?.released!==false;element.dataset.intro=introPending?'glowing':'ready';}};
-  function finishIntro(){cancelAnimationFrame(introFrame);introPending=false;art.setGlow(0);syncHandle();}
+  function finishIntro(){cancelAnimationFrame(introFrame);introPending=false;art.setGlow(0,{reveal:true});syncHandle();}
   const progress=()=>getState().rescueMotion?.progress||0;
   function set(value){if(active())onProgress(clamp(value));}
   function finish(){if(!drag)return;const old=drag;drag=null;if(old.moved)suppressUntil=performance.now()+350;if(handle.hasPointerCapture(old.id))handle.releasePointerCapture(old.id);element.classList.remove('rescue-dragging');}
@@ -31,9 +31,9 @@ export function createRescueStage({getState,onProgress,intro=false}) {
     let value;if(e.key==='ArrowLeft')value=progress()-.05;if(e.key==='ArrowRight')value=progress()+.05;if(e.key==='Home')value=0;if(e.key==='End')value=1;
     if(value!==undefined){e.preventDefault();finish();set(value);}
   },options);
-  const art=createRescueArt(find('canvas'),value=>{if(drag&&(value.width!==drag.width||value.height!==drag.height))finish();layout=value;handle.style.left=`${value.handle.x}px`;handle.style.top=`${value.handle.y}px`;},()=>{find('.rescue-art-error').hidden=false;});
+  const art=createRescueArt(find('canvas'),value=>{if(drag&&(value.width!==drag.width||value.height!==drag.height))finish();layout=value;handle.style.left=`${value.handle.x}px`;handle.style.top=`${value.handle.y}px`;},()=>{find('.rescue-art-error').hidden=false;},{beforeReveal:introPending});
   // One short presentation pulse on entry only, independent of voice/art fetches.
-  if(introPending){let started;const tick=time=>{if(disposed||!introPending)return;started??=time;const t=Math.min(1,(time-started)/1100);art.setGlow(Math.sin(Math.PI*t)**2);if(t===1)finishIntro();else introFrame=requestAnimationFrame(tick);};introFrame=requestAnimationFrame(tick);}
+  if(introPending){let started;const tick=time=>{if(disposed||!introPending)return;started??=time;const t=Math.min(1,(time-started)/1100);art.setGlow(Math.sin(Math.PI*t)**2,{reveal:t>=.5});if(t===1)finishIntro();else introFrame=requestAnimationFrame(tick);};introFrame=requestAnimationFrame(tick);}
   return {element,ready:art.ready,setStatus:status=>captions.setStatus(status),
     update(view,{settings,dialogue,status,saved,reading=false,navigation=''}) {
       const complete=view.phase==='complete',released=view.rescueMotion?.released!==false;

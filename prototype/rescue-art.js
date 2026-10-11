@@ -6,7 +6,10 @@ import { smooth, clamp } from './witch-math.js';
 import { makeLayout, rescue } from './rescue-math.js';
 let rescuePromise;
 const loadRescueArt=()=>rescuePromise ||= Promise.all(['empty-globe-original-v2','santa'].map(name=>loadImage(new URL('./assets/rescue/'+name+'.png',import.meta.url).href)));
-export function createRescueArt(canvas,onLayout,onError) {
+// Prepare the composition while questions are shown. The rescue view reports
+// failures; preloading never blocks dialogue, answers or navigation.
+export const preloadRescueArt=()=>loadRescueArt().catch(()=>{});
+export function createRescueArt(canvas,onLayout,onError,{beforeReveal=false}={}) {
   const ctx=canvas.getContext('2d',{alpha:false}),plate=document.createElement('canvas'),brush=plate.getContext('2d');
   const assets={};if(getForestArt())[assets.forest,assets.original]=getForestArt();if(getWitchArt())[assets.branch,assets.wizard]=getWitchArt();let disposed=false,view,layout,pulse=0;
 function groundShadow(x, y, w, opacity) {
@@ -116,7 +119,9 @@ function introGlow() {
     layout=makeLayout(width,height,{globe:assets.original?assets.original.width/assets.original.height:.946277097078228,santa:assets.santa?assets.santa.width/assets.santa.height:.9441489361702128,wizard:assets.wizard?assets.wizard.width/assets.wizard.height:.8373134328358209});
     const progress=view?.rescueMotion?.progress??1,state=rescue(progress,layout),b=layout.globe,c=layout.circle;
     paintForestStage(ctx,layout,assets);
-    const originalOnly=progress===0 && assets.original;
+    // Change the illustration under the bright entry glow, before the grip is
+    // shown. Dragging back to zero must keep the same empty globe + Santa.
+    const originalOnly=progress===0 && assets.original && (beforeReveal||!assets.globe||!assets.santa);
     if(originalOnly)ctx.drawImage(assets.original,b.x,b.y,b.w,b.h);
     else if(assets.globe)globe(state);
     else if(!originalOnly){ctx.strokeStyle='#d5c39b';ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(c.cx,c.cy,c.rx,c.ry,0,0,Math.PI*2);ctx.stroke();}
@@ -140,5 +145,5 @@ function introGlow() {
     if(disposed)return;
     canvas.dataset.ready=results.every(r=>r.status==='fulfilled')?'true':'error';if(canvas.dataset.ready==='error')onError();paint();
   });
-  return {ready,update(value){view=value;paint();},setGlow(value){pulse=value;paint();},destroy(){disposed=true;observer.disconnect();}};
+  return {ready,update(value){view=value;paint();},setGlow(value,{reveal=false}={}){if(reveal)beforeReveal=false;pulse=value;paint();},destroy(){disposed=true;observer.disconnect();}};
 }

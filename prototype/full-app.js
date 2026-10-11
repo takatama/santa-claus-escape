@@ -14,6 +14,7 @@ import { createPaperStage } from './paper-stage.js';
 import { arrangedWord } from './paper-layout.js';
 import { createWitchStage } from './witch-stage.js';
 import { createRescueStage } from './rescue-stage.js';
+import { preloadRescueArt } from './rescue-art.js';
 import { rescueSceneFor,rescueTimeline,RescueNarration } from './rescue-presentation.js';
 
 const app = document.querySelector('#app');
@@ -158,6 +159,7 @@ function render(focus = false, scroll = false, rescueIntro = false) {
     return;
   }
   if (illustratedWitch) {
+    if(!reading&&['witchQuestion','witchResponse'].includes(view.phase))preloadRescueArt();
     if (!witchStage) {
       witchStage = createWitchStage({
         getState:()=>state,

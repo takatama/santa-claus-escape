@@ -47,8 +47,10 @@
     }
   ],
   "runtimeComposition": {
-    "atRest": "prototype/assets/papers/globe.png",
+    "beforeEntryGlowPeak": "prototype/assets/papers/globe.png",
+    "atRest": "prototype/assets/rescue/empty-globe-original-v2.png plus one opaque prototype/assets/rescue/santa.png",
     "duringAndAfterRelease": "prototype/assets/rescue/empty-globe-original-v2.png plus one opaque prototype/assets/rescue/santa.png",
+    "reveal": "Switch under the bright entry glow before the grip appears, at progress zero. Resume, reduced motion and reverse to zero retain the same composition. Assets preload during the questions; unavailable art retains the existing playable fallback.",
     "patchOrSantaMask": false,
     "originalFilesModified": false,
     "unusedReferenceRetained": "prototype/assets/rescue/empty-globe.png"
