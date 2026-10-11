@@ -1,0 +1,23 @@
+{
+  "ref": "aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c",
+  "files": [
+    {
+      "source": "illustrated-prototype/assets/branch.png",
+      "target": "prototype/assets/witch/branch.png",
+      "bytes": 2576852,
+      "sha256": "7e07bbaa71dde167861a1280b6ea205d195b9fd5351855e08881965e3cc56d7e",
+      "originalByteEquality": true
+    },
+    {
+      "source": "illustrated-prototype/assets/wizard-feet-v2.png",
+      "target": "prototype/assets/witch/wizard-feet-v2.png",
+      "bytes": 1966565,
+      "sha256": "87bc4ada8967b4bf486354ba23b8931019c26aaf7fa14a418ce47486feec3098",
+      "originalByteEquality": true
+    }
+  ],
+  "reusedWithoutCopy": [
+    "prototype/assets/papers/forest-clean.png",
+    "prototype/assets/papers/globe.png"
+  ]
+}

@@ -9,15 +9,16 @@ const order=['red-1','blue-0','red-0','yellow-0','yellow-1','blue-1'];
 const open=(s,c)=>send(send(send(s,'SELECT',{color:c}),'BOX_DIAL',{value:BOXES[c].answer}),'ANSWER');
 const full=(colors=COLORS)=>colors.reduce((s,c)=>send(open(s,c),'CONTINUE_BOX'),start());
 const arrange=(s,ids=order)=>ids.reduce((next,id,index)=>send(next,'PLACE_PAPER',{id,index}),s);
+const discover=s=>send(s,'DISCOVERY_PROGRESS',{value:1});
 
 test('paper: both da identities, all six box orders, explicit original SPELL and one summon',()=>{
   for(const colors of [['red','blue','yellow'],['red','yellow','blue'],['blue','red','yellow'],['blue','yellow','red'],['yellow','red','blue'],['yellow','blue','red']]) {
     for(const ids of [order,['yellow-1',...order.slice(1,4),'red-1','blue-1']]) {
       let s=full(colors);assert.equal(papers(s).length,6);assert.equal(new Set(papers(s).map(p=>p.id)).size,6);
       s=arrange(s,ids);assert.equal(s.phase,'spell');assert.equal(s.spellDraft,'');assert.equal(arrangedWord(s.spellSlots,papers(s)),'だいすきだよ');
-      const revision=s.revision;s=send(s,'SPELL',{source:'papers',revision});assert.equal(s.phase,'witchInvite');assert.ok(s.spellReview);assert.equal(sceneFor(s).key,'invite');
+      const revision=s.revision;s=send(s,'SPELL',{source:'papers',revision});assert.equal(s.phase,'witchInvite');assert.equal(s.spellReview,false);assert.equal(sceneFor(s).key,'invite');
       assert.strictEqual(send(s,'SPELL',{source:'papers',revision}),s);assert.strictEqual(send(s,'SPELL',{source:'papers'}),s);assert.strictEqual(send(s,'ACCEPT'),s);
-      s=restoreState(s);assert.ok(s.spellReview);s=send(s,'CONTINUE_SPELL');assert.ok(!s.spellReview);s=send(s,'DECLINE');s=restoreState(s);s=send(s,'CALL_AGAIN');assert.equal(sceneFor(s).key,'reinvite');assert.equal(papers(s).length,6);
+      s=restoreState(s);assert.equal(s.spellReview,false);assert.equal(s.witchDiscovery.appeared,false);s=discover(s);s=send(s,'DECLINE');s=restoreState(s);s=send(s,'CALL_AGAIN');assert.equal(sceneFor(s).key,'reinvite');assert.equal(papers(s).length,6);
     }
   }
 });
@@ -43,7 +44,7 @@ test('paper: save/resume, kana draft migration, absent fields, kanji draft and p
     if(draft==='ダイ スキ ダヨ')assert.equal(arrangedWord(restored.spellSlots,papers(restored)),'だいすきだよ');
     if(draft==='大好きだよ')assert.deepEqual(restored.spellSlots.slice(0,2),[null,null]);
   }
-  s=send(send(start(),'DRAFT',{value:'大好きだよ',field:'spell'}),'SPELL');s=send(s,'DECLINE');delete s.spellSlots;delete s.spellReview;
+  s=send(send(start(),'DRAFT',{value:'大好きだよ',field:'spell'}),'SPELL');s=discover(s);s=send(s,'DECLINE');delete s.spellSlots;delete s.spellReview;
   s=restoreState(s);assert.equal(papers(s).length,0);assert.deepEqual(s.spellSlots,emptySlots());assert.equal(send(s,'CALL_AGAIN').phase,'witchInvite');
 });
 test('paper: corrupted optional fields reset only the layout and cannot award or advance',()=>{

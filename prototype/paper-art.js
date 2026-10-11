@@ -1,8 +1,7 @@
-import { loadImage, glow } from './red-paint.js';
+import { glow } from './red-paint.js';
+import { loadForestArt } from './forest-art.js';
 
 // PR #1's existing forest and closed globe. No rescue or branch interaction.
-let artPromise;
-const loadArt = () => artPromise ||= Promise.all(['forest-clean', 'globe'].map(name => loadImage(new URL(`./assets/papers/${name}.png`, import.meta.url).href, name !== 'forest-clean')));
 export function createPaperArt(canvas, workspace, onError) {
   const ctx = canvas.getContext('2d', { alpha: false });
   let assets, disposed = false, accepted = false;
@@ -23,6 +22,6 @@ export function createPaperArt(canvas, workspace, onError) {
   }
   const observer = new ResizeObserver(paint); observer.observe(canvas); observer.observe(workspace);
   paint();
-  loadArt().then(result => { if (!disposed) { assets = result; paint(); } }).catch(() => { if (!disposed) { canvas.dataset.ready = 'error'; onError(); } });
+  loadForestArt().then(result => { if (!disposed) { assets = result; paint(); } }).catch(() => { if (!disposed) { canvas.dataset.ready = 'error'; onError(); } });
   return { update(value) { accepted = value; paint(); }, destroy() { disposed = true; observer.disconnect(); } };
 }

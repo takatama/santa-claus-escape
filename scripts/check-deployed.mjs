@@ -23,7 +23,7 @@ for(const name of await list(dist)) {
     assert.equal(received.toString('utf8').replace(/\r\n/g,'\n'),expected.toString('utf8').replace(/\r\n/g,'\n'),name);textFiles++;
   } else { assert.ok(received.equals(expected),name);binaryFiles++; }
 }
-for(const name of ['illustrated-prototype/journey/state.js','design/family-2026/PRODUCT-DESIGN.md','docs/PR-C-PAPERS.md','reference/legacy-index.js']) {
+for(const name of ['illustrated-prototype/journey/state.js','illustrated-prototype/witch/conversation.js','illustrated-prototype/witch/test.mjs','design/family-2026/PRODUCT-DESIGN.md','docs/PR-C-PAPERS.md','docs/PR-D-WITCH.md','docs/pr-d/art-provenance.json','assets/witch/README.md','reference/legacy-index.js']) {
   assert.equal((await fetch(new URL(name,preview),{signal:AbortSignal.timeout(30000)})).status,404,name);
 }
 console.log(JSON.stringify({preview,textFiles,binaryFiles,textNormalization:'CRLF/LF only',binaryComparison:'byte equality',privateAndPrototypeFiles:'404'}));
