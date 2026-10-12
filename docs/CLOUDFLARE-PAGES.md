@@ -42,4 +42,6 @@ GitHub連携の権限は必要なリポジトリだけに限定できます。`G
 
 GA4は測定ID未設定でも動作し、適用条件の確認と任意の許可が揃うまでタグを読み込みません。Production/Previewの設定は [日本語ガイド](GA4-SETUP-JA.md)。`SANTA_PUBLIC_URL`はOGP・共有・計測の正規URLで、HTTPSのルートURLを指定します。プレビューのOG画像だけはCloudflareのCF_PAGES_URLを使います。
 
+GAの環境変数を変更した後は新しいビルドとデプロイが必要です。既存の `dist/analytics-config.js` とCSPは設定の保存だけでは書き換わりません。評価は固定ブランチalias `https://codex-release-readiness.santa-claus-escape.pages.dev/` から開き、TEST_ORIGINへワイルドカードを指定しません。本番の再デプロイは公開操作になるため、評価の再ビルドと分けて判断します。
+
 [公開前チェックリスト](RELEASE-CHECKLIST.md)と [前後比較](performance/COMPARISON.md)を参照してください。実機・本物のSNS・Realtime/DebugViewの確認は未完了です。

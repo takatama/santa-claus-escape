@@ -22,7 +22,13 @@ Google公式：[アカウントとプロパティの作成](https://support.goog
 
 ## 3. 収集・プライバシー設定
 
-管理→「データ設定／データ収集」でGoogleシグナルと広告パーソナライズをオフ、広告連携を作らない。「データ保持」はユーザー・イベントデータ2か月。「データ共有」は必要最小限。ウェブストリームの拡張計測がオフであることを再確認する。削除依頼手順も確認し、プライバシー表示と一致させる。
+管理→「データ設定／データ収集」でGoogleシグナルと広告パーソナライズをオフ、広告連携を作らない。「データ保持」はユーザー・イベントデータ2か月。「データ共有」は必要最小限。ウェブストリームの拡張計測がオフであることを再確認する。
+
+### 削除依頼の準備
+
+GA管理画面に「削除依頼を受け付ける」というスイッチを設定する作業ではない。運営者が、非公開の受付先・対象ブラウザの特定方法・Googleへの削除操作・依頼者への返信を準備する。現在のGitHub公開Issueだけでは、Cookie識別子等を安全に受け取る窓口が整っていない。[個別削除の具体的な手順](GA4-DELETION-PROCEDURE.md)を参照する。
+
+「許可を取り消す」は以後の送信停止と端末内GA Cookie削除。「2か月の保持」はイベントデータの保持設定。「既にGoogleへ送った個別データの削除」は別の処理である。保持設定は標準の集計レポートを一律に削除するものではない。[Googleの保持の説明](https://support.google.com/analytics/answer/7667196?hl=ja)。
 
 ## 4. Cloudflare Pagesへの設定
 
@@ -30,18 +36,49 @@ Google公式：[アカウントとプロパティの作成](https://support.goog
 
 | 変数 | Production | Preview |
 | --- | --- | --- |
-| `SANTA_GA4_ID` | 本番 `G-...` | 設定しない |
+| `SANTA_GA4_ID` | `G-MHGWR7DQGB` | 設定しない |
 | `SANTA_PUBLIC_URL` | 本番のHTTPSルートURL。未設定は既存Pages URL | 同じ本番URL（OGPと共有の正規URL） |
 | `SANTA_GA4_POLICY_APPROVED` | 条件確認が完了した場合のみ `true` | 検証用も条件確認後に `true` |
-| `SANTA_GA4_TEST_ID` | 設定しない | 検証用プロパティの別 `G-...` |
-| `SANTA_GA4_TEST_ORIGIN` | 設定しない | 固定したプレビューブランチのorigin、例 `https://codex-ga4-foundation.santa-claus-escape.pages.dev` |
+| `SANTA_GA4_TEST_ID` | 設定しない | `G-B2YBCVGPDD` |
+| `SANTA_GA4_TEST_ORIGIN` | 設定しない | `https://codex-release-readiness.santa-claus-escape.pages.dev` |
 
 Cloudflareが供給する `CF_PAGES` と `CF_PAGES_BRANCH` は上書きしない。main以外へ本番IDだけ設定しても計測は無効。ProductionとPreviewの両方に同じIDをコピーしない。設定変更は次のビルドへ反映される。今回のPRではmainへマージ・本番ビルドの再実行は行わない。
+
+2026-10-12に本人から本番・評価の測定IDを受領した。上表はCloudflareへ入力する値であり、IDをJSへ直接埋め込んだり、Cloudflareの環境変数を代行設定したりしていない。
+
+### 承認フラグをtrueにしてよい条件
+
+`SANTA_GA4_POLICY_APPROVED` はこの作品独自の運営者確認フラグ。Googleが発行・審査する値ではなく、`true` と書くこと自体で必要な同意や適用条件が解決するものではない。
+
+本番は以下を運営者が確認してから、**Productionの値欄へ半角の `true`（引用符なし）**を入力する。未確認なら未設定または `false` のままでよい。
+
+- 子ども向けに該当するか、提供地域と適用条件、必要な保護者同意の方法について判断と根拠を記録した。[条件確認](GA4-PRIVACY-REVIEW.md)を参照。現在の子どものボタン操作だけを保護者同意の確認に置き換えない。
+- Googleシグナル・広告パーソナライズ・広告連携・拡張計測をオフにし、イベント保持を2か月にした。
+- 運営者、目的、送信内容、Cookieの扱い、非公開の削除依頼窓口と手続きがprivacy.htmlの説明と一致する。[削除手順](GA4-DELETION-PROCEDURE.md)の未整備箇所を解消した。
+
+評価環境の承認は本番と別に扱う。例えば成人の本人だけがローカルで試す場合は、その限定した評価範囲の規約・同意・削除手順を確認して評価側だけ `true` にし、本番は `false` を維持できる。公開のプレビューURLにしただけで成人限定になるわけではない。評価で動いたことを、子ども向け本番利用の条件確認へ読み替えない。どちらもフラグだけでは送信せず、ゲーム内の「計測を許可する」が必要。
+
+### 毎回変わるURLと固定URL
+
+`SANTA_GA4_TEST_ORIGIN` はURLの完全一致。`*.santa-claus-escape.pages.dev`、複数URL、パス、クエリは指定しない。Cloudflareの `<hash>.santa-claus-escape.pages.dev` はデプロイごとに変わるが、同じブランチのaliasは最新デプロイへ追従する。[Cloudflareのpreview aliases](https://developers.cloudflare.com/pages/configuration/preview-deployments/#preview-aliases)。
+
+今回の評価では **`https://codex-release-readiness.santa-claus-escape.pages.dev/` から開く**。環境変数の値は上表のとおり末尾の `/` なしでよい。ハッシュURLや他のブランチから開くと、originが違うため計測しない。ブランチを変更した場合だけ、この設定も変更して再ビルドする。OGP画像の `CF_PAGES_URL` と計測originは別の用途である。
+
+### 環境変数の変更後
+
+**新しいビルドとデプロイが必要**。この作品はビルド時に環境変数を `dist/analytics-config.js` と `dist/_headers` へ書き込むため、設定を保存しただけでは既存のHTML/JS/CSPは変わらない。
+
+1. PagesのSettingsでProduction / Previewを選び、上表の値を保存する。
+2. 対象ブランチの新しいコミットのpush等で、新しいビルドを行う。ダッシュボードの再ビルド／再試行を使う場合も、完了後に設定の反映を確認する。GA実装を含まない古いコミットを再デプロイしても計測機能は増えない。
+3. 成功後、固定aliasから開く。`/analytics-config.js` を直接表示し、評価なら `measurementId` が `G-B2YBCVGPDD`、`origin` が固定alias、承認済みなら `approved:true` であることを確認する。
+4. ブラウザを再読み込みし、ゲーム内で許可してから評価用プロパティのRealtime / DebugViewを見る。変数が更新されても、既に開いているページには古い設定が残ることがある。
+
+Productionの再デプロイは本番公開になる。現時点ではPR #10〜#14は未マージなので、評価はPR #14のブランチから行い、本番の再公開は別途判断する。ここでは本番の再デプロイを実行しない。
 
 ローカルの検証も別IDを明示したビルドを使う。PowerShellの例（本番IDを使わない）：
 
 ```powershell
-$env:SANTA_GA4_TEST_ID='G-検証用の実ID'
+$env:SANTA_GA4_TEST_ID='G-B2YBCVGPDD'
 $env:SANTA_GA4_TEST_ORIGIN='http://127.0.0.1:4174'
 $env:SANTA_GA4_POLICY_APPROVED='true'
 npm run build
