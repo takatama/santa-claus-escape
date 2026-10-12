@@ -33,6 +33,5 @@ body.rescue-playing{background:#102031}
 
 .rescue-stage[data-phase="complete"][data-reading="false"] .rescue-actions{display:grid;grid-template-columns:1fr 1fr;justify-items:stretch;align-content:start}
 .rescue-stage[data-phase="complete"][data-reading="false"] .rescue-caption,.rescue-stage[data-phase="complete"][data-reading="false"] [data-action="read"]{grid-column:1/-1;text-align:center;justify-self:center}
-.rescue-stage[data-phase="complete"][data-reading="false"] .rescue-play{grid-template-rows:minmax(0,1fr) auto}
 
 @media(orientation:landscape) and (max-height:500px){.rescue-stage[data-phase="complete"][data-reading="false"] .rescue-actions:has([data-action="read"]:not([hidden])){grid-template-columns:repeat(3,minmax(0,1fr))}.rescue-stage[data-phase="complete"][data-reading="false"] [data-action="read"]{grid-column:auto;width:100%;font-size:16px}}
