@@ -21,5 +21,6 @@ test('OGP: production canonical and preview image are separate; metadata is stat
   assert.equal(preview.publicUrl,'https://santa-claus-escape.pages.dev/');assert.equal(preview.imageUrl,'https://abcdef12.santa-claus-escape.pages.dev/assets/share-card.png');
   const html=socialMarkup(preview);for(const key of ['og:title','og:description','og:image','og:url','twitter:card'])assert.ok(html.includes(key));assert.ok(html.includes('summary_large_image'));assert.ok(html.includes('1200'));assert.ok(html.includes('630'));
   assert.equal(socialConfig({CF_PAGES:'1',CF_PAGES_BRANCH:'main',CF_PAGES_URL:'https://preview.pages.dev'}).imageUrl,'https://santa-claus-escape.pages.dev/assets/share-card.png');
-  assert.throws(()=>socialConfig({SANTA_PUBLIC_URL:'https://user:password@example.com/'}));
+  const invalid=new URL('https://example.com/');invalid.username='fixture';invalid.password='fixture';
+  assert.throws(()=>socialConfig({SANTA_PUBLIC_URL:invalid.href}));
 });
