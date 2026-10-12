@@ -35,6 +35,8 @@ npm start
 
 ## 設計と確認記録
 
+- [GA4の設定ガイド](docs/GA4-SETUP-JA.md) / [イベントと分析の定義](docs/GA4-EVENT-DESIGN.md) / [子ども利用・プライバシーの判断](docs/GA4-PRIVACY-REVIEW.md)。測定ID未設定でも動作し、適用条件と本人の選択が揃うまで計測しません。
+
 - [全編統合と当初の想定からの変更](docs/INTEGRATION-DECISIONS-2026-10-11.md)：場所設定、青い箱、追加収録、救出と大団円、採用しなかった案、残る確認。
 - [読み返しと大団円](docs/FINALE-READING-FINISH.md)：箱の静止画と最後の一枚絵、生成プロンプト・出所・確認画面。
 - [PR A：赤い箱の統合方式と検証](docs/PR-A-RED-BOX.md)：赤い箱はPR #1の絵・操作をmainの音声・進行・保存へ接続。数字はダイヤルだけで編集し、雪はボタンで一段階ずつ調べます。青黄以降は基準実装です。

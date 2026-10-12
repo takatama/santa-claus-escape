@@ -11,6 +11,7 @@ export const pagesCodeFiles = [
   'index.html','styles.css','full-app.js','full-game.js','full-scenario.js','full-audio.js',
   'audio-sequence.js','audio-timeline.js','timed-audio.js','game.js','scenario.js','audio.js',
   'speech.js','soundtrack.js','sound-settings.js','illustrations.js','media-assets.js','game-events.js',
+  'analytics.js','analytics-config.js','privacy.html',
   ...storyCodeFiles,...boxCodeFiles,...paperCodeFiles,...witchCodeFiles,...rescueCodeFiles,
 ];
 export const pagesFiles = [...pagesCodeFiles,...AUDIO_FILES,...IMAGE_FILES,'LICENSE','NOTICE.txt','_headers','404.html'];

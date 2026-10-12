@@ -24,7 +24,7 @@ async function fixture(t) {
   for(const name of [...pagesCodeFiles,...AUDIO_FILES,...IMAGE_FILES])await save(`prototype/${name}`,name==='index.html'?'full-app.js':name);
   await save('package.json','{"type":"module"}');
   await save('LICENSE');await save('NOTICE.md');
-  for(const name of ['build-pages.mjs','pages-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
+  for(const name of ['analytics-build.mjs','build-pages.mjs','pages-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
     await save(`scripts/${name}`);await copyFile(new URL(`scripts/${name}`,repository),new URL(`scripts/${name}`,root));
   }
   await copyFile(new URL('prototype/media-assets.js',repository),new URL('prototype/media-assets.js',root));

@@ -8,6 +8,7 @@ Thumbs.db
 dist/
 test-results/
 playwright-report/
+.measurements/
 
 # 原作の参照コピー、旧画面、Driveの原本と調査用メタデータは非公開。
 prototype/reference/*
