@@ -1,6 +1,7 @@
 // 声は独立した再生系。BGMと効果音はゲームの状態を変更しない。
 import { AudioSequence } from './audio-sequence.js';
 import { DEFAULT_BGM_VOLUME,bgmGain } from './sound-settings.js';
+import { MEDIA_GROUPS,mediaPath } from './media-assets.js';
 const makeMusicContext=()=>{const Context=globalThis.AudioContext||globalThis.webkitAudioContext;return Context?new Context():null;};
 export const SOUND_EFFECTS=Object.freeze({unlock:'magic-cure2',wrong:'stupid3',magic:'shine1',rescue:'shine3'});
 export class Soundtrack {
@@ -28,20 +29,20 @@ export class Soundtrack {
   stop() { this.playbackRevision++;for(const timer of this.timers)clearTimeout(timer); this.timers.clear(); this.music?.pause(); this.stopEffects();this.fadeRatio=1; }
   begin(track) {
     this.stop(); if(this.muted||!this.bgmEnabled)return;
-    if(this.track!==track){this.track=track;const name=track==='witch'?'spook4':'laid-back';this.music=this.makeAudio(`./assets/audio/${name}-loop.ogg`);if(this.music.canPlayType&&!this.music.canPlayType('audio/ogg; codecs="vorbis"'))this.music.src=`./assets/audio/${name}-loop.wav`;this.music.loop=true;this.connectMusic();}
+    if(this.track!==track){this.track=track;const name=track==='witch'?'spook4':'laid-back';this.music=this.makeAudio(mediaPath('music',`${name}-loop`));if(this.music.canPlayType&&!this.music.canPlayType(MEDIA_GROUPS.music.mime))this.music.src=mediaPath('musicFallback',`${name}-loop`);this.music.loop=true;this.connectMusic();}
     this.applyVolume();const current=this.music,revision=this.playbackRevision;try{this.musicContext?.resume()?.catch(()=>{if(revision===this.playbackRevision)current.pause();});}catch{current.pause();return;}this.music.play()?.catch(()=>{});
   }
   quiet() {
     if(!this.music||this.music.paused||this.timers.size)return; const current=this.music;
     for(let i=1;i<=20;i++){const timer=setTimeout(()=>{this.timers.delete(timer);if(current!==this.music)return;this.fadeRatio=1-i/20;this.applyVolume();if(i===20)current.pause();},i*100);this.timers.add(timer);}
   }
-  prepareEffect(kind){if(!this.muted&&this.sfxEnabled&&SOUND_EFFECTS[kind])this.effectPlayer.prepare([`./assets/audio/${SOUND_EFFECTS[kind]}.mp3`]);}
+  prepareEffect(kind){if(!this.muted&&this.sfxEnabled&&SOUND_EFFECTS[kind])this.effectPlayer.prepare([mediaPath('effect',SOUND_EFFECTS[kind])]);}
   effect(kind) {
     if(this.muted||!this.sfxEnabled)return;
     if(SOUND_EFFECTS[kind]){
-      this.effectPlayer.play([`./assets/audio/${SOUND_EFFECTS[kind]}.mp3`],()=>{},()=>{},kind==='wrong'?.10:.18);
+      this.effectPlayer.play([mediaPath('effect',SOUND_EFFECTS[kind])],()=>{},()=>{},kind==='wrong'?.10:.18);
       return;
     }
-    if(kind==='dial')this.effectPlayer.play(['./assets/audio/dial.mp3'],()=>{},()=>{},.12,.12);
+    if(kind==='dial')this.effectPlayer.play([mediaPath('effect','dial')],()=>{},()=>{},.12,.12);
   }
 }

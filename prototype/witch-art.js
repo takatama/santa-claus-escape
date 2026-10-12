@@ -2,10 +2,11 @@ import { loadForestArt } from './forest-art.js';
 import { loadImage, glow } from './red-paint.js';
 import { smooth } from './witch-math.js';
 import { forestLayout, paintForestStage } from './forest-stage.js';
+import { mediaUrl } from './media-assets.js';
 
 let witchPromise,witchSnapshot;
 export const getWitchArt=()=>witchSnapshot;
-export const loadWitchArt = () => witchPromise ||= Promise.all(['branch','wizard-feet-v2'].map(name => loadImage(new URL(`./assets/witch/${name}.png`,import.meta.url).href))).then(images=>witchSnapshot=images);
+export const loadWitchArt = () => witchPromise ||= Promise.all(['branch','wizard-feet-v2'].map(name => loadImage(mediaUrl('witch',name)))).then(images=>witchSnapshot=images);
 
 /** PR #1's reversible bough mesh, on one fixed stage through all conversation phases. */
 export function createWitchArt(canvas, onLayout, onError) {

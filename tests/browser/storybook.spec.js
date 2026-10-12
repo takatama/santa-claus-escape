@@ -11,6 +11,8 @@ test('storybook: reached blue clue fits seven sizes; search opens the named moun
   await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
   for(const [width,height]of [[320,568],[390,844],[568,320],[844,390],[768,1024],[1024,768],[1280,720]]){
     await page.setViewportSize({width,height});
+    // Controls are positioned by the canvas ResizeObserver after viewport changes.
+    await expect.poll(()=>page.locator('canvas').evaluate(c=>c.width===Math.round(c.clientWidth*Math.min(devicePixelRatio||1,2))&&c.height===Math.round(c.clientHeight*Math.min(devicePixelRatio||1,2)))).toBe(true);
     for(const control of [search,btn(page,'information')]){
       const b=await control.boundingBox();expect(b).not.toBeNull();expect(b.width).toBeGreaterThanOrEqual(44);expect(b.height).toBeGreaterThanOrEqual(44);expect(b.x).toBeGreaterThanOrEqual(0);expect(b.y).toBeGreaterThanOrEqual(0);expect(b.x+b.width).toBeLessThanOrEqual(width+.5);expect(b.y+b.height).toBeLessThanOrEqual(height+.5);
     }
