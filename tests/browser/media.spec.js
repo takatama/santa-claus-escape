@@ -9,7 +9,8 @@ test('media: every delivered AAC decodes to the original duration in real Web Au
     const context=new AudioContext(),out=[];
     try{for(const record of clips){const response=await fetch(record.target);if(!response.ok)throw Error(record.target);const buffer=await context.decodeAudioData(await response.arrayBuffer());out.push({file:record.target,seconds:buffer.duration,channels:buffer.numberOfChannels,sampleRate:buffer.sampleRate});}}finally{await context.close();}return out;
   },clips);
-  for(const [i,r] of measured.entries()){expect(Math.abs(r.seconds-clips[i].seconds)).toBeLessThanOrEqual(1/r.sampleRate);expect(r.channels).toBe(clips[i].channels);}
+  // One resampled frame, plus 1 ns for floating-point subtraction at 44.1 kHz.
+  for(const [i,r] of measured.entries()){expect(Math.abs(r.seconds-clips[i].seconds)).toBeLessThanOrEqual(1/r.sampleRate+1e-9);expect(r.channels).toBe(clips[i].channels);}
   await mkdir('test-results/media',{recursive:true});await writeFile('test-results/media/decoded-aac.json',JSON.stringify(measured,null,2));
   const original=await page.request.get('/assets/audio/storybook-help.wav');expect(original.status()).toBe(404);
 });

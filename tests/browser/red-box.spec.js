@@ -77,7 +77,7 @@ test('desktop: arrow keys, numeric keys, pointer drag, focus, early solution and
 
 test('viewport controls remain visible on small phone, landscape, tablet and PC',async({page})=>{
   await setup(page);await enterRed(page);
-  const bodyRatio=await page.evaluate(async()=>{const {loadImage}=await import('/red-paint.js');const body=await loadImage('/assets/red-box/red-body.png');return body.width/body.height;});
+  const bodyRatio=await page.evaluate(async()=>{const {loadImage}=await import('/red-paint.js');const body=await loadImage('/assets/red-box/red-body.webp');return body.width/body.height;});
   let inspectionSize;
   for(const [width,height] of [[320,568],[390,844],[844,390],[768,1024],[1024,768],[1280,720]]){
     await page.setViewportSize({width,height});await waitForCanvasSize(page);
