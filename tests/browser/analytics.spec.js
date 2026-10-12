@@ -1,13 +1,7 @@
 import {test,expect} from '@playwright/test';
-import {CONSENT_KEY} from '../../prototype/analytics.js';
+import {tag} from './analytics-helpers.js';
 import {STORAGE_KEY,transition} from '../../prototype/full-game.js';
 import {rescueState,finishRescue} from './rescue-helpers.js';
-async function tag(page,choice='granted',saved) {
-  await page.route('**/',async route=>{const response=await route.fetch();const headers=response.headers();headers['content-security-policy']=headers['content-security-policy'].replace("script-src 'self'","script-src 'self' https://www.googletagmanager.com");await route.fulfill({response,headers});});
-  await page.route('**/analytics-config.js',route=>route.fulfill({contentType:'text/javascript',body:`export const ANALYTICS_CONFIG={measurementId:'G-TEST123456',origin:location.origin,approved:true,debug:true};`}));
-  await page.route('https://www.googletagmanager.com/**',route=>route.fulfill({contentType:'text/javascript',body:''}));
-  await page.addInitScript(({choice,saved,consentKey,saveKey})=>{if(choice)localStorage.setItem(consentKey,choice);if(saved&&!localStorage.getItem(saveKey))localStorage.setItem(saveKey,JSON.stringify(saved));},{choice,saved,consentKey:CONSENT_KEY,saveKey:STORAGE_KEY});
-}
 const events=page=>page.evaluate(()=>Array.from(window.dataLayer||[]).filter(v=>v[0]==='event').map(v=>({name:v[1],params:v[2]})));
 test('analytics: production defaults and local gameplay send no Google requests',async({page})=>{
   const google=[];page.on('request',r=>{if(/google/.test(r.url()))google.push(r.url());});await page.goto('/');await page.locator('[data-action="start"]').click();expect(google).toEqual([]);

@@ -93,3 +93,7 @@ Gemini TTSで制作した台詞のWAVと、その台詞だけを結合した音�
 PeriTuneのOGGは原音のまま配信し、Vorbis非対応環境向けの原作由来WAVをAAC 128kbpsへ変換しました。元WAVも保持します。AACにも同じCC BY 4.0の表示条件が適用されます。効果音は再圧縮せず、原音・提供元の条件を引き継ぎます。未許諾の結末の鈴、未使用の録音・旧画像はdistへ入れません。素材の試聴・再配布サイトを作るものではありません。
 
 事前生成音声の子ども向け静的配信に関する利用条件は、引き続き公開前の未解決事項です。形式変換を、条件確認済みという扱いにしません。
+
+## 紹介画像
+
+`prototype/assets/share-card.png` は既存の森・スノードームのPNGをHTML/CSSで配置した1200×630画像です。答えや結末を含めず、生成APIを使っていません。同じ生成イラストのMIT条件を引き継ぎます。出典と構成は `docs/ogp-provenance.json` と `scripts/create-ogp.mjs`、元の生成記録は `docs/pr-c/art-provenance.json`。

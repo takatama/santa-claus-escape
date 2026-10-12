@@ -12,9 +12,11 @@ export const pagesCodeFiles = [
   'audio-sequence.js','audio-timeline.js','timed-audio.js','game.js','scenario.js','audio.js',
   'speech.js','soundtrack.js','sound-settings.js','illustrations.js','media-assets.js','game-events.js',
   'analytics.js','analytics-config.js','privacy.html',
+  'share.js','share-config.js',
   ...storyCodeFiles,...boxCodeFiles,...paperCodeFiles,...witchCodeFiles,...rescueCodeFiles,
 ];
-export const pagesFiles = [...pagesCodeFiles,...AUDIO_FILES,...IMAGE_FILES,'LICENSE','NOTICE.txt','_headers','404.html'];
+export const pagesAssetFiles=['assets/share-card.png'];
+export const pagesFiles = [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES,'LICENSE','NOTICE.txt','_headers','404.html'];
 export const servedPagesFiles = pagesFiles.filter(name=>name!=='_headers');
 export const contentTypes = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.wav': 'audio/wav', '.m4a':'audio/mp4', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.png':'image/png', '.webp':'image/webp', '.avif':'image/avif' };
 

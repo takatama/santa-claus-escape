@@ -30,3 +30,9 @@ body.rescue-playing{background:#102031}
 
 @media(orientation:landscape) and (max-height:500px){.rescue-stage[data-phase="complete"] .rescue-actions:has([data-action="read"]:not([hidden])){display:grid;grid-template-columns:1fr 1fr;align-content:start}.rescue-stage[data-phase="complete"] .rescue-caption{grid-column:1/-1}.rescue-stage[data-phase="complete"] .rescue-actions button{font-size:16px;padding-inline:6px}}
 @media(orientation:landscape) and (max-height:500px){.rescue-stage[data-phase="complete"] .rescue-play{grid-template-rows:minmax(0,1fr) auto}.rescue-stage[data-reading="true"] .rescue-caption{display:none}}
+
+.rescue-stage[data-phase="complete"][data-reading="false"] .rescue-actions{display:grid;grid-template-columns:1fr 1fr;justify-items:stretch;align-content:start}
+.rescue-stage[data-phase="complete"][data-reading="false"] .rescue-caption,.rescue-stage[data-phase="complete"][data-reading="false"] [data-action="read"]{grid-column:1/-1;text-align:center;justify-self:center}
+.rescue-stage[data-phase="complete"][data-reading="false"] .rescue-play{grid-template-rows:minmax(0,1fr) auto}
+
+@media(orientation:landscape) and (max-height:500px){.rescue-stage[data-phase="complete"][data-reading="false"] .rescue-actions:has([data-action="read"]:not([hidden])){grid-template-columns:repeat(3,minmax(0,1fr))}.rescue-stage[data-phase="complete"][data-reading="false"] [data-action="read"]{grid-column:auto;width:100%;font-size:16px}}

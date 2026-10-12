@@ -1,0 +1,14 @@
+{
+  "created": "2026-10-12",
+  "size": [
+    1200,
+    630
+  ],
+  "method": "HTML/CSS composition, scripts/create-ogp.mjs",
+  "sources": [
+    "prototype/assets/papers/forest-clean.png",
+    "prototype/assets/papers/globe.png"
+  ],
+  "license": "MIT; original generation records in docs/pr-c/art-provenance.json",
+  "spoilers": "cover setting only; no answers or ending"
+}

@@ -1,18 +1,23 @@
 // 公開する静的ファイルだけを dist/ へ集める。Pages Functions / Workers は使用しない。
 import { mkdir, copyFile, readFile, writeFile, stat } from 'node:fs/promises';
-import { pagesCodeFiles, inspectPagesOutput } from './pages-files.mjs';
+import { pagesCodeFiles, pagesAssetFiles, inspectPagesOutput } from './pages-files.mjs';
 import { AUDIO_FILES, IMAGE_FILES } from '../prototype/media-assets.js';
 import { boxArtFiles } from './box-files.mjs';
 import { paperArtFiles } from './paper-files.mjs';
 import { witchArtFiles } from './witch-files.mjs';
 import { analyticsConfig, analyticsCsp } from './analytics-build.mjs';
+import { socialConfig, socialMarkup } from './social-build.mjs';
 const root=new URL('../',import.meta.url),dist=new URL('dist/',root),prototype=new URL('prototype/',root);
 await inspectPagesOutput(dist);
 await mkdir(dist,{recursive:true});
 for(const file of pagesCodeFiles)await copyFile(new URL(file,prototype),new URL(file,dist));
 const analytics=analyticsConfig(process.env),csp=analyticsCsp(analytics);
 await writeFile(new URL('analytics-config.js',dist),`export const ANALYTICS_CONFIG = Object.freeze(${JSON.stringify(analytics)});\n`);
-for(const file of [...IMAGE_FILES,...AUDIO_FILES]){
+const social=socialConfig(process.env);
+await writeFile(new URL('share-config.js',dist),`export const PUBLIC_URL=${JSON.stringify(social.publicUrl)};\n`);
+const html=await readFile(new URL('index.html',dist),'utf8');
+await writeFile(new URL('index.html',dist),html.replace(/<!-- social-metadata:start -->[\s\S]*?<!-- social-metadata:end -->/,`<!-- social-metadata:start -->\n${socialMarkup(social)}\n<!-- social-metadata:end -->`));
+for(const file of [...IMAGE_FILES,...AUDIO_FILES,...pagesAssetFiles]){
   if((await stat(new URL(file,prototype))).size>25*1024*1024)throw new Error(`Pages asset too large: ${file}`);
   const target=new URL(file,dist);await mkdir(new URL('.',target),{recursive:true});
   await copyFile(new URL(file,prototype),target);

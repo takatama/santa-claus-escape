@@ -19,3 +19,8 @@ dialog{border:1px solid #dfd0b2;background:var(--paper);color:var(--ink);border-
 
 /* 語りを止めず、BGMだけを調整する。 */
 .bgm-control{flex-basis:100%;display:flex;align-items:center;gap:12px;padding:4px 3px 0;border-top:1px solid #d4cbb6}.bgm-control label{white-space:nowrap;font-size:11px;min-width:75px}.bgm-control output{display:inline-block;min-width:32px;text-align:right;font-variant-numeric:tabular-nums}.bgm-control input{flex:1;min-width:70px;height:44px;margin:0;accent-color:#325e50;cursor:pointer}.bgm-control .audio-button{min-height:44px;white-space:nowrap}@media(max-width:440px){.bgm-control{gap:8px}.bgm-control label{font-size:10px;min-width:65px}.bgm-control .audio-button{font-size:10px}}
+
+.share-dialog{width:min(560px,calc(100vw - 32px));max-height:calc(100svh - 32px);overflow:auto}
+.share-dialog input{width:100%;min-height:44px;font-size:16px}
+.share-dialog button{min-height:44px;margin-top:12px}
+.share-dialog [hidden]{display:none!important}

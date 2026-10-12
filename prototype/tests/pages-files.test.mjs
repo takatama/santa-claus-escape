@@ -6,7 +6,7 @@ import { promisify } from 'node:util';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { pagesFiles, pagesCodeFiles, inspectPagesOutput } from '../../scripts/pages-files.mjs';
+import { pagesFiles, pagesCodeFiles, pagesAssetFiles, inspectPagesOutput } from '../../scripts/pages-files.mjs';
 import { AUDIO_FILES, IMAGE_FILES } from '../media-assets.js';
 
 const run = promisify(execFile), repository = new URL('../../',import.meta.url);
@@ -21,10 +21,10 @@ async function fixture(t) {
     const target = new URL(name,root);
     await mkdir(new URL('.',target),{recursive:true});await writeFile(target,text);
   }
-  for(const name of [...pagesCodeFiles,...AUDIO_FILES,...IMAGE_FILES])await save(`prototype/${name}`,name==='index.html'?'full-app.js':name);
+  for(const name of [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES])await save(`prototype/${name}`,name==='index.html'?'full-app.js':name);
   await save('package.json','{"type":"module"}');
   await save('LICENSE');await save('NOTICE.md');
-  for(const name of ['analytics-build.mjs','build-pages.mjs','pages-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
+  for(const name of ['social-build.mjs','analytics-build.mjs','build-pages.mjs','pages-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
     await save(`scripts/${name}`);await copyFile(new URL(`scripts/${name}`,repository),new URL(`scripts/${name}`,root));
   }
   await copyFile(new URL('prototype/media-assets.js',repository),new URL('prototype/media-assets.js',root));

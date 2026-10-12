@@ -18,10 +18,12 @@ import { createRescueStage } from './rescue-stage.js';
 import { preloadRescueArt } from './rescue-art.js';
 import { rescueSceneFor,rescueTimeline,RescueNarration } from './rescue-presentation.js';
 import { createAnalytics } from './analytics.js';
+import { createGameShare } from './share.js';
 
 const app = document.querySelector('#app');
 let storage; try { storage = window.localStorage; } catch {}
 const analytics=createAnalytics({storage});
+const sharing=createGameShare({analytics});
 const loaded = readSave(storage);
 let state = loaded.state || initialState(), resumePending = state.phase !== 'welcome', storageAvailable = loaded.available;
 let readingIndex = null, feedback = '', inputError = false, lastAction = -Infinity;
@@ -250,6 +252,7 @@ app.addEventListener('keydown', e => { if (e.repeat && ['Enter', ' '].includes(e
 app.addEventListener('click', event => {
   const target = event.target.closest('button[data-action]'); if (!target || target.disabled) return;
   const action = target.dataset.action;
+  if(action==='share'){if(state.phase==='complete'&&readingIndex===null&&!resumePending)void sharing.open();return;}
   if(action==='analytics-allow'||action==='analytics-deny'){analytics.choose(action==='analytics-allow'?'granted':'denied');render();return;}
   if (action === 'stop') return stop();
   if (action === 'reset') { stop(); document.querySelector('#reset-dialog').showModal(); return; }

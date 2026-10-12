@@ -35,6 +35,8 @@ npm start
 
 ## 設計と確認記録
 
+- [音声・画像の圧縮と実測比較](docs/performance/COMPARISON.md) / [OGPと終了後の共有](docs/OGP-SHARING.md)。原本を保持し、静的な配信を続けます。
+
 - [GA4の設定ガイド](docs/GA4-SETUP-JA.md) / [イベントと分析の定義](docs/GA4-EVENT-DESIGN.md) / [子ども利用・プライバシーの判断](docs/GA4-PRIVACY-REVIEW.md)。測定ID未設定でも動作し、適用条件と本人の選択が揃うまで計測しません。
 
 - [全編統合と当初の想定からの変更](docs/INTEGRATION-DECISIONS-2026-10-11.md)：場所設定、青い箱、追加収録、救出と大団円、採用しなかった案、残る確認。
