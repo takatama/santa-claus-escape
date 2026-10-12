@@ -35,6 +35,8 @@ npm start
 
 ## 設計と確認記録
 
+- [公開前の確認と本人の作業](docs/RELEASE-CHECKLIST.md)：実機・GA設定・利用条件、検証済みと未確認、Issue #3 / #11の扱い。
+
 - [音声・画像の圧縮と実測比較](docs/performance/COMPARISON.md) / [OGPと終了後の共有](docs/OGP-SHARING.md)。原本を保持し、静的な配信を続けます。
 
 - [GA4の設定ガイド](docs/GA4-SETUP-JA.md) / [イベントと分析の定義](docs/GA4-EVENT-DESIGN.md) / [子ども利用・プライバシーの判断](docs/GA4-PRIVACY-REVIEW.md)。測定ID未設定でも動作し、適用条件と本人の選択が揃うまで計測しません。

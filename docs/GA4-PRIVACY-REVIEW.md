@@ -4,7 +4,7 @@
 
 | 公式に確認したこと | この作品への対応・残る判断 |
 | --- | --- |
-| [Google Analytics規約 §7](https://marketingplatform.google.com/about/analytics/terms/us/)はPII送信禁止、適切なプライバシーポリシー、GA利用とCookie等の表示、法令上必要な同意を求める | 答え・氏名等を送らず、privacy.htmlと任意の選択を用意。運営者は登録時の日本向け規約・実際の公開地域も確認する |
+| [Google Analytics規約 §7](https://marketingplatform.google.com/about/analytics/terms/jp/)はPII送信禁止、適切なプライバシーポリシー、GA利用とCookie等の表示、法令上必要な同意を求める | 答え・氏名等を送らず、privacy.htmlと任意の選択を用意。運営者は登録時の日本向け規約・制作等の用途への適合・実際の公開地域も確認する |
 | [Googleのデータ保護説明](https://support.google.com/analytics/answer/6004245?hl=ja)はCookie識別子とユーザーの許可／拒否を説明する | 許可前はタグそのものを読まないbasic方式。拒否でも遊べる。許可は取り消せる |
 | [Googleの子ども向けサービスの説明](https://support.google.com/policies/answer/9664901?hl=ja)は公開者の法令・Googleポリシーへの責任、子どもの年齢定義の違い、指定ツールが義務を免除しないことを説明 | 子どもも利用することだけでGA4を一律禁止とも、広告を無効にすれば適法とも断定しない。child-directedに当たるか、対象国、Google側の取り扱いを運営者が確認 |
 | [FTCのCOPPA説明](https://www.ftc.gov/business-guidance/resources/childrens-online-privacy-protection-rule-six-step-compliance-plan-your-business)は13歳未満向けサイト、永続識別子等、保護者同意等を扱う | 米国向け提供に該当するか、内部運用の解析の例外にこの構成が該当するか未確定。ゲーム内の子どものクリックや「保護者と確認」表示だけを検証可能な保護者同意に置き換えない |
@@ -22,3 +22,10 @@
 条件未確定のままでもゲーム・圧縮・共有・検査は進められる。無効のままならPVや進行データは得られないため、「公開後すぐ分析できる」はこの手動判断とGA設定の完了が条件となる。
 
 制作済みGemini TTSの利用条件の未解決事項は別であり、GAを無効にしても解決しない。今回はTTSの生成・交換・新しい声の採用を行わない。NOTICEとIssue #3の記録を維持する。
+
+
+## 公開確認での補足
+
+[Google公式のCSPガイド（広告機能なし）](https://developers.google.com/tag-platform/security/guides/csp)に合わせ、許可後のビルドだけscript/imgのGoogleタグとconnectのGoogle Analytics/Googleドメインを許可する。unsafe-inline/unsafe-evalや広告用DoubleClickドメインを追加しない。未設定・未承認のヘッダーはselfのまま。
+
+日本語利用規約の制作等の用途と第7条も確認した。適用国、child-directedの該当性、保護者同意の方法、問い合わせ／削除手続きの確定は運営者の判断として残る。確認を完了するまで承認フラグを立てない。

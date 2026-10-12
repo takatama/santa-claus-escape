@@ -21,6 +21,12 @@ test('analytics: production and a distinct test property require explicit approv
   assert.equal(analyticsConfig({SANTA_GA4_ID:env.SANTA_GA4_ID}).measurementId,'');
   assert.equal(analyticsConfig({...env,SANTA_GA4_POLICY_APPROVED:''}).approved,false);
   assert.deepEqual(analyticsCsp({measurementId:'',approved:true}),{script:'',connect:'',img:''});
+  assert.deepEqual(analyticsCsp({measurementId:env.SANTA_GA4_ID,approved:false}),{script:'',connect:'',img:''});
+  assert.deepEqual(analyticsCsp(analyticsConfig(env)),{
+    script:' https://www.googletagmanager.com',
+    connect:' https://www.googletagmanager.com https://*.google-analytics.com https://*.google.com',
+    img:' https://www.googletagmanager.com https://*.google-analytics.com',
+  });
   assert.equal(analyticsConfig({...env,CF_PAGES_BRANCH:'test',SANTA_GA4_TEST_ID:env.SANTA_GA4_ID,SANTA_GA4_TEST_ORIGIN:'http://127.0.0.1:4191'}).measurementId,'');
 });
 function fake(consent,overrides={}) {

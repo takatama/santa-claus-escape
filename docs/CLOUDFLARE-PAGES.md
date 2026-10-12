@@ -35,3 +35,11 @@ GitHub連携の権限は必要なリポジトリだけに限定できます。`G
 進行はブラウザのlocalStorageに保存されます。ローカルURL、プレビューURL、本番URLはそれぞれ別の保存先です。
 
 公式資料：[静的HTMLの配信](https://developers.cloudflare.com/pages/framework-guides/deploy-anything/)、[Git連携](https://developers.cloudflare.com/pages/configuration/git-integration/)。
+
+## 2026-10-12の公開準備
+
+本番へのマージ・再公開は今回行っていません。音声と画像の原本をGitに保持し、ビルドは配信用AAC/WebPと静的OGP画像をdistへコピーします。制作スクリプト、FFmpeg、PNG/WAV原本、未使用の録音をdistへ含めません。`npm run check:media`で原本・派生のハッシュを確認します。
+
+GA4は測定ID未設定でも動作し、適用条件の確認と任意の許可が揃うまでタグを読み込みません。Production/Previewの設定は [日本語ガイド](GA4-SETUP-JA.md)。`SANTA_PUBLIC_URL`はOGP・共有・計測の正規URLで、HTTPSのルートURLを指定します。プレビューのOG画像だけはCloudflareのCF_PAGES_URLを使います。
+
+[公開前チェックリスト](RELEASE-CHECKLIST.md)と [前後比較](performance/COMPARISON.md)を参照してください。実機・本物のSNS・Realtime/DebugViewの確認は未完了です。

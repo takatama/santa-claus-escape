@@ -15,5 +15,6 @@ export function analyticsConfig(env) {
 }
 export function analyticsCsp(config) {
   if(!config.measurementId||!config.approved)return {script:'',connect:'',img:''};
-  return {script:' https://www.googletagmanager.com',connect:' https://www.googletagmanager.com https://*.google-analytics.com',img:' https://*.google-analytics.com'};
+  // Google's documented GA4 endpoints without any Ads features.
+  return {script:' https://www.googletagmanager.com',connect:' https://www.googletagmanager.com https://*.google-analytics.com https://*.google.com',img:' https://www.googletagmanager.com https://*.google-analytics.com'};
 }
