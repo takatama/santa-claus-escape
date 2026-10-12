@@ -47,6 +47,7 @@ test('analytics: one standard pageview, bounded queued events, sanitized URL and
   const config=commands.find(v=>v[0]==='config')[2];assert.equal(config.send_page_view,true);
   assert.equal(config.page_location,'https://santa-claus-escape.pages.dev/?utm_source=friend');assert.equal(config.page_referrer,'https://example.com/');
   assert.equal(config.allow_google_signals,false);assert.equal(config.allow_ad_personalization_signals,false);
+  assert.equal(config.cookie_domain,'santa-claus-escape.pages.dev');
   f.analytics.resume('boxes');f.analytics.resume('boxes');f.scripts[0].onload();
   assert.equal(f.win.dataLayer.filter(v=>v[1]==='game_resume').length,1);
   f.analytics.choose('denied');f.analytics.share('copy');assert.equal(f.win['ga-disable-G-ABC1234567'],true);

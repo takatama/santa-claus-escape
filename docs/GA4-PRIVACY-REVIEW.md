@@ -29,3 +29,5 @@
 [Google公式のCSPガイド（広告機能なし）](https://developers.google.com/tag-platform/security/guides/csp)に合わせ、許可後のビルドだけscript/imgのGoogleタグとconnectのGoogle Analytics/Googleドメインを許可する。unsafe-inline/unsafe-evalや広告用DoubleClickドメインを追加しない。未設定・未承認のヘッダーはselfのまま。
 
 日本語利用規約の制作等の用途と第7条も確認した。適用国、child-directedの該当性、保護者同意の方法、問い合わせ／削除手続きの確定は運営者の判断として残る。確認を完了するまで承認フラグを立てない。
+
+Cookieの自動親ドメイン選択を使わず、ゲームのhostnameを `cookie_domain` に指定する。独自のサブドメインへ移した場合も、取消し時に削除するドメインと一致させ、別サイトとの不要な共有を避ける。[GoogleのCookie設定ガイド](https://developers.google.com/tag-platform/security/guides/customize-cookies)。実Googleタグが生成するCookieは検証用プロパティで本人が最終確認する。取消しのブラウザ検査はGA名のCookieだけを消し、ゲーム保存と他のCookieを維持することを確認する。

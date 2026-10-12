@@ -46,7 +46,7 @@ export function createAnalytics({win=window,doc=document,storage,config=ANALYTIC
         const value=query.get(key);if(value&&['friend','line','x','qiita','github','game_share','social','referral','release2026','ending','copy','native','manual_copy'].includes(value))location.searchParams.set(key,value);
       }
       let referrer='';try{referrer=new URL(doc.referrer).origin+'/';}catch{}
-      command('config',config.measurementId,{send_page_view:true,page_location:location.href,page_referrer:referrer,page_title:'サンタの脱出',allow_google_signals:false,allow_ad_personalization_signals:false,cookie_expires:60*60*24*180,cookie_update:false,...(config.debug?{debug_mode:true}:{})});
+      command('config',config.measurementId,{send_page_view:true,page_location:location.href,page_referrer:referrer,page_title:'サンタの脱出',allow_google_signals:false,allow_ad_personalization_signals:false,cookie_domain:win.location.hostname,cookie_expires:60*60*24*180,cookie_update:false,...(config.debug?{debug_mode:true}:{})});
       const script=doc.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+config.measurementId;
       script.onload=()=>{ready=true;const queue=pending;pending=[];if(enabled())for(const e of queue)send(e.name,e.params);};
       script.onerror=()=>{pending=[];};doc.head.append(script);

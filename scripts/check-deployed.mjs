@@ -29,14 +29,22 @@ for(const name of privateFiles) {
 }
 const rangeAudio=AUDIO_FILES.find(name=>name.endsWith('.m4a'));
 const range=await fetch(new URL(rangeAudio,preview),{headers:{Range:'bytes=0-31'},signal:AbortSignal.timeout(30000)});
-assert.equal(range.status,206);assert.match(range.headers.get('content-type'),/^audio\/mp4/);
+assert.match(range.headers.get('content-type'),/^audio\/mp4/);
 const original=await readFile(new URL(rangeAudio,dist));
-assert.equal(range.headers.get('content-range'),`bytes 0-31/${original.length}`);
-assert.ok(Buffer.from(await range.arrayBuffer()).equals(original.subarray(0,32)));
+const rangeBody=Buffer.from(await range.arrayBuffer());
+// Pages currently documents full 200 responses to Range. Report this honestly;
+// a future 206 must have the requested range and exactly the requested bytes.
+if(range.status===206){
+  assert.equal(range.headers.get('content-range'),`bytes 0-31/${original.length}`);
+  assert.ok(rangeBody.equals(original.subarray(0,32)));
+}else{
+  assert.equal(range.status,200);assert.equal(range.headers.get('content-range'),null);
+  assert.ok(rangeBody.equals(original),'complete body for ignored Range');
+}
 const crawlerAgents=['Twitterbot/1.0','facebookexternalhit/1.1','Line/13.0'];
 for(const ua of crawlerAgents) {
   const response=await fetch(new URL('assets/share-card.png',preview),{headers:{'User-Agent':ua},signal:AbortSignal.timeout(30000)});
   assert.equal(response.status,200);assert.equal(response.headers.get('content-type'),'image/png');
   const png=Buffer.from(await response.arrayBuffer());assert.equal(png.readUInt32BE(16),1200);assert.equal(png.readUInt32BE(20),630);
 }
-console.log(JSON.stringify({preview,textFiles,binaryFiles,textNormalization:'CRLF/LF only',binaryComparison:'byte equality',privateAndPrototypeFiles:'404',privatePathCount:privateFiles.length,securityHeaders:'equal',audioRange:{status:206,format:'audio/mp4',bytes:32},crawlerAgents,card:{status:200,width:1200,height:630}}));
+console.log(JSON.stringify({preview,textFiles,binaryFiles,textNormalization:'CRLF/LF only',binaryComparison:'byte equality',privateAndPrototypeFiles:'404',privatePathCount:privateFiles.length,securityHeaders:'equal',audioRange:{status:range.status,partial:range.status===206,format:'audio/mp4',bytes:rangeBody.length},crawlerAgents,card:{status:200,width:1200,height:630}}));
