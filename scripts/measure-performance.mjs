@@ -29,7 +29,7 @@ try{
   const context=await browser.newContext({viewport:{width:390,height:844},deviceScaleFactor:1});const page=await context.newPage();const cdp=await context.newCDPSession(page);
   await cdp.send('Network.enable');await cdp.send('Network.setCacheDisabled',{cacheDisabled:true});
   if(profile==='mobile-4g'){await cdp.send('Network.emulateNetworkConditions',{offline:false,latency:150,downloadThroughput:1600000/8,uploadThroughput:750000/8,connectionType:'cellular4g'});await cdp.send('Emulation.setCPUThrottlingRate',{rate:4});}
-  const transfers=[],responses=new Map();cdp.on('Network.responseReceived',e=>responses.set(e.requestId,e.response.url));cdp.on('Network.loadingFinished',e=>transfers.push({url:responses.get(e.requestId),bytes:e.encodedDataLength}));
+  const transfers=[],responses=new Map(),partial=new Map();cdp.on('Network.requestWillBeSent',e=>responses.set(e.requestId,e.request.url));cdp.on('Network.dataReceived',e=>partial.set(e.requestId,(partial.get(e.requestId)||0)+e.encodedDataLength));cdp.on('Network.loadingFinished',e=>transfers.push({url:responses.get(e.requestId),bytes:e.encodedDataLength,completed:true}));cdp.on('Network.loadingFailed',e=>transfers.push({url:responses.get(e.requestId),bytes:partial.get(e.requestId)||0,completed:false}));
   await page.addInitScript(()=>{new PerformanceObserver(list=>{for(const e of list.getEntries())window.measuredLcp=e.startTime;}).observe({type:'largest-contentful-paint',buffered:true});});
   const start=Date.now();await page.goto(base,{waitUntil:'domcontentloaded',timeout:180000});
   await page.locator('[data-action="start"]').waitFor({timeout:180000});
@@ -42,13 +42,13 @@ try{
   const click=async action=>{await page.waitForTimeout(480);await page.locator(`[data-action="${action}"]`).click();};
   // Real UI, sound on. Let files load, then stop narration without waiting
   // for the full sentence; the downloaded quantity is distinct from duration.
-  await click('start');await page.waitForTimeout(2500);await page.locator('.box-settings>summary').click();await click('stop');await page.locator('.box-settings>summary').click();await page.waitForLoadState('networkidle',{timeout:180000});await click('boxes');await page.waitForLoadState('networkidle',{timeout:180000});
+  await click('start');await page.waitForFunction(()=>document.querySelector('#audio-host audio')?.readyState===4,{},{timeout:180000});await page.locator('.box-settings>summary').click();await click('stop');await page.locator('.box-settings>summary').click();await page.waitForLoadState('networkidle',{timeout:180000});await click('boxes');await page.waitForLoadState('networkidle',{timeout:180000});
   await page.waitForTimeout(480);await page.locator('[data-action="select"][data-color="red"]').click();await page.waitForLoadState('networkidle',{timeout:180000});
   const stages={introAndRedAdditionalBytes:transfers.slice(initialEnd).reduce((s,e)=>s+e.bytes,0)};
-  const resources=transfers.map(e=>({file:e.url?.replace(base+'/',''),bytes:e.bytes}));
+  const resources=transfers.map(e=>({file:e.url?.replace(base+'/',''),bytes:e.bytes,completed:e.completed}));
   runs.push({profile,run,controlsMs,artworkMs,initialSettledMs,...paint,initialBytes:transfers.slice(0,initialEnd).reduce((s,e)=>s+e.bytes,0),...stages,resources});
   await context.close();console.log(JSON.stringify({label,profile,run,controlsMs,artworkMs,initialBytes:runs.at(-1).initialBytes}));
  }
 }finally{await browser.close();await new Promise(resolve=>server.close(resolve));}
-const result={label,date:new Date().toISOString(),method:{host:'local HTTP, no compression, cache disabled',viewport:'390x844 DPR1',profiles:{unthrottled:'no artificial limits','mobile-4g':'1.6 Mbps down / 750 kbps up / 150ms RTT, 4x CPU'},trials:3,play:'sound on; start→boxes→red, stop after downloads; no full-clear claim',note:'Initial page total includes speculative red preload; FCP/LCP do not mean canvas art complete. InitialSettledMs measured before play.'},manifest,runs};
+const result={label,date:new Date().toISOString(),method:{host:'local HTTP, no compression, cache disabled',viewport:'390x844 DPR1',profiles:{unthrottled:'no artificial limits','mobile-4g':'1.6 Mbps down / 750 kbps up / 150ms RTT, 4x CPU'},trials:3,play:'sound on; start→boxes→red, stop once first voice can play through; no full-clear claim',note:'Initial page total includes speculative red preload; FCP/LCP do not mean canvas art complete. InitialSettledMs measured before play. Cancelled requests include received encoded body bytes (excluding headers).'},manifest,runs};
 await writeFile(path.join(output,label+'.json'),JSON.stringify(result,null,2)+'\n');
