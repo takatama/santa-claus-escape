@@ -1,4 +1,5 @@
 import { sceneFor, BOXES } from './full-scenario.js';
+import { mediaPath } from './media-assets.js';
 
 // Keep every original sentence; pause the existing success sequence at the lid.
 export function boxSceneFor(view) {
@@ -18,7 +19,7 @@ export function boxTimeline(key, resolve) {
   const match = /^(red|blue|yellow)-(unlocked|paper)(?:-(\d{4}))?$/.exec(key);
   if (!match) return resolve(key);
   const full = resolve(`${match[1]}-open${match[3]?`-${match[3]}`:''}`);
-  const split = full.findIndex(step => step.type === 'effect' && step.src.endsWith('/magic-cure2.mp3'));
+  const split = full.findIndex(step => step.type === 'effect' && step.src===mediaPath('effect','magic-cure2'));
   return match[2] === 'unlocked' ? full.slice(0, split) : full.slice(split);
 }
 

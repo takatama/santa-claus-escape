@@ -1,4 +1,5 @@
 import { loadImage } from './red-paint.js';
+import { mediaUrl } from './media-assets.js';
 
 const names = {
   red: { body:'red-body', lid:'red-lid', tanuki:'tanuki' },
@@ -9,7 +10,7 @@ const promises = new Map();
 export function loadBoxArt(color) {
   if (!promises.has(color)) {
     const entries = Object.entries(names[color]);
-    promises.set(color, Promise.all(entries.map(([,name])=>loadImage(new URL(`./assets/${color}-box/${name}.png`,import.meta.url).href,true)))
+    promises.set(color, Promise.all(entries.map(([,name])=>loadImage(mediaUrl(`${color}Box`,name),true)))
       .then(images=>Object.fromEntries(entries.map(([key],index)=>[key,images[index]])))
       .catch(error=>{promises.delete(color);throw error;}));
   }

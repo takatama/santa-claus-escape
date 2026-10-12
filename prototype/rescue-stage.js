@@ -1,6 +1,7 @@
 import { stageDialogueMarkup,createStageDialogue,createStageSettings } from './stage-dialogue.js';
 import { createRescueArt } from './rescue-art.js';
 import { clamp } from './witch-math.js';
+import { mediaUrl } from './media-assets.js';
 
 // Presentation and input only. Game, saves and the two voice intervals stay outside.
 export function createRescueStage({getState,onProgress,intro=false}) {
@@ -47,7 +48,7 @@ export function createRescueStage({getState,onProgress,intro=false}) {
     update(view,{settings,dialogue,status,saved,reading=false,navigation=''}) {
       const complete=view.phase==='complete',released=view.rescueMotion?.released!==false;
       latest={view,reading};element.dataset.phase=view.phase;element.dataset.reading=String(reading);element.dataset.released=String(released);syncHandle();
-      if(finaleReached()&&!finaleRequested){finaleRequested=true;finale.src=new URL('./assets/rescue/finale-v1.png',import.meta.url).href;}syncFinale();
+      if(finaleReached()&&!finaleRequested){finaleRequested=true;finale.src=mediaUrl('rescue','finale-v1');}syncFinale();
       if(released)finish();find('[data-action="read"]').hidden=!complete||reading;
       const reset=find('[data-action="reset"]'),resetHost=find(complete&&!reading?'.rescue-actions':'.box-footer');
       if(reset.parentElement!==resetHost)resetHost.append(reset);reset.classList.toggle('secondary',complete&&!reading);reset.textContent=complete&&!reading?'最初から謎を解く':'やり直す';

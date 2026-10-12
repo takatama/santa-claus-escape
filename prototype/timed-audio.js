@@ -1,6 +1,7 @@
 // 声と効果音の順番を原作SSMLに合わせる。時刻の推測ではなく、発話区間で区切る。
 import { BOXES,REMAINING_BOX_MESSAGES,productionScenes } from './full-scenario.js';
 import { STORYBOOK_AUDIO_IDS } from './storybook-content.js';
+import { mediaPath } from './media-assets.js';
 export const TIMED_VOICE_SEGMENTS=Object.freeze({
   ...Object.fromEntries(Object.entries(BOXES).flatMap(([color,box])=>{
     const text=productionScenes()[`${color}-open`][0].spoken;
@@ -10,11 +11,11 @@ export const TIMED_VOICE_SEGMENTS=Object.freeze({
   'rescue-appeared':{speaker:'narrator',text:productionScenes().rescue[1].spoken},
   ...Object.fromEntries(Object.entries(REMAINING_BOX_MESSAGES).map(([key,text])=>[key,{speaker:'narrator',text}])),
 });
-const asset=id=>`./assets/audio/${id}.wav`;
+const asset=id=>mediaPath('voice',id);
 const voice=sources=>({type:'voice',sources});
 export const timedVoiceId=id=>STORYBOOK_AUDIO_IDS[id]||(id.startsWith('remaining-')?`ja-${id}`:`cue-${id}`);
 const speech=id=>voice([asset(timedVoiceId(id))]);
-const effect=(file,volume=.18)=>({type:'effect',src:`./assets/audio/${file}.mp3`,volume});
+const effect=(file,volume=.18)=>({type:'effect',src:mediaPath('effect',file),volume});
 const pause=seconds=>({type:'pause',seconds});
 const dial=()=>effect('dial',.12);
 const number=(color,digits)=>voice([`answer-prefix-${color}`,...digits.split('').map(n=>`answer-digit-${n}`),'answer-set'].map(asset));

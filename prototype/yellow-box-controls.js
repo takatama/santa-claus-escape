@@ -1,4 +1,5 @@
 import { BOXES } from './full-scenario.js';
+import { mediaUrl } from './media-assets.js';
 const keys={グー:'rock',チョキ:'scissors',パー:'paper'};
 
 /** Only enlarges the four reached pictures. No choices, conversion or save. */
@@ -13,7 +14,7 @@ export function createYellowControls() {
   let index=0,exam=0;
   function paint() {
     const hand=BOXES.yellow.hands[index],image=find('img');
-    image.src=new URL(`./assets/yellow-box/${keys[hand]}.png`,import.meta.url).href;
+    image.src=mediaUrl('yellowBox',keys[hand]);
     image.alt=hand;image.classList.toggle('hand-mirrored',hand==='チョキ');
     find('figcaption').textContent=hand;
     find('.hand-position').textContent=`${index+1}枚目 / 4枚`;

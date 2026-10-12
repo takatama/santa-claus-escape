@@ -4,8 +4,9 @@ import { loadWitchArt,getWitchArt } from './witch-art.js';
 import { paintForestStage } from './forest-stage.js';
 import { smooth, clamp } from './witch-math.js';
 import { makeLayout, rescue } from './rescue-math.js';
+import { mediaUrl } from './media-assets.js';
 let rescuePromise;
-const loadRescueArt=()=>rescuePromise ||= Promise.all(['empty-globe-original-v2','santa'].map(name=>loadImage(new URL('./assets/rescue/'+name+'.png',import.meta.url).href)));
+const loadRescueArt=()=>rescuePromise ||= Promise.all(['empty-globe-original-v2','santa'].map(name=>loadImage(mediaUrl('rescue',name))));
 // Prepare the composition while questions are shown. The rescue view reports
 // failures; preloading never blocks dialogue, answers or navigation.
 export const preloadRescueArt=()=>loadRescueArt().catch(()=>{});
