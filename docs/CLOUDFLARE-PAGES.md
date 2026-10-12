@@ -38,6 +38,8 @@ GitHub連携の権限は必要なリポジトリだけに限定できます。`G
 
 ## 2026-10-12の公開準備
 
+現在の作業は計測OFFのままの整理。[CFの設定画面と維持する値](GA4-CLOUDFLARE-SETTINGS.md)、[海外公開を含むプライバシー対応範囲](GA4-PRIVACY-SCOPE.md)を参照する。設定保存、計測有効化、再デプロイは今回行わない。
+
 本番へのマージ・再公開は今回行っていません。音声と画像の原本をGitに保持し、ビルドは配信用AAC/WebPと静的OGP画像をdistへコピーします。制作スクリプト、FFmpeg、PNG/WAV原本、未使用の録音をdistへ含めません。`npm run check:media`で原本・派生のハッシュを確認します。
 
 GA4は測定ID未設定でも動作し、適用条件の確認と任意の許可が揃うまでタグを読み込みません。Production/Previewの設定は [日本語ガイド](GA4-SETUP-JA.md)。`SANTA_PUBLIC_URL`はOGP・共有・計測の正規URLで、HTTPSのルートURLを指定します。プレビューのOG画像だけはCloudflareのCF_PAGES_URLを使います。

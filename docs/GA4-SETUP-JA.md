@@ -2,6 +2,10 @@
 
 2026-10-12。**Googleアカウント・規約承諾・Cloudflareの環境変数・GA管理画面は本人が操作します。Codexが代行したことにはなりません。** プロパティを先に作る必要はありません。先に作る場合もタグを別途HTMLへ貼らず、測定IDを保存するだけにします。
 
+現在は**Production・Previewとも計測を無効のまま維持する**。[CFの設定画面とOFF設定](GA4-CLOUDFLARE-SETTINGS.md)、[海外公開を含む対応範囲](GA4-PRIVACY-SCOPE.md)を先に確認する。以下のID入力・承認・再ビルド・Realtimeの手順は、将来有効化を認めた場合の参考であり、今回実行する手順ではない。
+
+2026-10-13、本人からイベント保持2か月、保持リセット・シグナル・広告パーソナライズ・拡張計測OFF、Google広告リンクなし、アカウント共有4項目OFFの完了報告を受けた。[作業済み項目と公開の前提](GA4-SETUP-PROGRESS.md)を参照し、同じ設定をやり直さない。趣味・無料・子どもも利用する海外公開の条件判断は引き続き未完了。
+
 ## 1. アカウント・プロパティ
 
 1. [Google Analytics](https://analytics.google.com/)へ自分のGoogleアカウントでログイン。「測定を開始」、または左下「管理」→「作成」→「アカウント」。アカウント名は例「takatama」。Googleへのデータ共有は必要なものだけにする。
@@ -26,7 +30,7 @@ Google公式：[アカウントとプロパティの作成](https://support.goog
 
 ### 削除依頼の準備
 
-GA管理画面に「削除依頼を受け付ける」というスイッチを設定する作業ではない。運営者が、非公開の受付先・対象ブラウザの特定方法・Googleへの削除操作・依頼者への返信を準備する。現在のGitHub公開Issueだけでは、Cookie識別子等を安全に受け取る窓口が整っていない。[個別削除の具体的な手順](GA4-DELETION-PROCEDURE.md)を参照する。
+GA管理画面に「削除依頼を受け付ける」というスイッチを設定する作業ではない。運営者が、非公開の受付先・対象ブラウザの特定方法・Googleへの削除操作・依頼者への返信を準備する。2026-10-13に[Googleフォームの相談窓口](CONTACT-FORM.md)を用意したが、Cookie識別子等は入力しないよう案内しており、GAデータの安全な対象特定方法は未整備。[個別削除の具体的な手順](GA4-DELETION-PROCEDURE.md)を参照する。
 
 「許可を取り消す」は以後の送信停止と端末内GA Cookie削除。「2か月の保持」はイベントデータの保持設定。「既にGoogleへ送った個別データの削除」は別の処理である。保持設定は標準の集計レポートを一律に削除するものではない。[Googleの保持の説明](https://support.google.com/analytics/answer/7667196?hl=ja)。
 
@@ -41,6 +45,8 @@ GA管理画面に「削除依頼を受け付ける」というスイッチを設
 | `SANTA_GA4_POLICY_APPROVED` | 条件確認が完了した場合のみ `true` | 検証用も条件確認後に `true` |
 | `SANTA_GA4_TEST_ID` | 設定しない | `G-B2YBCVGPDD` |
 | `SANTA_GA4_TEST_ORIGIN` | 設定しない | `https://codex-release-readiness.santa-claus-escape.pages.dev` |
+
+上表は**将来の有効化用**。今は両環境の`SANTA_GA4_POLICY_APPROVED`を未設定または`false`に保つ。測定IDを受領済みでも承認されたことにはならない。海外の子ども利用を含む条件確認は[対応範囲](GA4-PRIVACY-SCOPE.md)に従う。
 
 Cloudflareが供給する `CF_PAGES` と `CF_PAGES_BRANCH` は上書きしない。main以外へ本番IDだけ設定しても計測は無効。ProductionとPreviewの両方に同じIDをコピーしない。設定変更は次のビルドへ反映される。今回のPRではmainへマージ・本番ビルドの再実行は行わない。
 
