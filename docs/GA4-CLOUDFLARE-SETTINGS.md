@@ -1,19 +1,23 @@
 # Cloudflareの設定画面と計測OFFの維持
 
-2026-10-12 JST。PR #10 → #12 → #13 → #14の続き。軽量化・OGP・共有はユーザー了承済み。**Production・Previewとも計測OFFを維持し、mainへのマージ・本番公開・管理設定の変更は行わない。**
+2026-10-13 JST更新。PR #10 → #12 → #13 → #14の続き。軽量化・OGP・共有はユーザー了承済み。**Production・Previewとも計測OFFを維持し、mainへのマージ・本番公開・管理設定の変更は行わない。**
 
 ## 画面確認の範囲
 
-今回のブラウザは[Cloudflareダッシュボード](https://dash.cloudflare.com/)のログイン画面まで確認した。ログイン後のプロジェクト画面、保存済み環境変数、Web Analyticsのスイッチは未確認。以下の画面名はCloudflare公式資料に基づく案内で、本人の画面を確認した記録ではない。
+Codexのブラウザでは[Cloudflareダッシュボード](https://dash.cloudflare.com/)のログイン画面まで確認した。ログイン後のプロジェクト画面、保存済み環境変数、Web AnalyticsのスイッチをCodexが直接確認した記録ではない。以下では公式資料による案内と、本人が画面を操作して報告した結果を区別する。
 
 2026-10-13までのユーザー報告：SettingsのBuild設定は本番main・`npm run build`・出力dist・Node 24、Variables and secretsに本番IDと評価IDがあり、`SANTA_GA4_POLICY_APPROVED=false`。MetricsのWeb Analyticsはdisabled。環境選択は画面で見つからなかったため、Production/Previewそれぞれの設定を確認したとは扱わない。管理画面の値はユーザーの報告であり、Codexの直接確認ではない。
 
+同日、本人がCloudflareは通常の自己登録・個別Enterprise契約なし、同プロジェクトのCustom domainsはなしと報告した。最新PreviewのFunctions画面では、開始するには`/functions`を追加する旨の案内が表示された。コードとビルドもFunctions / Workersを使用しない静的構成（`backend:none`）であり、今回はFunctionsを利用していないとして整理する。独自ドメインやFunctions、ログ収集を新設する作業はない。Cloudflare内部の配信情報処理がないという意味ではない。
+
 | 開く場所 | 確認すること | 今回の扱い |
 | --- | --- | --- |
-| Workers & Pages → `santa-claus-escape` → Settings → Environment variables | ビルド時の変数、Production / Previewの切り替え | 内容を確認する段階。保存しない。UIによってVariables and Secrets表記もある |
+| Workers & Pages → `santa-claus-escape` → Settings → Environment variables | ビルド時の変数、Production / Previewの切り替え | 本人からVariables and secretsの値の報告あり。環境選択は見つからず、両環境を個別に確認したとはしない |
 | 同プロジェクトのSettings内のビルド・Git設定 | 本番ブランチ`main`、`npm run build`、出力`dist`、Node 24 | 既存設定を確認。WorkersやFunctionsを追加しない |
-| 同プロジェクト → Metrics → Web Analytics | クライアント計測用タグの自動挿入 | 有効化しない。現状のスイッチは未確認 |
+| 同プロジェクト → Metrics → Web Analytics | クライアント計測用タグの自動挿入 | 本人からdisabledの報告あり。有効化しない |
 | 同プロジェクト → Deployments | 環境、ブランチ、コミット、URL | PR #14のPreviewと本番を区別。Retry / Redeployは実行しない |
+| 同プロジェクト → Custom domains | 独自ドメインの登録 | 本人からなしの報告あり |
+| 最新PreviewのView details → Functions | Functionsの利用 | 本人から開始案内の報告あり。コードとビルドもFunctions未使用 |
 
 ビルド変数の場所は[Build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/#environment-variables)、Variables and Secrets表記は[Bindings](https://developers.cloudflare.com/pages/functions/bindings/#secrets)を参照。今回の値は静的ファイルのビルドで読むため、Functionsのバインディングを新設する作業ではない。測定IDは公開される識別子であり、APIキーではない。
 
