@@ -17,7 +17,8 @@ test('finale: release shows one uncropped illustration at seven sizes; resume an
     if(width===390||width===1280||width===568)await page.screenshot({path:`test-results/finale/complete-${width}x${height}.png`});
   }
   await page.reload();await btn(page,'resume').click();await expect(finale(page)).toBeVisible();expect(await saved(page)).toEqual(before);
-  await btn(page,'read').click();for(let i=1;i<before.history.length;i++){await page.waitForTimeout(470);await btn(page,'read-next').click();}
+  // Preserve the existing 450 ms action gate even when the WebP arrives quickly.
+  await page.waitForTimeout(470);await btn(page,'read').click();for(let i=1;i<before.history.length;i++){await page.waitForTimeout(470);await btn(page,'read-next').click();}
   await expect(finale(page)).toBeVisible();await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase',before.history.at(-1).phase);expect(await saved(page)).toEqual(before);
   for(const [width,height]of sizes){
     await page.setViewportSize({width,height});await expect(finale(page)).toBeVisible();
