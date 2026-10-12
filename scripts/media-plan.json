@@ -1,0 +1,437 @@
+[
+  {
+    "source": "assets/audio/answer-closed.wav",
+    "target": "assets/audio/answer-closed.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-0.wav",
+    "target": "assets/audio/answer-digit-0.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-1.wav",
+    "target": "assets/audio/answer-digit-1.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-2.wav",
+    "target": "assets/audio/answer-digit-2.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-3.wav",
+    "target": "assets/audio/answer-digit-3.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-4.wav",
+    "target": "assets/audio/answer-digit-4.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-5.wav",
+    "target": "assets/audio/answer-digit-5.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-6.wav",
+    "target": "assets/audio/answer-digit-6.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-7.wav",
+    "target": "assets/audio/answer-digit-7.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-8.wav",
+    "target": "assets/audio/answer-digit-8.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-digit-9.wav",
+    "target": "assets/audio/answer-digit-9.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-prefix-blue.wav",
+    "target": "assets/audio/answer-prefix-blue.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-prefix-red.wav",
+    "target": "assets/audio/answer-prefix-red.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-prefix-yellow.wav",
+    "target": "assets/audio/answer-prefix-yellow.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/answer-set.wav",
+    "target": "assets/audio/answer-set.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/cue-box-blue-opened.wav",
+    "target": "assets/audio/cue-box-blue-opened.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/cue-box-blue-paper.wav",
+    "target": "assets/audio/cue-box-blue-paper.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/cue-box-red-opened.wav",
+    "target": "assets/audio/cue-box-red-opened.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/cue-box-red-paper.wav",
+    "target": "assets/audio/cue-box-red-paper.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/cue-box-yellow-opened.wav",
+    "target": "assets/audio/cue-box-yellow-opened.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/cue-box-yellow-paper.wav",
+    "target": "assets/audio/cue-box-yellow-paper.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/cue-rescue-fairy-first.wav",
+    "target": "assets/audio/cue-rescue-fairy-first.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-blue-open.wav",
+    "target": "assets/audio/ja-blue-open.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-blue-wrong-0000.wav",
+    "target": "assets/audio/ja-blue-wrong-0000.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-blue1.wav",
+    "target": "assets/audio/ja-blue1.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-blue2.wav",
+    "target": "assets/audio/ja-blue2.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-blue3.wav",
+    "target": "assets/audio/ja-blue3.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-branch-discovery.wav",
+    "target": "assets/audio/ja-branch-discovery.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-invite.wav",
+    "target": "assets/audio/ja-leda-invite.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-question-christmas-creatures.wav",
+    "target": "assets/audio/ja-leda-question-christmas-creatures.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-question-deer-ten-times.wav",
+    "target": "assets/audio/ja-leda-question-deer-ten-times.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-question-red-ornament.wav",
+    "target": "assets/audio/ja-leda-question-red-ornament.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-response-christmas-creatures-right.wav",
+    "target": "assets/audio/ja-leda-response-christmas-creatures-right.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-response-christmas-creatures-wrong.wav",
+    "target": "assets/audio/ja-leda-response-christmas-creatures-wrong.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-response-deer-ten-times-right.wav",
+    "target": "assets/audio/ja-leda-response-deer-ten-times-right.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-response-deer-ten-times-wrong.wav",
+    "target": "assets/audio/ja-leda-response-deer-ten-times-wrong.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-response-red-ornament-right.wav",
+    "target": "assets/audio/ja-leda-response-red-ornament-right.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-leda-response-red-ornament-wrong.wav",
+    "target": "assets/audio/ja-leda-response-red-ornament-wrong.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-letters.wav",
+    "target": "assets/audio/ja-letters.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-red-open.wav",
+    "target": "assets/audio/ja-red-open.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-red-wrong-0000.wav",
+    "target": "assets/audio/ja-red-wrong-0000.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-reinvite.wav",
+    "target": "assets/audio/ja-reinvite.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-remaining-blue-yellow.wav",
+    "target": "assets/audio/ja-remaining-blue-yellow.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-remaining-blue.wav",
+    "target": "assets/audio/ja-remaining-blue.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-remaining-red-blue.wav",
+    "target": "assets/audio/ja-remaining-red-blue.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-remaining-red-yellow.wav",
+    "target": "assets/audio/ja-remaining-red-yellow.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-remaining-red.wav",
+    "target": "assets/audio/ja-remaining-red.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-remaining-yellow.wav",
+    "target": "assets/audio/ja-remaining-yellow.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-yellow-open.wav",
+    "target": "assets/audio/ja-yellow-open.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-yellow-wrong-0000.wav",
+    "target": "assets/audio/ja-yellow-wrong-0000.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-yellow1.wav",
+    "target": "assets/audio/ja-yellow1.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-yellow2.wav",
+    "target": "assets/audio/ja-yellow2.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-yellow3.wav",
+    "target": "assets/audio/ja-yellow3.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/ja-yellow4.wav",
+    "target": "assets/audio/ja-yellow4.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/red1.wav",
+    "target": "assets/audio/red1.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/red2.wav",
+    "target": "assets/audio/red2.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/red3.wav",
+    "target": "assets/audio/red3.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/red4.wav",
+    "target": "assets/audio/red4.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/rescue-dialogue.wav",
+    "target": "assets/audio/rescue-dialogue.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/rescue-ending.wav",
+    "target": "assets/audio/rescue-ending.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/storybook-blue4.wav",
+    "target": "assets/audio/storybook-blue4.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/storybook-help.wav",
+    "target": "assets/audio/storybook-help.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/storybook-information.wav",
+    "target": "assets/audio/storybook-information.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/storybook-intro.wav",
+    "target": "assets/audio/storybook-intro.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/storybook-paused.wav",
+    "target": "assets/audio/storybook-paused.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/storybook-rescue-appeared.wav",
+    "target": "assets/audio/storybook-rescue-appeared.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/storybook-rescue.wav",
+    "target": "assets/audio/storybook-rescue.m4a",
+    "bitrate": "64k"
+  },
+  {
+    "source": "assets/audio/laid-back-loop.wav",
+    "target": "assets/audio/laid-back-loop.m4a",
+    "bitrate": "128k"
+  },
+  {
+    "source": "assets/audio/spook4-loop.wav",
+    "target": "assets/audio/spook4-loop.m4a",
+    "bitrate": "128k"
+  },
+  {
+    "source": "assets/red-box/red-body.png",
+    "target": "assets/red-box/red-body.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/red-box/red-lid.png",
+    "target": "assets/red-box/red-lid.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/red-box/tanuki.png",
+    "target": "assets/red-box/tanuki.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/blue-box/blue-body.png",
+    "target": "assets/blue-box/blue-body.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/blue-box/blue-lid.png",
+    "target": "assets/blue-box/blue-lid.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/blue-box/mountain.png",
+    "target": "assets/blue-box/mountain.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/yellow-box/yellow-body.png",
+    "target": "assets/yellow-box/yellow-body.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/yellow-box/yellow-lid.png",
+    "target": "assets/yellow-box/yellow-lid.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/yellow-box/rock.png",
+    "target": "assets/yellow-box/rock.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/yellow-box/scissors.png",
+    "target": "assets/yellow-box/scissors.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/yellow-box/paper.png",
+    "target": "assets/yellow-box/paper.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/papers/forest-clean.png",
+    "target": "assets/papers/forest-clean.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/papers/globe.png",
+    "target": "assets/papers/globe.webp",
+    "quality": 95
+  },
+  {
+    "source": "assets/witch/branch.png",
+    "target": "assets/witch/branch.webp",
+    "quality": 85
+  },
+  {
+    "source": "assets/witch/wizard-feet-v2.png",
+    "target": "assets/witch/wizard-feet-v2.webp",
+    "quality": 95
+  },
+  {
+    "source": "assets/rescue/empty-globe-original-v2.png",
+    "target": "assets/rescue/empty-globe-original-v2.webp",
+    "quality": 95
+  },
+  {
+    "source": "assets/rescue/santa.png",
+    "target": "assets/rescue/santa.webp",
+    "quality": 95
+  },
+  {
+    "source": "assets/rescue/finale-v1.png",
+    "target": "assets/rescue/finale-v1.webp",
+    "quality": 85
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "source": "prototype/assets/audio/storybook-help.wav",
+    "codec": "m4a",
+    "sourceBytes": 1565156,
+    "targetBytes": 285992,
+    "originalSeconds": 32.48,
+    "decodedSeconds": 32.48,
+    "rmsDeltaDb": -0.04503328664154555,
+    "peakDb": -1.0862343776957237
+  },
+  {
+    "source": "prototype/assets/audio/storybook-help.wav",
+    "codec": "ogg",
+    "sourceBytes": 1565156,
+    "targetBytes": 193402,
+    "originalSeconds": 32.48,
+    "decodedSeconds": 32.48,
+    "rmsDeltaDb": -0.14729461140618208,
+    "peakDb": -1.4293526390460933
+  },
+  {
+    "source": "prototype/assets/audio/ja-leda-question-deer-ten-times.wav",
+    "codec": "m4a",
+    "sourceBytes": 1039074,
+    "targetBytes": 189666,
+    "originalSeconds": 21.52,
+    "decodedSeconds": 21.52,
+    "rmsDeltaDb": -0.03135003173350853,
+    "peakDb": -0.7912185556330537
+  },
+  {
+    "source": "prototype/assets/audio/ja-leda-question-deer-ten-times.wav",
+    "codec": "ogg",
+    "sourceBytes": 1039074,
+    "targetBytes": 125062,
+    "originalSeconds": 21.52,
+    "decodedSeconds": 21.52,
+    "rmsDeltaDb": -0.2024231026567398,
+    "peakDb": -0.39811194826538887
+  },
+  {
+    "source": "prototype/assets/audio/answer-digit-8.wav",
+    "codec": "m4a",
+    "sourceBytes": 59824,
+    "targetBytes": 10114,
+    "originalSeconds": 1.12,
+    "decodedSeconds": 1.12,
+    "rmsDeltaDb": 0.012233435883262821,
+    "peakDb": -1.1698417100422709
+  },
+  {
+    "source": "prototype/assets/audio/answer-digit-8.wav",
+    "codec": "ogg",
+    "sourceBytes": 59824,
+    "targetBytes": 6495,
+    "originalSeconds": 1.12,
+    "decodedSeconds": 1.12,
+    "rmsDeltaDb": -0.6040920047198757,
+    "peakDb": -0.8913847486847631
+  }
+]

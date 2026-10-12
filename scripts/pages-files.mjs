@@ -16,7 +16,7 @@ export const pagesCodeFiles = [
 ];
 export const pagesFiles = [...pagesCodeFiles,...AUDIO_FILES,...IMAGE_FILES,'LICENSE','NOTICE.txt','_headers','404.html'];
 export const servedPagesFiles = pagesFiles.filter(name=>name!=='_headers');
-export const contentTypes = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.png':'image/png', '.webp':'image/webp', '.avif':'image/avif' };
+export const contentTypes = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.wav': 'audio/wav', '.m4a':'audio/mp4', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.png':'image/png', '.webp':'image/webp', '.avif':'image/avif' };
 
 // Preserve the existing fail-fast policy: never delete unexpected output files.
 export async function inspectPagesOutput(folder, { complete = false } = {}) {

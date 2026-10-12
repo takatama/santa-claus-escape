@@ -86,7 +86,7 @@ test('witch: legacy already summoned and C success saves do not rewind; reset ca
 
 test('witch: unavailable image/audio/storage still completes the early session',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw Error('disabled');}});window.speechSynthesis=undefined;HTMLMediaElement.prototype.play=function(){return Promise.reject(Error('no playback'));};});
-  await page.route('**/assets/witch/*.png',r=>r.abort());await page.route('**/assets/papers/*.png',r=>r.abort());await page.route('**/assets/rescue/*.png',r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());
+  await page.route('**/assets/witch/*.webp',r=>r.abort());await page.route('**/assets/papers/*.webp',r=>r.abort());await page.route('**/assets/rescue/*.webp',r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());
   await early(page,false);await expect(page.locator('.witch-art-error')).toBeVisible();await expect(page.locator('#save-status')).toContainText('このまま遊べます');for(let i=0;i<5;i++)await grip(page).click();await page.waitForTimeout(470);await btn(page,'accept').click();await answerAll(page);expect(errors).toEqual([]);
 });
 

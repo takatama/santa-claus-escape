@@ -32,16 +32,16 @@ test('finale: release shows one uncropped illustration at seven sizes; resume an
 });
 
 test('finale: failed image keeps the released drawing, final story, reading and reset usable',async({page})=>{
-  await page.route('**/assets/rescue/finale-v1.png',r=>r.abort());await setupRescue(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await light(page).press('End');
+  await page.route('**/assets/rescue/finale-v1.webp',r=>r.abort());await setupRescue(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await light(page).press('End');
   await expect(page.locator('.rescue-stage')).toHaveAttribute('data-finale','error');await expect(finale(page)).toBeHidden();await expect(page.locator('.rescue-finale-error')).toBeVisible();await expect(page.locator('canvas')).toHaveAttribute('aria-hidden','false');await expect(page.locator('#transcript')).toContainText('あそんでくれてありがとうございました');
   const before=await saved(page);expect(before.phase).toBe('complete');await btn(page,'read').click();await page.waitForTimeout(470);await btn(page,'read-exit').click();expect(await saved(page)).toEqual(before);
   await page.waitForTimeout(470);await btn(page,'reset').click();await page.locator('#confirm-reset').click();await expect(btn(page,'start')).toBeVisible();await expect(finale(page)).toHaveCount(0);
 });
 
 test('finale: completion does not wait for the image; delivery after reset cannot restore an old ending',async({page})=>{
-  let held,arrived;const requested=new Promise(resolve=>arrived=resolve);await page.route('**/assets/rescue/finale-v1.png',r=>{held=r;arrived();});
+  let held,arrived;const requested=new Promise(resolve=>arrived=resolve);await page.route('**/assets/rescue/finale-v1.webp',r=>{held=r;arrived();});
   await setupRescue(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await light(page).press('End');await requested;
   expect((await saved(page)).phase).toBe('complete');await expect(page.locator('.rescue-stage')).toHaveAttribute('data-finale','loading');await expect(finale(page)).toBeHidden();await expect(btn(page,'read')).toBeEnabled();
-  await btn(page,'reset').click();await page.locator('#confirm-reset').click();const after=await saved(page);await held.fulfill({path:resolve('prototype/assets/rescue/finale-v1.png'),contentType:'image/png'});await page.waitForTimeout(200);
+  await btn(page,'reset').click();await page.locator('#confirm-reset').click();const after=await saved(page);await held.fulfill({path:resolve('prototype/assets/rescue/finale-v1.webp'),contentType:'image/png'});await page.waitForTimeout(200);
   await expect(btn(page,'start')).toBeVisible();await expect(finale(page)).toHaveCount(0);expect(await saved(page)).toEqual(after);
 });

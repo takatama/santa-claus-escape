@@ -154,7 +154,7 @@ test('音声ファイルの読み込み・再生失敗は同じ原作台詞の�
 
 test('登録したGemini音声が実在し、生成元台詞と現行シナリオが一致する', async () => {
   for(const [key,src] of Object.entries(AUDIO_CLIPS)) {
-    const name=src.split('/').at(-1);
+    const name=src.split('/').at(-1).replace('.m4a','.wav');
     const bytes=await readFile(new URL(`../assets/audio/${name}`,import.meta.url));
     assert.equal(bytes.subarray(0,4).toString(),'RIFF');
     assert.equal(bytes.subarray(8,12).toString(),'WAVE');

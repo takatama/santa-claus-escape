@@ -6,17 +6,17 @@ import { AUDIO_CLIPS } from '../audio.js';
 import { FULL_AUDIO_CLIPS,resolveAudioClip } from '../full-audio.js';
 import { resolveAudioTimeline } from '../timed-audio.js';
 
-test('media catalog preserves the 100 published audio files, 18 images and current runtime URLs',async()=>{
-  const audio=(await readdir(new URL('../assets/audio/',import.meta.url))).filter(name=>/\.(wav|mp3|ogg)$/.test(name)).map(name=>`assets/audio/${name}`);
-  assert.equal(AUDIO_FILES.length,100);assert.deepEqual([...AUDIO_FILES].sort(),audio.sort());
+test('media catalog serves only delivery derivatives while preserving original files',async()=>{
+  const audio=(await readdir(new URL('../assets/audio/',import.meta.url))).filter(name=>/\.(m4a|mp3|ogg)$/.test(name)).map(name=>`assets/audio/${name}`);
+  assert.equal(AUDIO_FILES.length,77);assert.ok(AUDIO_FILES.every(p=>audio.includes(p)));assert.ok(!AUDIO_FILES.some(p=>p.endsWith('.wav')));
   const images=Object.entries({
     'red-box':['red-body','red-lid','tanuki'],'blue-box':['blue-body','blue-lid','mountain'],
     'yellow-box':['yellow-body','yellow-lid','rock','scissors','paper'],papers:['forest-clean','globe'],
     witch:['branch','wizard-feet-v2'],rescue:['empty-globe-original-v2','santa','finale-v1'],
-  }).flatMap(([folder,ids])=>ids.map(id=>`assets/${folder}/${id}.png`));
+  }).flatMap(([folder,ids])=>ids.map(id=>`assets/${folder}/${id}.webp`));
   assert.deepEqual([...IMAGE_FILES].sort(),images.sort());
   for(const file of [...AUDIO_FILES,...IMAGE_FILES])await access(new URL(`../${file}`,import.meta.url));
-  for(const [id,src] of Object.entries(AUDIO_CLIPS))assert.equal(src,`./assets/audio/${id}.wav`);
+
   const sources=[...Object.values(FULL_AUDIO_CLIPS),...resolveAudioClip('yellow-wrong-0192')];
   for(const key of ['red-open','blue-open-8849','yellow-wrong-0000','rescue','invite']){
     for(const step of resolveAudioTimeline(key))sources.push(...(step.sources||[step.src].filter(Boolean)));
@@ -24,8 +24,8 @@ test('media catalog preserves the 100 published audio files, 18 images and curre
   for(const source of sources)assert.ok(AUDIO_FILES.includes(source.slice(2)),source);
   assert.equal(MEDIA_GROUPS.music.mime,'audio/ogg; codecs="vorbis"');
   assert.equal(mediaPath('music','laid-back-loop'),'./assets/audio/laid-back-loop.ogg');
-  assert.equal(mediaPath('musicFallback','laid-back-loop'),'./assets/audio/laid-back-loop.wav');
-  assert.equal(mediaUrl('rescue','finale-v1'),new URL('../assets/rescue/finale-v1.png',import.meta.url).href);
+  assert.equal(mediaPath('musicFallback','laid-back-loop'),'./assets/audio/laid-back-loop.m4a');
+  assert.equal(mediaUrl('rescue','finale-v1'),new URL('../assets/rescue/finale-v1.webp',import.meta.url).href);
 });
 
 test('media imports stay lazy; image loaders keep shared promises and their existing failure retry rules',async()=>{

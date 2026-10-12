@@ -59,8 +59,8 @@ test('BGMは停止・ミュートで止まり、同じ章の再生位置を再�
 });
 test('全編の収録場面に音声ファイルと生成記録があり、ファイルのハッシュが一致する',async()=>{
   for(const [key,src] of Object.entries(FULL_AUDIO_CLIPS)){
-    const bytes=await readFile(new URL(`../${src}`,import.meta.url));
-    const id=src.split('/').at(-1).replace('.wav','');
+    const bytes=await readFile(new URL(`../${src.replace('.m4a','.wav')}`,import.meta.url));
+    const id=src.split('/').at(-1).replace('.m4a','');
     const record=JSON.parse(await readFile(new URL(`../reference/audio-generation/${id}.json`,import.meta.url),'utf8'));
     assert.equal(bytes.toString('ascii',0,4),'RIFF',key);
     assert.equal(createHash('sha256').update(bytes).digest('hex'),record.sha256,key);

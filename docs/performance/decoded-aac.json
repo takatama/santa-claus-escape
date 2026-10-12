@@ -1,0 +1,416 @@
+[
+  {
+    "file": "assets/audio/answer-closed.m4a",
+    "seconds": 3.52,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-0.m4a",
+    "seconds": 0.96,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-1.m4a",
+    "seconds": 1,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-2.m4a",
+    "seconds": 0.96,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-3.m4a",
+    "seconds": 1.32,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-4.m4a",
+    "seconds": 1.04,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-5.m4a",
+    "seconds": 0.92,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-6.m4a",
+    "seconds": 1.24,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-7.m4a",
+    "seconds": 1.28,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-8.m4a",
+    "seconds": 1.12,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-digit-9.m4a",
+    "seconds": 1.08,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-prefix-blue.m4a",
+    "seconds": 3.84,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-prefix-red.m4a",
+    "seconds": 3.56,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-prefix-yellow.m4a",
+    "seconds": 3.32,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/answer-set.m4a",
+    "seconds": 1.72,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/cue-box-blue-opened.m4a",
+    "seconds": 2.8,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/cue-box-blue-paper.m4a",
+    "seconds": 9.8,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/cue-box-red-opened.m4a",
+    "seconds": 2.68,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/cue-box-red-paper.m4a",
+    "seconds": 10.12,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/cue-box-yellow-opened.m4a",
+    "seconds": 2.88,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/cue-box-yellow-paper.m4a",
+    "seconds": 9.36,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/cue-rescue-fairy-first.m4a",
+    "seconds": 3.4,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-blue-open.m4a",
+    "seconds": 22.64,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-blue-wrong-0000.m4a",
+    "seconds": 12.44,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-blue1.m4a",
+    "seconds": 15.4,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-blue2.m4a",
+    "seconds": 10.92,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-blue3.m4a",
+    "seconds": 12.96,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-branch-discovery.m4a",
+    "seconds": 3.52,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-invite.m4a",
+    "seconds": 27.52,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-question-christmas-creatures.m4a",
+    "seconds": 24.44,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-question-deer-ten-times.m4a",
+    "seconds": 21.52,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-question-red-ornament.m4a",
+    "seconds": 13.48,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-response-christmas-creatures-right.m4a",
+    "seconds": 6.16,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-response-christmas-creatures-wrong.m4a",
+    "seconds": 5.56,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-response-deer-ten-times-right.m4a",
+    "seconds": 6.24,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-response-deer-ten-times-wrong.m4a",
+    "seconds": 5.28,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-response-red-ornament-right.m4a",
+    "seconds": 11.16,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-leda-response-red-ornament-wrong.m4a",
+    "seconds": 10,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-letters.m4a",
+    "seconds": 30.36,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-red-open.m4a",
+    "seconds": 20.84,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-red-wrong-0000.m4a",
+    "seconds": 12.48,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-reinvite.m4a",
+    "seconds": 5.48,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-remaining-blue-yellow.m4a",
+    "seconds": 3.84,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-remaining-blue.m4a",
+    "seconds": 3.2,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-remaining-red-blue.m4a",
+    "seconds": 4.24,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-remaining-red-yellow.m4a",
+    "seconds": 4.2,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-remaining-red.m4a",
+    "seconds": 3.04,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-remaining-yellow.m4a",
+    "seconds": 2.96,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-yellow-open.m4a",
+    "seconds": 21.08,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-yellow-wrong-0000.m4a",
+    "seconds": 13,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-yellow1.m4a",
+    "seconds": 16.6,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-yellow2.m4a",
+    "seconds": 21.36,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-yellow3.m4a",
+    "seconds": 18.2,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/ja-yellow4.m4a",
+    "seconds": 25,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/red1.m4a",
+    "seconds": 16.64,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/red2.m4a",
+    "seconds": 14.56,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/red3.m4a",
+    "seconds": 18.12,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/red4.m4a",
+    "seconds": 26.44,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/rescue-dialogue.m4a",
+    "seconds": 37.4,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/rescue-ending.m4a",
+    "seconds": 6.4,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/storybook-blue4.m4a",
+    "seconds": 32,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/storybook-help.m4a",
+    "seconds": 32.48,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/storybook-information.m4a",
+    "seconds": 25.56,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/storybook-intro.m4a",
+    "seconds": 32.2,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/storybook-paused.m4a",
+    "seconds": 28.76,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/storybook-rescue-appeared.m4a",
+    "seconds": 4.32,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/storybook-rescue.m4a",
+    "seconds": 52.20108333333334,
+    "channels": 1,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/laid-back-loop.m4a",
+    "seconds": 69.81816666666667,
+    "channels": 2,
+    "sampleRate": 48000
+  },
+  {
+    "file": "assets/audio/spook4-loop.m4a",
+    "seconds": 75.29410416666667,
+    "channels": 2,
+    "sampleRate": 48000
+  }
+]

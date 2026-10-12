@@ -65,15 +65,15 @@ test('changing one catalog group format publishes its new paths without old sour
   const {root,dist,save,build} = await fixture(t);
   const catalog = new URL('prototype/media-assets.js',root);
   const before = await readFile(catalog,'utf8');
-  const after = before.replace("forest:group('./assets/papers/','png'","forest:group('./assets/papers/','webp'");
+  const after = before.replace("forest:group('./assets/papers/','webp'","forest:group('./assets/papers/','avif'");
   assert.notEqual(after,before);await writeFile(catalog,after);
   const changed = await import(new URL('scripts/pages-files.mjs',root).href);
   const images = changed.pagesFiles.filter(name=>name.startsWith('assets/papers/'));
-  assert.deepEqual(images,['assets/papers/forest-clean.webp','assets/papers/globe.webp']);
+  assert.deepEqual(images,['assets/papers/forest-clean.avif','assets/papers/globe.avif']);
   for(const name of images)await save(`prototype/${name}`,'new format fixture');
   await build();await changed.inspectPagesOutput(dist,{complete:true});
   for(const name of images) {
-    assert.equal(changed.contentTypes[path.extname(name)],'image/webp');
-    await assert.rejects(readFile(new URL(name.replace('.webp','.png'),dist)),{code:'ENOENT'});
+    assert.equal(changed.contentTypes[path.extname(name)],'image/avif');
+    await assert.rejects(readFile(new URL(name.replace('.avif','.webp'),dist)),{code:'ENOENT'});
   }
 });

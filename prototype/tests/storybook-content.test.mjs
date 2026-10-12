@@ -20,7 +20,7 @@ test('storybook: both blue heights retain submitted digits through unlock, parti
     let s=enter();s=direct?send(send(s,'MODE'),'DRAFT',{value:code}):send(s,'BOX_DIAL',{value:code});s=send(s,'ANSWER');
     assert.equal(s.phase,'boxResponse');assert.equal(s.boxes.blue.lastSubmitted,code);if(!direct)assert.equal(s.boxes.blue.dial,code);assert.ok(s.boxes.blue.opened);assert.equal(papers(s).length,2);
     const unlocked=boxSceneFor(s),timeline=boxTimeline(unlocked.key,resolveAudioTimeline);
-    assert.match(unlocked.segments[0].text,new RegExp(code));assert.deepEqual(timeline[2].sources.slice(1,5),code.split('').map(n=>`./assets/audio/answer-digit-${n}.wav`));
+    assert.match(unlocked.segments[0].text,new RegExp(code));assert.deepEqual(timeline[2].sources.slice(1,5),code.split('').map(n=>`./assets/audio/answer-digit-${n}.m4a`));
     assert.deepEqual(restoreState(JSON.parse(JSON.stringify(s))),{...s,boxes:{...s.boxes,blue:{...s.boxes.blue,inputMode:'dial',dial:code}}});
     s=send(s,'LID',{value:.4});assert.equal(restoreState(s).boxes.blue.lidProgress,.4);s=send(s,'OPEN_LID');s=send(s,'CONTINUE_BOX');
     const restored=restoreState(s);assert.ok(restored);assert.equal(restored.boxes.blue.lastSubmitted,code);assert.equal(restored.boxes.blue.dial,code);

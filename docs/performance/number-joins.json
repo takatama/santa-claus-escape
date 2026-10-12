@@ -1,0 +1,26 @@
+[
+  {
+    "digits": "0000",
+    "originalSeconds": 13.381791666666667,
+    "compressedSeconds": 13.381770833333333,
+    "differenceMs": 0.020833333334024928
+  },
+  {
+    "digits": "0123",
+    "originalSeconds": 13.781791666666667,
+    "compressedSeconds": 13.781770833333333,
+    "differenceMs": 0.020833333334024928
+  },
+  {
+    "digits": "8849",
+    "originalSeconds": 13.901791666666666,
+    "compressedSeconds": 13.901770833333334,
+    "differenceMs": 0.02083333333224857
+  },
+  {
+    "digits": "2502",
+    "originalSeconds": 13.341791666666667,
+    "compressedSeconds": 13.341770833333333,
+    "differenceMs": 0.020833333334024928
+  }
+]
