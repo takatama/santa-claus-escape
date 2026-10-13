@@ -58,7 +58,7 @@ GA4の準備コードは無効のまま残し、`SANTA_GA4_POLICY_APPROVED=false
 | 解錠 | [効果音辞典の規約](https://sounddictionary.info/terms-of-use/)、既存の公式ファイル一致の記録。無加工 | MITの対象外、素材単体の再配布サイトにしない |
 | 回復・間抜け・きらきら二点 | [効果音ラボの規約](https://soundeffect-lab.info/agreement/)と[ゲーム・GitHub公開のFAQ](https://soundeffect-lab.info/faq/)。無加工 | 提供元の条件を継続。音源紹介・素材集のサービスを作らない |
 | Gemini TTS事前収録 | 原本・生成入力・声・台詞を保持。制作時のみの生成、実行時APIなし。今回AACへの形式変換のみ | **静的配信への年齢条項の適用判断は未解決**。Googleの[追加規約](https://ai.google.dev/gemini-api/terms?hl=ja)のAPI Clientsへの18歳未満の制限と、生成コンテンツ利用の条項を確認。静的音声だけが適用外であるとの公式回答は未取得 |
-| 結末の鈴 | [OpenTracksの利用条件](https://opentracks.com/help/articles/license/)と原作の許諾記録が未整理 | **同梱・再生成・代替をしない**。従来の未解決を維持 |
+| 結末の鈴 | 原作の出典・利用条件の記録は履歴として保持。2026-10-13に本人が鈴を使わない方針を再確認 | **不使用。同梱・再生成・代替をしない**。配信対象と再生処理にないことを確認し、許諾確認を今回の残作業から外す |
 
 [NOTICE](../NOTICE.md)、[復元の記録](../design/ORIGINAL-AUDIO-RESTORATION.md)、各PRの制作記録を正とし、古い調査の日付の状態を現在の完了状態へ読み替えない。GAの条件と生成音声の条件は別の判断である。
 
