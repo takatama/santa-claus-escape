@@ -48,7 +48,7 @@ GA4の準備コードは無効のまま残し、`SANTA_GA4_POLICY_APPROVED=false
 
 主観的な試聴の最初の三本：`storybook-help`（お話の声）、`ja-leda-question-deer-ten-times`（まほう使い）、`answer-digit-8`（短い数字）。`prototype/assets/audio/` の元WAVとAACを同じ音量で比べる。数字は実ゲームで0000、0123等の誤答を試し、順序・前後の無音・継ぎ目を聞く。新しいTTSや外部の書き起こしAPIへ送らず検証する。
 
-## 利用条件と未解決事項
+## 素材の利用条件と運営者の判断
 
 | 素材 | 既存の出典・今回の扱い | 状態 |
 | --- | --- | --- |
@@ -57,7 +57,7 @@ GA4の準備コードは無効のまま残し、`SANTA_GA4_POLICY_APPROVED=false
 | ダイヤル | Zott820 [Clicking Dial on Toy](https://freesound.org/people/Zott820/sounds/174770/)、既存のCC0特定と復元記録。MP3無加工 | 初期のAUDIO-ASSET-AUDITの保留より後のNOTICE／ORIGINAL-AUDIO-RESTORATIONを参照 |
 | 解錠 | [効果音辞典の規約](https://sounddictionary.info/terms-of-use/)、既存の公式ファイル一致の記録。無加工 | MITの対象外、素材単体の再配布サイトにしない |
 | 回復・間抜け・きらきら二点 | [効果音ラボの規約](https://soundeffect-lab.info/agreement/)と[ゲーム・GitHub公開のFAQ](https://soundeffect-lab.info/faq/)。無加工 | 提供元の条件を継続。音源紹介・素材集のサービスを作らない |
-| Gemini TTS事前収録 | 原本・生成入力・声・台詞を保持。制作時のみの生成、実行時APIなし。今回AACへの形式変換のみ | **静的配信への年齢条項の適用判断は未解決**。Googleの[追加規約](https://ai.google.dev/gemini-api/terms?hl=ja)のAPI Clientsへの18歳未満の制限と、生成コンテンツ利用の条項を確認。静的音声だけが適用外であるとの公式回答は未取得 |
+| Gemini TTS事前収録 | 原本・生成入力・声・台詞を保持。制作時のみの生成、実行時APIなし。今回AACへの形式変換のみ | **現状の静的配信を運営者が了承（2026-10-13）**。問い合わせによる追加確認の経路を確保できないことを踏まえ、公式回答の取得を公開前の必須作業から外す。[追加規約](https://ai.google.dev/gemini-api/terms?hl=ja)の調査記録は保持。適用外との公式回答は未取得 |
 | 結末の鈴 | 原作の出典・利用条件の記録は履歴として保持。2026-10-13に本人が鈴を使わない方針を再確認 | **不使用。同梱・再生成・代替をしない**。配信対象と再生処理にないことを確認し、許諾確認を今回の残作業から外す |
 
 [NOTICE](../NOTICE.md)、[復元の記録](../design/ORIGINAL-AUDIO-RESTORATION.md)、各PRの制作記録を正とし、古い調査の日付の状態を現在の完了状態へ読み替えない。GAの条件と生成音声の条件は別の判断である。
