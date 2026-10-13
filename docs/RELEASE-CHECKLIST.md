@@ -1,21 +1,21 @@
 # 公開前の確認と本人の作業
 
-2026-10-12 JST。日本語版の公開準備。mainの実測基準は `231e3de`。P0 [#10](https://github.com/takatama/santa-claus-escape/pull/10) → P1 [#12](https://github.com/takatama/santa-claus-escape/pull/12) → P2 [#13](https://github.com/takatama/santa-claus-escape/pull/13) → 本PR、の依存順。全てDraft。mainへのマージ・本番公開はこの作業では行わない。
+2026-10-13 JST更新。日本語版の公開準備。mainの実測基準は `231e3de`。P0 [#10](https://github.com/takatama/santa-claus-escape/pull/10) → P1 [#12](https://github.com/takatama/santa-claus-escape/pull/12) → P2 [#13](https://github.com/takatama/santa-claus-escape/pull/13) → 本PR、の依存順。全てDraft。mainへのマージ・本番公開はこの作業では行わない。
 
 ## 現在できることと公開に残る条件
 
-軽量化・OGP・共有はユーザー了承済み。海外向けにも積極的に公開する意向を確認した。現在は計測を無効のまま保ち、[CFの画面・OFF設定](GA4-CLOUDFLARE-SETTINGS.md)と[プライバシー対応の範囲](GA4-PRIVACY-SCOPE.md)を整理する段階。了承はmainへのマージ・本番公開・計測有効化の許可ではない。
+軽量化・OGP・共有はユーザー了承済み。2026-10-13、本人が[GA4を今回は見送る方針](GA4-OFF-DECISION.md)に同意した。計測OFFを維持し、追加の同意台帳・GA削除受付・GAS通知は導入しない。[CFのOFF設定](GA4-CLOUDFLARE-SETTINGS.md)と[現在のプライバシー対応](GA4-PRIVACY-SCOPE.md)に沿い、ゲームの実機確認・素材の条件等の公開準備を進める。了承はmainへのマージ・本番公開の許可ではない。
 
 個人の趣味として無料公開、子どもも利用、米国・EU・英国への提供を確認済み。[本人によるGA管理設定の完了報告](GA4-SETUP-PROGRESS.md)を記録した。趣味公開への規約・法令適用の判断は未完了。
 
 | 項目 | 実装・自動検査 | 本人が確認すること |
 | --- | --- | --- |
-| GA4 | 標準PV、開始／再開、箱、手がかり、合言葉、完了、共有。重複と同意・環境分離を検査。初期設定は無効 | 子ども利用の適用条件、必要な同意、運営者と問い合わせ／削除方法、アカウント・ID・カスタム定義、実Realtime/DebugView |
+| アクセス解析 | 今回GA4不採用。本番・評価の承認フラグfalse、Googleタグ・CSP・通信がOFFであることを確認 | falseを維持。Cloudflare Web Analyticsもdisabledのまま。GA有効化・実送信・専用受付を公開前の作業にしない |
 | 軽量化 | 原本を保持し69 AAC / 18 WebP、原本と派生のSHA-256、実デコード、数字の連結、前後の低速実測 | 聞き取り、音量、無音・数字の継ぎ目、スマホ実機、絵の細部 |
 | 共有 | 静的OGP、1200×630の紹介PNG、終了後のnative/copy/manual、取消しと保存不変を検査 | 本物のOS共有画面、本番URLのX/LINE表示・キャッシュ |
 | 元のゲーム | 進行・答え・台詞・原音・停止キュー・セーブの互換性を維持、通常・早期・辞退再開・全問誤答の通し経路を検査 | 初見プレイ、実支援技術、端末固有の音声・保存 |
 
-計測の準備ができたことと、実データを取得済みであることは別。測定ID未設定でもゲーム・圧縮・共有は使える。GAの適用条件未確定のまま `SANTA_GA4_POLICY_APPROVED=true` を設定しない。[日本語設定手順](GA4-SETUP-JA.md)、[条件確認](GA4-PRIVACY-REVIEW.md)、[個別削除の手順](GA4-DELETION-PROCEDURE.md)、[イベントと分析定義](GA4-EVENT-DESIGN.md)を使用する。2026-10-13に高玉 広和 / Hirokazu Takatamaの[問い合わせフォームと運用](CONTACT-FORM.md)をprivacy.htmlへ反映し、PR #14のブランチとPreviewで確認する。非公開の相談窓口は用意できたが、一般利用者のGAデータの安全な対象特定手段と海外・子ども利用の条件は未解決。計測は無効を維持する。
+GA4の準備コードは無効のまま残し、`SANTA_GA4_POLICY_APPROVED=false`を維持する。既存の測定ID・評価originの保存を有効化へ読み替えない。GAの設定・規約・同意・削除の文書は参考記録として扱い、現在の公開前作業から除外する。高玉 広和 / Hirokazu Takatamaの[問い合わせフォームと運用](CONTACT-FORM.md)と、端末保存・Cloudflare配信・計測なしの説明をprivacy.htmlに残す。海外提供のホスティング・一般問い合わせ・作品の条件まで完了したという意味ではない。
 
 ## 実機の確認表（未確認を埋めるための記録欄）
 
@@ -78,11 +78,11 @@ Linux CIのP1初回は116成功・2失敗。旧PNG名の検査用URLと、44.1kH
 
 ## 記事に再利用する資料
 
-- [イベント・分母・重複・欠測](GA4-EVENT-DESIGN.md)、[初心者向け設定](GA4-SETUP-JA.md)、[プライバシー調査](GA4-PRIVACY-REVIEW.md)。
+- [GA4見送りの判断](GA4-OFF-DECISION.md)と、計測を増やさず公開準備を進める方針。GAのイベント・設定・調査は今回不採用の参考記録。
 - [比較表](performance/COMPARISON.md)、`files.csv`、前後のリクエスト／時間JSON、原本・派生のSHA-256と音のデコード・連結記録。
 - [OGP・共有](OGP-SHARING.md)、生成APIを使わない紹介画像の構成・出典。
 - [プレビュー配信確認](PREVIEW-VERIFICATION.md)。本物のSNS表示・実機・GA管理画面の確認結果は後から追記する。
 
-記事は期間・母数・同意による欠測・測定条件・Safari等の未確認を明記する。PVの件数を人の数と同一視せず、イベント件数から厳密なゲーム一回の完走率を導かない。謎の答え・入力本文・個人の行動・結末画像を記事の必要以上に公開しない。
+記事には実施したローカルの性能測定・検査と、その条件・Safari等の未確認を明記する。GAによる実利用のPV・完走率を取得済みとして記載しない。謎の答え・入力本文・個人の行動・結末画像を記事の必要以上に公開しない。
 
 追加の回帰補正：画像が速く届くと既存の450msの操作抑止より前に読返しを押す検査を、抑止時間が終わってから押す手順へ揃えた。P1最新HEADのLinux全118件が成功。P2は共有用URL入力を使用時だけ生成し、救出の既存の高さを維持する実装へ補正。箱・紙・物語・救出・共有の関連15件を再成功確認した。全体CIとプレビューの最終結果は配信確認記録へ記載する。

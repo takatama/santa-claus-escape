@@ -36,14 +36,14 @@ GitHub連携の権限は必要なリポジトリだけに限定できます。`G
 
 公式資料：[静的HTMLの配信](https://developers.cloudflare.com/pages/framework-guides/deploy-anything/)、[Git連携](https://developers.cloudflare.com/pages/configuration/git-integration/)。
 
-## 2026-10-12の公開準備
+## 2026-10-13の公開準備
 
-現在の作業は計測OFFのままの整理。[CFの設定画面と維持する値](GA4-CLOUDFLARE-SETTINGS.md)、[海外公開を含むプライバシー対応範囲](GA4-PRIVACY-SCOPE.md)を参照する。設定保存、計測有効化、再デプロイは今回行わない。
+2026-10-13、本人は[今回GA4を見送る方針](GA4-OFF-DECISION.md)に同意した。[CFの設定画面と維持する値](GA4-CLOUDFLARE-SETTINGS.md)、[計測OFFでのプライバシー対応](GA4-PRIVACY-SCOPE.md)を参照する。承認フラグfalseとWeb Analytics disabledを維持し、有効化や本番の再デプロイは行わない。
 
 本番へのマージ・再公開は今回行っていません。音声と画像の原本をGitに保持し、ビルドは配信用AAC/WebPと静的OGP画像をdistへコピーします。制作スクリプト、FFmpeg、PNG/WAV原本、未使用の録音をdistへ含めません。`npm run check:media`で原本・派生のハッシュを確認します。
 
-GA4は測定ID未設定でも動作し、適用条件の確認と任意の許可が揃うまでタグを読み込みません。Production/Previewの設定は [日本語ガイド](GA4-SETUP-JA.md)。`SANTA_PUBLIC_URL`はOGP・共有・計測の正規URLで、HTTPSのルートURLを指定します。プレビューのOG画像だけはCloudflareのCF_PAGES_URLを使います。
+GA4の準備コードは無効のまま維持し、保存済みの測定IDや評価originから有効化しません。[日本語ガイド](GA4-SETUP-JA.md)の有効化手順は参考記録で、今回実行しません。`SANTA_PUBLIC_URL`はOGP・共有の正規URLとして使い、HTTPSのルートURLを指定します。プレビューのOG画像だけはCloudflareのCF_PAGES_URLを使います。
 
 GAの環境変数を変更した後は新しいビルドとデプロイが必要です。既存の `dist/analytics-config.js` とCSPは設定の保存だけでは書き換わりません。評価は固定ブランチalias `https://codex-release-readiness.santa-claus-escape.pages.dev/` から開き、TEST_ORIGINへワイルドカードを指定しません。本番の再デプロイは公開操作になるため、評価の再ビルドと分けて判断します。
 
-[公開前チェックリスト](RELEASE-CHECKLIST.md)と [前後比較](performance/COMPARISON.md)を参照してください。実機・本物のSNS・Realtime/DebugViewの確認は未完了です。
+[公開前チェックリスト](RELEASE-CHECKLIST.md)と [前後比較](performance/COMPARISON.md)を参照してください。実機・本物のSNSの確認は未完了です。GAのRealtime/DebugViewへの実送信は今回行いません。

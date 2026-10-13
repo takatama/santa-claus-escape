@@ -35,11 +35,11 @@ npm start
 
 ## 設計と確認記録
 
-- [公開前の確認と本人の作業](docs/RELEASE-CHECKLIST.md)：実機・GA設定・利用条件、検証済みと未確認、Issue #3 / #11の扱い。
+- [公開前の確認と本人の作業](docs/RELEASE-CHECKLIST.md)：実機・利用条件・計測OFFの維持、検証済みと未確認、Issue #3 / #11の扱い。
 
 - [音声・画像の圧縮と実測比較](docs/performance/COMPARISON.md) / [OGPと終了後の共有](docs/OGP-SHARING.md)。原本を保持し、静的な配信を続けます。
 
-- [GA4の設定ガイド](docs/GA4-SETUP-JA.md) / [イベントと分析の定義](docs/GA4-EVENT-DESIGN.md) / [子ども利用・プライバシーの判断](docs/GA4-PRIVACY-REVIEW.md)。測定ID未設定でも動作し、適用条件と本人の選択が揃うまで計測しません。
+- [GA4を見送り、計測OFFで公開準備を進める方針](docs/GA4-OFF-DECISION.md)。今回はGA4を採用しません。準備コードは無効のまま残し、同意台帳・専用削除受付・GAS通知は導入しません。既存のGA設定・設計文書は参考記録です。
 
 - [全編統合と当初の想定からの変更](docs/INTEGRATION-DECISIONS-2026-10-11.md)：場所設定、青い箱、追加収録、救出と大団円、採用しなかった案、残る確認。
 - [読み返しと大団円](docs/FINALE-READING-FINISH.md)：箱の静止画と最後の一枚絵、生成プロンプト・出所・確認画面。
