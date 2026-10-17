@@ -166,7 +166,7 @@ for(const color of ['blue','yellow']){
     await expect(page.locator('#transcript')).not.toContainText('このあと');await expect(page.locator('#transcript')).toContainText('中には');
   });
 
-  test(`${color}: old saves, unavailable art/audio/storage, reset and reduced motion stay playable`,async({page})=>{
+  test(`${color}: unavailable art/audio/storage, reset and reduced motion stay playable`,async({page})=>{
     await page.emulateMedia({reducedMotion:'reduce'});await page.route(`**/assets/${color}-box/*.webp`,r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());
     await page.addInitScript(()=>{Object.defineProperty(window,'speechSynthesis',{value:null});});
     await setup(page,color,{unavailable:true});await expect(page.locator('.box-fallback')).toBeVisible();
@@ -178,16 +178,14 @@ for(const color of ['blue','yellow']){
     await btn(page,'reset').click();await page.locator('#confirm-reset').click();await expect(btn(page,'start')).toBeVisible();
   });
 
-  test(`${color}: legacy direct and opened saves resume through the same mounted lock`,async({page})=>{
-    const old=seed(color);old.boxes[color].inputMode='direct';old.boxes[color].draft=BOXES[color].answer;
-    for(const box of Object.values(old.boxes)){delete box.lidOpen;delete box.lidProgress;}
-    await setup(page,color,{state:old});await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code',BOXES[color].answer);
-    await expect(page.locator('input[type="text"]')).toHaveCount(0);await btn(page,'box_try').click();await ready(page,'open_lid');
-    await page.evaluate(({key,color})=>{const old=JSON.parse(localStorage.getItem(key));for(const box of Object.values(old.boxes)){delete box.lidOpen;delete box.lidProgress;}localStorage.setItem(key,JSON.stringify(old));},{key:STORAGE_KEY,color});
-    await page.reload();await btn(page,'resume').click();await expect(stage(page)).toHaveAttribute('data-lid-open','true');
-    await expect(page.locator('#transcript')).toContainText(color==='blue'?'イルカ':'キリン');await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
+  test(`${color}: current lock resumes; missing lid state starts fresh`,async({page})=>{
+    const current=seed(color);current.boxes[color].dial=BOXES[color].answer;
+    await setup(page,color,{state:current});await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code',BOXES[color].answer);
+    await ready(page);await btn(page,'box_try').click();await ready(page,'open_lid');
+    await page.reload();await btn(page,'resume').click();await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code',BOXES[color].answer);await expect(btn(page,'open_lid')).toBeEnabled();
+    await page.evaluate(key=>{const invalid=JSON.parse(localStorage.getItem(key));delete invalid.boxes[invalid.selectedBox].lidOpen;localStorage.setItem(key,JSON.stringify(invalid));},STORAGE_KEY);
+    await page.reload();await expect(btn(page,'start')).toBeVisible();await expect(btn(page,'resume')).toHaveCount(0);
   });
-
   test(`${color}: queued exploration ends naturally; mute and leaving discard pending voices`,async({page})=>{
     const requested=[];page.on('request',r=>{if(r.url().includes('/assets/audio/'))requested.push(r.url().split('/').pop());});
     await setup(page,color,{state:seed(color,false)});

@@ -50,17 +50,15 @@ test('papers: empty/incomplete/wrong stays editable; correct send goes straight 
   await page.reload();await btn(page,'resume').click();await expect(page.locator('.witch-stage')).toBeVisible();expect((await saved(page)).revision).toBe(success.revision);
   await discover(page);await expect(btn(page,'accept')).toBeVisible();await expect(page.locator('button[data-paper-id]')).toHaveCount(0);
 });
-test('papers: intermediate save and reset confirmation, old kana draft and corrupted optional layout',async({page})=>{
+test('papers: intermediate save and reset confirmation; missing or invalid layouts start fresh',async({page})=>{
   const s=paperState();s.spellSlots[2]='blue-1';await setupPapers(page,s);await expect(card(page,'blue-1')).toHaveAttribute('aria-label',/^3番目/);
   await card(page,'red-1').click();await slot(page,0).click();await page.reload();await btn(page,'resume').click();expect((await saved(page)).spellSlots.slice(0,3)).toEqual(['red-1',null,'blue-1']);
   await btn(page,'reset').click();await page.locator('#cancel-reset').click();await expect(card(page,'red-1')).toHaveAttribute('aria-label',/^1番目/);
   await btn(page,'reset').click();await page.locator('#confirm-reset').click();await expect(btn(page,'start')).toBeVisible();expect((await saved(page)).spellSlots).toEqual(Array(6).fill(null));
   const old={...paperState(),spellDraft:'ダイ スキ ダヨ'};delete old.spellSlots;delete old.spellReview;
-  await page.evaluate(({old,key})=>localStorage.setItem(key,JSON.stringify(old)),{old,key:STORAGE_KEY});await page.reload();await btn(page,'resume').click();
-  for(const [index,id]of correctOrder.entries())await expect(card(page,id)).toHaveAttribute('aria-label',new RegExp(`^${index+1}番目`));await expect(page.locator('.paper-stage')).toHaveAttribute('data-phase','spell');
+  await page.evaluate(({old,key})=>localStorage.setItem(key,JSON.stringify(old)),{old,key:STORAGE_KEY});await page.reload();await expect(btn(page,'start')).toBeVisible();await expect(btn(page,'resume')).toHaveCount(0);
   for(const bad of [['red-0','red-0',null,null,null,null],['unknown',null,null,null,null,null],[null,null],{0:'red-0'}]){
-    await page.evaluate(({s,bad,key})=>localStorage.setItem(key,JSON.stringify({...s,spellSlots:bad,spellReview:true})),{s:paperState(),bad,key:STORAGE_KEY});await page.reload();await btn(page,'resume').click();
-    await expect(page.locator('#paper-tray button[data-paper-id]')).toHaveCount(6);await expect(page.locator('.paper-stage')).toHaveAttribute('data-phase','spell');
+    await page.evaluate(({s,bad,key})=>localStorage.setItem(key,JSON.stringify({...s,spellSlots:bad,spellReview:true})),{s:paperState(),bad,key:STORAGE_KEY});await page.reload();await expect(btn(page,'start')).toBeVisible();await expect(btn(page,'resume')).toHaveCount(0);
   }
 });
 test('papers: seven viewports, readable six papers, pinned main action, scroll position and reduced motion',async({page})=>{

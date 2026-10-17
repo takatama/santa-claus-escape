@@ -24,9 +24,9 @@ test('storybook: both blue heights retain submitted digits through unlock, parti
     const submittedDigits=timeline.find(step=>step.type==='voice'&&step.sources.includes(mediaPath('voice','answer-prefix-blue')));
     assert.ok(submittedDigits,'The trial must read the submitted blue-box number');
     assert.match(unlocked.segments[0].text,new RegExp(code));assert.deepEqual(submittedDigits.sources.slice(1,5),code.split('').map(n=>mediaPath('voice',`answer-digit-${n}`)));
-    assert.deepEqual(restoreState(JSON.parse(JSON.stringify(s))),{...s,boxes:{...s.boxes,blue:{...s.boxes.blue,inputMode:'dial',dial:code}}});
+    assert.deepEqual(restoreState(JSON.parse(JSON.stringify(s))),s);
     s=send(s,'LID',{value:.4});assert.equal(restoreState(s).boxes.blue.lidProgress,.4);s=send(s,'OPEN_LID');s=send(s,'CONTINUE_BOX');
-    const restored=restoreState(s);assert.ok(restored);assert.equal(restored.boxes.blue.lastSubmitted,code);assert.equal(restored.boxes.blue.dial,code);
+    const restored=restoreState(s);assert.ok(restored);assert.equal(restored.boxes.blue.lastSubmitted,code);assert.equal(restored.boxes.blue.dial,s.boxes.blue.dial);
     const index=s.history.findIndex(e=>e.phase==='boxResponse');assert.ok(sceneFor(readingState(restored,index)).segments[0].text.includes(code));
   }
   for(const code of ['8847','8850','3138','0000','8848.86'])assert.notEqual(validateDigits(code,'blue').kind,'correct');

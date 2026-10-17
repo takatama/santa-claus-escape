@@ -18,15 +18,15 @@ test('rescue: explicit third reply continuation starts reversible motion; actual
   const old=s.revision;s=send(s,'RESCUE_PROGRESS',{value:1});assert.equal(s.phase,'complete');assert.equal(s.revision,old+1);for(const value of [0,.5,1])assert.strictEqual(send(s,'RESCUE_PROGRESS',{value}),s);assert.strictEqual(send(s,'FINISH',{revision:old}),s);
   assert.strictEqual(send(s,'FINISH'),s);assert.deepEqual(restoreState(s),s);assert.strictEqual(s.responses,answers);assert.equal(JSON.stringify(s.history),history);assert.equal(send(s,'RESET').rescueMotion,undefined);
 });
-test('rescue: legacy reached saves, corrupt optional data, complete/reading never force a rescue again; original corruption still rejects',()=>{
+test('rescue: missing or invalid motion is rejected; valid completion and readings retain release',()=>{
   const s=reached();
   for(const motion of [undefined,null,{},[],{progress:-1,released:false},{progress:.2,released:true},{progress:1,released:false},{progress:'0',released:false}]){
-    const old={...s,rescueMotion:motion};for(const phase of ['rescue','complete']){const restored=restoreState({...old,phase});assert.equal(restored.phase,phase);assert.deepEqual(restored.rescueMotion,{progress:1,released:true});assert.deepEqual(restored.responses,s.responses);}
+    const old={...s,rescueMotion:motion};for(const phase of ['rescue','complete']){assert.equal(restoreState({...old,phase}),null);}
     assert.equal(restoreState({...old,responses:[]}),null);assert.equal(restoreState({...old,spellDraft:'wrong'}),null);assert.equal(restoreState({...old,boxes:{...s.boxes,red:{...s.boxes.red,opened:true}}}),null);
   }
   const complete=send(send(s,'RESCUE_PROGRESS',{value:1}),'FINISH'),before=JSON.stringify(complete);
   const index=complete.history.findIndex(e=>e.phase==='rescue');assert.deepEqual(readingState(complete,index).rescueMotion,{progress:1,released:true});assert.equal(JSON.stringify(complete),before);
-  assert.equal(restoreState({...initialState(),rescueMotion:{progress:1,released:true}}).rescueMotion,undefined);
+  assert.equal(restoreState({...initialState(),rescueMotion:{progress:1,released:true}}),null);
   assert.equal(writeSave({setItem(){throw Error('blocked');}},s),false);assert.equal(send(send(s,'RESCUE_PROGRESS',{value:1}),'FINISH').phase,'complete');
 });
 test('rescue: original sentences concatenate unchanged, first audio holds before shine3 and ending retains every relative cue',()=>{
