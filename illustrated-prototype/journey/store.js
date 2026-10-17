@@ -14,9 +14,6 @@ function parseRecord(text) {
     const wrapped = raw && typeof raw.generation === 'string' && raw.generation.length > 0
       && raw.generation.length <= 128 && restoreJourney(raw.state);
     if (wrapped) return { generation: raw.generation, state: wrapped };
-    // Accept a directly stored v1 state; subsequent saves use the generation envelope.
-    const previous = restoreJourney(raw);
-    if (previous) return { generation: INITIAL_GENERATION, state: previous };
   } catch { /* An invalid record must not fabricate progress. */ }
   return { generation: INITIAL_GENERATION, state: newJourney() };
 }

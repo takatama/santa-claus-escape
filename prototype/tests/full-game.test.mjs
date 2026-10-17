@@ -49,10 +49,13 @@ test('ダイヤルの0と桁を保存し、破損セーブから未正解の開�
   assert.equal(restoreState({...s,phase:'complete'}),null);assert.equal(restoreState({...s,boxes:{...s.boxes,yellow:{...s.boxes.yellow,opened:true}}}),null);assert.equal(restoreState({...s,phase:'spell'}),null);
   const memory=new Map(),storage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)};assert.ok(writeSave(storage,s));assert.deepEqual(readSave(storage).state,s);memory.set(STORAGE_KEY,'{');assert.equal(readSave(storage).state,null);assert.equal(readSave({getItem(){throw Error('disabled');}}).available,false);
 });
-test('旧体験版の赤い箱だけを引き継ぎ、救出済みとは扱わない',()=>{
-  const legacy={version:1,scenario:'original-red-3138',stage:'complete',exam:4,submittedDigits:'3138',draft:'3138',muted:false};
-  const migrated=readSave({getItem:key=>key===STORAGE_KEY?null:JSON.stringify(legacy)});assert.ok(migrated.migrated);assert.equal(migrated.state.phase,'boxResponse');assert.equal(papers(migrated.state).length,2);assert.ok(restoreState(migrated.state));
+test('現在の保存キーだけを読み、旧体験版の進行は引き継がない',()=>{
+  const requested=[];
+  const loaded=readSave({getItem:key=>{requested.push(key);return null;}});
+  assert.deepEqual(requested,[STORAGE_KEY]);
+  assert.deepEqual(loaded,{state:null,available:true});
 });
+
 test('BGMは停止・ミュートで止まり、同じ章の再生位置を再利用する',()=>{
   const tracks=[];const music=new Soundtrack(src=>{const a={src,paused:true,volume:0,currentTime:12,play(){this.paused=false;return Promise.resolve();},pause(){this.paused=true;}};tracks.push(a);return a;});
   music.configure(initialState());music.begin('normal');music.quiet();music.stop();assert.ok(tracks[0].paused);music.begin('normal');assert.equal(tracks.length,1);assert.equal(tracks[0].currentTime,12);music.configure({...initialState(),muted:true});assert.ok(tracks[0].paused);music.effect('magic');assert.equal(music.nodes.size,0);

@@ -168,7 +168,7 @@ function withBrowser(storage, search, run) {
 test('Only the explicit journey query uses storage; independent pages leave all saved records alone', () => {
   for (const search of ['', '?journey=0', '?journey=true', '?papers=none']) {
     const storage = new MemoryStorage();
-    storage.values.set(STORAGE_KEY, JSON.stringify(allCollected()));
+    storage.values.set(STORAGE_KEY, JSON.stringify({ generation: 'current', state: allCollected() }));
     withBrowser(storage, search, () => {
       assert.equal(isJourney(), false);
       const store = createJourneyStore();
@@ -272,12 +272,12 @@ test('Blocked or failed storage reports unavailable while the current page can r
   });
 });
 
-test('Invalid stored data returns a fresh journey, and valid direct v1 data is accepted without affecting other records', () => {
+test('Invalid stored data returns a fresh journey, and current wrapped data is accepted', () => {
   for (const text of ['not-json', '{}', JSON.stringify({ ...newJourney(), version: 3 })]) {
     const storage = new MemoryStorage(); storage.values.set(STORAGE_KEY, text);
     withBrowser(storage, '?journey=1', () => { const store = createJourneyStore(); assert.deepEqual(store.read(), newJourney()); assert.equal(store.available, true); });
   }
-  const storage = new MemoryStorage(); storage.values.set(STORAGE_KEY, JSON.stringify(allCollected()));
+  const storage = new MemoryStorage(); storage.values.set(STORAGE_KEY, JSON.stringify({ generation: 'current', state: allCollected() }));
   withBrowser(storage, '?journey=1', () => assert.deepEqual(getPaperIds(createJourneyStore().read()), PAPER_IDS));
 });
 
@@ -306,39 +306,29 @@ function finishConversation(state, correct) {
   return state;
 }
 
-test('Old direct and wrapped v1 records migrate without losing owned paper IDs, distinct da slots, or a previous known call', () => {
-  const arranged = allCollected();
-  arranged.letters.slots = ['yellow-1', 'blue-0', 'red-0', 'yellow-0', 'red-1', 'blue-1'];
-  arranged.letters.draft = '考え中';
-  for (const state of [arranged, calledJourney(arranged), calledJourney()]) for (const wrapped of [false, true]) {
-    const legacy = copy(state); delete legacy.discovery; delete legacy.conversation; delete legacy.conversationRevision;
-    delete legacy.introduction; delete legacy.introductionRevision;
+test('Current records preserve progress; direct records and incomplete old saves start fresh', () => {
+  const current = finishConversation(updateDiscovery(calledJourney(allCollected()), 1), true);
+  const records = [current];
+  for (const field of ['discovery', 'conversation', 'conversationRevision', 'introduction', 'introductionRevision']) {
+    const incomplete = copy(current); delete incomplete[field];
+    assert.equal(restoreJourney(incomplete), null);
+    records.push({ generation: 'incomplete', state: incomplete });
+  }
+  for (const record of records) {
     const storage = new MemoryStorage();
     storage.values.set('original-save', 'keep');
-    const record = wrapped ? { generation: 'old-valid-v1', state: legacy } : legacy;
     storage.values.set(STORAGE_KEY, JSON.stringify(record));
     withBrowser(storage, '?journey=1', () => {
-      const store = createJourneyStore(), restored = store.read();
-      assert.deepEqual(restored.boxes, legacy.boxes);
-      assert.deepEqual(restored.letters, legacy.letters);
-      assert.deepEqual(getPaperIds(restored), getPaperIds(legacy));
-      assert.deepEqual(restored.discovery, { progress: 0, met: false });
-      assert.deepEqual(restored.conversation, newConversation());
-      assert.equal(restored.conversationRevision, 0);
-      assert.deepEqual(restored.introduction, { phase: 'ready', step: 0 });
-      assert.equal(restored.introductionRevision, 0);
-      assert.notStrictEqual(restored.letters.slots, legacy.letters.slots);
-      const saved = legacy.letters.called ? store.saveDiscovery(0.4)
-        : store.saveBox('red', { ...restored.boxes.red, progress: 0 });
-      assert.deepEqual(saved.letters, legacy.letters);
-      assert.deepEqual(getPaperIds(saved), getPaperIds(legacy));
-      const migrated = JSON.parse(storage.values.get(STORAGE_KEY));
-      assert.deepEqual(migrated.state.discovery, saved.discovery);
-      assert.deepEqual(migrated.state.conversation, saved.conversation);
-      if (wrapped) assert.equal(migrated.generation, 'old-valid-v1');
+      const store = createJourneyStore();
+      assert.deepEqual(store.read(), newJourney());
+      assert.equal(store.available, true);
+      assert.equal(storage.writes.length, 0);
       assert.equal(storage.values.get('original-save'), 'keep');
     });
   }
+  const storage = new MemoryStorage();
+  storage.values.set(STORAGE_KEY, JSON.stringify({ generation: 'current', state: current }));
+  withBrowser(storage, '?journey=1', () => assert.deepEqual(createJourneyStore().read(), current));
 });
 
 test('Discovery requires a call, rejects nonfinite input, and keeps the earned encounter after reversing branches', () => {
@@ -506,22 +496,6 @@ test('Conversation revisions reject old clicks after repeated re-invitations and
   });
 });
 
-test('An existing conversation record without a revision migrates at zero and preserves every answer and paper', () => {
-  const previous = finishConversation(updateDiscovery(calledJourney(allCollected()), 1), true);
-  const legacy = copy(previous); delete legacy.conversationRevision;
-  const storage = new MemoryStorage();
-  storage.values.set(STORAGE_KEY, JSON.stringify({ generation: 'before-revision', state: legacy }));
-  withBrowser(storage, '?journey=1', () => {
-    const restored = createJourneyStore().read();
-    assert.equal(restored.conversationRevision, 0);
-    assert.deepEqual(restored.conversation, previous.conversation);
-    assert.deepEqual(restored.boxes, previous.boxes);
-    assert.deepEqual(restored.letters, previous.letters);
-    assert.deepEqual(getPaperIds(restored), PAPER_IDS);
-    assert.equal(restored.conversation.phase, 'rescue');
-  });
-});
-
 function thirdResponseJourney(correct, seed = newJourney()) {
   let state = updateDiscovery(calledJourney(seed), 1);
   state = updateConversation(state, eventFor(state, 'PLAY'));
@@ -626,29 +600,6 @@ function introEventFor(state, type) {
   return { type, expected: { phase: state.introduction.phase, step: state.introduction.step,
     revision: state.introductionRevision } };
 }
-
-test('Old v1 introduction migration keeps untouched saves at the beginning and every kind of valid progress ready', () => {
-  const numbered = newJourney(); numbered.boxes.red.code = '1000';
-  const investigated = newJourney(); investigated.boxes.blue.snowStage = 1;
-  const drafted = newJourney(); drafted.letters.draft = '考え中';
-  const placed = allCollected(); placed.letters.slots[0] = 'yellow-1';
-  const conversing = updateConversation(updateDiscovery(calledJourney(allCollected()), 1), { type: 'PLAY' });
-  const saves = [newJourney(), numbered, investigated, drafted, updateBox(newJourney(), 'red', snapshot('red', 0, 0)),
-    allCollected(), placed, calledJourney(), updateDiscovery(calledJourney(), 0.4), conversing];
-  for (const [index, state] of saves.entries()) for (const wrapped of [false, true]) {
-    const legacy = copy(state); delete legacy.introduction; delete legacy.introductionRevision;
-    const storage = new MemoryStorage();
-    storage.values.set(STORAGE_KEY, JSON.stringify(wrapped ? { generation: 'legacy-introduction', state: legacy } : legacy));
-    withBrowser(storage, '?journey=1', () => {
-      const restored = createJourneyStore().read();
-      assert.deepEqual(restored.introduction, { phase: index === 0 ? 'intro' : 'ready', step: 0 });
-      assert.equal(restored.introductionRevision, 0);
-      for (const field of ['boxes', 'letters', 'discovery', 'conversation', 'conversationRevision']) assert.deepEqual(restored[field], legacy[field]);
-      assert.deepEqual(getPaperIds(restored), getPaperIds(legacy));
-      assert.equal(storage.writes.length, 0);
-    });
-  }
-});
 
 test('Introduction resumes every narrative step and help phase across reload with a separately stored revision', () => {
   const storage = new MemoryStorage();
@@ -761,4 +712,4 @@ test('A shared reset prevents old introduction clicks from resurrecting narrativ
   });
 });
 
-console.log(`${passed} journey introduction/state/migration/conversation/storage/reset checks passed. Browser navigation and storage availability need separate verification.`);
+console.log(`${passed} journey introduction/state/conversation/storage/reset checks passed. Browser navigation and storage availability need separate verification.`);
