@@ -7,6 +7,7 @@
 - [full-game-spec.json](full-game-spec.json)：原作との照合用の候補・正解・文字・進行条件。ゲームの実行データではない。
 - [FLOW-CHECK.json](FLOW-CHECK.json)：設計モデルの検査結果。全編のブラウザ動作確認ではない。
 - `reference/`：ローカルにのみ保持するDialogflow原本とDrive音源一覧。GitHubには含めない。公開用の到達結果は [audio-url-check.json](audio-url-check.json)。
+- [family-2026/](family-2026/README.md)：2026-10-09〜10。PR #1 の評価と、親子で遊ぶ製品にするための調査・7案の比較・推奨設計。実装・試遊は未実施。
 
 `node design/check-flow.mjs --model-only` は公開版だけで設計モデルを検査する。外部APIを呼ばず、原作との直接照合は省略したことを結果に明記する。原作の参照コピーを持つローカル環境では `--require-source` で原本との照合も必須にできる。`FLOW-CHECK.json` は原本の照合も行った2026-10-05の記録で、通常の検査では書き換えない。レポートを保存する場合は `--write-report` を明示する。
 

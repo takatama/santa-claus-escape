@@ -1,3 +1,4 @@
+import './scene-loading.js';
 import { QUESTIONS, papers, sceneFor, spokenSegments } from './full-scenario.js';
 import { initialState, transition, validateDigits, normalizeWord, readSave, writeSave, readingState } from './full-game.js';
 import { SpeechPlayer } from './speech.js';
@@ -17,9 +18,13 @@ import { createWitchStage } from './witch-stage.js';
 import { createRescueStage } from './rescue-stage.js';
 import { preloadRescueArt } from './rescue-art.js';
 import { rescueSceneFor,rescueTimeline,RescueNarration } from './rescue-presentation.js';
+import { createAnalytics } from './analytics.js';
+import { createGameShare } from './share.js';
 
 const app = document.querySelector('#app');
 let storage; try { storage = window.localStorage; } catch {}
+const analytics=createAnalytics({storage});
+const sharing=createGameShare({analytics});
 const loaded = readSave(storage);
 let state = loaded.state || initialState(), resumePending = state.phase !== 'welcome', storageAvailable = loaded.available;
 let readingIndex = null, feedback = '', inputError = false, lastAction = -Infinity;
@@ -39,7 +44,8 @@ function reportAudioStatus(status) {
     storyStage?.setStatus(status);
     const element = document.querySelector('#audio-status'); if (element) { element.textContent = status; annotateReadings(element); }
     document.querySelector('.santa-device')?.classList.toggle('speaking', status === '読み上げ中');
-    if (status !== '読み上げ中') track.quiet();
+    // BGM belongs to the scene, including the time spent exploring after a
+    // narration. Its first load may finish later than the voice recording.
     if (status === '読み上げが終わりました') boxNarration?.finish();
     else if (/未対応|再生できません/.test(status)) boxNarration?.finish();
     if(status==='読み上げが終わりました' || /未対応|再生できません/.test(status))rescueNarration?.finish();
@@ -80,7 +86,8 @@ function boxDialogue(view) {
 function toolbar(active,showMute=true) {
   return `<div class="audio-toolbar" aria-label="音声の操作"><div class="audio-buttons">${button('replay', '↻ 聞き直す', 'audio-button', active ? '' : 'disabled')}${button('stop', '■ 停止', 'audio-button', active ? '' : 'disabled')}${showMute ? button('mute', state.muted ? '音声オフ' : '音声オン', 'audio-button', `aria-pressed="${state.muted}"`) : ''}</div><span id="audio-status" role="status">${esc(audioStatus)}</span><div class="bgm-control"><label for="bgm-volume">BGM <output id="bgm-volume-value" for="bgm-volume">${state.bgmVolume}%</output></label><input id="bgm-volume" type="range" min="0" max="100" step="1" value="${state.bgmVolume}" aria-label="BGMの音量" aria-valuetext="${state.bgmVolume}%">${button('bgm', `BGM ${state.bgmEnabled ? 'オン' : 'オフ'}`, 'audio-button', `aria-pressed="${state.bgmEnabled}"`)}</div></div>`;
 }
-function soundSettings() { return `<details class="sound-settings"><summary>音の設定・クレジット</summary>${button('sfx', `効果音 ${state.sfxEnabled ? 'オン' : 'オフ'}`, 'secondary', `aria-pressed="${state.sfxEnabled}"`)}<p>BGM: <a href="https://peritune.com/blog/2017/01/25/laid_back/">Laid_Back</a> / <a href="https://peritune.com/blog/2018/09/28/spook4/">Spook4</a> — PeriTune / <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>。原作のループ版を使用し、音量・ループ・フェードを調整。効果音: 回復魔法2・間抜け3・きらきら輝く1/3 — <a href="https://soundeffect-lab.info/">効果音ラボ</a> / <a href="https://soundeffect-lab.info/agreement/">利用規約</a>（MIT対象外）。ダイヤル: Zott820 / <a href="https://freesound.org/people/Zott820/sounds/174770/">Clicking Dial on Toy</a> / CC0。解錠: <a href="https://sounddictionary.info/machines-1/">効果音辞典</a> / <a href="https://sounddictionary.info/terms-of-use/">利用規約</a>（MIT対象外）。声はGemini TTSで事前収録。数字の誤答も同じ声で読み、再生できない場合だけ端末の読み上げに切り替えます。</p></details>`; }
+function creditSettings() { return `<details class="sound-settings"><summary>音の設定・クレジット</summary>${button('sfx', `効果音 ${state.sfxEnabled ? 'オン' : 'オフ'}`, 'secondary', `aria-pressed="${state.sfxEnabled}"`)}<p>BGM: <a href="https://peritune.com/blog/2017/01/25/laid_back/">Laid_Back</a> / <a href="https://peritune.com/blog/2018/09/28/spook4/">Spook4</a> — PeriTune / <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>。原作のループ版を使用し、音量・ループ・フェードを調整。OGG非対応用に同じ原作音をAACへ形式変換。効果音: 回復魔法2・間抜け3・きらきら輝く1/3 — <a href="https://soundeffect-lab.info/">効果音ラボ</a> / <a href="https://soundeffect-lab.info/agreement/">利用規約</a>（MIT対象外）。ダイヤル: Zott820 / <a href="https://freesound.org/people/Zott820/sounds/174770/">Clicking Dial on Toy</a> / CC0。解錠: <a href="https://sounddictionary.info/machines-1/">効果音辞典</a> / <a href="https://sounddictionary.info/terms-of-use/">利用規約</a>（MIT対象外）。声はGemini TTSで事前収録。数字の誤答も同じ声で読み、再生できない場合だけ端末の読み上げに切り替えます。</p></details>`; }
+function soundSettings() { return creditSettings()+analytics.markup(); }
 function render(focus = false, scroll = false, rescueIntro = false) {
   const view = currentState(), scene = sceneFor(view), reading = readingIndex !== null;
   const cover = resumePending || view.phase === 'welcome';
@@ -128,6 +135,7 @@ function render(focus = false, scroll = false, rescueIntro = false) {
         const next=transition(state,{type:'RESCUE_PROGRESS',value});if(next===state)return;
         const released=!state.rescueMotion.released && next.rescueMotion.released;
         if(!state.muted)voiceTimeline.prepare();
+        analytics.observe(state,next,{type:'RESCUE_PROGRESS',value});
         state=next;save();render();
         if(released){lastAction=-Infinity;document.querySelector('#transcript').focus({preventScroll:true});rescueNarration.release(state);}
       }});
@@ -208,6 +216,7 @@ function apply(event) {
   const color=state.selectedBox, wasLidOpen = state.boxes[color]?.lidOpen;
   const next = transition(state, event); if (next === state) return;
   const sequenceBox = boxStage && ['EXAMINE','INFORMATION','ANSWER','OPEN_LID','CLOSE_LID','LID'].includes(event.type);
+  analytics.observe(state,next,event);
   state = next; feedback = ''; inputError = false; save();
   // Paper acknowledgment only changes presentation. Appearance audio begins
   // once when the branches first open fully; there is no second acknowledgment.
@@ -245,6 +254,8 @@ app.addEventListener('keydown', e => { if (e.repeat && ['Enter', ' '].includes(e
 app.addEventListener('click', event => {
   const target = event.target.closest('button[data-action]'); if (!target || target.disabled) return;
   const action = target.dataset.action;
+  if(action==='share'){if(state.phase==='complete'&&readingIndex===null&&!resumePending)void sharing.open();return;}
+  if(action==='analytics-allow'||action==='analytics-deny'){analytics.choose(action==='analytics-allow'?'granted':'denied');render();return;}
   if (action === 'stop') return stop();
   if (action === 'reset') { stop(); document.querySelector('#reset-dialog').showModal(); return; }
   if (action === 'replay') { speak(); return; }
@@ -257,7 +268,7 @@ app.addEventListener('click', event => {
     state = transition(state, { type: action.toUpperCase() }); save();
     if (action === 'mute') { boxNarration.clear(); rescueNarration.clear(); player.setMuted(state.muted); track.configure(state); }
     if (['bgm', 'sfx'].includes(action)) track.configure(state);
-    if(action==='bgm'&&state.bgmEnabled&&!state.muted&&audioStatus==='読み上げ中')track.begin(sceneFor(currentState()).bgm);
+    if(['bgm','mute'].includes(action)&&state.bgmEnabled&&!state.muted&&!resumePending&&state.phase!=='welcome')track.begin(sceneFor(currentState()).bgm);
     if(action==='sfx')player.setEffectsEnabled(state.sfxEnabled);
     render(); return;
   }
@@ -269,6 +280,7 @@ app.addEventListener('click', event => {
   if (action==='continue_spell') return apply({type:'CONTINUE_SPELL',revision:Number(target.dataset.revision)});
   if (performance.now() - lastAction < 450) return; lastAction = performance.now();
   if (action === 'resume') {
+    analytics.resume(state.phase);
     resumePending = false;
     // Old released rescue saves need no removed confirmation button.
     if(state.phase==='rescue' && state.rescueMotion?.released){state=transition(state,{type:'FINISH'});save();}

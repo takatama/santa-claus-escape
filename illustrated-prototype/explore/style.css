@@ -1,0 +1,64 @@
+html { scrollbar-gutter: stable; }
+.explore-storybook { height: auto; min-height: 100svh; overflow: visible; grid-template-rows: auto auto; }
+.explore-storybook .scene-shell { height: clamp(530px,76svh,700px); min-height: 530px; }
+.explore-storybook #scene { pointer-events: none; touch-action: auto; cursor: default; }
+.explore-storybook .masthead { z-index: 3; }
+.explore-storybook .reset-button { min-height: 44px; }
+.box-choices { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.box-choice {
+  position: absolute; display: flex; align-items: flex-end; justify-content: center;
+  min-width: 44px; min-height: 44px; pointer-events: auto;
+  border: 1px solid transparent; border-radius: 12px; color: #f4e5c8; text-decoration: none;
+}
+.box-label {
+  display: grid; justify-items: center; gap: 3px; min-width: 90px; min-height: 44px;
+  padding: 7px 10px; border: 1px solid #d4ba8355; border-radius: 7px;
+  background: #10263ee6; box-shadow: 0 3px 12px #0615256b; text-align: center;
+}
+.box-label strong { font: 500 15px/1.4 "Yu Mincho",serif; }
+.box-label small { font-size: 10px; line-height: 1.4; color: #c9c4b2; }
+.box-choice:hover, .box-choice:focus-visible { border-color: #f3d797; background: #edc7770c; }
+.box-choice:focus-visible, .explore-storybook a:focus-visible, .explore-storybook button:focus-visible, summary:focus-visible {
+  outline: 2px solid #ffe3a0; outline-offset: 3px;
+}
+.box-choice[data-collected="true"] .box-label { border-color: #d5bd7fa6; }
+.explore-reader { gap: 12px; padding: 18px 24px max(20px,env(safe-area-inset-bottom)); }
+.explore-reader .narration { font-size: 18px; letter-spacing: .07em; }
+.paper-collection { display: grid; justify-items: center; gap: 9px; max-width: 100%; }
+#paper-count { margin: 0; font-size: 12px; color: #cbc7b9; }
+.paper-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; min-width: 0; }
+.letter-paper {
+  display: grid; justify-items: center; align-content: center; min-width: 52px; min-height: 65px; padding: 6px 8px;
+  border: 1px solid #c6a66b; border-bottom: 4px solid #c6a66b; border-radius: 4px;
+  background: repeating-linear-gradient(110deg,#d5c4a017 0 1px,transparent 1px 4px),linear-gradient(125deg,#f9edcd,#efdcad);
+  color: #453a2b; box-shadow: 0 3px 7px #05172577; font: 500 30px/1.1 "Yu Mincho",serif;
+}
+.letter-paper small { margin-top: 4px; color: #756548; font: 8px/1.4 "Yu Gothic",Meiryo,sans-serif; }
+.letter-paper[data-color="red"] { border-bottom-color: #ac5755; }
+.letter-paper[data-color="blue"] { border-bottom-color: #6185a9; }
+.letter-paper[data-color="yellow"] { border-bottom-color: #c39e47; }
+.letters-link, .discovery-link { min-height: 44px; padding: 10px 18px; border: 1px solid #c7aa6e80; border-radius: 6px; color: #f5dfad; text-underline-offset: 4px; text-align: center; }
+.letters-link { background: linear-gradient(#80643a,#554327); text-decoration: none; }
+#direct-help, #storage-status { max-width: 100%; margin: 0; text-align: center; font-size: 11px; line-height: 1.7; color: #c2c7c8; }
+#clue-reading { width: min(100%,660px); font-size: 13px; line-height: 1.8; color: #d9c8aa; }
+#clue-reading summary { min-height: 44px; padding: 10px 0; cursor: pointer; }
+#clue-reading p { margin: 6px 0 10px; white-space: pre-line; }
+.explore-storybook [hidden] { display: none !important; }
+@media(max-width:720px) {
+  .explore-storybook .scene-shell { height: 520px; min-height: 520px; }
+  .explore-storybook .masthead { padding: 20px 16px 32px; gap: 12px; }
+  .explore-storybook .title-block h1 { font-size: 24px; letter-spacing: .1em; }
+  .explore-storybook .title-block p { font-size: 10px; letter-spacing: .06em; }
+  .explore-storybook .reset-button { padding-inline: 11px; }
+  .box-label { min-width: 0; width: 100%; padding: 6px 3px; }
+  .box-label strong { font-size: 13px; }
+  .box-label small { font-size: 9px; }
+  .explore-reader { gap: 11px; padding-inline: 16px; }
+  .explore-reader .narration { font-size: 16px; }
+  .paper-row { gap: 6px; }
+  .letter-paper { min-width: 45px; min-height: 60px; padding-inline: 5px; font-size: 29px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .explore-storybook *, .explore-storybook *::before, .explore-storybook *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+.story-link { display: inline-flex; align-items: center; min-height: 44px; padding: 8px; color: #c7c5b8; font-size: 12px; text-underline-offset: 4px; }

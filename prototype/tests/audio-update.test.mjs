@@ -23,9 +23,9 @@ test('三箱の全四桁は、先頭ゼロも含め収録済みの七つの音�
   }
   for(const color of ['red','blue','yellow'])for(let n=0;n<10000;n++){
     const digits=String(n).padStart(4,'0'),parts=resolveAudioClip(`${color}-wrong-${digits}`);
-    assert.equal(parts.length,7);assert.equal(parts[0],`./assets/audio/answer-prefix-${color}.wav`);
-    assert.deepEqual(parts.slice(1,5),digits.split('').map(d=>`./assets/audio/answer-digit-${d}.wav`));
-    assert.ok(parts.every(src=>Object.hasOwn(ANSWER_AUDIO_SEGMENTS,src.split('/').at(-1).replace('.wav',''))));
+    assert.equal(parts.length,7);assert.equal(parts[0],`./assets/audio/answer-prefix-${color}.m4a`);
+    assert.deepEqual(parts.slice(1,5),digits.split('').map(d=>`./assets/audio/answer-digit-${d}.m4a`));
+    assert.ok(parts.every(src=>Object.hasOwn(ANSWER_AUDIO_SEGMENTS,src.split('/').at(-1).replace('.m4a',''))));
   }
 });
 test('結合音声は順序を保ち、前後の余分な無音を取り除く',()=>{

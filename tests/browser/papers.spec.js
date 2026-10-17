@@ -99,7 +99,7 @@ test('early: zero-paper alias, decline/save/reload/recall and all wrong answers 
 });
 test('papers: blocked storage, art and audio still allow the session from cover through all boxes and success',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw Error('storage unavailable');}});HTMLMediaElement.prototype.play=function(){return Promise.reject(Error('no playback'));};window.speechSynthesis=undefined;});
-  await page.route('**/assets/papers/*.png',r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());await page.goto('/');await btn(page,'start').click();await page.waitForTimeout(470);await btn(page,'boxes').click();
+  await page.route('**/assets/papers/*.webp',r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());await page.goto('/');await btn(page,'start').click();await page.waitForTimeout(470);await btn(page,'boxes').click();
   for(const [color,code] of [['red','3138'],['blue','8848'],['yellow','2502']]){
     await page.waitForTimeout(470);await page.locator(`[data-action="select"][data-color="${color}"]`).click();for(let i=0;i<4;i++)await page.getByRole('spinbutton',{name:`${i+1}桁目のダイアル`,exact:true}).press(code[i]);await btn(page,'box_try').click();await expect(btn(page,'open_lid')).toBeEnabled();await btn(page,'open_lid').click();await expect(btn(page,'continue_box')).toBeEnabled();await btn(page,'continue_box').click();
   }

@@ -15,7 +15,8 @@
     "check:publication": "node scripts/check-publication.mjs",
     "check:pages": "node scripts/check-pages.mjs",
     "build": "node scripts/build-pages.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "check:media": "node scripts/check-media.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.0"

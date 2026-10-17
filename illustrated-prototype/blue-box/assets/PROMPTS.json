@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-08",
+  "tool": "built-in image_gen.imagegen",
+  "transparent_background": true,
+  "assets": [
+    {
+      "file": "blue-body.png",
+      "source": "C:/Users/takat/.codex/generated_images/01a11851-e0b9-7172-bc0c-d216aeec3fd9/exec-71ab5067-e829-451c-85d3-173d660b7b19.png",
+      "prompt": "Use case: precise-object-edit. Asset type: transparent cutout BODY sprite of the blue Christmas keepsake box in an illustrated browser story. Image 1 is the edit target, the approved red chest BODY. Change ONLY the red painted wood/velvet/paper material (outside and inside) to a rich royal cobalt blue, with slightly deep indigo shadows and warm gold reflected light. Preserve all geometry, exact camera angle, rectangular broad front, empty top cavity, feet, silhouette, brush texture, gold rims, gold stars and filigree. The front stays a large quiet BLUE field to add a separate physical four-wheel lock and puzzle card by code. REMOVE the tiny oval blank brass plaque at the lower center, leave continuous plain blue there. Maintain the dimensions and framing of the reference object, full silhouette comfortably within transparent margins. Exquisite hand-painted children's book gouache and fibrous paper, warm gold highlights, not vector, not plastic. NO lid, NO lock, NO digits, NO words, NO parchment, NO clue image, NO snow, NO background, NO scene, NO characters, NO other objects. Genuine transparent background. Preserve alpha. The blue body must be the exact matching sibling of this red body, NOT a redesign."
+    },
+    {
+      "file": "blue-lid.png",
+      "source": "C:/Users/takat/.codex/generated_images/01a11851-e0b9-7172-bc0c-d216aeec3fd9/exec-6accf2f1-21ea-4726-b167-17b71e1f6537.png",
+      "prompt": "Use case: precise-object-edit. Asset type: isolated transparent LID PANEL sprite for an illustrated Christmas keepsake chest. Image 1 is the edit target (approved red detached lid); Image 2 is the completed BLUE BODY to match. Change ONLY the red painted wood/paper inside the gold border to the same rich royal cobalt blue and indigo shadows as Image 2. Keep the exact rectangle geometry, front-on flat orthographic panel, thin continuous antique gold rim, gold stars and corner filigree, gouache brush texture, framing and transparent margin. Preserve the entire silhouette and true alpha transparency. This panel is perspective-projected by code and must be a flat rectangular sprite, NOT a perspective box or attached lid. Match the blue body precisely in material/color, warm gold light. No box body, no shadows outside object, no forest, snow, animals, people, digits, letters, labels, bow, extra objects or UI. One detached rectangular blue-gold lid only."
+    },
+    {
+      "file": "mountain.png",
+      "source": "C:/Users/takat/.codex/generated_images/01a11851-e0b9-7172-bc0c-d216aeec3fd9/exec-e9210400-ba1f-4a19-a0fe-6708b1619c33.png",
+      "prompt": "Use case: illustration-story. Asset type: one transparent mountain illustration printed on a parchment clue card in a Christmas picture-book browser game. Input image is a STYLE AND LIGHTING reference only: exquisite gouache, fibrous paper, soft handmade brush marks, deep blue shadows and quiet golden light. Create one readable illustration of a high Himalayan snowy mountain, broad irregular rocky snow-covered summit with steep ridges and one modest neighboring shoulder. Recognizable as a very tall rugged mountain, NOT a simple geometric triangle and NOT a cone volcano. Gentle children's book painting with slate blue rock, pale lavender/cream snow, tiny warm gold rim light, tactile brush texture. Composition: whole mountain range silhouette fits comfortably inside transparent margins, width:height around 1.3:1, readable at 90 pixels wide. The mountain's lower foothills end naturally with irregular soft painted edges. Genuine transparent background, no rectangular paper or sky plate, no horizon, no trees, no people, no climbers, no flags, no text, no words, no numbers, no height label, no captions, no UI, no map or extra props. ONLY the isolated painted mountain. It must not embed the puzzle answer or the word Sagarmatha."
+    }
+  ],
+  "runtime": "Only bundled local images are used. Original red images and generated sources remain unchanged; alpha padding is trimmed in memory by rescue/paint.js.",
+  "inspection": "All three PNG files have genuine alpha transparency, contain no clue text or numbers, and were visually inspected."
+}

@@ -40,7 +40,7 @@ test('witch: both branch directions, partial pause/reverse/cancel/resize/reload,
   await page.reload();await btn(page,'resume').click();expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.5,1);
   const b=await grip(page,-1).boundingBox();await page.mouse.move(b.x+30,b.y+30);await page.mouse.down();await page.mouse.move(b.x+10,b.y+30);const before=(await saved(page)).witchDiscovery.progress;await page.setViewportSize({width:1024,height:768});await page.mouse.move(50,50);await page.mouse.up();expect((await saved(page)).witchDiscovery.progress).toBe(before);
   await grip(page,-1).press('Home');await grip(page,-1).press('ArrowLeft');expect((await saved(page)).witchDiscovery.progress).toBe(.05);await grip(page,-1).press('ArrowRight');expect((await saved(page)).witchDiscovery.progress).toBe(0);
-  for(let i=0;i<5;i++)await grip(page,-1).press(i%2?'Space':'Enter');await expect(grip(page,-1)).toBeFocused();await expect(btn(page,'accept')).toBeVisible();
+  for(let i=0;i<3;i++)await grip(page,-1).press(i%2?'Space':'Enter');await expect(grip(page,-1)).toBeFocused();await expect(btn(page,'accept')).toBeVisible();
   await grip(page,1).click();await expect(btn(page,'accept')).toBeHidden();await grip(page).press('End');const ready=await saved(page);
   await btn(page,'accept').evaluate(b=>{for(let i=0;i<12;i++)b.click();});expect((await saved(page)).revision).toBe(ready.revision+1);await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchQuestion');await expect(btn(page,'accept')).toHaveCount(0);
   const s=await saved(page);expect(s.boxes).toEqual(base.boxes);expect(s.history.filter(e=>e.phase==='witchInvite')).toHaveLength(1);expect(s.responses).toEqual([]);
@@ -86,13 +86,19 @@ test('witch: legacy already summoned and C success saves do not rewind; reset ca
 
 test('witch: unavailable image/audio/storage still completes the early session',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw Error('disabled');}});window.speechSynthesis=undefined;HTMLMediaElement.prototype.play=function(){return Promise.reject(Error('no playback'));};});
-  await page.route('**/assets/witch/*.png',r=>r.abort());await page.route('**/assets/papers/*.png',r=>r.abort());await page.route('**/assets/rescue/*.png',r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());
-  await early(page,false);await expect(page.locator('.witch-art-error')).toBeVisible();await expect(page.locator('#save-status')).toContainText('このまま遊べます');for(let i=0;i<5;i++)await grip(page).click();await page.waitForTimeout(470);await btn(page,'accept').click();await answerAll(page);expect(errors).toEqual([]);
+  await page.route('**/assets/witch/*.webp',r=>r.abort());await page.route('**/assets/papers/*.webp',r=>r.abort());await page.route('**/assets/rescue/*.webp',r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());
+  await early(page,false);await expect(page.locator('.witch-art-error')).toBeVisible();await expect(page.locator('#save-status')).toContainText('このまま遊べます');for(let i=0;i<3;i++)await grip(page).click();await page.waitForTimeout(470);await btn(page,'accept').click();await answerAll(page);expect(errors).toEqual([]);
 });
 
 test.describe('witch touch emulation',()=>{
   test.use({hasTouch:true,viewport:{width:390,height:844}});
   test('branch taps and original answers through ending without dragging or speech',async({page})=>{
-    await early(page);for(let i=0;i<5;i++)await grip(page).tap();await page.waitForTimeout(470);await btn(page,'accept').tap();await answerAll(page);
+    await early(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
+    const original=await saved(page);
+    await grip(page).tap();expect((await saved(page)).witchDiscovery.progress).toBe(.35);await expect(btn(page,'accept')).toBeHidden();
+    await grip(page).tap();expect((await saved(page)).witchDiscovery.progress).toBe(.7);await expect(btn(page,'accept')).toBeHidden();
+    await grip(page).tap();expect((await saved(page)).witchDiscovery.progress).toBe(1);await expect(btn(page,'accept')).toBeVisible();
+    expect((await saved(page)).boxes).toEqual(original.boxes);
+    await page.waitForTimeout(470);await btn(page,'accept').tap();await answerAll(page);
   });
 });

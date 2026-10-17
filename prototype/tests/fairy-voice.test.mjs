@@ -16,7 +16,7 @@ test('妖精の全場面が採用されたLedaを使い、語り手・サンタ�
   for(const [key,segments] of Object.entries(scenes)){
     const file=resolveAudioClip(key);
     if(!segments.some(s=>s.speaker==='witch')){assert.ok(!file.includes('ja-leda-'),key);continue;}
-    assert.equal(file,`./assets/audio/${STORYBOOK_AUDIO_IDS[key]||`ja-leda-${key}`}.wav`);
+    assert.equal(file,`./assets/audio/${STORYBOOK_AUDIO_IDS[key]||`ja-leda-${key}`}.m4a`);
     const meta=JSON.parse(await readFile(new URL(`reference/audio-generation/ja-leda-${key}.json`,root),'utf8'));
     assert.equal(meta.voices.witch,'Leda',key);assert.notEqual(meta.voices.witch,meta.voices.narrator,key);assert.notEqual(meta.voices.witch,meta.voices.santa,key);
     assert.equal(meta.spokenInput.map(s=>s.text).join(''),segments.map(s=>s.spoken||s.text).join(''),key);

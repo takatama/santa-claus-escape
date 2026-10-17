@@ -1,0 +1,119 @@
+file,target,before_bytes,after_bytes,reduction_percent,status
+assets/audio/answer-closed.wav,assets/audio/answer-closed.m4a,175024,30000,82.86,converted
+assets/audio/answer-digit-0.wav,assets/audio/answer-digit-0.m4a,52144,8780,83.16,converted
+assets/audio/answer-digit-1.wav,assets/audio/answer-digit-1.m4a,54064,9400,82.61,converted
+assets/audio/answer-digit-2.wav,assets/audio/answer-digit-2.m4a,52144,8459,83.78,converted
+assets/audio/answer-digit-3.wav,assets/audio/answer-digit-3.m4a,69424,11399,83.58,converted
+assets/audio/answer-digit-4.wav,assets/audio/answer-digit-4.m4a,55984,9359,83.28,converted
+assets/audio/answer-digit-5.wav,assets/audio/answer-digit-5.m4a,50224,8429,83.22,converted
+assets/audio/answer-digit-6.wav,assets/audio/answer-digit-6.m4a,65584,11497,82.47,converted
+assets/audio/answer-digit-7.wav,assets/audio/answer-digit-7.m4a,67504,11049,83.63,converted
+assets/audio/answer-digit-8.wav,assets/audio/answer-digit-8.m4a,59824,10114,83.09,converted
+assets/audio/answer-digit-9.wav,assets/audio/answer-digit-9.m4a,57904,9880,82.94,converted
+assets/audio/answer-prefix-blue.wav,assets/audio/answer-prefix-blue.m4a,190384,33263,82.53,converted
+assets/audio/answer-prefix-red.wav,assets/audio/answer-prefix-red.m4a,176944,31293,82.31,converted
+assets/audio/answer-prefix-yellow.wav,assets/audio/answer-prefix-yellow.m4a,165424,30687,81.45,converted
+assets/audio/answer-set.wav,assets/audio/answer-set.m4a,88624,15007,83.07,converted
+assets/audio/cue-box-blue-opened.wav,assets/audio/cue-box-blue-opened.m4a,140514,25350,81.96,converted
+assets/audio/cue-box-blue-paper.wav,assets/audio/cue-box-blue-paper.m4a,476514,87249,81.69,converted
+assets/audio/cue-box-red-opened.wav,assets/audio/cue-box-red-opened.m4a,134754,23665,82.44,converted
+assets/audio/cue-box-red-paper.wav,assets/audio/cue-box-red-paper.m4a,491874,88112,82.09,converted
+assets/audio/cue-box-yellow-opened.wav,assets/audio/cue-box-yellow-opened.m4a,144354,25290,82.48,converted
+assets/audio/cue-box-yellow-paper.wav,assets/audio/cue-box-yellow-paper.m4a,455394,84422,81.46,converted
+assets/audio/cue-rescue-appeared.wav,assets/audio/cue-rescue-appeared.wav,211554,0,100.00,not published; original retained
+assets/audio/cue-rescue-fairy-first.wav,assets/audio/cue-rescue-fairy-first.m4a,169314,28992,82.88,converted
+assets/audio/dial.mp3,assets/audio/dial.mp3,41617,41617,0.00,unchanged
+assets/audio/help.wav,assets/audio/help.wav,1399984,0,100.00,not published; original retained
+assets/audio/intro.wav,assets/audio/intro.wav,1561264,0,100.00,not published; original retained
+assets/audio/ja-blue-open.wav,assets/audio/ja-blue-open.m4a,1092784,198220,81.86,converted
+assets/audio/ja-blue-wrong-0000.wav,assets/audio/ja-blue-wrong-0000.m4a,603184,106330,82.37,converted
+assets/audio/ja-blue1.wav,assets/audio/ja-blue1.m4a,745264,134958,81.89,converted
+assets/audio/ja-blue2.wav,assets/audio/ja-blue2.m4a,530224,95142,82.06,converted
+assets/audio/ja-blue3.wav,assets/audio/ja-blue3.m4a,628144,112492,82.09,converted
+assets/audio/ja-blue4.wav,assets/audio/ja-blue4.wav,1465264,0,100.00,not published; original retained
+assets/audio/ja-branch-discovery.wav,assets/audio/ja-branch-discovery.m4a,175076,30259,82.72,converted
+assets/audio/ja-information.wav,assets/audio/ja-information.wav,749104,0,100.00,not published; original retained
+assets/audio/ja-invite.wav,assets/audio/ja-invite.wav,1424944,0,100.00,not published; original retained
+assets/audio/ja-leda-invite.wav,assets/audio/ja-leda-invite.m4a,1327074,238715,82.01,converted
+assets/audio/ja-leda-paused.wav,assets/audio/ja-leda-paused.wav,1428312,0,100.00,not published; original retained
+assets/audio/ja-leda-question-christmas-creatures.wav,assets/audio/ja-leda-question-christmas-creatures.m4a,1179234,212396,81.99,converted
+assets/audio/ja-leda-question-deer-ten-times.wav,assets/audio/ja-leda-question-deer-ten-times.m4a,1039074,189666,81.75,converted
+assets/audio/ja-leda-question-red-ornament.wav,assets/audio/ja-leda-question-red-ornament.m4a,653154,119246,81.74,converted
+assets/audio/ja-leda-rescue.wav,assets/audio/ja-leda-rescue.wav,2463456,0,100.00,not published; original retained
+assets/audio/ja-leda-response-christmas-creatures-right.wav,assets/audio/ja-leda-response-christmas-creatures-right.m4a,301794,52415,82.63,converted
+assets/audio/ja-leda-response-christmas-creatures-wrong.wav,assets/audio/ja-leda-response-christmas-creatures-wrong.m4a,272994,49252,81.96,converted
+assets/audio/ja-leda-response-deer-ten-times-right.wav,assets/audio/ja-leda-response-deer-ten-times-right.m4a,305634,53589,82.47,converted
+assets/audio/ja-leda-response-deer-ten-times-wrong.wav,assets/audio/ja-leda-response-deer-ten-times-wrong.m4a,259554,47042,81.88,converted
+assets/audio/ja-leda-response-red-ornament-right.wav,assets/audio/ja-leda-response-red-ornament-right.m4a,541794,98961,81.73,converted
+assets/audio/ja-leda-response-red-ornament-wrong.wav,assets/audio/ja-leda-response-red-ornament-wrong.m4a,486114,88794,81.73,converted
+assets/audio/ja-letters.wav,assets/audio/ja-letters.m4a,1463344,261183,82.15,converted
+assets/audio/ja-paused.wav,assets/audio/ja-paused.wav,1353904,0,100.00,not published; original retained
+assets/audio/ja-question-christmas-creatures.wav,assets/audio/ja-question-christmas-creatures.wav,1102384,0,100.00,not published; original retained
+assets/audio/ja-question-deer-ten-times.wav,assets/audio/ja-question-deer-ten-times.wav,1083184,0,100.00,not published; original retained
+assets/audio/ja-question-red-ornament.wav,assets/audio/ja-question-red-ornament.wav,637744,0,100.00,not published; original retained
+assets/audio/ja-red-open.wav,assets/audio/ja-red-open.m4a,1006384,181837,81.93,converted
+assets/audio/ja-red-wrong-0000.wav,assets/audio/ja-red-wrong-0000.m4a,605104,110769,81.69,converted
+assets/audio/ja-reinvite.wav,assets/audio/ja-reinvite.m4a,269104,47694,82.28,converted
+assets/audio/ja-remaining-blue-yellow.wav,assets/audio/ja-remaining-blue-yellow.m4a,190434,33148,82.59,converted
+assets/audio/ja-remaining-blue.wav,assets/audio/ja-remaining-blue.m4a,159714,27461,82.81,converted
+assets/audio/ja-remaining-red-blue.wav,assets/audio/ja-remaining-red-blue.m4a,209634,37325,82.20,converted
+assets/audio/ja-remaining-red-yellow.wav,assets/audio/ja-remaining-red-yellow.m4a,207714,37206,82.09,converted
+assets/audio/ja-remaining-red.wav,assets/audio/ja-remaining-red.m4a,152034,26519,82.56,converted
+assets/audio/ja-remaining-yellow.wav,assets/audio/ja-remaining-yellow.m4a,148194,26697,81.99,converted
+assets/audio/ja-rescue.wav,assets/audio/ja-rescue.wav,2304304,0,100.00,not published; original retained
+assets/audio/ja-response-christmas-creatures-right.wav,assets/audio/ja-response-christmas-creatures-right.wav,349744,0,100.00,not published; original retained
+assets/audio/ja-response-christmas-creatures-wrong.wav,assets/audio/ja-response-christmas-creatures-wrong.wav,378544,0,100.00,not published; original retained
+assets/audio/ja-response-deer-ten-times-right.wav,assets/audio/ja-response-deer-ten-times-right.wav,340144,0,100.00,not published; original retained
+assets/audio/ja-response-deer-ten-times-wrong.wav,assets/audio/ja-response-deer-ten-times-wrong.wav,263344,0,100.00,not published; original retained
+assets/audio/ja-response-red-ornament-right.wav,assets/audio/ja-response-red-ornament-right.wav,564784,0,100.00,not published; original retained
+assets/audio/ja-response-red-ornament-wrong.wav,assets/audio/ja-response-red-ornament-wrong.wav,511024,0,100.00,not published; original retained
+assets/audio/ja-yellow-open.wav,assets/audio/ja-yellow-open.m4a,1017904,183230,82.00,converted
+assets/audio/ja-yellow-wrong-0000.wav,assets/audio/ja-yellow-wrong-0000.m4a,630064,111599,82.29,converted
+assets/audio/ja-yellow1.wav,assets/audio/ja-yellow1.m4a,802864,143448,82.13,converted
+assets/audio/ja-yellow2.wav,assets/audio/ja-yellow2.m4a,1031344,184024,82.16,converted
+assets/audio/ja-yellow3.wav,assets/audio/ja-yellow3.m4a,879664,158696,81.96,converted
+assets/audio/ja-yellow4.wav,assets/audio/ja-yellow4.m4a,1206064,214078,82.25,converted
+assets/audio/laid-back-loop.ogg,assets/audio/laid-back-loop.ogg,1802834,1802834,0.00,unchanged
+assets/audio/laid-back-loop.wav,assets/audio/laid-back-loop.m4a,12315972,1138041,90.76,converted
+assets/audio/magic-cure2.mp3,assets/audio/magic-cure2.mp3,102272,102272,0.00,unchanged
+assets/audio/red1.wav,assets/audio/red1.m4a,804784,146941,81.74,converted
+assets/audio/red2.wav,assets/audio/red2.m4a,704944,127785,81.87,converted
+assets/audio/red3.wav,assets/audio/red3.m4a,875824,157478,82.02,converted
+assets/audio/red4.wav,assets/audio/red4.m4a,1275184,228897,82.05,converted
+assets/audio/rescue-dialogue.wav,assets/audio/rescue-dialogue.m4a,1801314,326739,81.86,converted
+assets/audio/rescue-ending.wav,assets/audio/rescue-ending.m4a,313314,58497,81.33,converted
+assets/audio/santa-sample.wav,assets/audio/santa-sample.wav,249904,0,100.00,not published; original retained
+assets/audio/shine1.mp3,assets/audio/shine1.mp3,122252,122252,0.00,unchanged
+assets/audio/shine3.mp3,assets/audio/shine3.mp3,173034,173034,0.00,unchanged
+assets/audio/spook4-loop.ogg,assets/audio/spook4-loop.ogg,2051040,2051040,0.00,unchanged
+assets/audio/spook4-loop.wav,assets/audio/spook4-loop.m4a,13281924,1223055,90.79,converted
+assets/audio/storybook-blue4.wav,assets/audio/storybook-blue4.m4a,1542116,271884,82.37,converted
+assets/audio/storybook-help.wav,assets/audio/storybook-help.m4a,1565156,285992,81.73,converted
+assets/audio/storybook-information.wav,assets/audio/storybook-information.m4a,1232996,222626,81.94,converted
+assets/audio/storybook-intro.wav,assets/audio/storybook-intro.m4a,1551716,276710,82.17,converted
+assets/audio/storybook-paused-narration.wav,assets/audio/storybook-paused-narration.wav,384356,0,100.00,not published; original retained
+assets/audio/storybook-paused.wav,assets/audio/storybook-paused.m4a,1380524,246682,82.13,converted
+assets/audio/storybook-rescue-appeared.wav,assets/audio/storybook-rescue-appeared.m4a,213476,38485,81.97,converted
+assets/audio/storybook-rescue.wav,assets/audio/storybook-rescue.m4a,2505696,456743,81.77,converted
+assets/audio/stupid3.mp3,assets/audio/stupid3.mp3,31346,31346,0.00,unchanged
+assets/audio/success-3138.wav,assets/audio/success-3138.wav,1332784,0,100.00,not published; original retained
+assets/audio/unlocking-1.mp3,assets/audio/unlocking-1.mp3,36736,36736,0.00,unchanged
+assets/audio/wrong-0000.wav,assets/audio/wrong-0000.wav,710704,0,100.00,not published; original retained
+assets/blue-box/blue-body.png,assets/blue-box/blue-body.webp,2154321,244668,88.64,converted
+assets/blue-box/blue-lid.png,assets/blue-box/blue-lid.webp,2093274,230302,89.00,converted
+assets/blue-box/mountain.png,assets/blue-box/mountain.webp,2201726,403474,81.67,converted
+assets/papers/forest-clean.png,assets/papers/forest-clean.webp,2701721,289098,89.30,converted
+assets/papers/globe.png,assets/papers/globe.webp,2180907,624680,71.36,converted
+assets/red-box/red-body.png,assets/red-box/red-body.webp,2182912,304630,86.04,converted
+assets/red-box/red-lid.png,assets/red-box/red-lid.webp,2293133,285076,87.57,converted
+assets/red-box/tanuki.png,assets/red-box/tanuki.webp,1636255,265424,83.78,converted
+assets/rescue/empty-globe-original-v2.png,assets/rescue/empty-globe-original-v2.webp,1840840,389956,78.82,converted
+assets/rescue/finale-v1.png,assets/rescue/finale-v1.webp,3326993,448630,86.52,converted
+assets/rescue/santa.png,assets/rescue/santa.webp,1596665,402538,74.79,converted
+assets/witch/branch.png,assets/witch/branch.webp,2576852,546784,78.78,converted
+assets/witch/wizard-feet-v2.png,assets/witch/wizard-feet-v2.webp,1966565,473152,75.94,converted
+assets/yellow-box/paper.png,assets/yellow-box/paper.webp,1597326,358632,77.55,converted
+assets/yellow-box/rock.png,assets/yellow-box/rock.webp,1369527,204008,85.10,converted
+assets/yellow-box/scissors.png,assets/yellow-box/scissors.webp,2147871,199880,90.69,converted
+assets/yellow-box/yellow-body.png,assets/yellow-box/yellow-body.webp,2004506,240022,88.03,converted
+assets/yellow-box/yellow-lid.png,assets/yellow-box/yellow-lid.webp,2099611,242066,88.47,converted

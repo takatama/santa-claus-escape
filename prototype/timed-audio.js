@@ -17,13 +17,14 @@ export const timedVoiceId=id=>STORYBOOK_AUDIO_IDS[id]||(id.startsWith('remaining
 const speech=id=>voice([asset(timedVoiceId(id))]);
 const effect=(file,volume=.18)=>({type:'effect',src:mediaPath('effect',file),volume});
 const pause=seconds=>({type:'pause',seconds});
-const dial=()=>effect('dial',.12);
 const number=(color,digits)=>voice([`answer-prefix-${color}`,...digits.split('').map(n=>`answer-digit-${n}`),'answer-set'].map(asset));
 export function resolveAudioTimeline(key){
   const match=/^(red|blue|yellow)-(open(?:-\d{4})?|wrong-\d{4})$/.exec(key);
   if(match){
     const [,color,result]=match,opened=result.startsWith('open'),digits=result==='open'?BOXES[color].answer:result.slice(opened?5:6);
-    const start=[dial(),pause(1),number(color,digits),pause(opened?.5:1)];
+    // The player's dial movement supplies its short sound; a trial only reads
+    // the submitted digits and result, without replaying the full dial recording.
+    const start=[number(color,digits),pause(opened?.5:1)];
     return opened?[...start,effect('unlocking-1',.14),speech(`box-${color}-opened`),effect('magic-cure2'),speech(`box-${color}-paper`)]:[...start,voice([asset('answer-closed')]),effect('stupid3',.10)];
   }
   if(key==='rescue')return [speech('rescue-fairy-first'),pause(.5),effect('shine3'),speech('rescue-appeared'),pause(.5),voice([asset('rescue-dialogue')]),pause(1),voice([asset('rescue-ending')])];

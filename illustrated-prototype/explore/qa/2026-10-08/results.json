@@ -1,0 +1,1512 @@
+{
+  "date": "2026-10-08 JST",
+  "url": "http://127.0.0.1:4190/explore/index.html",
+  "browser": "Codex in-app browser",
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "testsPassed": 66,
+  "staticChecks": {
+    "javascriptFiles": 41,
+    "localReferences": 178,
+    "sourceFilesInspected": 50
+  },
+  "consoleWarningsAndErrors": 0,
+  "observations": [
+    {
+      "step": "initial-desktop",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 1265,
+        "paperCount": "見つけた紙 0 / 6",
+        "paperIds": [],
+        "scene": {
+          "boxBounds": "{\"red\":{\"x\":518.65,\"y\":351.23724907063195,\"w\":202.4,\"h\":119.18275092936804},\"blue\":{\"x\":765.325,\"y\":351.10579881656804,\"w\":202.4,\"h\":119.31420118343196},\"yellow\":{\"x\":1012,\"y\":350.8335893648449,\"w\":202.4,\"h\":119.5864106351551}}",
+          "boxesVisible": "true",
+          "branchesOpen": "false",
+          "called": "false",
+          "globe": "{\"x\":146.0729706717124,\"y\":218.8,\"w\":264.4540586565752,\"h\":278.97}",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "portrait": "false",
+          "ready": "true",
+          "santaContained": "true",
+          "targetBounds": "{\"red\":{\"x\":514.65,\"y\":266.22924907063197,\"w\":210.4,\"h\":257.19075092936805},\"blue\":{\"x\":761.325,\"y\":266.09779881656806,\"w\":210.4,\"h\":257.32220118343196},\"yellow\":{\"x\":1008,\"y\":265.8255893648449,\"w\":210.4,\"h\":257.5944106351551}}"
+        },
+        "url": "http://127.0.0.1:4190/explore/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "../red-box/index.html?journey=1",
+            "text": "赤い箱調べる"
+          },
+          {
+            "href": "../blue-box/index.html?journey=1",
+            "text": "青い箱調べる"
+          },
+          {
+            "href": "../yellow-box/index.html?journey=1",
+            "text": "黄色い箱調べる"
+          },
+          {
+            "href": "../letters/index.html?journey=1",
+            "text": "ひみつの言葉を伝える ›"
+          }
+        ]
+      }
+    },
+    {
+      "step": "blue-wrong-partial",
+      "data": {
+        "dialogs": [
+          {
+            "code": "1234",
+            "informationOpen": "false",
+            "open": false,
+            "revealFraction": "0.000",
+            "revealing": "false",
+            "snowProgress": "0.3333",
+            "snowStage": "1",
+            "text": "",
+            "unlocked": "false"
+          }
+        ],
+        "pageWidth": 1265,
+        "paperIds": [],
+        "scene": {
+          "awarded": "false",
+          "box": "{\"x\":641.74,\"y\":247.21840236686393,\"w\":487.52,\"h\":287.3915976331361}",
+          "clue": "{\"x\":722.1808,\"y\":434.0229408284024,\"w\":326.6384,\"h\":73.28485739644971}",
+          "code": "1234",
+          "exam": "2",
+          "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+          "handle": "{\"x\":885.5,\"y\":353.55329349112424}",
+          "hinge": "[{\"x\":700.2424,\"y\":255.840150295858},{\"x\":1070.7576,\"y\":255.840150295858}]",
+          "journey": "true",
+          "lidFace": "top",
+          "lock": "{\"x\":746.5568000000001,\"y\":366.4859153846154,\"w\":277.8864,\"h\":57.47831952662722}",
+          "paperCount": "0",
+          "progress": "0.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "saveAvailable": "true",
+          "snowProgress": "0.33333",
+          "snowStage": "1",
+          "unlocked": "false"
+        },
+        "url": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/letters/index.html?journey=1",
+            "text": "六枚の紙のひみつへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "blue-restored-after-reload",
+      "data": {
+        "dialogs": [
+          {
+            "code": "1234",
+            "informationOpen": "false",
+            "open": true,
+            "revealFraction": "0.000",
+            "revealing": "false",
+            "snowProgress": "0.3333",
+            "snowStage": "1",
+            "text": "青い箱森に戻る90123↑↓01234↑↓12345↑↓23456↑↓この数字で試す調べてみる山の絵が現れた。サガルマータについて調べるサガルマータの資料上下に引く · ↑↓で回す · 数字キーで入力見えた文字を読む山の絵。",
+            "unlocked": "false"
+          }
+        ],
+        "pageWidth": 1265,
+        "paperIds": [],
+        "scene": {
+          "awarded": "false",
+          "box": "{\"x\":641.74,\"y\":247.21840236686393,\"w\":487.52,\"h\":287.3915976331361}",
+          "clue": "{\"x\":722.1808,\"y\":434.0229408284024,\"w\":326.6384,\"h\":73.28485739644971}",
+          "code": "1234",
+          "exam": "2",
+          "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+          "handle": "{\"x\":885.5,\"y\":353.55329349112424}",
+          "hinge": "[{\"x\":700.2424,\"y\":255.840150295858},{\"x\":1070.7576,\"y\":255.840150295858}]",
+          "journey": "true",
+          "lidFace": "top",
+          "lock": "{\"x\":746.5568000000001,\"y\":366.4859153846154,\"w\":277.8864,\"h\":57.47831952662722}",
+          "paperCount": "0",
+          "progress": "0.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "saveAvailable": "true",
+          "snowProgress": "0.33333",
+          "snowStage": "1",
+          "unlocked": "false"
+        },
+        "url": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/letters/index.html?journey=1",
+            "text": "六枚の紙のひみつへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "blue-unlocked-no-papers",
+      "data": {
+        "dialogs": [
+          {
+            "code": "8848",
+            "informationOpen": "false",
+            "open": false,
+            "revealFraction": "0.000",
+            "revealing": "false",
+            "snowProgress": "0.3333",
+            "snowStage": "1",
+            "text": "",
+            "unlocked": "true"
+          }
+        ],
+        "pageWidth": 1265,
+        "paperIds": [],
+        "scene": {
+          "awarded": "false",
+          "box": "{\"x\":641.74,\"y\":247.21840236686393,\"w\":487.52,\"h\":287.3915976331361}",
+          "clue": "{\"x\":722.1808,\"y\":434.0229408284024,\"w\":326.6384,\"h\":73.28485739644971}",
+          "code": "8848",
+          "exam": "2",
+          "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+          "handle": "{\"x\":885.5,\"y\":353.55329349112424}",
+          "hinge": "[{\"x\":700.2424,\"y\":255.840150295858},{\"x\":1070.7576,\"y\":255.840150295858}]",
+          "journey": "true",
+          "lidFace": "top",
+          "lock": "{\"x\":746.5568000000001,\"y\":366.4859153846154,\"w\":277.8864,\"h\":57.47831952662722}",
+          "paperCount": "0",
+          "progress": "0.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "saveAvailable": "true",
+          "snowProgress": "0.33333",
+          "snowStage": "1",
+          "unlocked": "true"
+        },
+        "url": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/letters/index.html?journey=1",
+            "text": "六枚の紙のひみつへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "no-paper-connected-letters",
+      "data": {
+        "dialogs": [],
+        "draft": "",
+        "feedback": "",
+        "pageWidth": 1265,
+        "paperIds": [],
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "callLight": "null",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "blue-partly-open-restored",
+      "data": {
+        "dialogs": [
+          {
+            "code": "8848",
+            "informationOpen": "false",
+            "open": false,
+            "revealFraction": "0.000",
+            "revealing": "false",
+            "snowProgress": "0.3333",
+            "snowStage": "1",
+            "text": "",
+            "unlocked": "true"
+          }
+        ],
+        "pageWidth": 1265,
+        "paperIds": [],
+        "scene": {
+          "awarded": "false",
+          "box": "{\"x\":641.74,\"y\":247.21840236686393,\"w\":487.52,\"h\":287.3915976331361}",
+          "clue": "{\"x\":722.1808,\"y\":434.0229408284024,\"w\":326.6384,\"h\":73.28485739644971}",
+          "code": "8848",
+          "exam": "2",
+          "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+          "handle": "{\"x\":885.5,\"y\":294.4954749810343}",
+          "hinge": "[{\"x\":700.2424,\"y\":255.840150295858},{\"x\":1070.7576,\"y\":255.840150295858}]",
+          "journey": "true",
+          "lidFace": "top",
+          "lock": "{\"x\":746.5568000000001,\"y\":366.4859153846154,\"w\":277.8864,\"h\":57.47831952662722}",
+          "paperCount": "0",
+          "progress": "0.25000",
+          "ready": "true",
+          "santaContained": "true",
+          "saveAvailable": "true",
+          "snowProgress": "0.33333",
+          "snowStage": "1",
+          "unlocked": "true"
+        },
+        "url": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/letters/index.html?journey=1",
+            "text": "六枚の紙のひみつへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "two-collected-papers",
+      "data": {
+        "dialogs": [],
+        "draft": "まだ",
+        "feedback": "",
+        "pageWidth": 1265,
+        "paperIds": [
+          "blue-0",
+          "blue-1"
+        ],
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "callLight": "null",
+          "called": "false",
+          "draft": "まだ",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "2",
+          "paperIds": "[\"blue-0\",\"blue-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "partial-arrangement-restored",
+      "data": {
+        "dialogs": [],
+        "draft": "まだ",
+        "feedback": "",
+        "pageWidth": 1265,
+        "paperIds": [],
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "callLight": "null",
+          "called": "false",
+          "draft": "まだ",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "2",
+          "paperIds": "[\"blue-0\",\"blue-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,\"blue-0\",null,null,null,\"blue-1\"]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "four-papers-existing-slots-kept",
+      "data": {
+        "dialogs": [],
+        "draft": "まだ",
+        "feedback": "",
+        "pageWidth": 1265,
+        "paperIds": [
+          "red-0",
+          "red-1"
+        ],
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "callLight": "null",
+          "called": "false",
+          "draft": "まだ",
+          "globe": "{\"x\":143.23053453169345,\"y\":260,\"w\":308.08893093661305,\"h\":325}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "4",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,\"blue-0\",null,null,null,\"blue-1\"]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "yellow-stage-1",
+      "data": {
+        "dialogs": [
+          {
+            "code": "0000",
+            "open": true,
+            "revealFraction": "0.000",
+            "revealing": "false",
+            "snowProgress": "0.3333",
+            "snowStage": "1",
+            "text": "黄色い箱森に戻る89012↑↓89012↑↓89012↑↓89012↑↓この数字で試す調べてみるじゃんけんの四つの絵が現れた。上下に引く · ↑↓で回す · 数字キーで入力見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。",
+            "unlocked": "false"
+          }
+        ],
+        "pageWidth": 375,
+        "paperIds": [],
+        "scene": {
+          "awarded": "false",
+          "box": "{\"x\":155.625,\"y\":515.4325332348596,\"w\":213.74999999999997,\"h\":126.29246676514032}",
+          "clue": "{\"x\":190.89375,\"y\":597.5226366322008,\"w\":143.21249999999998,\"h\":32.20457902511078}",
+          "code": "0000",
+          "exam": "2",
+          "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+          "handle": "{\"x\":262.5,\"y\":562.1607459379616}",
+          "hinge": "[{\"x\":181.275,\"y\":519.2213072378139},{\"x\":343.725,\"y\":519.2213072378139}]",
+          "journey": "true",
+          "lidFace": "top",
+          "lock": "{\"x\":201.58125,\"y\":567.8439069423929,\"w\":121.83749999999998,\"h\":25.258493353028065}",
+          "paperCount": "0",
+          "progress": "0.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "saveAvailable": "true",
+          "snowProgress": "0.33333",
+          "snowStage": "1",
+          "unlocked": "false"
+        },
+        "url": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/letters/index.html?journey=1",
+            "text": "六枚の紙のひみつへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "yellow-stage-2",
+      "data": {
+        "dialogs": [
+          {
+            "code": "0000",
+            "open": true,
+            "revealFraction": "0.000",
+            "revealing": "false",
+            "snowProgress": "0.6667",
+            "snowStage": "2",
+            "text": "黄色い箱森に戻る89012↑↓89012↑↓89012↑↓89012↑↓この数字で試す調べてみる「負けるが勝ち」が現れた。上下に引く · ↑↓で回す · 数字キーで入力見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。\n「負けるが勝ち」",
+            "unlocked": "false"
+          }
+        ],
+        "pageWidth": 375,
+        "paperIds": [],
+        "scene": {
+          "awarded": "false",
+          "box": "{\"x\":155.625,\"y\":515.4325332348596,\"w\":213.74999999999997,\"h\":126.29246676514032}",
+          "clue": "{\"x\":190.89375,\"y\":597.5226366322008,\"w\":143.21249999999998,\"h\":32.20457902511078}",
+          "code": "0000",
+          "exam": "3",
+          "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+          "handle": "{\"x\":262.5,\"y\":562.1607459379616}",
+          "hinge": "[{\"x\":181.275,\"y\":519.2213072378139},{\"x\":343.725,\"y\":519.2213072378139}]",
+          "journey": "true",
+          "lidFace": "top",
+          "lock": "{\"x\":201.58125,\"y\":567.8439069423929,\"w\":121.83749999999998,\"h\":25.258493353028065}",
+          "paperCount": "0",
+          "progress": "0.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "saveAvailable": "true",
+          "snowProgress": "0.66667",
+          "snowStage": "2",
+          "unlocked": "false"
+        },
+        "url": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/letters/index.html?journey=1",
+            "text": "六枚の紙のひみつへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "yellow-stage-three-restored",
+      "data": {
+        "dialogs": [
+          {
+            "code": "0000",
+            "open": true,
+            "revealFraction": "0.000",
+            "revealing": "false",
+            "snowProgress": "1.0000",
+            "snowStage": "3",
+            "text": "黄色い箱森に戻る89012↑↓89012↑↓89012↑↓89012↑↓この数字で試す調べ終わったさらに、文章が現れた。上下に引く · ↑↓で回す · 数字キーで入力見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。\n「負けるが勝ち」\n「指の数があなたをみちびく」",
+            "unlocked": "false"
+          }
+        ],
+        "pageWidth": 375,
+        "paperIds": [],
+        "scene": {
+          "awarded": "false",
+          "box": "{\"x\":155.625,\"y\":515.4325332348596,\"w\":213.74999999999997,\"h\":126.29246676514032}",
+          "clue": "{\"x\":190.89375,\"y\":597.5226366322008,\"w\":143.21249999999998,\"h\":32.20457902511078}",
+          "code": "0000",
+          "exam": "4",
+          "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+          "handle": "{\"x\":262.5,\"y\":562.1607459379616}",
+          "hinge": "[{\"x\":181.275,\"y\":519.2213072378139},{\"x\":343.725,\"y\":519.2213072378139}]",
+          "journey": "true",
+          "lidFace": "top",
+          "lock": "{\"x\":201.58125,\"y\":567.8439069423929,\"w\":121.83749999999998,\"h\":25.258493353028065}",
+          "paperCount": "0",
+          "progress": "0.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "saveAvailable": "true",
+          "snowProgress": "1.00000",
+          "snowStage": "3",
+          "unlocked": "false"
+        },
+        "url": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/letters/index.html?journey=1",
+            "text": "六枚の紙のひみつへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "six-papers-mobile-hub",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 375,
+        "paperCount": "見つけた紙 6 / 6",
+        "paperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ],
+        "scene": {
+          "boxBounds": "{\"red\":{\"x\":17.812499999999993,\"y\":396.87509293680296,\"w\":103.12500000000001,\"h\":60.72490706319704},\"blue\":{\"x\":135.9375,\"y\":396.80811760355033,\"w\":103.12500000000001,\"h\":60.791882396449715},\"yellow\":{\"x\":254.0625,\"y\":396.66942392909897,\"w\":103.12500000000001,\"h\":60.93057607090105}}",
+          "boxesVisible": "true",
+          "branchesOpen": "false",
+          "called": "false",
+          "globe": "{\"x\":79.07639545884578,\"y\":117,\"w\":216.84720908230844,\"h\":228.75}",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "portrait": "true",
+          "ready": "true",
+          "santaContained": "true",
+          "targetBounds": "{\"red\":{\"x\":13.812499999999993,\"y\":353.56259293680296,\"w\":111.12500000000001,\"h\":157.03740706319704},\"blue\":{\"x\":131.9375,\"y\":353.49561760355033,\"w\":111.12500000000001,\"h\":157.10438239644972},\"yellow\":{\"x\":250.0625,\"y\":353.35692392909897,\"w\":111.12500000000001,\"h\":157.24307607090105}}"
+        },
+        "url": "http://127.0.0.1:4190/explore/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../red-box/index.html?journey=1",
+            "text": "赤い箱紙を見つけた"
+          },
+          {
+            "href": "../blue-box/index.html?journey=1",
+            "text": "青い箱紙を見つけた"
+          },
+          {
+            "href": "../yellow-box/index.html?journey=1",
+            "text": "黄色い箱紙を見つけた"
+          },
+          {
+            "href": "../letters/index.html?journey=1",
+            "text": "六枚の紙を並べてみる ›"
+          }
+        ]
+      }
+    },
+    {
+      "step": "six-papers-wrong-word",
+      "data": {
+        "dialogs": [],
+        "draft": "まだ",
+        "feedback": "ひみつの言葉は、まだ合っていないようです。見つけた文字を見直せます。",
+        "pageWidth": 375,
+        "paperIds": [
+          "red-0",
+          "red-1",
+          "yellow-0",
+          "yellow-1"
+        ],
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "callLight": "null",
+          "called": "false",
+          "draft": "まだ",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,\"blue-0\",null,null,null,\"blue-1\"]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "six-papers-empty-word",
+      "data": {
+        "dialogs": [],
+        "draft": "",
+        "feedback": "ひみつの言葉を入力してください。",
+        "pageWidth": 375,
+        "paperIds": [
+          "red-0",
+          "red-1",
+          "yellow-0",
+          "yellow-1"
+        ],
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "callLight": "null",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,\"blue-0\",null,null,null,\"blue-1\"]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "six-arranged-not-called",
+      "data": {
+        "dialogs": [],
+        "draft": "",
+        "feedback": "",
+        "pageWidth": 375,
+        "paperIds": [],
+        "scene": {
+          "accepted": "false",
+          "branchesOpen": "false",
+          "callLight": "null",
+          "called": "false",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[\"red-1\",\"blue-0\",\"red-0\",\"yellow-0\",\"yellow-1\",\"blue-1\"]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "arrangement-call-success",
+      "data": {
+        "dialogs": [],
+        "draft": "",
+        "feedback": "ひみつの言葉を伝えました。",
+        "pageWidth": 375,
+        "paperIds": [],
+        "scene": {
+          "accepted": "true",
+          "branchesOpen": "false",
+          "callLight": "{\"x\":226.08695425834227,\"y\":256.5478412057938}",
+          "called": "true",
+          "draft": "",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[\"red-1\",\"blue-0\",\"red-0\",\"yellow-0\",\"yellow-1\",\"blue-1\"]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../index.html?journey=1",
+            "text": "枝の向こうを見てみる ›"
+          },
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          }
+        ]
+      }
+    },
+    {
+      "step": "connected-discovery",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 390,
+        "paperIds": [],
+        "scene": {
+          "progress": "1.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "stage": "complete"
+        },
+        "url": "http://127.0.0.1:4190/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": []
+      }
+    },
+    {
+      "step": "called-hub-no-boxes",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 375,
+        "paperCount": "見つけた紙 6 / 6",
+        "paperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ],
+        "scene": {
+          "boxBounds": "{\"red\":{\"x\":17.812499999999993,\"y\":396.87509293680296,\"w\":103.12500000000001,\"h\":60.72490706319704},\"blue\":{\"x\":135.9375,\"y\":396.80811760355033,\"w\":103.12500000000001,\"h\":60.791882396449715},\"yellow\":{\"x\":254.0625,\"y\":396.66942392909897,\"w\":103.12500000000001,\"h\":60.93057607090105}}",
+          "boxesVisible": "false",
+          "branchesOpen": "false",
+          "called": "true",
+          "globe": "{\"x\":79.07639545884578,\"y\":117,\"w\":216.84720908230844,\"h\":228.75}",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "portrait": "true",
+          "ready": "true",
+          "santaContained": "true",
+          "targetBounds": "{\"red\":{\"x\":13.812499999999993,\"y\":353.56259293680296,\"w\":111.12500000000001,\"h\":157.03740706319704},\"blue\":{\"x\":131.9375,\"y\":353.49561760355033,\"w\":111.12500000000001,\"h\":157.10438239644972},\"yellow\":{\"x\":250.0625,\"y\":353.35692392909897,\"w\":111.12500000000001,\"h\":157.24307607090105}}"
+        },
+        "url": "http://127.0.0.1:4190/explore/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../letters/index.html?journey=1",
+            "text": "紙と言葉を見返す ›"
+          },
+          {
+            "href": "../index.html?journey=1",
+            "text": "枝の向こうを見てみる ›"
+          }
+        ]
+      }
+    },
+    {
+      "step": "called-old-box-redirect",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 375,
+        "paperCount": "見つけた紙 6 / 6",
+        "paperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ],
+        "scene": {
+          "boxBounds": "{\"red\":{\"x\":17.812499999999993,\"y\":396.87509293680296,\"w\":103.12500000000001,\"h\":60.72490706319704},\"blue\":{\"x\":135.9375,\"y\":396.80811760355033,\"w\":103.12500000000001,\"h\":60.791882396449715},\"yellow\":{\"x\":254.0625,\"y\":396.66942392909897,\"w\":103.12500000000001,\"h\":60.93057607090105}}",
+          "boxesVisible": "false",
+          "branchesOpen": "false",
+          "called": "true",
+          "globe": "{\"x\":79.07639545884578,\"y\":117,\"w\":216.84720908230844,\"h\":228.75}",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "portrait": "true",
+          "ready": "true",
+          "santaContained": "true",
+          "targetBounds": "{\"red\":{\"x\":13.812499999999993,\"y\":353.56259293680296,\"w\":111.12500000000001,\"h\":157.03740706319704},\"blue\":{\"x\":131.9375,\"y\":353.49561760355033,\"w\":111.12500000000001,\"h\":157.10438239644972},\"yellow\":{\"x\":250.0625,\"y\":353.35692392909897,\"w\":111.12500000000001,\"h\":157.24307607090105}}"
+        },
+        "url": "http://127.0.0.1:4190/explore/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../letters/index.html?journey=1",
+            "text": "紙と言葉を見返す ›"
+          },
+          {
+            "href": "../index.html?journey=1",
+            "text": "枝の向こうを見てみる ›"
+          }
+        ]
+      }
+    },
+    {
+      "step": "reset-after-six-paper-call",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 375,
+        "paperCount": "見つけた紙 0 / 6",
+        "paperIds": [],
+        "scene": {
+          "boxBounds": "{\"red\":{\"x\":17.812499999999993,\"y\":396.87509293680296,\"w\":103.12500000000001,\"h\":60.72490706319704},\"blue\":{\"x\":135.9375,\"y\":396.80811760355033,\"w\":103.12500000000001,\"h\":60.791882396449715},\"yellow\":{\"x\":254.0625,\"y\":396.66942392909897,\"w\":103.12500000000001,\"h\":60.93057607090105}}",
+          "boxesVisible": "true",
+          "branchesOpen": "false",
+          "called": "false",
+          "globe": "{\"x\":79.07639545884578,\"y\":117,\"w\":216.84720908230844,\"h\":228.75}",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "portrait": "true",
+          "ready": "true",
+          "santaContained": "true",
+          "targetBounds": "{\"red\":{\"x\":13.812499999999993,\"y\":353.56259293680296,\"w\":111.12500000000001,\"h\":157.03740706319704},\"blue\":{\"x\":131.9375,\"y\":353.49561760355033,\"w\":111.12500000000001,\"h\":157.10438239644972},\"yellow\":{\"x\":250.0625,\"y\":353.35692392909897,\"w\":111.12500000000001,\"h\":157.24307607090105}}"
+        },
+        "url": "http://127.0.0.1:4190/explore/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../red-box/index.html?journey=1",
+            "text": "赤い箱調べる"
+          },
+          {
+            "href": "../blue-box/index.html?journey=1",
+            "text": "青い箱調べる"
+          },
+          {
+            "href": "../yellow-box/index.html?journey=1",
+            "text": "黄色い箱調べる"
+          },
+          {
+            "href": "../letters/index.html?journey=1",
+            "text": "ひみつの言葉を伝える ›"
+          }
+        ]
+      }
+    },
+    {
+      "step": "reset-history-return-mobile",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 375,
+        "paperCount": "見つけた紙 0 / 6",
+        "paperIds": [],
+        "scene": {
+          "boxBounds": "{\"red\":{\"x\":17.812499999999993,\"y\":396.87509293680296,\"w\":103.12500000000001,\"h\":60.72490706319704},\"blue\":{\"x\":135.9375,\"y\":396.80811760355033,\"w\":103.12500000000001,\"h\":60.791882396449715},\"yellow\":{\"x\":254.0625,\"y\":396.66942392909897,\"w\":103.12500000000001,\"h\":60.93057607090105}}",
+          "boxesVisible": "true",
+          "branchesOpen": "false",
+          "called": "false",
+          "globe": "{\"x\":79.07639545884578,\"y\":117,\"w\":216.84720908230844,\"h\":228.75}",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "portrait": "true",
+          "ready": "true",
+          "santaContained": "true",
+          "targetBounds": "{\"red\":{\"x\":13.812499999999993,\"y\":353.56259293680296,\"w\":111.12500000000001,\"h\":157.03740706319704},\"blue\":{\"x\":131.9375,\"y\":353.49561760355033,\"w\":111.12500000000001,\"h\":157.10438239644972},\"yellow\":{\"x\":250.0625,\"y\":353.35692392909897,\"w\":111.12500000000001,\"h\":157.24307607090105}}"
+        },
+        "url": "http://127.0.0.1:4190/explore/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../red-box/index.html?journey=1",
+            "text": "赤い箱調べる"
+          },
+          {
+            "href": "../blue-box/index.html?journey=1",
+            "text": "青い箱調べる"
+          },
+          {
+            "href": "../yellow-box/index.html?journey=1",
+            "text": "黄色い箱調べる"
+          },
+          {
+            "href": "../letters/index.html?journey=1",
+            "text": "ひみつの言葉を伝える ›"
+          }
+        ]
+      }
+    },
+    {
+      "step": "direct-call-zero-papers",
+      "data": {
+        "dialogs": [],
+        "draft": " ダイスキ ダヨ ",
+        "feedback": "ひみつの言葉を伝えました。",
+        "pageWidth": 375,
+        "paperIds": [],
+        "scene": {
+          "accepted": "true",
+          "branchesOpen": "false",
+          "callLight": "{\"x\":226.08695425834227,\"y\":256.5478412057938}",
+          "called": "true",
+          "draft": " ダイスキ ダヨ ",
+          "globe": "{\"x\":25.6023178807947,\"y\":250.8,\"w\":151.2953642384106,\"h\":159.6}",
+          "globeRatio": "0.9479659413434248",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "ready": "true",
+          "santaContained": "true",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../index.html?journey=1",
+            "text": "枝の向こうを見てみる ›"
+          },
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          }
+        ]
+      }
+    },
+    {
+      "step": "direct-call-zero-papers-restored-hub",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 375,
+        "paperCount": "見つけた紙 0 / 6",
+        "paperIds": [],
+        "scene": {
+          "boxBounds": "{\"red\":{\"x\":17.812499999999993,\"y\":396.87509293680296,\"w\":103.12500000000001,\"h\":60.72490706319704},\"blue\":{\"x\":135.9375,\"y\":396.80811760355033,\"w\":103.12500000000001,\"h\":60.791882396449715},\"yellow\":{\"x\":254.0625,\"y\":396.66942392909897,\"w\":103.12500000000001,\"h\":60.93057607090105}}",
+          "boxesVisible": "false",
+          "branchesOpen": "false",
+          "called": "true",
+          "globe": "{\"x\":79.07639545884578,\"y\":117,\"w\":216.84720908230844,\"h\":228.75}",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "portrait": "true",
+          "ready": "true",
+          "santaContained": "true",
+          "targetBounds": "{\"red\":{\"x\":13.812499999999993,\"y\":353.56259293680296,\"w\":111.12500000000001,\"h\":157.03740706319704},\"blue\":{\"x\":131.9375,\"y\":353.49561760355033,\"w\":111.12500000000001,\"h\":157.10438239644972},\"yellow\":{\"x\":250.0625,\"y\":353.35692392909897,\"w\":111.12500000000001,\"h\":157.24307607090105}}"
+        },
+        "url": "http://127.0.0.1:4190/explore/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../letters/index.html?journey=1",
+            "text": "紙と言葉を見返す ›"
+          },
+          {
+            "href": "../index.html?journey=1",
+            "text": "枝の向こうを見てみる ›"
+          }
+        ]
+      }
+    },
+    {
+      "step": "direct-call-discovery-visible",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 390,
+        "paperIds": [],
+        "scene": {
+          "progress": "1.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "stage": "complete"
+        },
+        "url": "http://127.0.0.1:4190/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": []
+      }
+    },
+    {
+      "step": "stale-tab-before-reset",
+      "data": {
+        "dialogs": [
+          {
+            "code": "1234",
+            "open": true,
+            "revealFraction": "0.000",
+            "revealing": "false",
+            "snowProgress": "0.3333",
+            "snowStage": "1",
+            "text": "赤い箱森に戻る90123↑↓01234↑↓12345↑↓23456↑↓この数字で試す調べてみる文字が二行、現れた。上下に引く · ↑↓で回す · 数字キーで入力見えた文字を読む「サンタ、イタチ」\n「サンタ、ハタチ」",
+            "unlocked": "false"
+          }
+        ],
+        "pageWidth": 1265,
+        "paperIds": [],
+        "scene": {
+          "awarded": "false",
+          "box": "{\"x\":641.74,\"y\":247.5350260223048,\"w\":487.52,\"h\":287.0749739776952}",
+          "clue": "{\"x\":722.1808,\"y\":434.13375910780667,\"w\":326.6384,\"h\":73.20411836431228}",
+          "code": "1234",
+          "exam": "2",
+          "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+          "handle": "{\"x\":885.5,\"y\":353.75276639405206}",
+          "hinge": "[{\"x\":700.2424,\"y\":256.14727524163567},{\"x\":1070.7576,\"y\":256.14727524163567}]",
+          "journey": "true",
+          "lidFace": "top",
+          "lock": "{\"x\":746.5568000000001,\"y\":366.6711402230483,\"w\":277.8864,\"h\":57.414994795539045}",
+          "paperCount": "0",
+          "progress": "0.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "saveAvailable": "true",
+          "snowProgress": "0.33333",
+          "snowStage": "1",
+          "unlocked": "false"
+        },
+        "url": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/letters/index.html?journey=1",
+            "text": "六枚の紙のひみつへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "stale-tab-after-reset-save-refused",
+      "data": {
+        "dialogs": [
+          {
+            "code": "0000",
+            "open": true,
+            "revealFraction": "0.000",
+            "revealing": "false",
+            "snowProgress": "0.0000",
+            "snowStage": "0",
+            "text": "赤い箱森に戻る89012↑↓89012↑↓89012↑↓89012↑↓この数字で試す調べてみる雪の下に、何かある。上下に引く · ↑↓で回す · 数字キーで入力見えた文字を読む",
+            "unlocked": "false"
+          }
+        ],
+        "pageWidth": 1265,
+        "paperIds": [],
+        "scene": {
+          "awarded": "false",
+          "box": "{\"x\":641.74,\"y\":247.5350260223048,\"w\":487.52,\"h\":287.0749739776952}",
+          "clue": "{\"x\":722.1808,\"y\":434.13375910780667,\"w\":326.6384,\"h\":73.20411836431228}",
+          "code": "0000",
+          "exam": "1",
+          "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+          "handle": "{\"x\":885.5,\"y\":353.75276639405206}",
+          "hinge": "[{\"x\":700.2424,\"y\":256.14727524163567},{\"x\":1070.7576,\"y\":256.14727524163567}]",
+          "journey": "true",
+          "lidFace": "top",
+          "lock": "{\"x\":746.5568000000001,\"y\":366.6711402230483,\"w\":277.8864,\"h\":57.414994795539045}",
+          "paperCount": "0",
+          "progress": "0.00000",
+          "ready": "true",
+          "santaContained": "true",
+          "saveAvailable": "true",
+          "snowProgress": "0.00000",
+          "snowStage": "0",
+          "unlocked": "false"
+        },
+        "url": "http://127.0.0.1:4190/red-box/index.html?journey=1",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "http://127.0.0.1:4190/explore/index.html",
+            "text": "森に戻る"
+          },
+          {
+            "href": "http://127.0.0.1:4190/blue-box/index.html?journey=1",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/yellow-box/index.html?journey=1",
+            "text": "黄色い箱へ"
+          },
+          {
+            "href": "http://127.0.0.1:4190/letters/index.html?journey=1",
+            "text": "六枚の紙のひみつへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "independent-fixture-still-six",
+      "data": {
+        "dialogs": [],
+        "draft": "",
+        "feedback": "",
+        "pageWidth": 1265,
+        "paperIds": [
+          "red-0",
+          "red-1",
+          "blue-0",
+          "blue-1",
+          "yellow-0",
+          "yellow-1"
+        ],
+        "scene": {
+          "called": "false",
+          "draft": "",
+          "paperCount": "6",
+          "paperIds": "[\"red-0\",\"red-1\",\"blue-0\",\"blue-1\",\"yellow-0\",\"yellow-1\"]",
+          "slots": "[null,null,null,null,null,null]"
+        },
+        "url": "http://127.0.0.1:4190/letters/index.html",
+        "viewport": {
+          "height": 720,
+          "width": 1280
+        },
+        "visibleLinks": [
+          {
+            "href": "../red-box/index.html",
+            "text": "赤い箱へ"
+          },
+          {
+            "href": "../blue-box/index.html",
+            "text": "青い箱へ"
+          },
+          {
+            "href": "../yellow-box/index.html",
+            "text": "黄色い箱へ"
+          },
+          {
+            "href": "../storyboard/index.html",
+            "text": "全編の絵コンテへ"
+          }
+        ]
+      }
+    },
+    {
+      "step": "independent-fixture-did-not-grant-real-papers",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 375,
+        "paperCount": "見つけた紙 0 / 6",
+        "paperIds": [],
+        "scene": {
+          "boxBounds": "{\"red\":{\"x\":17.812499999999993,\"y\":396.87509293680296,\"w\":103.12500000000001,\"h\":60.72490706319704},\"blue\":{\"x\":135.9375,\"y\":396.80811760355033,\"w\":103.12500000000001,\"h\":60.791882396449715},\"yellow\":{\"x\":254.0625,\"y\":396.66942392909897,\"w\":103.12500000000001,\"h\":60.93057607090105}}",
+          "boxesVisible": "true",
+          "branchesOpen": "false",
+          "called": "false",
+          "globe": "{\"x\":79.07639545884578,\"y\":117,\"w\":216.84720908230844,\"h\":228.75}",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "portrait": "true",
+          "ready": "true",
+          "santaContained": "true",
+          "targetBounds": "{\"red\":{\"x\":13.812499999999993,\"y\":353.56259293680296,\"w\":111.12500000000001,\"h\":157.03740706319704},\"blue\":{\"x\":131.9375,\"y\":353.49561760355033,\"w\":111.12500000000001,\"h\":157.10438239644972},\"yellow\":{\"x\":250.0625,\"y\":353.35692392909897,\"w\":111.12500000000001,\"h\":157.24307607090105}}"
+        },
+        "url": "http://127.0.0.1:4190/explore/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../red-box/index.html?journey=1",
+            "text": "赤い箱調べる"
+          },
+          {
+            "href": "../blue-box/index.html?journey=1",
+            "text": "青い箱調べる"
+          },
+          {
+            "href": "../yellow-box/index.html?journey=1",
+            "text": "黄色い箱調べる"
+          },
+          {
+            "href": "../letters/index.html?journey=1",
+            "text": "ひみつの言葉を伝える ›"
+          }
+        ]
+      }
+    },
+    {
+      "step": "uncalled-discovery-redirect",
+      "data": {
+        "dialogs": [],
+        "pageWidth": 375,
+        "paperCount": "見つけた紙 0 / 6",
+        "paperIds": [],
+        "scene": {
+          "boxBounds": "{\"red\":{\"x\":17.812499999999993,\"y\":396.87509293680296,\"w\":103.12500000000001,\"h\":60.72490706319704},\"blue\":{\"x\":135.9375,\"y\":396.80811760355033,\"w\":103.12500000000001,\"h\":60.791882396449715},\"yellow\":{\"x\":254.0625,\"y\":396.66942392909897,\"w\":103.12500000000001,\"h\":60.93057607090105}}",
+          "boxesVisible": "true",
+          "branchesOpen": "false",
+          "called": "false",
+          "globe": "{\"x\":79.07639545884578,\"y\":117,\"w\":216.84720908230844,\"h\":228.75}",
+          "paperCount": "0",
+          "paperIds": "[]",
+          "portrait": "true",
+          "ready": "true",
+          "santaContained": "true",
+          "targetBounds": "{\"red\":{\"x\":13.812499999999993,\"y\":353.56259293680296,\"w\":111.12500000000001,\"h\":157.03740706319704},\"blue\":{\"x\":131.9375,\"y\":353.49561760355033,\"w\":111.12500000000001,\"h\":157.10438239644972},\"yellow\":{\"x\":250.0625,\"y\":353.35692392909897,\"w\":111.12500000000001,\"h\":157.24307607090105}}"
+        },
+        "url": "http://127.0.0.1:4190/explore/index.html?journey=1",
+        "viewport": {
+          "height": 844,
+          "width": 390
+        },
+        "visibleLinks": [
+          {
+            "href": "../red-box/index.html?journey=1",
+            "text": "赤い箱調べる"
+          },
+          {
+            "href": "../blue-box/index.html?journey=1",
+            "text": "青い箱調べる"
+          },
+          {
+            "href": "../yellow-box/index.html?journey=1",
+            "text": "黄色い箱調べる"
+          },
+          {
+            "href": "../letters/index.html?journey=1",
+            "text": "ひみつの言葉を伝える ›"
+          }
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Physical mobile touch, first-time child/parent usability, physical IME, and reduced-motion browser interaction are unverified",
+    "All six box orders and blocked-storage behavior are unit-tested; live path used blue then red then yellow",
+    "Discovery branch progress is not persisted; invitation responses, three questions, and rescue are not connected"
+  ]
+}

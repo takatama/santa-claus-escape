@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101f35" />
+    <meta name="description" content="枝を開き、雪の森の奥にいるまほう使いを発見する、動く絵本の一場面。" />
+    <title>サンタの脱出 — ひみつの言葉の、その先へ</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23efd093' d='m20 3 4.3 11.8L37 15l-10.2 7.5L30.5 35 20 27.4 9.5 35l3.7-12.5L3 15l12.7-.2Z'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="storybook discovery-storybook" aria-label="サンタの脱出、動く絵本の試作">
+      <section class="scene-shell" aria-label="雪の森の絵">
+        <canvas id="scene" width="1600" height="1000" tabindex="0" role="img" aria-label="サンタは丸いスノーボールの中。手前の枝を左右へドラッグすると、森の奥が見えてきます。左右の矢印キーでも枝を動かせます。">
+          雪の森を探索する絵です。下の「枝を少し開く」「枝を少し戻す」、または「枝の開き」スライダーで発見を進められます。
+        </canvas>
+        <header class="masthead">
+          <div class="title-block">
+            <h1>サンタの脱出<span class="title-star" aria-hidden="true">✦</span></h1>
+            <p>ひみつの言葉の、その先へ</p>
+          </div>
+          <button id="reset" class="reset-button" type="button">最初に戻す</button>
+        </header>
+        <p id="loading" class="loading-message" role="status">森に、明かりをともしています…</p>
+      </section>
+      <section class="reader-panel" aria-label="絵を探索する操作">
+        <p id="narration" class="narration" aria-live="polite" aria-atomic="true">枝のあいだから、金色の光がこぼれている。</p>
+        <div class="controls">
+          <button id="close" class="step-button" type="button"><span aria-hidden="true">‹</span>枝を少し戻す</button>
+          <div class="progress-control">
+            <label for="progress">枝の開き</label>
+            <input id="progress" type="range" min="0" max="100" step="1" value="0" aria-label="枝の開き" />
+          </div>
+          <button id="open" class="step-button open-button" type="button">枝を少し開く<span aria-hidden="true">›</span></button>
+        </div>
+        <p class="interaction-hint"><span>枝を外へドラッグ · タップでも開けます</span><span class="keyboard-hint">← → で開閉 · Home / End</span></p>
+        <p id="save-notice" role="status" hidden>このブラウザでは進行を保存できません。</p>
+      </section>
+      <nav id="discovery-next" class="discovery-next" aria-label="次のお話へ" hidden>
+        <a id="talk-link" href="./witch/index.html?journey=1">まほう使いと話す<span aria-hidden="true"> ›</span></a>
+      </nav>
+    </main>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

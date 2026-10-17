@@ -40,7 +40,7 @@ export function createWitchStage({getState,onProgress,onDraft,onReply}) {
   document.addEventListener('visibilitychange',()=>{if(document.hidden)finish();},options);
   element.addEventListener('click',e=>{
     const b=e.target.closest('[data-branch-side]');if(!b||!active()||(e.detail>0&&performance.now()<suppressUntil))return;
-    set(progress()>=.98?0:progress()+.2);
+    set(progress()>=.98?0:progress()+.35);
   },options);
   element.addEventListener('keydown',e=>{
     if(e.key==='Escape'){finish();return;}

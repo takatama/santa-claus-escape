@@ -44,10 +44,12 @@ for(const color of ['blue','yellow']){
     const errors=[];page.on('pageerror',e=>errors.push(e.message));
     await page.setViewportSize({width:390,height:844});await setup(page,color);
     await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
+    await expect(page.locator('.box-examine-cue')).toBeVisible();
     await expect(page.getByRole('spinbutton')).toHaveCount(4);await expect(page.locator('input[type="text"]')).toHaveCount(0);
     await expect(page.locator('.box-extra')).toBeHidden();await expect(page.locator('#transcript')).not.toContainText(color==='blue'?'サガルマータ':'負けるが勝ち');
     await btn(page,'examine').evaluate(b=>{b.click();for(let i=0;i<12;i++)b.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
     await expect(stage(page)).toHaveAttribute('data-exam','2');await expect(stage(page)).toHaveAttribute('data-revealing','true');
+    await expect(page.locator('.box-examine-cue')).toHaveCount(0);
     await expect.poll(()=>page.locator('.rb-snowflake').count()).toBeGreaterThan(0);await ready(page);
     await protectedSnow(page,color);
     await expect(page.locator('canvas')).not.toHaveAttribute('aria-label',color==='blue'?/サガルマータ/:/負けるが勝ち/);
@@ -155,8 +157,8 @@ for(const color of ['blue','yellow']){
       await expect(page.locator('.box-voice')).toBeVisible();
     }
     expect(await voice.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);
-    expect(requested).not.toContain(color==='blue'?'ja-blue2.wav':'ja-yellow2.wav');
-    expect(requested).not.toContain(`cue-box-${color}-paper.wav`);
+    expect(requested).not.toContain(color==='blue'?'ja-blue2.m4a':'ja-yellow2.m4a');
+    expect(requested).not.toContain(`cue-box-${color}-paper.m4a`);
     await ready(page,'open_lid');await btn(page,'open_lid').click();await ready(page,'continue_box');
     await expect(page.locator('#transcript')).toContainText('このあと');
     await page.locator('.box-settings > summary').click();await btn(page,'stop').click();
@@ -165,7 +167,7 @@ for(const color of ['blue','yellow']){
   });
 
   test(`${color}: old saves, unavailable art/audio/storage, reset and reduced motion stay playable`,async({page})=>{
-    await page.emulateMedia({reducedMotion:'reduce'});await page.route(`**/assets/${color}-box/*.png`,r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());
+    await page.emulateMedia({reducedMotion:'reduce'});await page.route(`**/assets/${color}-box/*.webp`,r=>r.abort());await page.route('**/assets/audio/*',r=>r.abort());
     await page.addInitScript(()=>{Object.defineProperty(window,'speechSynthesis',{value:null});});
     await setup(page,color,{unavailable:true});await expect(page.locator('.box-fallback')).toBeVisible();
     await expect(page.locator('#save-status')).toContainText('保存できません');
@@ -192,19 +194,19 @@ for(const color of ['blue','yellow']){
     const clip=page.locator('#audio-host audio'),first=await clip.elementHandle();
     await expect.poll(()=>first.evaluate(a=>a.currentTime)).toBeGreaterThan(0);
     await btn(page,'examine').click();await first.evaluate(a=>a.playbackRate=4);
-    await expect(clip).toHaveAttribute('src',new RegExp(`ja-${color}2\\.wav$`),{timeout:20000});
+    await expect(clip).toHaveAttribute('src',new RegExp(`ja-${color}2\\.m4a$`),{timeout:20000});
     expect(await first.evaluate(a=>a.ended)).toBe(true);await expect(page.locator('.box-voice')).toBeVisible();
     const second=await clip.elementHandle();await ready(page,'examine');await btn(page,'examine').click();
     await expect(page.locator('#transcript')).toContainText('このあと');
     await btn(page,'mute').click();expect(await second.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);
     await expect(page.locator('#transcript')).not.toContainText('このあと');
-    expect(requested).not.toContain(`ja-${color}3.wav`);
+    expect(requested).not.toContain(`ja-${color}3.m4a`);
     await btn(page,'mute').click();await page.locator('.box-settings > summary').click();await btn(page,'replay').click();
-    await expect(clip).toHaveAttribute('src',new RegExp(`ja-${color}3\\.wav$`));
+    await expect(clip).toHaveAttribute('src',new RegExp(`ja-${color}3\\.m4a$`));
     await page.locator('.box-settings > summary').click();await ready(page,'examine');await btn(page,'examine').click();
     await expect(page.locator('#transcript')).toContainText('このあと');
     await btn(page,'boxes').click();await expect(stage(page)).toHaveCount(0);
-    expect(requested).not.toContain(`ja-${color}4.wav`);await expect(page.locator('#audio-host audio')).toHaveAttribute('src',/help\.wav$/);
+    expect(requested).not.toContain(`ja-${color}4.m4a`);await expect(page.locator('#audio-host audio')).toHaveAttribute('src',/help\.m4a$/);
   });
 }
 

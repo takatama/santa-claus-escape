@@ -1,0 +1,83 @@
+[
+  {
+    "id": "storybook-help",
+    "ext": "wav",
+    "sampleRate": 48000,
+    "frames": 1559040,
+    "seconds": 32.48,
+    "firstActiveMs": 18.6875,
+    "lastActiveMs": 32264.166666666668
+  },
+  {
+    "id": "storybook-help",
+    "ext": "m4a",
+    "sampleRate": 48000,
+    "frames": 1559040,
+    "seconds": 32.48,
+    "firstActiveMs": 18.6875,
+    "lastActiveMs": 32259.541666666668
+  },
+  {
+    "id": "storybook-help",
+    "ext": "ogg",
+    "sampleRate": 48000,
+    "frames": 1559040,
+    "seconds": 32.48,
+    "firstActiveMs": 18.645833333333332,
+    "lastActiveMs": 32259.5
+  },
+  {
+    "id": "ja-leda-question-deer-ten-times",
+    "ext": "wav",
+    "sampleRate": 48000,
+    "frames": 1032960,
+    "seconds": 21.52,
+    "firstActiveMs": 11.5625,
+    "lastActiveMs": 21519.604166666668
+  },
+  {
+    "id": "ja-leda-question-deer-ten-times",
+    "ext": "m4a",
+    "sampleRate": 48000,
+    "frames": 1032960,
+    "seconds": 21.52,
+    "firstActiveMs": 11.520833333333334,
+    "lastActiveMs": 21519.604166666668
+  },
+  {
+    "id": "ja-leda-question-deer-ten-times",
+    "ext": "ogg",
+    "sampleRate": 48000,
+    "frames": 1032960,
+    "seconds": 21.52,
+    "firstActiveMs": 11.541666666666666,
+    "lastActiveMs": 21518.541666666668
+  },
+  {
+    "id": "answer-digit-8",
+    "ext": "wav",
+    "sampleRate": 48000,
+    "frames": 53760,
+    "seconds": 1.12,
+    "firstActiveMs": 11.770833333333334,
+    "lastActiveMs": 1119.8333333333333
+  },
+  {
+    "id": "answer-digit-8",
+    "ext": "m4a",
+    "sampleRate": 48000,
+    "frames": 53760,
+    "seconds": 1.12,
+    "firstActiveMs": 11.8125,
+    "lastActiveMs": 1119.8333333333333
+  },
+  {
+    "id": "answer-digit-8",
+    "ext": "ogg",
+    "sampleRate": 48000,
+    "frames": 53760,
+    "seconds": 1.12,
+    "firstActiveMs": 11.770833333333334,
+    "lastActiveMs": 1119.7708333333333
+  }
+]

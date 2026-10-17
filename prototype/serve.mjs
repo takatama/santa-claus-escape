@@ -2,13 +2,13 @@ import http from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { pagesCodeFiles, servedPagesFiles, contentTypes } from '../scripts/pages-files.mjs';
+import { pagesCodeFiles, pagesAssetFiles, servedPagesFiles, contentTypes } from '../scripts/pages-files.mjs';
 import { AUDIO_FILES, IMAGE_FILES } from './media-assets.js';
 
 const pages = process.argv.includes('--pages');
 const root = fileURLToPath(new URL(pages ? '../dist/' : '.', import.meta.url));
 const port = Number(process.env.SANTA_PORT || (pages ? 4174 : 4173));
-const publicFiles = new Set(pages ? servedPagesFiles : [...pagesCodeFiles,...AUDIO_FILES,...IMAGE_FILES,'app.js']);
+const publicFiles = new Set(pages ? servedPagesFiles : [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES,'app.js']);
 const audioFiles = new Set(AUDIO_FILES);
 const pagesHeaders = pages ? Object.fromEntries((await readFile(path.join(root,'_headers'),'utf8')).split('\n').filter(line=>line.startsWith('  ')).map(line=>{const i=line.indexOf(':');return [line.slice(0,i).trim(),line.slice(i+1).trim()];})) : {};
 const server = http.createServer(async (req, res) => {

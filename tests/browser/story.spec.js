@@ -119,7 +119,7 @@ test('story: readings render above original text without entering accessible nam
 });
 
 test('story: missing art and unavailable storage leave the cover, box choices and early rescue path usable',async({page})=>{
-  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.route('**/*.png',r=>r.abort());
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.route('**/*.webp',r=>r.abort());
   await page.addInitScript(()=>Object.defineProperty(window,'localStorage',{get(){throw Error('unavailable');}}));await page.goto('/');await expect(page.locator('.story-art-error')).toBeVisible();await btn(page,'mute').click();await btn(page,'start').click();await page.waitForTimeout(470);await btn(page,'boxes').click();
   await expect(page.locator('[data-action="select"]')).toHaveCount(3);await expect(page.locator('#save-status')).toContainText('このまま遊べます');await page.locator('.secret-entry>summary').click();await page.locator('#word-answer').fill('だいすきだよ');await page.locator('#spell-form button').click();await expect(page.locator('.witch-stage')).toBeVisible();expect(errors).toEqual([]);
 });

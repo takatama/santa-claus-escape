@@ -1,0 +1,2975 @@
+{
+  "label": "after",
+  "date": "2026-10-12T10:10:11.821Z",
+  "method": {
+    "host": "local HTTP, no compression, cache disabled",
+    "viewport": "390x844 DPR1",
+    "profiles": {
+      "unthrottled": "no artificial limits",
+      "mobile-4g": "1.6 Mbps down / 750 kbps up / 150ms RTT, 4x CPU"
+    },
+    "trials": 3,
+    "play": "sound on; start→boxes→red, stop once first voice can play through; no full-clear claim",
+    "note": "Initial page total includes speculative red preload; FCP/LCP do not mean canvas art complete. InitialSettledMs measured before play. Cancelled requests include received encoded body bytes (excluding headers)."
+  },
+  "manifest": [
+    {
+      "file": "404.html",
+      "bytes": 269
+    },
+    {
+      "file": "analytics-config.js",
+      "bytes": 111
+    },
+    {
+      "file": "analytics.js",
+      "bytes": 6452
+    },
+    {
+      "file": "assets/audio/answer-closed.m4a",
+      "bytes": 30000
+    },
+    {
+      "file": "assets/audio/answer-digit-0.m4a",
+      "bytes": 8780
+    },
+    {
+      "file": "assets/audio/answer-digit-1.m4a",
+      "bytes": 9400
+    },
+    {
+      "file": "assets/audio/answer-digit-2.m4a",
+      "bytes": 8459
+    },
+    {
+      "file": "assets/audio/answer-digit-3.m4a",
+      "bytes": 11399
+    },
+    {
+      "file": "assets/audio/answer-digit-4.m4a",
+      "bytes": 9359
+    },
+    {
+      "file": "assets/audio/answer-digit-5.m4a",
+      "bytes": 8429
+    },
+    {
+      "file": "assets/audio/answer-digit-6.m4a",
+      "bytes": 11497
+    },
+    {
+      "file": "assets/audio/answer-digit-7.m4a",
+      "bytes": 11049
+    },
+    {
+      "file": "assets/audio/answer-digit-8.m4a",
+      "bytes": 10114
+    },
+    {
+      "file": "assets/audio/answer-digit-9.m4a",
+      "bytes": 9880
+    },
+    {
+      "file": "assets/audio/answer-prefix-blue.m4a",
+      "bytes": 33263
+    },
+    {
+      "file": "assets/audio/answer-prefix-red.m4a",
+      "bytes": 31293
+    },
+    {
+      "file": "assets/audio/answer-prefix-yellow.m4a",
+      "bytes": 30687
+    },
+    {
+      "file": "assets/audio/answer-set.m4a",
+      "bytes": 15007
+    },
+    {
+      "file": "assets/audio/cue-box-blue-opened.m4a",
+      "bytes": 25350
+    },
+    {
+      "file": "assets/audio/cue-box-blue-paper.m4a",
+      "bytes": 87249
+    },
+    {
+      "file": "assets/audio/cue-box-red-opened.m4a",
+      "bytes": 23665
+    },
+    {
+      "file": "assets/audio/cue-box-red-paper.m4a",
+      "bytes": 88112
+    },
+    {
+      "file": "assets/audio/cue-box-yellow-opened.m4a",
+      "bytes": 25290
+    },
+    {
+      "file": "assets/audio/cue-box-yellow-paper.m4a",
+      "bytes": 84422
+    },
+    {
+      "file": "assets/audio/cue-rescue-fairy-first.m4a",
+      "bytes": 28992
+    },
+    {
+      "file": "assets/audio/dial.mp3",
+      "bytes": 41617
+    },
+    {
+      "file": "assets/audio/ja-blue-open.m4a",
+      "bytes": 198220
+    },
+    {
+      "file": "assets/audio/ja-blue-wrong-0000.m4a",
+      "bytes": 106330
+    },
+    {
+      "file": "assets/audio/ja-blue1.m4a",
+      "bytes": 134958
+    },
+    {
+      "file": "assets/audio/ja-blue2.m4a",
+      "bytes": 95142
+    },
+    {
+      "file": "assets/audio/ja-blue3.m4a",
+      "bytes": 112492
+    },
+    {
+      "file": "assets/audio/ja-branch-discovery.m4a",
+      "bytes": 30259
+    },
+    {
+      "file": "assets/audio/ja-leda-invite.m4a",
+      "bytes": 238715
+    },
+    {
+      "file": "assets/audio/ja-leda-question-christmas-creatures.m4a",
+      "bytes": 212396
+    },
+    {
+      "file": "assets/audio/ja-leda-question-deer-ten-times.m4a",
+      "bytes": 189666
+    },
+    {
+      "file": "assets/audio/ja-leda-question-red-ornament.m4a",
+      "bytes": 119246
+    },
+    {
+      "file": "assets/audio/ja-leda-response-christmas-creatures-right.m4a",
+      "bytes": 52415
+    },
+    {
+      "file": "assets/audio/ja-leda-response-christmas-creatures-wrong.m4a",
+      "bytes": 49252
+    },
+    {
+      "file": "assets/audio/ja-leda-response-deer-ten-times-right.m4a",
+      "bytes": 53589
+    },
+    {
+      "file": "assets/audio/ja-leda-response-deer-ten-times-wrong.m4a",
+      "bytes": 47042
+    },
+    {
+      "file": "assets/audio/ja-leda-response-red-ornament-right.m4a",
+      "bytes": 98961
+    },
+    {
+      "file": "assets/audio/ja-leda-response-red-ornament-wrong.m4a",
+      "bytes": 88794
+    },
+    {
+      "file": "assets/audio/ja-letters.m4a",
+      "bytes": 261183
+    },
+    {
+      "file": "assets/audio/ja-red-open.m4a",
+      "bytes": 181837
+    },
+    {
+      "file": "assets/audio/ja-red-wrong-0000.m4a",
+      "bytes": 110769
+    },
+    {
+      "file": "assets/audio/ja-reinvite.m4a",
+      "bytes": 47694
+    },
+    {
+      "file": "assets/audio/ja-remaining-blue-yellow.m4a",
+      "bytes": 33148
+    },
+    {
+      "file": "assets/audio/ja-remaining-blue.m4a",
+      "bytes": 27461
+    },
+    {
+      "file": "assets/audio/ja-remaining-red-blue.m4a",
+      "bytes": 37325
+    },
+    {
+      "file": "assets/audio/ja-remaining-red-yellow.m4a",
+      "bytes": 37206
+    },
+    {
+      "file": "assets/audio/ja-remaining-red.m4a",
+      "bytes": 26519
+    },
+    {
+      "file": "assets/audio/ja-remaining-yellow.m4a",
+      "bytes": 26697
+    },
+    {
+      "file": "assets/audio/ja-yellow-open.m4a",
+      "bytes": 183230
+    },
+    {
+      "file": "assets/audio/ja-yellow-wrong-0000.m4a",
+      "bytes": 111599
+    },
+    {
+      "file": "assets/audio/ja-yellow1.m4a",
+      "bytes": 143448
+    },
+    {
+      "file": "assets/audio/ja-yellow2.m4a",
+      "bytes": 184024
+    },
+    {
+      "file": "assets/audio/ja-yellow3.m4a",
+      "bytes": 158696
+    },
+    {
+      "file": "assets/audio/ja-yellow4.m4a",
+      "bytes": 214078
+    },
+    {
+      "file": "assets/audio/laid-back-loop.m4a",
+      "bytes": 1138041
+    },
+    {
+      "file": "assets/audio/laid-back-loop.ogg",
+      "bytes": 1802834
+    },
+    {
+      "file": "assets/audio/magic-cure2.mp3",
+      "bytes": 102272
+    },
+    {
+      "file": "assets/audio/red1.m4a",
+      "bytes": 146941
+    },
+    {
+      "file": "assets/audio/red2.m4a",
+      "bytes": 127785
+    },
+    {
+      "file": "assets/audio/red3.m4a",
+      "bytes": 157478
+    },
+    {
+      "file": "assets/audio/red4.m4a",
+      "bytes": 228897
+    },
+    {
+      "file": "assets/audio/rescue-dialogue.m4a",
+      "bytes": 326739
+    },
+    {
+      "file": "assets/audio/rescue-ending.m4a",
+      "bytes": 58497
+    },
+    {
+      "file": "assets/audio/shine1.mp3",
+      "bytes": 122252
+    },
+    {
+      "file": "assets/audio/shine3.mp3",
+      "bytes": 173034
+    },
+    {
+      "file": "assets/audio/spook4-loop.m4a",
+      "bytes": 1223055
+    },
+    {
+      "file": "assets/audio/spook4-loop.ogg",
+      "bytes": 2051040
+    },
+    {
+      "file": "assets/audio/storybook-blue4.m4a",
+      "bytes": 271884
+    },
+    {
+      "file": "assets/audio/storybook-help.m4a",
+      "bytes": 285992
+    },
+    {
+      "file": "assets/audio/storybook-information.m4a",
+      "bytes": 222626
+    },
+    {
+      "file": "assets/audio/storybook-intro.m4a",
+      "bytes": 276710
+    },
+    {
+      "file": "assets/audio/storybook-paused.m4a",
+      "bytes": 246682
+    },
+    {
+      "file": "assets/audio/storybook-rescue-appeared.m4a",
+      "bytes": 38485
+    },
+    {
+      "file": "assets/audio/storybook-rescue.m4a",
+      "bytes": 456743
+    },
+    {
+      "file": "assets/audio/stupid3.mp3",
+      "bytes": 31346
+    },
+    {
+      "file": "assets/audio/unlocking-1.mp3",
+      "bytes": 36736
+    },
+    {
+      "file": "assets/blue-box/blue-body.webp",
+      "bytes": 244668
+    },
+    {
+      "file": "assets/blue-box/blue-lid.webp",
+      "bytes": 230302
+    },
+    {
+      "file": "assets/blue-box/mountain.webp",
+      "bytes": 403474
+    },
+    {
+      "file": "assets/papers/forest-clean.webp",
+      "bytes": 289098
+    },
+    {
+      "file": "assets/papers/globe.webp",
+      "bytes": 624680
+    },
+    {
+      "file": "assets/red-box/red-body.webp",
+      "bytes": 304630
+    },
+    {
+      "file": "assets/red-box/red-lid.webp",
+      "bytes": 285076
+    },
+    {
+      "file": "assets/red-box/tanuki.webp",
+      "bytes": 265424
+    },
+    {
+      "file": "assets/rescue/empty-globe-original-v2.webp",
+      "bytes": 389956
+    },
+    {
+      "file": "assets/rescue/finale-v1.webp",
+      "bytes": 448630
+    },
+    {
+      "file": "assets/rescue/santa.webp",
+      "bytes": 402538
+    },
+    {
+      "file": "assets/witch/branch.webp",
+      "bytes": 546784
+    },
+    {
+      "file": "assets/witch/wizard-feet-v2.webp",
+      "bytes": 473152
+    },
+    {
+      "file": "assets/yellow-box/paper.webp",
+      "bytes": 358632
+    },
+    {
+      "file": "assets/yellow-box/rock.webp",
+      "bytes": 204008
+    },
+    {
+      "file": "assets/yellow-box/scissors.webp",
+      "bytes": 199880
+    },
+    {
+      "file": "assets/yellow-box/yellow-body.webp",
+      "bytes": 240022
+    },
+    {
+      "file": "assets/yellow-box/yellow-lid.webp",
+      "bytes": 242066
+    },
+    {
+      "file": "audio-sequence.js",
+      "bytes": 3776
+    },
+    {
+      "file": "audio-timeline.js",
+      "bytes": 3524
+    },
+    {
+      "file": "audio.js",
+      "bytes": 610
+    },
+    {
+      "file": "blue-box-art.js",
+      "bytes": 576
+    },
+    {
+      "file": "blue-box-controls.js",
+      "bytes": 991
+    },
+    {
+      "file": "blue-clue-art.js",
+      "bytes": 5116
+    },
+    {
+      "file": "blue-snow-reveal.js",
+      "bytes": 1508
+    },
+    {
+      "file": "box-art-loader.js",
+      "bytes": 792
+    },
+    {
+      "file": "box-art.js",
+      "bytes": 11985
+    },
+    {
+      "file": "box-presentation.js",
+      "bytes": 2728
+    },
+    {
+      "file": "box-presentations.js",
+      "bytes": 2002
+    },
+    {
+      "file": "box-stage.css",
+      "bytes": 13878
+    },
+    {
+      "file": "box-stage.js",
+      "bytes": 14811
+    },
+    {
+      "file": "clue-snow-reveal.js",
+      "bytes": 5632
+    },
+    {
+      "file": "forest-art.js",
+      "bytes": 454
+    },
+    {
+      "file": "forest-stage.js",
+      "bytes": 1949
+    },
+    {
+      "file": "full-app.js",
+      "bytes": 24625
+    },
+    {
+      "file": "full-audio.js",
+      "bytes": 1593
+    },
+    {
+      "file": "full-game.js",
+      "bytes": 19175
+    },
+    {
+      "file": "full-scenario.js",
+      "bytes": 13924
+    },
+    {
+      "file": "game-events.js",
+      "bytes": 3464
+    },
+    {
+      "file": "game.js",
+      "bytes": 3630
+    },
+    {
+      "file": "illustrations.js",
+      "bytes": 5938
+    },
+    {
+      "file": "index.html",
+      "bytes": 2299
+    },
+    {
+      "file": "LICENSE",
+      "bytes": 1103
+    },
+    {
+      "file": "media-assets.js",
+      "bytes": 3212
+    },
+    {
+      "file": "NOTICE.txt",
+      "bytes": 13742
+    },
+    {
+      "file": "paper-art.js",
+      "bytes": 1976
+    },
+    {
+      "file": "paper-layout.js",
+      "bytes": 1546
+    },
+    {
+      "file": "paper-stage.css",
+      "bytes": 6539
+    },
+    {
+      "file": "paper-stage.js",
+      "bytes": 12989
+    },
+    {
+      "file": "privacy.html",
+      "bytes": 3621
+    },
+    {
+      "file": "readings.js",
+      "bytes": 6299
+    },
+    {
+      "file": "red-box-art.js",
+      "bytes": 497
+    },
+    {
+      "file": "red-clue-art.js",
+      "bytes": 5448
+    },
+    {
+      "file": "red-cylinder-lock.js",
+      "bytes": 10940
+    },
+    {
+      "file": "red-hinge-math.js",
+      "bytes": 1325
+    },
+    {
+      "file": "red-paint.js",
+      "bytes": 3564
+    },
+    {
+      "file": "red-scene-math.js",
+      "bytes": 1244
+    },
+    {
+      "file": "red-snow-reveal.js",
+      "bytes": 3394
+    },
+    {
+      "file": "rescue-art.js",
+      "bytes": 10135
+    },
+    {
+      "file": "rescue-math.js",
+      "bytes": 1980
+    },
+    {
+      "file": "rescue-presentation.js",
+      "bytes": 1550
+    },
+    {
+      "file": "rescue-stage.css",
+      "bytes": 4489
+    },
+    {
+      "file": "rescue-stage.js",
+      "bytes": 8609
+    },
+    {
+      "file": "scenario.js",
+      "bytes": 3499
+    },
+    {
+      "file": "sound-settings.js",
+      "bytes": 379
+    },
+    {
+      "file": "soundtrack.js",
+      "bytes": 4219
+    },
+    {
+      "file": "speech.js",
+      "bytes": 5207
+    },
+    {
+      "file": "stage-dialogue.js",
+      "bytes": 2613
+    },
+    {
+      "file": "story-art.js",
+      "bytes": 5608
+    },
+    {
+      "file": "story-stage.css",
+      "bytes": 7650
+    },
+    {
+      "file": "story-stage.js",
+      "bytes": 7766
+    },
+    {
+      "file": "storybook-content.js",
+      "bytes": 2547
+    },
+    {
+      "file": "styles.css",
+      "bytes": 32800
+    },
+    {
+      "file": "timed-audio.js",
+      "bytes": 2400
+    },
+    {
+      "file": "witch-art.js",
+      "bytes": 2562
+    },
+    {
+      "file": "witch-math.js",
+      "bytes": 1244
+    },
+    {
+      "file": "witch-stage.css",
+      "bytes": 5057
+    },
+    {
+      "file": "witch-stage.js",
+      "bytes": 9434
+    },
+    {
+      "file": "yellow-box-art.js",
+      "bytes": 611
+    },
+    {
+      "file": "yellow-box-controls.js",
+      "bytes": 2476
+    },
+    {
+      "file": "yellow-clue-art.js",
+      "bytes": 6427
+    },
+    {
+      "file": "yellow-snow-reveal.js",
+      "bytes": 1503
+    },
+    {
+      "file": "_headers",
+      "bytes": 335
+    }
+  ],
+  "runs": [
+    {
+      "profile": "unthrottled",
+      "run": 1,
+      "controlsMs": 339,
+      "artworkMs": 1315,
+      "initialSettledMs": 1320,
+      "fcp": 300,
+      "lcp": 300,
+      "domContentLoaded": 279.5,
+      "initialBytes": 2117790,
+      "introAndRedAdditionalBytes": 2754241,
+      "resources": [
+        {
+          "file": "",
+          "bytes": 2496,
+          "completed": true
+        },
+        {
+          "file": "styles.css",
+          "bytes": 32997,
+          "completed": true
+        },
+        {
+          "file": "box-stage.css",
+          "bytes": 14075,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.css",
+          "bytes": 6735,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.css",
+          "bytes": 5253,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.css",
+          "bytes": 4685,
+          "completed": true
+        },
+        {
+          "file": "story-stage.css",
+          "bytes": 7846,
+          "completed": true
+        },
+        {
+          "file": "full-app.js",
+          "bytes": 24829,
+          "completed": true
+        },
+        {
+          "file": "full-scenario.js",
+          "bytes": 14128,
+          "completed": true
+        },
+        {
+          "file": "full-game.js",
+          "bytes": 19379,
+          "completed": true
+        },
+        {
+          "file": "speech.js",
+          "bytes": 5410,
+          "completed": true
+        },
+        {
+          "file": "audio-timeline.js",
+          "bytes": 3727,
+          "completed": true
+        },
+        {
+          "file": "full-audio.js",
+          "bytes": 1796,
+          "completed": true
+        },
+        {
+          "file": "timed-audio.js",
+          "bytes": 2603,
+          "completed": true
+        },
+        {
+          "file": "soundtrack.js",
+          "bytes": 4422,
+          "completed": true
+        },
+        {
+          "file": "story-stage.js",
+          "bytes": 7969,
+          "completed": true
+        },
+        {
+          "file": "readings.js",
+          "bytes": 6502,
+          "completed": true
+        },
+        {
+          "file": "box-presentations.js",
+          "bytes": 2205,
+          "completed": true
+        },
+        {
+          "file": "box-stage.js",
+          "bytes": 15015,
+          "completed": true
+        },
+        {
+          "file": "box-presentation.js",
+          "bytes": 2931,
+          "completed": true
+        },
+        {
+          "file": "red-box-art.js",
+          "bytes": 699,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.js",
+          "bytes": 13193,
+          "completed": true
+        },
+        {
+          "file": "paper-layout.js",
+          "bytes": 1749,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.js",
+          "bytes": 8812,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.js",
+          "bytes": 9637,
+          "completed": true
+        },
+        {
+          "file": "rescue-art.js",
+          "bytes": 10339,
+          "completed": true
+        },
+        {
+          "file": "rescue-presentation.js",
+          "bytes": 1753,
+          "completed": true
+        },
+        {
+          "file": "analytics.js",
+          "bytes": 6655,
+          "completed": true
+        },
+        {
+          "file": "scenario.js",
+          "bytes": 3702,
+          "completed": true
+        },
+        {
+          "file": "game.js",
+          "bytes": 3833,
+          "completed": true
+        },
+        {
+          "file": "storybook-content.js",
+          "bytes": 2750,
+          "completed": true
+        },
+        {
+          "file": "sound-settings.js",
+          "bytes": 581,
+          "completed": true
+        },
+        {
+          "file": "audio-sequence.js",
+          "bytes": 3979,
+          "completed": true
+        },
+        {
+          "file": "audio.js",
+          "bytes": 812,
+          "completed": true
+        },
+        {
+          "file": "media-assets.js",
+          "bytes": 3415,
+          "completed": true
+        },
+        {
+          "file": "stage-dialogue.js",
+          "bytes": 2816,
+          "completed": true
+        },
+        {
+          "file": "story-art.js",
+          "bytes": 5811,
+          "completed": true
+        },
+        {
+          "file": "blue-box-art.js",
+          "bytes": 778,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-art.js",
+          "bytes": 813,
+          "completed": true
+        },
+        {
+          "file": "blue-box-controls.js",
+          "bytes": 1193,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-controls.js",
+          "bytes": 2679,
+          "completed": true
+        },
+        {
+          "file": "box-art-loader.js",
+          "bytes": 994,
+          "completed": true
+        },
+        {
+          "file": "red-cylinder-lock.js",
+          "bytes": 11144,
+          "completed": true
+        },
+        {
+          "file": "box-art.js",
+          "bytes": 12189,
+          "completed": true
+        },
+        {
+          "file": "red-clue-art.js",
+          "bytes": 5651,
+          "completed": true
+        },
+        {
+          "file": "red-snow-reveal.js",
+          "bytes": 3597,
+          "completed": true
+        },
+        {
+          "file": "paper-art.js",
+          "bytes": 2179,
+          "completed": true
+        },
+        {
+          "file": "witch-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "forest-art.js",
+          "bytes": 656,
+          "completed": true
+        },
+        {
+          "file": "witch-art.js",
+          "bytes": 2765,
+          "completed": true
+        },
+        {
+          "file": "red-paint.js",
+          "bytes": 3767,
+          "completed": true
+        },
+        {
+          "file": "forest-stage.js",
+          "bytes": 2152,
+          "completed": true
+        },
+        {
+          "file": "rescue-math.js",
+          "bytes": 2183,
+          "completed": true
+        },
+        {
+          "file": "analytics-config.js",
+          "bytes": 313,
+          "completed": true
+        },
+        {
+          "file": "game-events.js",
+          "bytes": 3667,
+          "completed": true
+        },
+        {
+          "file": "red-hinge-math.js",
+          "bytes": 1528,
+          "completed": true
+        },
+        {
+          "file": "blue-clue-art.js",
+          "bytes": 5319,
+          "completed": true
+        },
+        {
+          "file": "blue-snow-reveal.js",
+          "bytes": 1711,
+          "completed": true
+        },
+        {
+          "file": "yellow-clue-art.js",
+          "bytes": 6630,
+          "completed": true
+        },
+        {
+          "file": "yellow-snow-reveal.js",
+          "bytes": 1706,
+          "completed": true
+        },
+        {
+          "file": "red-scene-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "clue-snow-reveal.js",
+          "bytes": 5835,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/forest-clean.webp",
+          "bytes": 289298,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-body.webp",
+          "bytes": 304830,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-lid.webp",
+          "bytes": 285276,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/globe.webp",
+          "bytes": 624880,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/tanuki.webp",
+          "bytes": 265624,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/storybook-intro.m4a",
+          "bytes": 276960,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 0,
+          "completed": false
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 66387,
+          "completed": true
+        },
+        {
+          "file": "assets/blue-box/blue-body.webp",
+          "bytes": 244868,
+          "completed": true
+        },
+        {
+          "file": "assets/blue-box/blue-lid.webp",
+          "bytes": 230502,
+          "completed": true
+        },
+        {
+          "file": "assets/blue-box/mountain.webp",
+          "bytes": 403674,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/yellow-body.webp",
+          "bytes": 240222,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/yellow-lid.webp",
+          "bytes": 242266,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/rock.webp",
+          "bytes": 204208,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/scissors.webp",
+          "bytes": 200080,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/paper.webp",
+          "bytes": 358832,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/storybook-help.m4a",
+          "bytes": 286242,
+          "completed": true
+        }
+      ]
+    },
+    {
+      "profile": "unthrottled",
+      "run": 2,
+      "controlsMs": 224,
+      "artworkMs": 1034,
+      "initialSettledMs": 1043,
+      "fcp": 72,
+      "lcp": 196,
+      "domContentLoaded": 186.20000004768372,
+      "initialBytes": 2117790,
+      "introAndRedAdditionalBytes": 2754241,
+      "resources": [
+        {
+          "file": "",
+          "bytes": 2496,
+          "completed": true
+        },
+        {
+          "file": "styles.css",
+          "bytes": 32997,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.css",
+          "bytes": 6735,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.css",
+          "bytes": 5253,
+          "completed": true
+        },
+        {
+          "file": "box-stage.css",
+          "bytes": 14075,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.css",
+          "bytes": 4685,
+          "completed": true
+        },
+        {
+          "file": "story-stage.css",
+          "bytes": 7846,
+          "completed": true
+        },
+        {
+          "file": "full-app.js",
+          "bytes": 24829,
+          "completed": true
+        },
+        {
+          "file": "full-scenario.js",
+          "bytes": 14128,
+          "completed": true
+        },
+        {
+          "file": "full-audio.js",
+          "bytes": 1796,
+          "completed": true
+        },
+        {
+          "file": "audio-timeline.js",
+          "bytes": 3727,
+          "completed": true
+        },
+        {
+          "file": "soundtrack.js",
+          "bytes": 4422,
+          "completed": true
+        },
+        {
+          "file": "timed-audio.js",
+          "bytes": 2603,
+          "completed": true
+        },
+        {
+          "file": "speech.js",
+          "bytes": 5410,
+          "completed": true
+        },
+        {
+          "file": "full-game.js",
+          "bytes": 19379,
+          "completed": true
+        },
+        {
+          "file": "story-stage.js",
+          "bytes": 7969,
+          "completed": true
+        },
+        {
+          "file": "readings.js",
+          "bytes": 6502,
+          "completed": true
+        },
+        {
+          "file": "box-stage.js",
+          "bytes": 15015,
+          "completed": true
+        },
+        {
+          "file": "box-presentation.js",
+          "bytes": 2931,
+          "completed": true
+        },
+        {
+          "file": "paper-layout.js",
+          "bytes": 1749,
+          "completed": true
+        },
+        {
+          "file": "box-presentations.js",
+          "bytes": 2205,
+          "completed": true
+        },
+        {
+          "file": "red-box-art.js",
+          "bytes": 699,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.js",
+          "bytes": 8812,
+          "completed": true
+        },
+        {
+          "file": "rescue-presentation.js",
+          "bytes": 1753,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.js",
+          "bytes": 13193,
+          "completed": true
+        },
+        {
+          "file": "rescue-art.js",
+          "bytes": 10339,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.js",
+          "bytes": 9637,
+          "completed": true
+        },
+        {
+          "file": "analytics.js",
+          "bytes": 6655,
+          "completed": true
+        },
+        {
+          "file": "scenario.js",
+          "bytes": 3702,
+          "completed": true
+        },
+        {
+          "file": "storybook-content.js",
+          "bytes": 2750,
+          "completed": true
+        },
+        {
+          "file": "audio.js",
+          "bytes": 812,
+          "completed": true
+        },
+        {
+          "file": "audio-sequence.js",
+          "bytes": 3979,
+          "completed": true
+        },
+        {
+          "file": "sound-settings.js",
+          "bytes": 581,
+          "completed": true
+        },
+        {
+          "file": "story-art.js",
+          "bytes": 5811,
+          "completed": true
+        },
+        {
+          "file": "blue-box-art.js",
+          "bytes": 778,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-art.js",
+          "bytes": 813,
+          "completed": true
+        },
+        {
+          "file": "media-assets.js",
+          "bytes": 3415,
+          "completed": true
+        },
+        {
+          "file": "red-cylinder-lock.js",
+          "bytes": 11144,
+          "completed": true
+        },
+        {
+          "file": "game.js",
+          "bytes": 3833,
+          "completed": true
+        },
+        {
+          "file": "blue-box-controls.js",
+          "bytes": 1193,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-controls.js",
+          "bytes": 2679,
+          "completed": true
+        },
+        {
+          "file": "stage-dialogue.js",
+          "bytes": 2816,
+          "completed": true
+        },
+        {
+          "file": "box-art-loader.js",
+          "bytes": 994,
+          "completed": true
+        },
+        {
+          "file": "red-clue-art.js",
+          "bytes": 5651,
+          "completed": true
+        },
+        {
+          "file": "box-art.js",
+          "bytes": 12189,
+          "completed": true
+        },
+        {
+          "file": "witch-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "forest-art.js",
+          "bytes": 656,
+          "completed": true
+        },
+        {
+          "file": "paper-art.js",
+          "bytes": 2179,
+          "completed": true
+        },
+        {
+          "file": "red-paint.js",
+          "bytes": 3767,
+          "completed": true
+        },
+        {
+          "file": "red-snow-reveal.js",
+          "bytes": 3597,
+          "completed": true
+        },
+        {
+          "file": "witch-art.js",
+          "bytes": 2765,
+          "completed": true
+        },
+        {
+          "file": "forest-stage.js",
+          "bytes": 2152,
+          "completed": true
+        },
+        {
+          "file": "rescue-math.js",
+          "bytes": 2183,
+          "completed": true
+        },
+        {
+          "file": "analytics-config.js",
+          "bytes": 313,
+          "completed": true
+        },
+        {
+          "file": "game-events.js",
+          "bytes": 3667,
+          "completed": true
+        },
+        {
+          "file": "red-hinge-math.js",
+          "bytes": 1528,
+          "completed": true
+        },
+        {
+          "file": "blue-clue-art.js",
+          "bytes": 5319,
+          "completed": true
+        },
+        {
+          "file": "blue-snow-reveal.js",
+          "bytes": 1711,
+          "completed": true
+        },
+        {
+          "file": "red-scene-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "yellow-snow-reveal.js",
+          "bytes": 1706,
+          "completed": true
+        },
+        {
+          "file": "yellow-clue-art.js",
+          "bytes": 6630,
+          "completed": true
+        },
+        {
+          "file": "clue-snow-reveal.js",
+          "bytes": 5835,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/forest-clean.webp",
+          "bytes": 289298,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-body.webp",
+          "bytes": 304830,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-lid.webp",
+          "bytes": 285276,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/tanuki.webp",
+          "bytes": 265624,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/globe.webp",
+          "bytes": 624880,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/storybook-intro.m4a",
+          "bytes": 276960,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 0,
+          "completed": false
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 66387,
+          "completed": true
+        },
+        {
+          "file": "assets/blue-box/blue-body.webp",
+          "bytes": 244868,
+          "completed": true
+        },
+        {
+          "file": "assets/blue-box/mountain.webp",
+          "bytes": 403674,
+          "completed": true
+        },
+        {
+          "file": "assets/blue-box/blue-lid.webp",
+          "bytes": 230502,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/yellow-body.webp",
+          "bytes": 240222,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/yellow-lid.webp",
+          "bytes": 242266,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/rock.webp",
+          "bytes": 204208,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/scissors.webp",
+          "bytes": 200080,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/paper.webp",
+          "bytes": 358832,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/storybook-help.m4a",
+          "bytes": 286242,
+          "completed": true
+        }
+      ]
+    },
+    {
+      "profile": "unthrottled",
+      "run": 3,
+      "controlsMs": 231,
+      "artworkMs": 1004,
+      "initialSettledMs": 1012,
+      "fcp": 104,
+      "lcp": 208,
+      "domContentLoaded": 195.19999992847443,
+      "initialBytes": 2117790,
+      "introAndRedAdditionalBytes": 2754241,
+      "resources": [
+        {
+          "file": "",
+          "bytes": 2496,
+          "completed": true
+        },
+        {
+          "file": "styles.css",
+          "bytes": 32997,
+          "completed": true
+        },
+        {
+          "file": "box-stage.css",
+          "bytes": 14075,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.css",
+          "bytes": 5253,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.css",
+          "bytes": 6735,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.css",
+          "bytes": 4685,
+          "completed": true
+        },
+        {
+          "file": "story-stage.css",
+          "bytes": 7846,
+          "completed": true
+        },
+        {
+          "file": "full-app.js",
+          "bytes": 24829,
+          "completed": true
+        },
+        {
+          "file": "full-scenario.js",
+          "bytes": 14128,
+          "completed": true
+        },
+        {
+          "file": "full-game.js",
+          "bytes": 19379,
+          "completed": true
+        },
+        {
+          "file": "speech.js",
+          "bytes": 5410,
+          "completed": true
+        },
+        {
+          "file": "full-audio.js",
+          "bytes": 1796,
+          "completed": true
+        },
+        {
+          "file": "audio-timeline.js",
+          "bytes": 3727,
+          "completed": true
+        },
+        {
+          "file": "timed-audio.js",
+          "bytes": 2603,
+          "completed": true
+        },
+        {
+          "file": "story-stage.js",
+          "bytes": 7969,
+          "completed": true
+        },
+        {
+          "file": "soundtrack.js",
+          "bytes": 4422,
+          "completed": true
+        },
+        {
+          "file": "box-presentations.js",
+          "bytes": 2205,
+          "completed": true
+        },
+        {
+          "file": "readings.js",
+          "bytes": 6502,
+          "completed": true
+        },
+        {
+          "file": "box-presentation.js",
+          "bytes": 2931,
+          "completed": true
+        },
+        {
+          "file": "box-stage.js",
+          "bytes": 15015,
+          "completed": true
+        },
+        {
+          "file": "red-box-art.js",
+          "bytes": 699,
+          "completed": true
+        },
+        {
+          "file": "paper-layout.js",
+          "bytes": 1749,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.js",
+          "bytes": 13193,
+          "completed": true
+        },
+        {
+          "file": "rescue-presentation.js",
+          "bytes": 1753,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.js",
+          "bytes": 9637,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.js",
+          "bytes": 8812,
+          "completed": true
+        },
+        {
+          "file": "rescue-art.js",
+          "bytes": 10339,
+          "completed": true
+        },
+        {
+          "file": "analytics.js",
+          "bytes": 6655,
+          "completed": true
+        },
+        {
+          "file": "scenario.js",
+          "bytes": 3702,
+          "completed": true
+        },
+        {
+          "file": "storybook-content.js",
+          "bytes": 2750,
+          "completed": true
+        },
+        {
+          "file": "audio-sequence.js",
+          "bytes": 3979,
+          "completed": true
+        },
+        {
+          "file": "media-assets.js",
+          "bytes": 3415,
+          "completed": true
+        },
+        {
+          "file": "game.js",
+          "bytes": 3833,
+          "completed": true
+        },
+        {
+          "file": "stage-dialogue.js",
+          "bytes": 2816,
+          "completed": true
+        },
+        {
+          "file": "sound-settings.js",
+          "bytes": 581,
+          "completed": true
+        },
+        {
+          "file": "blue-box-art.js",
+          "bytes": 778,
+          "completed": true
+        },
+        {
+          "file": "blue-box-controls.js",
+          "bytes": 1193,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-art.js",
+          "bytes": 813,
+          "completed": true
+        },
+        {
+          "file": "audio.js",
+          "bytes": 812,
+          "completed": true
+        },
+        {
+          "file": "story-art.js",
+          "bytes": 5811,
+          "completed": true
+        },
+        {
+          "file": "box-art-loader.js",
+          "bytes": 994,
+          "completed": true
+        },
+        {
+          "file": "red-clue-art.js",
+          "bytes": 5651,
+          "completed": true
+        },
+        {
+          "file": "red-snow-reveal.js",
+          "bytes": 3597,
+          "completed": true
+        },
+        {
+          "file": "paper-art.js",
+          "bytes": 2179,
+          "completed": true
+        },
+        {
+          "file": "witch-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "box-art.js",
+          "bytes": 12189,
+          "completed": true
+        },
+        {
+          "file": "red-cylinder-lock.js",
+          "bytes": 11144,
+          "completed": true
+        },
+        {
+          "file": "witch-art.js",
+          "bytes": 2765,
+          "completed": true
+        },
+        {
+          "file": "forest-art.js",
+          "bytes": 656,
+          "completed": true
+        },
+        {
+          "file": "red-paint.js",
+          "bytes": 3767,
+          "completed": true
+        },
+        {
+          "file": "forest-stage.js",
+          "bytes": 2152,
+          "completed": true
+        },
+        {
+          "file": "rescue-math.js",
+          "bytes": 2183,
+          "completed": true
+        },
+        {
+          "file": "analytics-config.js",
+          "bytes": 313,
+          "completed": true
+        },
+        {
+          "file": "game-events.js",
+          "bytes": 3667,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-controls.js",
+          "bytes": 2679,
+          "completed": true
+        },
+        {
+          "file": "red-hinge-math.js",
+          "bytes": 1528,
+          "completed": true
+        },
+        {
+          "file": "blue-clue-art.js",
+          "bytes": 5319,
+          "completed": true
+        },
+        {
+          "file": "blue-snow-reveal.js",
+          "bytes": 1711,
+          "completed": true
+        },
+        {
+          "file": "yellow-snow-reveal.js",
+          "bytes": 1706,
+          "completed": true
+        },
+        {
+          "file": "clue-snow-reveal.js",
+          "bytes": 5835,
+          "completed": true
+        },
+        {
+          "file": "yellow-clue-art.js",
+          "bytes": 6630,
+          "completed": true
+        },
+        {
+          "file": "red-scene-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/forest-clean.webp",
+          "bytes": 289298,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-lid.webp",
+          "bytes": 285276,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-body.webp",
+          "bytes": 304830,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/tanuki.webp",
+          "bytes": 265624,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/globe.webp",
+          "bytes": 624880,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/storybook-intro.m4a",
+          "bytes": 276960,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 0,
+          "completed": false
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 66387,
+          "completed": true
+        },
+        {
+          "file": "assets/blue-box/blue-body.webp",
+          "bytes": 244868,
+          "completed": true
+        },
+        {
+          "file": "assets/blue-box/blue-lid.webp",
+          "bytes": 230502,
+          "completed": true
+        },
+        {
+          "file": "assets/blue-box/mountain.webp",
+          "bytes": 403674,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/yellow-body.webp",
+          "bytes": 240222,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/yellow-lid.webp",
+          "bytes": 242266,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/rock.webp",
+          "bytes": 204208,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/scissors.webp",
+          "bytes": 200080,
+          "completed": true
+        },
+        {
+          "file": "assets/yellow-box/paper.webp",
+          "bytes": 358832,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/storybook-help.m4a",
+          "bytes": 286242,
+          "completed": true
+        }
+      ]
+    },
+    {
+      "profile": "mobile-4g",
+      "run": 1,
+      "controlsMs": 3566,
+      "artworkMs": 13713,
+      "initialSettledMs": 13719,
+      "fcp": 1008,
+      "lcp": 3440,
+      "domContentLoaded": 3409.2999999523163,
+      "initialBytes": 2117790,
+      "introAndRedAdditionalBytes": 100230,
+      "resources": [
+        {
+          "file": "",
+          "bytes": 2496,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.css",
+          "bytes": 5253,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.css",
+          "bytes": 4685,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.css",
+          "bytes": 6735,
+          "completed": true
+        },
+        {
+          "file": "story-stage.css",
+          "bytes": 7846,
+          "completed": true
+        },
+        {
+          "file": "box-stage.css",
+          "bytes": 14075,
+          "completed": true
+        },
+        {
+          "file": "styles.css",
+          "bytes": 32997,
+          "completed": true
+        },
+        {
+          "file": "full-app.js",
+          "bytes": 24829,
+          "completed": true
+        },
+        {
+          "file": "full-audio.js",
+          "bytes": 1796,
+          "completed": true
+        },
+        {
+          "file": "timed-audio.js",
+          "bytes": 2603,
+          "completed": true
+        },
+        {
+          "file": "audio-timeline.js",
+          "bytes": 3727,
+          "completed": true
+        },
+        {
+          "file": "speech.js",
+          "bytes": 5410,
+          "completed": true
+        },
+        {
+          "file": "full-scenario.js",
+          "bytes": 14128,
+          "completed": true
+        },
+        {
+          "file": "soundtrack.js",
+          "bytes": 4422,
+          "completed": true
+        },
+        {
+          "file": "full-game.js",
+          "bytes": 19379,
+          "completed": true
+        },
+        {
+          "file": "story-stage.js",
+          "bytes": 7969,
+          "completed": true
+        },
+        {
+          "file": "readings.js",
+          "bytes": 6502,
+          "completed": true
+        },
+        {
+          "file": "box-presentations.js",
+          "bytes": 2205,
+          "completed": true
+        },
+        {
+          "file": "box-stage.js",
+          "bytes": 15015,
+          "completed": true
+        },
+        {
+          "file": "red-box-art.js",
+          "bytes": 699,
+          "completed": true
+        },
+        {
+          "file": "box-presentation.js",
+          "bytes": 2931,
+          "completed": true
+        },
+        {
+          "file": "paper-layout.js",
+          "bytes": 1749,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.js",
+          "bytes": 13193,
+          "completed": true
+        },
+        {
+          "file": "rescue-presentation.js",
+          "bytes": 1753,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.js",
+          "bytes": 9637,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.js",
+          "bytes": 8812,
+          "completed": true
+        },
+        {
+          "file": "rescue-art.js",
+          "bytes": 10339,
+          "completed": true
+        },
+        {
+          "file": "analytics.js",
+          "bytes": 6655,
+          "completed": true
+        },
+        {
+          "file": "audio.js",
+          "bytes": 812,
+          "completed": true
+        },
+        {
+          "file": "storybook-content.js",
+          "bytes": 2750,
+          "completed": true
+        },
+        {
+          "file": "media-assets.js",
+          "bytes": 3415,
+          "completed": true
+        },
+        {
+          "file": "audio-sequence.js",
+          "bytes": 3979,
+          "completed": true
+        },
+        {
+          "file": "scenario.js",
+          "bytes": 3702,
+          "completed": true
+        },
+        {
+          "file": "sound-settings.js",
+          "bytes": 581,
+          "completed": true
+        },
+        {
+          "file": "game.js",
+          "bytes": 3833,
+          "completed": true
+        },
+        {
+          "file": "stage-dialogue.js",
+          "bytes": 2816,
+          "completed": true
+        },
+        {
+          "file": "story-art.js",
+          "bytes": 5811,
+          "completed": true
+        },
+        {
+          "file": "blue-box-art.js",
+          "bytes": 778,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-art.js",
+          "bytes": 813,
+          "completed": true
+        },
+        {
+          "file": "blue-box-controls.js",
+          "bytes": 1193,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-controls.js",
+          "bytes": 2679,
+          "completed": true
+        },
+        {
+          "file": "box-art-loader.js",
+          "bytes": 994,
+          "completed": true
+        },
+        {
+          "file": "red-cylinder-lock.js",
+          "bytes": 11144,
+          "completed": true
+        },
+        {
+          "file": "red-snow-reveal.js",
+          "bytes": 3597,
+          "completed": true
+        },
+        {
+          "file": "red-clue-art.js",
+          "bytes": 5651,
+          "completed": true
+        },
+        {
+          "file": "paper-art.js",
+          "bytes": 2179,
+          "completed": true
+        },
+        {
+          "file": "box-art.js",
+          "bytes": 12189,
+          "completed": true
+        },
+        {
+          "file": "witch-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "witch-art.js",
+          "bytes": 2765,
+          "completed": true
+        },
+        {
+          "file": "red-paint.js",
+          "bytes": 3767,
+          "completed": true
+        },
+        {
+          "file": "forest-art.js",
+          "bytes": 656,
+          "completed": true
+        },
+        {
+          "file": "forest-stage.js",
+          "bytes": 2152,
+          "completed": true
+        },
+        {
+          "file": "rescue-math.js",
+          "bytes": 2183,
+          "completed": true
+        },
+        {
+          "file": "analytics-config.js",
+          "bytes": 313,
+          "completed": true
+        },
+        {
+          "file": "game-events.js",
+          "bytes": 3667,
+          "completed": true
+        },
+        {
+          "file": "red-hinge-math.js",
+          "bytes": 1528,
+          "completed": true
+        },
+        {
+          "file": "blue-snow-reveal.js",
+          "bytes": 1711,
+          "completed": true
+        },
+        {
+          "file": "yellow-snow-reveal.js",
+          "bytes": 1706,
+          "completed": true
+        },
+        {
+          "file": "blue-clue-art.js",
+          "bytes": 5319,
+          "completed": true
+        },
+        {
+          "file": "yellow-clue-art.js",
+          "bytes": 6630,
+          "completed": true
+        },
+        {
+          "file": "clue-snow-reveal.js",
+          "bytes": 5835,
+          "completed": true
+        },
+        {
+          "file": "red-scene-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/tanuki.webp",
+          "bytes": 265624,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-lid.webp",
+          "bytes": 285276,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/forest-clean.webp",
+          "bytes": 289298,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-body.webp",
+          "bytes": 304830,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/globe.webp",
+          "bytes": 624880,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 33843,
+          "completed": false
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 66387,
+          "completed": true
+        }
+      ]
+    },
+    {
+      "profile": "mobile-4g",
+      "run": 2,
+      "controlsMs": 3691,
+      "artworkMs": 14322,
+      "initialSettledMs": 14328,
+      "fcp": 1072,
+      "lcp": 3580,
+      "domContentLoaded": 3549,
+      "initialBytes": 2117790,
+      "introAndRedAdditionalBytes": 100230,
+      "resources": [
+        {
+          "file": "",
+          "bytes": 2496,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.css",
+          "bytes": 5253,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.css",
+          "bytes": 4685,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.css",
+          "bytes": 6735,
+          "completed": true
+        },
+        {
+          "file": "story-stage.css",
+          "bytes": 7846,
+          "completed": true
+        },
+        {
+          "file": "box-stage.css",
+          "bytes": 14075,
+          "completed": true
+        },
+        {
+          "file": "styles.css",
+          "bytes": 32997,
+          "completed": true
+        },
+        {
+          "file": "full-app.js",
+          "bytes": 24829,
+          "completed": true
+        },
+        {
+          "file": "full-audio.js",
+          "bytes": 1796,
+          "completed": true
+        },
+        {
+          "file": "timed-audio.js",
+          "bytes": 2603,
+          "completed": true
+        },
+        {
+          "file": "audio-timeline.js",
+          "bytes": 3727,
+          "completed": true
+        },
+        {
+          "file": "speech.js",
+          "bytes": 5410,
+          "completed": true
+        },
+        {
+          "file": "full-scenario.js",
+          "bytes": 14128,
+          "completed": true
+        },
+        {
+          "file": "full-game.js",
+          "bytes": 19379,
+          "completed": true
+        },
+        {
+          "file": "soundtrack.js",
+          "bytes": 4422,
+          "completed": true
+        },
+        {
+          "file": "story-stage.js",
+          "bytes": 7969,
+          "completed": true
+        },
+        {
+          "file": "readings.js",
+          "bytes": 6502,
+          "completed": true
+        },
+        {
+          "file": "box-presentations.js",
+          "bytes": 2205,
+          "completed": true
+        },
+        {
+          "file": "red-box-art.js",
+          "bytes": 699,
+          "completed": true
+        },
+        {
+          "file": "box-stage.js",
+          "bytes": 15015,
+          "completed": true
+        },
+        {
+          "file": "box-presentation.js",
+          "bytes": 2931,
+          "completed": true
+        },
+        {
+          "file": "paper-layout.js",
+          "bytes": 1749,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.js",
+          "bytes": 13193,
+          "completed": true
+        },
+        {
+          "file": "rescue-presentation.js",
+          "bytes": 1753,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.js",
+          "bytes": 9637,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.js",
+          "bytes": 8812,
+          "completed": true
+        },
+        {
+          "file": "rescue-art.js",
+          "bytes": 10339,
+          "completed": true
+        },
+        {
+          "file": "analytics.js",
+          "bytes": 6655,
+          "completed": true
+        },
+        {
+          "file": "audio.js",
+          "bytes": 812,
+          "completed": true
+        },
+        {
+          "file": "storybook-content.js",
+          "bytes": 2750,
+          "completed": true
+        },
+        {
+          "file": "media-assets.js",
+          "bytes": 3415,
+          "completed": true
+        },
+        {
+          "file": "audio-sequence.js",
+          "bytes": 3979,
+          "completed": true
+        },
+        {
+          "file": "scenario.js",
+          "bytes": 3702,
+          "completed": true
+        },
+        {
+          "file": "game.js",
+          "bytes": 3833,
+          "completed": true
+        },
+        {
+          "file": "sound-settings.js",
+          "bytes": 581,
+          "completed": true
+        },
+        {
+          "file": "stage-dialogue.js",
+          "bytes": 2816,
+          "completed": true
+        },
+        {
+          "file": "blue-box-art.js",
+          "bytes": 778,
+          "completed": true
+        },
+        {
+          "file": "story-art.js",
+          "bytes": 5811,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-art.js",
+          "bytes": 813,
+          "completed": true
+        },
+        {
+          "file": "blue-box-controls.js",
+          "bytes": 1193,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-controls.js",
+          "bytes": 2679,
+          "completed": true
+        },
+        {
+          "file": "box-art-loader.js",
+          "bytes": 994,
+          "completed": true
+        },
+        {
+          "file": "red-snow-reveal.js",
+          "bytes": 3597,
+          "completed": true
+        },
+        {
+          "file": "red-clue-art.js",
+          "bytes": 5651,
+          "completed": true
+        },
+        {
+          "file": "paper-art.js",
+          "bytes": 2179,
+          "completed": true
+        },
+        {
+          "file": "witch-art.js",
+          "bytes": 2765,
+          "completed": true
+        },
+        {
+          "file": "box-art.js",
+          "bytes": 12189,
+          "completed": true
+        },
+        {
+          "file": "red-cylinder-lock.js",
+          "bytes": 11144,
+          "completed": true
+        },
+        {
+          "file": "witch-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "forest-art.js",
+          "bytes": 656,
+          "completed": true
+        },
+        {
+          "file": "red-paint.js",
+          "bytes": 3767,
+          "completed": true
+        },
+        {
+          "file": "forest-stage.js",
+          "bytes": 2152,
+          "completed": true
+        },
+        {
+          "file": "rescue-math.js",
+          "bytes": 2183,
+          "completed": true
+        },
+        {
+          "file": "analytics-config.js",
+          "bytes": 313,
+          "completed": true
+        },
+        {
+          "file": "game-events.js",
+          "bytes": 3667,
+          "completed": true
+        },
+        {
+          "file": "red-hinge-math.js",
+          "bytes": 1528,
+          "completed": true
+        },
+        {
+          "file": "blue-snow-reveal.js",
+          "bytes": 1711,
+          "completed": true
+        },
+        {
+          "file": "blue-clue-art.js",
+          "bytes": 5319,
+          "completed": true
+        },
+        {
+          "file": "yellow-snow-reveal.js",
+          "bytes": 1706,
+          "completed": true
+        },
+        {
+          "file": "yellow-clue-art.js",
+          "bytes": 6630,
+          "completed": true
+        },
+        {
+          "file": "clue-snow-reveal.js",
+          "bytes": 5835,
+          "completed": true
+        },
+        {
+          "file": "red-scene-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/tanuki.webp",
+          "bytes": 265624,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-body.webp",
+          "bytes": 304830,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-lid.webp",
+          "bytes": 285276,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/forest-clean.webp",
+          "bytes": 289298,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/globe.webp",
+          "bytes": 624880,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 33843,
+          "completed": false
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 66387,
+          "completed": true
+        }
+      ]
+    },
+    {
+      "profile": "mobile-4g",
+      "run": 3,
+      "controlsMs": 3634,
+      "artworkMs": 14128,
+      "initialSettledMs": 14136,
+      "fcp": 1040,
+      "lcp": 3540,
+      "domContentLoaded": 3510.899999976158,
+      "initialBytes": 2117790,
+      "introAndRedAdditionalBytes": 100230,
+      "resources": [
+        {
+          "file": "",
+          "bytes": 2496,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.css",
+          "bytes": 5253,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.css",
+          "bytes": 4685,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.css",
+          "bytes": 6735,
+          "completed": true
+        },
+        {
+          "file": "story-stage.css",
+          "bytes": 7846,
+          "completed": true
+        },
+        {
+          "file": "box-stage.css",
+          "bytes": 14075,
+          "completed": true
+        },
+        {
+          "file": "styles.css",
+          "bytes": 32997,
+          "completed": true
+        },
+        {
+          "file": "full-app.js",
+          "bytes": 24829,
+          "completed": true
+        },
+        {
+          "file": "full-audio.js",
+          "bytes": 1796,
+          "completed": true
+        },
+        {
+          "file": "timed-audio.js",
+          "bytes": 2603,
+          "completed": true
+        },
+        {
+          "file": "audio-timeline.js",
+          "bytes": 3727,
+          "completed": true
+        },
+        {
+          "file": "speech.js",
+          "bytes": 5410,
+          "completed": true
+        },
+        {
+          "file": "full-scenario.js",
+          "bytes": 14128,
+          "completed": true
+        },
+        {
+          "file": "soundtrack.js",
+          "bytes": 4422,
+          "completed": true
+        },
+        {
+          "file": "full-game.js",
+          "bytes": 19379,
+          "completed": true
+        },
+        {
+          "file": "story-stage.js",
+          "bytes": 7969,
+          "completed": true
+        },
+        {
+          "file": "readings.js",
+          "bytes": 6502,
+          "completed": true
+        },
+        {
+          "file": "box-presentations.js",
+          "bytes": 2205,
+          "completed": true
+        },
+        {
+          "file": "red-box-art.js",
+          "bytes": 699,
+          "completed": true
+        },
+        {
+          "file": "box-stage.js",
+          "bytes": 15015,
+          "completed": true
+        },
+        {
+          "file": "box-presentation.js",
+          "bytes": 2931,
+          "completed": true
+        },
+        {
+          "file": "paper-layout.js",
+          "bytes": 1749,
+          "completed": true
+        },
+        {
+          "file": "paper-stage.js",
+          "bytes": 13193,
+          "completed": true
+        },
+        {
+          "file": "rescue-presentation.js",
+          "bytes": 1753,
+          "completed": true
+        },
+        {
+          "file": "witch-stage.js",
+          "bytes": 9637,
+          "completed": true
+        },
+        {
+          "file": "rescue-stage.js",
+          "bytes": 8812,
+          "completed": true
+        },
+        {
+          "file": "rescue-art.js",
+          "bytes": 10339,
+          "completed": true
+        },
+        {
+          "file": "analytics.js",
+          "bytes": 6655,
+          "completed": true
+        },
+        {
+          "file": "audio.js",
+          "bytes": 812,
+          "completed": true
+        },
+        {
+          "file": "storybook-content.js",
+          "bytes": 2750,
+          "completed": true
+        },
+        {
+          "file": "media-assets.js",
+          "bytes": 3415,
+          "completed": true
+        },
+        {
+          "file": "audio-sequence.js",
+          "bytes": 3979,
+          "completed": true
+        },
+        {
+          "file": "sound-settings.js",
+          "bytes": 581,
+          "completed": true
+        },
+        {
+          "file": "scenario.js",
+          "bytes": 3702,
+          "completed": true
+        },
+        {
+          "file": "game.js",
+          "bytes": 3833,
+          "completed": true
+        },
+        {
+          "file": "stage-dialogue.js",
+          "bytes": 2816,
+          "completed": true
+        },
+        {
+          "file": "story-art.js",
+          "bytes": 5811,
+          "completed": true
+        },
+        {
+          "file": "blue-box-art.js",
+          "bytes": 778,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-art.js",
+          "bytes": 813,
+          "completed": true
+        },
+        {
+          "file": "blue-box-controls.js",
+          "bytes": 1193,
+          "completed": true
+        },
+        {
+          "file": "box-art-loader.js",
+          "bytes": 994,
+          "completed": true
+        },
+        {
+          "file": "yellow-box-controls.js",
+          "bytes": 2679,
+          "completed": true
+        },
+        {
+          "file": "box-art.js",
+          "bytes": 12189,
+          "completed": true
+        },
+        {
+          "file": "red-snow-reveal.js",
+          "bytes": 3597,
+          "completed": true
+        },
+        {
+          "file": "red-clue-art.js",
+          "bytes": 5651,
+          "completed": true
+        },
+        {
+          "file": "paper-art.js",
+          "bytes": 2179,
+          "completed": true
+        },
+        {
+          "file": "witch-art.js",
+          "bytes": 2765,
+          "completed": true
+        },
+        {
+          "file": "red-cylinder-lock.js",
+          "bytes": 11144,
+          "completed": true
+        },
+        {
+          "file": "witch-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "forest-art.js",
+          "bytes": 656,
+          "completed": true
+        },
+        {
+          "file": "red-paint.js",
+          "bytes": 3767,
+          "completed": true
+        },
+        {
+          "file": "rescue-math.js",
+          "bytes": 2183,
+          "completed": true
+        },
+        {
+          "file": "forest-stage.js",
+          "bytes": 2152,
+          "completed": true
+        },
+        {
+          "file": "analytics-config.js",
+          "bytes": 313,
+          "completed": true
+        },
+        {
+          "file": "game-events.js",
+          "bytes": 3667,
+          "completed": true
+        },
+        {
+          "file": "red-hinge-math.js",
+          "bytes": 1528,
+          "completed": true
+        },
+        {
+          "file": "blue-clue-art.js",
+          "bytes": 5319,
+          "completed": true
+        },
+        {
+          "file": "blue-snow-reveal.js",
+          "bytes": 1711,
+          "completed": true
+        },
+        {
+          "file": "yellow-snow-reveal.js",
+          "bytes": 1706,
+          "completed": true
+        },
+        {
+          "file": "yellow-clue-art.js",
+          "bytes": 6630,
+          "completed": true
+        },
+        {
+          "file": "red-scene-math.js",
+          "bytes": 1447,
+          "completed": true
+        },
+        {
+          "file": "clue-snow-reveal.js",
+          "bytes": 5835,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/tanuki.webp",
+          "bytes": 265624,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-body.webp",
+          "bytes": 304830,
+          "completed": true
+        },
+        {
+          "file": "assets/red-box/red-lid.webp",
+          "bytes": 285276,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/forest-clean.webp",
+          "bytes": 289298,
+          "completed": true
+        },
+        {
+          "file": "assets/papers/globe.webp",
+          "bytes": 624880,
+          "completed": true
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 33843,
+          "completed": false
+        },
+        {
+          "file": "assets/audio/laid-back-loop.ogg",
+          "bytes": 66387,
+          "completed": true
+        }
+      ]
+    }
+  ]
+}

@@ -17,11 +17,11 @@ test('採用した八つの音は原作参照ファイルと一致し、BGMのPC
   const unlock=records.files.find(r=>r.id==='unlockSrc');assert.equal(unlock.sha256,unlock.officialSha256);
 });
 
-test('BGMは原作ループ版を使い、Vorbis非対応では同じ原作由来PCMに切り替え、両曲の音量は0.025',()=>{
+test('BGMは原作ループ版を使い、Vorbis非対応では同じ原作由来AACに切り替え、両曲の音量は0.025',()=>{
   for(const supported of [true,false]){
     const tracks=[],sound=new Soundtrack(src=>{const a={src,canPlayType:()=>supported?'probably':'',play:()=>Promise.resolve(),pause(){}};tracks.push(a);return a;});
     sound.setVolume(100);sound.begin('normal');sound.begin('witch');sound.stop();
-    assert.deepEqual(tracks.map(a=>a.src),['laid-back','spook4'].map(name=>`./assets/audio/${name}-loop.${supported?'ogg':'wav'}`));
+    assert.deepEqual(tracks.map(a=>a.src),['laid-back','spook4'].map(name=>`./assets/audio/${name}-loop.${supported?'ogg':'m4a'}`));
     assert.ok(tracks.every(a=>a.volume===.025&&a.loop));
   }
 });

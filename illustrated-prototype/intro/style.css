@@ -1,0 +1,8 @@
+.intro-storybook .scene-shell { height: clamp(530px,76svh,700px); min-height: 530px; }
+.intro-storybook .conversation-panel { gap: 18px; }
+.intro-storybook #resume-link { text-decoration: none; display: inline-flex; align-items: center; }
+.intro-storybook .conversation-actions > button { min-width: 160px; }
+.intro-storybook .conversation-segments { width: min(100%,760px); }
+@media (max-width: 720px) {
+  .intro-storybook .scene-shell { height: 520px; min-height: 520px; }
+}

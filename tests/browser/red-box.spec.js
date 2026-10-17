@@ -13,9 +13,9 @@ async function setup(page,{muted=true,seed=null,unavailable=false}={}){
 }
 async function enterRed(page){
   await btn(page,'start').click();await expect(page.locator('.story-stage')).toHaveAttribute('data-phase','intro');
-  await page.waitForTimeout(470);await btn(page,'boxes').click();await expect(btn(page,'select').first()).toBeVisible();
+  await page.waitForTimeout(470);await btn(page,'boxes').click();await expect(btn(page,'select').first()).toBeVisible({timeout:60000});
   await page.waitForTimeout(470);await page.locator('[data-action="select"][data-color="red"]').click();
-  await expect(page.locator('.box-stage')).toBeVisible();await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
+  await expect(page.locator('.box-stage')).toBeVisible({timeout:60000});await expect(page.locator('canvas')).toHaveAttribute('data-ready','true',{timeout:60000});
 }
 async function digits(page,code){for(let i=0;i<4;i++)await page.getByRole('spinbutton',{name:`${i+1}桁目のダイアル`,exact:true}).press(code[i]);}
 async function usable(page,action){await expect(btn(page,action)).toBeEnabled({timeout:60000});}
@@ -34,6 +34,8 @@ test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid,
   await page.setViewportSize({width:390,height:844});await setup(page);
   await expect.poll(()=>artRequests.length).toBe(3);await expect(btn(page,'start')).toBeVisible();
   await enterRed(page);
+  await expect(page.locator('.box-examine-cue')).toHaveText('ここを押して、手がかりを見つけよう');
+  await expect(page.locator('.box-examine-cue')).toBeVisible();
   expect(await page.getByRole('spinbutton').count()).toBe(4);expect(await page.locator('input[type="text"]').count()).toBe(0);
   await expect(page.locator('.rb-cylinder-direction')).toHaveCount(0);
   // Rubbing the illustrated snow must not bypass the one-press examination stages.
@@ -46,6 +48,7 @@ test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid,
   await expect.poll(()=>page.locator('.rb-snowflake').count()).toBeGreaterThan(0);
   await shot(page,'mobile-snow-sweep');
   await expect(page.locator('.box-stage')).toHaveAttribute('data-exam','2');
+  await expect(page.locator('.box-examine-cue')).toHaveCount(0);
   await expect(page.locator('canvas')).not.toHaveAttribute('aria-label',/たぬき/);
   await usable(page,'examine');await shot(page,'mobile-text');await btn(page,'examine').click();await usable(page,'examine');
   await expect(page.locator('.box-stage')).toHaveAttribute('data-exam','3');
@@ -77,7 +80,7 @@ test('desktop: arrow keys, numeric keys, pointer drag, focus, early solution and
 
 test('viewport controls remain visible on small phone, landscape, tablet and PC',async({page})=>{
   await setup(page);await enterRed(page);
-  const bodyRatio=await page.evaluate(async()=>{const {loadImage}=await import('/red-paint.js');const body=await loadImage('/assets/red-box/red-body.png');return body.width/body.height;});
+  const bodyRatio=await page.evaluate(async()=>{const {loadImage}=await import('/red-paint.js');const body=await loadImage('/assets/red-box/red-body.webp');return body.width/body.height;});
   let inspectionSize;
   for(const [width,height] of [[320,568],[390,844],[844,390],[768,1024],[1024,768],[1280,720]]){
     await page.setViewportSize({width,height});await waitForCanvasSize(page);
@@ -155,7 +158,7 @@ test('audio: exploration voices queue naturally, trying replaces them, and lid d
   await expect(btn(page,'examine')).toBeEnabled();await expect(page.locator('.box-voice')).toBeVisible();
   const bar=page.locator('.box-voice-bars i').first(),pulse=await bar.evaluate(e=>getComputedStyle(e).transform);
   await expect.poll(()=>bar.evaluate(e=>getComputedStyle(e).transform)).not.toBe(pulse);
-  const clip=page.locator('#audio-host audio');await expect(clip).toHaveAttribute('src',/red1\.wav$/);
+  const clip=page.locator('#audio-host audio');await expect(clip).toHaveAttribute('src',/red1\.m4a$/);
   await expect.poll(()=>clip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(0);
   const firstClip=await clip.elementHandle(),before=await firstClip.evaluate(audio=>audio.currentTime);await digits(page,'3138');
   await expect.poll(()=>clip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(before);
@@ -166,7 +169,7 @@ test('audio: exploration voices queue naturally, trying replaces them, and lid d
   expect(await firstClip.evaluate(audio=>audio.ended)).toBe(false);await expect(page.locator('#transcript')).toContainText('このあと');
   // Exploration narration completes naturally when the player does not try the lock.
   await firstClip.evaluate(audio=>{audio.playbackRate=4;});
-  await expect(clip).toHaveAttribute('src',/red2\.wav$/,{timeout:20000});expect(await firstClip.evaluate(audio=>audio.ended)).toBe(true);
+  await expect(clip).toHaveAttribute('src',/red2\.m4a$/,{timeout:20000});expect(await firstClip.evaluate(audio=>audio.ended)).toBe(true);
   const secondClip=await clip.elementHandle();await expect.poll(()=>secondClip.evaluate(audio=>audio.currentTime)).toBeGreaterThan(0);
   await usable(page,'box_try');await btn(page,'box_try').click();await usable(page,'open_lid');
   expect(await secondClip.evaluate(audio=>audio.paused&&audio.currentTime===0)).toBe(true);
@@ -174,12 +177,12 @@ test('audio: exploration voices queue naturally, trying replaces them, and lid d
   await expect(page.locator('canvas')).toHaveAttribute('data-progress','0.000');
   await expect(page.locator('.box-lock-mount')).toBeVisible();await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code','3138');
   await expect(page.getByRole('spinbutton').first()).toBeDisabled();
-  expect(requested).not.toContain('cue-box-red-paper.wav');
+  expect(requested).not.toContain('cue-box-red-paper.m4a');
   await btn(page,'open_lid').click();await usable(page,'continue_box');
   await expect(page.locator('canvas')).toHaveAttribute('data-progress','1.000');
   await expect.poll(()=>requested.includes('unlocking-1.mp3'),{timeout:20000}).toBe(true);
-  expect(requested).not.toContain('cue-box-red-paper.wav');
-  await expect.poll(()=>requested.includes('cue-box-red-paper.wav'),{timeout:30000}).toBe(true);
+  expect(requested).not.toContain('cue-box-red-paper.m4a');
+  await expect.poll(()=>requested.includes('cue-box-red-paper.m4a'),{timeout:30000}).toBe(true);
   expect(requested).toContain('magic-cure2.mp3');expect(requested.indexOf('unlocking-1.mp3')).toBeLessThan(requested.indexOf('magic-cure2.mp3'));
   await expect(page.locator('.box-voice')).toBeHidden({timeout:30000});
 });
@@ -212,7 +215,7 @@ test('trying repeatedly: cancel old voice, effects and pending clues; only the l
   expect(await firstClip.evaluate(audio=>audio.paused&&audio.currentTime===0)).toBe(true);
   await expect(page.locator('#transcript')).toContainText('0001');await expect(page.locator('#transcript')).not.toContainText('このあと');
   await expect.poll(()=>page.evaluate(()=>window.trialSources.length)).toBe(2);
-  expect(requested).not.toContain('red2.wav');
+  expect(requested).not.toContain('red2.m4a');
   await digits(page,'0002');await usable(page,'box_try');
   expect(await page.evaluate(()=>window.trialSources[0].ended)).toBe(false);
   await btn(page,'box_try').click();await expect.poll(()=>page.evaluate(()=>window.trialSources.length)).toBe(4);
@@ -228,7 +231,7 @@ test('trying repeatedly: cancel old voice, effects and pending clues; only the l
   await page.evaluate(()=>{for(const old of window.trialSources.slice(0,6))old.lateEnd?.();});
   await expect(page.locator('.box-voice')).toBeVisible();await expect(page.locator('.box-stage')).toHaveAttribute('data-lid-open','false');
   await expect(page.locator('#transcript')).toContainText('3138');await expect(page.locator('#transcript')).not.toContainText('0002');
-  await expect(page.locator('#transcript')).not.toContainText('このあと');expect(requested).not.toContain('red2.wav');
+  await expect(page.locator('#transcript')).not.toContainText('このあと');expect(requested).not.toContain('red2.m4a');
   await page.evaluate(()=>{for(const current of window.trialSources.slice(-2))current.node.playbackRate.value=4;});
   await expect(page.locator('.box-voice')).toBeHidden({timeout:30000});
   await btn(page,'open_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();
@@ -238,7 +241,7 @@ test('trying repeatedly: cancel old voice, effects and pending clues; only the l
 test('saved direct code and images blocked still allow play',async({page})=>{
   let state=initialState(true);for(const event of [{type:'START'},{type:'BOXES'},{type:'SELECT',color:'red'}])state=transition(state,event);
   state.boxes.red={...state.boxes.red,inputMode:'direct',draft:'３１３８'};
-  await page.route('**/assets/red-box/*.png',route=>route.abort());await setup(page,{seed:state});await btn(page,'resume').click();
+  await page.route('**/assets/red-box/*.webp',route=>route.abort());await setup(page,{seed:state});await btn(page,'resume').click();
   await expect(page.locator('.box-fallback')).toBeVisible();await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code','3138');
   const tryBox=await btn(page,'box_try').boundingBox();expect(tryBox.x).toBeGreaterThanOrEqual(0);expect(tryBox.x+tryBox.width).toBeLessThanOrEqual(1280);
   await usable(page,'box_try');await btn(page,'box_try').click();await usable(page,'open_lid');await btn(page,'open_lid').click();await usable(page,'continue_box');
@@ -260,7 +263,7 @@ test('reduced motion, voice stop and BGM slider preserve progress and keyboard a
   await page.emulateMedia({reducedMotion:'reduce'});await setup(page,{muted:false});await enterRed(page);
   await btn(page,'examine').click();await expect(page.locator('#transcript')).toContainText('このあと');
   await page.locator('.box-settings summary').first().click();await btn(page,'stop').click();await expect(page.locator('.box-stage')).toHaveAttribute('data-busy','false');
-  await expect(page.locator('.box-voice')).toBeHidden();expect(requested).not.toContain('red2.wav');
+  await expect(page.locator('.box-voice')).toBeHidden();expect(requested).not.toContain('red2.m4a');
   expect(await page.locator('#audio-host audio').evaluate(audio=>audio.paused && audio.currentTime===0)).toBe(true);
   await page.locator('#bgm-volume').fill('45');await expect(page.locator('#bgm-volume-value')).toHaveText('45%');
   await page.locator('.box-settings summary').first().click();await btn(page,'mute').click();
