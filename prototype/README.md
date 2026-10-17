@@ -11,7 +11,7 @@
 ## 実装
 
 - `full-scenario.js`：原作台詞・謎・正解。旧 `scenario.js` の導入と赤箱を再利用。
-- `full-game.js`：固定進行、正解判定、保存、旧赤箱セーブの移行。
+- `full-game.js`：固定進行、正解判定、現在の全編形式の保存・復元。
 - `full-app.js` / `styles.css` / `illustrations.js`：操作と絵本の表示。
 - `full-audio.js` / `audio-sequence.js` / `speech.js`：事前生成WAV、四桁の結合、再生停止と重複防止、再生失敗時の読み上げへのフォールバック。
 - `soundtrack.js`：PeriTuneのBGM二曲、効果音ラボの四音、自作ダイヤル音。

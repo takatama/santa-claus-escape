@@ -96,12 +96,9 @@ export function restoreJourney(raw) {
   for (const color of COLORS) if (!validBox(color, raw.boxes[color])) return null;
   const paperIds = getPaperIds(raw);
   if (!validLetters(raw.letters, paperIds)) return null;
-  // Existing v1 saves retain their boxes and owned slot IDs. The new chapters
-  // start unopened, even when the old save already contains a successful call.
-  const discovery = Object.hasOwn(raw, 'discovery') ? raw.discovery : { progress: 0, met: false };
-  const conversation = Object.hasOwn(raw, 'conversation')
-    ? restoreConversation(raw.conversation) : newConversation();
-  const conversationRevision = Object.hasOwn(raw, 'conversationRevision') ? raw.conversationRevision : 0;
+  const discovery = raw.discovery;
+  const conversation = restoreConversation(raw.conversation);
+  const conversationRevision = raw.conversationRevision;
   if (!validDiscovery(discovery) || !conversation) return null;
   if (!Number.isSafeInteger(conversationRevision) || conversationRevision < 0) return null;
   if (!raw.letters.called && (discovery.progress !== 0 || discovery.met)) return null;
@@ -109,10 +106,9 @@ export function restoreJourney(raw) {
   // progressed before that encounter was earned.
   if ((!raw.letters.called || !discovery.met)
     && (conversationRevision !== 0 || JSON.stringify(conversation) !== JSON.stringify(newConversation()))) return null;
-  const introductionRevision = Object.hasOwn(raw, 'introductionRevision') ? raw.introductionRevision : 0;
+  const introductionRevision = raw.introductionRevision;
   if (!Number.isSafeInteger(introductionRevision) || introductionRevision < 0) return null;
-  const introduction = Object.hasOwn(raw, 'introduction') ? restoreIntroduction(raw.introduction)
-    : { phase: hasJourneyProgress({ ...raw, discovery, conversation, conversationRevision }) ? 'ready' : 'intro', step: 0 };
+  const introduction = restoreIntroduction(raw.introduction);
   if (!introduction) return null;
   return {
     version: 1,

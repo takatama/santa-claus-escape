@@ -1,6 +1,5 @@
 import { BOXES, COLORS, QUESTIONS, papers, isBoxAnswer } from './full-scenario.js';
 import { emptySlots, validSlots, slotsFromDraft, placePaper, removePaper, arrangedWord } from './paper-layout.js';
-import { restoreState as restoreLegacy, STORAGE_KEY as LEGACY_KEY } from './game.js';
 import { DEFAULT_BGM_VOLUME,normalizeBgmVolume } from './sound-settings.js';
 export const STORAGE_KEY = 'santa-claus-escape:ja-full:v2';
 export const normalizeDigits = raw => String(raw).normalize('NFKC').replace(/[\s\u200b]/gu, '');
@@ -163,16 +162,6 @@ export function readSave(storage) {
   try {
     const value = storage.getItem(STORAGE_KEY);
     if (value) return { state: restoreState(JSON.parse(value)), available: true };
-    const legacyText = storage.getItem(LEGACY_KEY), legacy = legacyText && restoreLegacy(JSON.parse(legacyText));
-    if (legacy && legacy.stage !== 'welcome') {
-      let state = initialState(legacy.muted); state = transition(state, { type: 'START' }); state = transition(state, { type: 'BOXES' });
-      if (legacy.exam) {
-        state = transition(state, { type: 'SELECT', color: 'red' });
-        state.boxes.red = { ...state.boxes.red, exam: legacy.exam, draft: legacy.draft, dial: /^\d{4}$/.test(legacy.draft) ? legacy.draft : '0000', inputMode: 'direct' };
-        if (legacy.stage === 'complete') { state.boxes.red.draft = BOXES.red.answer; state = transition(state, { type: 'ANSWER' }); }
-      }
-      return { state, available: true, migrated: true };
-    }
     return { state: null, available: true };
   } catch { return { state: null, available: false }; }
 }
