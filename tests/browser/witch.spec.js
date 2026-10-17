@@ -80,12 +80,12 @@ test('witch: seven viewport sizes keep fixed scene geometry, visible controls, s
   await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.box-voice-bars i').first().evaluate(e=>getComputedStyle(e).animationName)).toBe('none');
 });
 
-test('witch: legacy already summoned and C success saves do not rewind; reset cancellation retains partial discovery',async({page})=>{
-  let s=paperState();const ids=['red-1','blue-0','red-0','yellow-0','yellow-1','blue-1'];for(const [index,id]of ids.entries())s=transition(s,{type:'PLACE_PAPER',id,index});s=transition(s,{type:'SPELL',source:'papers'});s.spellReview=true;delete s.witchDiscovery;
-  await setupPapers(page,s,{stage:'witch'});await expect(page.locator('.witch-stage')).toHaveAttribute('data-discovery','true');await grip(page).press('ArrowRight');
+test('witch: current partial discovery resumes, reset cancellation keeps it, and missing discovery starts fresh',async({page})=>{
+  let s=paperState();const ids=['red-1','blue-0','red-0','yellow-0','yellow-1','blue-1'];for(const [index,id]of ids.entries())s=transition(s,{type:'PLACE_PAPER',id,index});s=transition(s,{type:'SPELL',source:'papers'});s=transition(s,{type:'DISCOVERY_PROGRESS',value:.4});
+  await setupPapers(page,s,{stage:'witch'});await expect(grip(page)).toBeVisible();expect((await saved(page)).witchDiscovery.progress).toBe(.4);
   const before=await saved(page);await btn(page,'reset').click();await page.locator('#cancel-reset').click();expect((await saved(page)).witchDiscovery).toEqual(before.witchDiscovery);
   await btn(page,'reset').click();await page.locator('#confirm-reset').click();expect((await saved(page)).witchDiscovery).toBe(null);await expect(btn(page,'start')).toBeVisible();
-  s.spellReview=false;await page.evaluate(({s,key})=>localStorage.setItem(key,JSON.stringify(s)),{s,key:STORAGE_KEY});await page.reload();await btn(page,'resume').click();await expect(btn(page,'accept')).toBeVisible();await expect(page.locator('.branch-handles')).toBeHidden();
+  delete s.witchDiscovery;await page.evaluate(({s,key})=>localStorage.setItem(key,JSON.stringify(s)),{s,key:STORAGE_KEY});await page.reload();await expect(btn(page,'start')).toBeVisible();await expect(btn(page,'resume')).toHaveCount(0);
 });
 
 test('witch: unavailable image/audio/storage still completes the early session',async({page})=>{

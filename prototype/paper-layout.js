@@ -10,14 +10,6 @@ export function validSlots(raw, items) {
   }
   return [...raw];
 }
-export function slotsFromDraft(word, items) {
-  const available = [...items], slots = emptySlots();
-  for (const [index, letter] of [...word].slice(0, 6).entries()) {
-    const found = available.findIndex(p => p.text === letter);
-    if (found >= 0) slots[index] = available.splice(found, 1)[0].id;
-  }
-  return slots;
-}
 export function placePaper(slots, items, id, index) {
   if (!validSlots(slots, items) || !items.some(p => p.id === id) || !Number.isInteger(index) || index < 0 || index >= 6 || slots[index] === id) return slots;
   const next = [...slots], previous = slots.indexOf(id);

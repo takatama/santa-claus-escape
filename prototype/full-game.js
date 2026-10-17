@@ -1,5 +1,5 @@
 import { BOXES, COLORS, QUESTIONS, papers, isBoxAnswer } from './full-scenario.js';
-import { emptySlots, validSlots, slotsFromDraft, placePaper, removePaper, arrangedWord } from './paper-layout.js';
+import { emptySlots, validSlots, placePaper, removePaper, arrangedWord } from './paper-layout.js';
 import { DEFAULT_BGM_VOLUME,normalizeBgmVolume } from './sound-settings.js';
 export const STORAGE_KEY = 'santa-claus-escape:ja-full:v2';
 export const normalizeDigits = raw => String(raw).normalize('NFKC').replace(/[\s\u200b]/gu, '');
@@ -109,16 +109,11 @@ export function restoreState(raw) {
     const b = raw.boxes?.[c];
     if (!b || !Number.isInteger(b.exam) || b.exam < 0 || b.exam > 4 || typeof b.opened !== 'boolean' || !/^\d{4}$/.test(b.dial) || !['dial', 'direct'].includes(b.inputMode) || typeof b.draft !== 'string' || typeof b.lastSubmitted !== 'string' || (b.lastSubmitted && !/^\d{4}$/.test(b.lastSubmitted)) || (b.opened && (b.exam < 1 || !isBoxAnswer(c,b.lastSubmitted))) || (!b.opened && b.lastSubmitted === BOXES[c].answer)) return null;
     state.boxes[c] = { exam: b.exam, opened: b.opened, dial: b.dial, inputMode: b.inputMode, draft: b.draft.slice(0, 32), lastSubmitted: b.lastSubmitted };
-    {
-      if (b.lidOpen !== undefined && (typeof b.lidOpen !== 'boolean' || (b.lidOpen && !b.opened))) return null;
-      state.boxes[c].lidOpen = b.lidOpen === undefined ? b.opened : b.lidOpen;
-      if (b.lidProgress !== undefined) {
-        if (!Number.isFinite(b.lidProgress) || b.lidProgress < 0 || b.lidProgress > 1 || (!b.opened && b.lidProgress !== 0) || (b.lidProgress >= .98) !== state.boxes[c].lidOpen) return null;
-        state.boxes[c].lidProgress = b.lidProgress;
-      }
-      // Preserve a valid legacy direct input in the only visible input: the lock.
-      if (b.inputMode === 'direct' && /^\d{4}$/.test(normalizeDigits(b.draft))) state.boxes[c].dial = normalizeDigits(b.draft);
-      state.boxes[c].inputMode = 'dial';
+    if (typeof b.lidOpen !== 'boolean' || (b.lidOpen && !b.opened)) return null;
+    state.boxes[c].lidOpen = b.lidOpen;
+    if (b.opened || b.lidProgress !== undefined) {
+      if (!Number.isFinite(b.lidProgress) || b.lidProgress < 0 || b.lidProgress > 1 || (!b.opened && b.lidProgress !== 0) || (b.lidProgress >= .98) !== b.lidOpen) return null;
+      state.boxes[c].lidProgress = b.lidProgress;
     }
   }
   if (!Array.isArray(raw.responses) || raw.responses.length > 3) return null;
@@ -138,25 +133,24 @@ export function restoreState(raw) {
   if (history.length > 64 || history.some(e => !e || !phases.includes(e.phase) || typeof e.id !== 'string' || !Array.isArray(e.opened) || e.opened.some(c => !COLORS.includes(c)) || !Number.isInteger(e.exam) || e.exam < 0 || e.exam > 4 || !Number.isInteger(e.questionIndex) || e.questionIndex < 0 || e.questionIndex > 2 || (['box', 'boxResponse'].includes(e.phase) && !COLORS.includes(e.box)))) return null;
   if (new Set(history.map(e=>e.id)).size!==history.length || history.some(e=>e.id.length>150 || typeof e.message!=='string' || !['','wrong','information'].includes(e.message) || typeof e.digits!=='string' || (e.digits&&!/^\d{4}$/.test(e.digits)) || e.opened.some(c=>!state.boxes[c].opened) || (['box','boxResponse'].includes(e.phase)&&e.exam<1) || (e.phase==='boxResponse'&&(!e.opened.includes(e.box)||!isBoxAnswer(e.box,e.digits))) || (e.phase==='witchResponse'&&e.questionIndex>=state.responses.length) || (['rescue','complete'].includes(e.phase)&&state.responses.length!==3))) return null;
   const items = papers(state);
-  // Reject the entire optional arrangement, never the otherwise valid save.
-  // Missing fields migrate kana from the reader's own old draft, using owned IDs.
-  const spellSlots = raw.spellSlots === undefined ? slotsFromDraft(normalizeWord(raw.spellDraft || ''), items) : validSlots(raw.spellSlots, items) || emptySlots();
-  const spellReview = raw.spellReview === true && raw.phase === 'witchInvite' && !raw.reinvited && matchesWord(arrangedWord(spellSlots, items), ['だいすきだよ', '大好きだよ']);
-  // Old invite/question/paused saves already reached the conversation. Missing
-  // or invalid optional presentation data cannot rewind that progress.
+  const spellSlots = validSlots(raw.spellSlots, items);
+  if (!spellSlots || raw.spellReview !== false) return null;
   const summoned = raw.phase.startsWith('witch') || ['rescue','complete'].includes(raw.phase);
-  const pending = raw.phase === 'witchInvite' && !raw.reinvited && (spellReview || raw.witchDiscovery?.pending === true);
-  const progress = pending && Number.isFinite(raw.witchDiscovery?.progress) && raw.witchDiscovery.progress >= 0 && raw.witchDiscovery.progress <= 1 ? raw.witchDiscovery.progress : pending ? 0 : 1;
-  // Older saves already played the appearance at SPELL. Only new explicit
-  // appeared:false saves may start it on their first completed branch opening.
-  const appeared = !pending || progress>=.98 || raw.witchDiscovery?.appeared !== false;
-  const witchDiscovery = summoned ? {progress,pending,appeared} : null;
-  // Missing/invalid optional data belongs to a reached legacy rescue, which
-  // already displayed the ending. Never require that reader to rescue again.
-  const motion=raw.rescueMotion;
-  const validMotion=motion && Number.isFinite(motion.progress) && motion.progress>=0 && motion.progress<=1 && typeof motion.released==='boolean' && motion.released===(motion.progress===1);
-  const rescueMotion=['rescue','complete'].includes(raw.phase)?(raw.phase==='rescue'&&validMotion?{progress:motion.progress,released:motion.released}:{progress:1,released:true}):undefined;
-  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), spellSlots, spellReview:false, witchDiscovery, rescueMotion, questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
+  const witchDiscovery = raw.witchDiscovery;
+  if (summoned) {
+    if (!witchDiscovery || !Number.isFinite(witchDiscovery.progress) || witchDiscovery.progress < 0 || witchDiscovery.progress > 1
+      || typeof witchDiscovery.pending !== 'boolean' || typeof witchDiscovery.appeared !== 'boolean'
+      || (witchDiscovery.progress >= .98 && !witchDiscovery.appeared)) return null;
+    if (witchDiscovery.pending ? (raw.phase !== 'witchInvite' || raw.reinvited)
+      : (witchDiscovery.progress !== 1 || !witchDiscovery.appeared)) return null;
+  } else if (witchDiscovery !== null) return null;
+  const motion = raw.rescueMotion;
+  if (['rescue','complete'].includes(raw.phase)) {
+    if (!motion || !Number.isFinite(motion.progress) || motion.progress < 0 || motion.progress > 1
+      || motion.released !== (motion.progress === 1) || motion.released !== (raw.phase === 'complete')) return null;
+  } else if (motion !== undefined) return null;
+  const rescueMotion = motion && { progress: motion.progress, released: motion.released };
+  return { ...state, phase: raw.phase, revision: raw.revision, selectedBox: COLORS.includes(raw.selectedBox) ? raw.selectedBox : null, boxMessage: ['wrong', 'information'].includes(raw.boxMessage) ? raw.boxMessage : '', spellDraft: String(raw.spellDraft || '').slice(0, 64), spellSlots, spellReview:false, witchDiscovery:witchDiscovery && {...witchDiscovery}, rescueMotion, questionDraft: String(raw.questionDraft || '').slice(0, 64), questionIndex: raw.questionIndex, reinvited: raw.reinvited === true, bgmEnabled: raw.bgmEnabled !== false, bgmVolume:normalizeBgmVolume(raw.bgmVolume), sfxEnabled: raw.sfxEnabled !== false, transcriptOpen: raw.transcriptOpen !== false, history: history.map(e => ({ ...e, opened: [...e.opened] })) };
 }
 export function readSave(storage) {
   try {
