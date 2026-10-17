@@ -19,11 +19,13 @@ test('witch audio: correct word starts branch narration, first full opening canc
   expect(await branchVoice.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);await page.evaluate(()=>{window.branchEnd?.();window.branchError?.();});await expect(page.locator('.box-voice')).toBeVisible();await expect(page.locator('#transcript')).toContainText('まほう使いがあらわれました');
   const text=page.locator('#transcript');await text.press('End');await expect.poll(()=>text.evaluate(e=>Math.abs(e.scrollHeight-e.clientHeight-e.scrollTop)<1)).toBe(true);const scroll=await text.evaluate(e=>e.scrollTop);
   await dragBranch(page,1,-.3);await expect(btn(page,'accept')).toBeHidden();await grip(page).press('End');expect(await page.evaluate(()=>window.witchSources.length)).toBe(2);expect(await text.evaluate(e=>e.scrollTop)).toBe(scroll);expect(await page.evaluate(()=>window.witchSources.every(r=>r.stopped===0))).toBe(true);
-  await btn(page,'accept').click();await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchQuestion');expect(await page.evaluate(()=>window.witchSources.every(r=>r.stopped>0))).toBe(true);
-  const question=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>question.evaluate(a=>a.currentTime)).toBeGreaterThan(0);await question.evaluate(a=>{window.oldQuestionEnd=a.onended;window.oldQuestionError=a.onerror;});
-  await page.locator('#word-answer').fill('く');await page.locator('#word-answer').focus();const input=await page.locator('#word-answer').elementHandle();await page.locator('.box-settings>summary').click();await page.locator('#bgm-volume').fill('15');expect(await question.evaluate(a=>!a.paused)).toBe(true);expect(await input.evaluate(e=>e.isConnected&&e.value==='く')).toBe(true);
+  await btn(page,'accept').click();await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchQuestion');expect(await page.evaluate(()=>window.witchSources.slice(0,2).every(r=>r.stopped>0))).toBe(true);
+  await expect.poll(()=>page.evaluate(()=>window.witchSources.length)).toBe(4);
+  expect(await page.evaluate(()=>window.witchSources[2].node.buffer.duration)).toBeGreaterThan(33);
+  await page.evaluate(()=>{window.oldQuestionEnd=window.witchSources[2].end;});
+  await page.locator('#word-answer').fill('く');await page.locator('#word-answer').focus();const input=await page.locator('#word-answer').elementHandle();await page.locator('.box-settings>summary').click();await page.locator('#bgm-volume').fill('15');expect(await page.evaluate(()=>window.witchSources.slice(2).every(r=>r.stopped===0))).toBe(true);expect(await input.evaluate(e=>e.isConnected&&e.value==='く')).toBe(true);
   await page.locator('.box-settings>summary').click();await page.locator('#word-answer').fill('　ク マ　');await page.locator('#reply-form').evaluate(f=>{window.oldLiveForm=f;f.requestSubmit();f.requestSubmit();});
-  expect(await question.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);await expect(page.locator('#transcript')).toContainText('その通り！');await expect(page.getByText('まほう使いの答えは、お話で読めます。')).toHaveCount(0);const response=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>response.evaluate(a=>a.currentTime)).toBeGreaterThan(0);
+  expect(await page.evaluate(()=>window.witchSources.slice(2).every(r=>r.stopped>0))).toBe(true);await expect(page.locator('#transcript')).toContainText('その通り！');await expect(page.getByText('まほう使いの答えは、お話で読めます。')).toHaveCount(0);const response=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>response.evaluate(a=>a.currentTime)).toBeGreaterThan(0);
   await page.evaluate(()=>{window.oldQuestionEnd?.();window.oldQuestionError?.();for(const source of window.witchSources)source.end?.();});expect((await saved(page)).responses).toHaveLength(1);await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchResponse');
   await page.waitForTimeout(470);await btn(page,'continue_witch').click();await page.evaluate(()=>window.oldLiveForm.requestSubmit());await expect(page.locator('[data-action="choice"]')).toHaveCount(3);expect((await saved(page)).responses).toHaveLength(1);
 });
@@ -84,7 +86,13 @@ for(const action of ['stop','mute','leave','reset','pagehide'])test(`witch audio
   else if(action!=='reset')await expect(page.locator('.box-voice')).toBeHidden();
 });
 
-test('witch audio: late question load after explicit reply and old ending cannot replace the response',async({page})=>{
-  let release;await page.route('**/ja-leda-question-christmas-creatures.m4a',async route=>{await new Promise(resolve=>{release=resolve;});await route.continue();});await early(page,false);await grip(page).press('End');await page.waitForTimeout(470);await btn(page,'accept').click();await expect.poll(()=>Boolean(release)).toBe(true);
-  const old=await page.locator('#audio-host audio').elementHandle();await old.evaluate(a=>{window.delayedQuestionEnd=a.onended;});await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button').click();release();await page.evaluate(()=>window.delayedQuestionEnd?.());await page.waitForTimeout(300);expect(await old.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);await expect(page.locator('#transcript')).toContainText('「クマ」');await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchResponse');
+test('witch audio: late question timeline after explicit reply and old ending cannot replace the response',async({page})=>{
+  let release;await page.route('**/ja-leda-question-christmas-creatures.m4a',async route=>{await new Promise(resolve=>{release=resolve;});await route.continue();});
+  await recordSources(page);await early(page,false);await grip(page).press('End');await expect.poll(()=>page.evaluate(()=>window.witchSources.length)).toBe(2);
+  await page.waitForTimeout(470);await btn(page,'accept').click();await expect.poll(()=>Boolean(release)).toBe(true);
+  await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button').click();
+  release();await page.evaluate(()=>window.witchSources.forEach(r=>r.end?.()));await page.waitForTimeout(300);
+  expect(await page.evaluate(()=>window.witchSources.length)).toBe(2);expect(await page.evaluate(()=>window.witchSources.every(r=>r.stopped>0))).toBe(true);
+  await expect(page.locator('#audio-host audio')).toHaveAttribute('src',/ja-leda-response-christmas-creatures-wrong\.m4a$/);
+  await expect(page.locator('#transcript')).toContainText('「クマ」');await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchResponse');
 });
