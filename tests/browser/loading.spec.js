@@ -58,6 +58,6 @@ test('loading: returning from a box reading to a failed forest releases the read
   await expect(page.locator('.story-picture>canvas')).toHaveAttribute('data-ready', 'error');
   await expect(page.locator('#scene-loading')).toBeHidden();
   await expect(btn(page, 'read-exit')).toBeVisible();
-  await btn(page, 'read-exit').click();
+  await page.waitForTimeout(470);await btn(page, 'read-exit').click();
   await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase', 'complete');
 });
