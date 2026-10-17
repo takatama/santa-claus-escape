@@ -1,4 +1,5 @@
 import { AudioSequence,joinAudioBuffers,sliceAudioBuffer } from './audio-sequence.js';
+import { voiceActivity } from './voice-activity.js';
 export function compileTimeline(context,entries){
   const markers=[];let cursor=0;
   for(const entry of entries){
@@ -17,7 +18,7 @@ export function compileTimeline(context,entries){
   return {voice,effects,markers};
 }
 export class AudioTimeline extends AudioSequence {
-  constructor(options={}){super(options);this.effectSource=null;this.effectGain=null;this.effectsEnabled=true;}
+  constructor(options={}){super({activity:voiceActivity,...options});this.effectSource=null;this.effectGain=null;this.effectsEnabled=true;}
   // Prime the shared context on the player's gesture before a queued cue starts.
   prepare(){try{this.context ||= this.makeContext();this.context?.resume()?.catch(()=>{});}catch{/* Normal playback still supplies the existing fallback. */}}
   setEffectsEnabled(enabled){this.effectsEnabled=enabled;if(this.effectGain)this.effectGain.gain.value=enabled?1:0;}
@@ -46,7 +47,7 @@ export class AudioTimeline extends AudioSequence {
         this.source=voice;this.effectSource=effects;this.effectGain=this.context.createGain();this.setEffectsEnabled(this.effectsEnabled);
         voice.buffer=compiled.voice;effects.buffer=compiled.effects;voice.connect(this.context.destination);effects.connect(this.effectGain);this.effectGain.connect(this.context.destination);
         voice.onended=()=>{if(generation!==this.generation)return;this.stop();onEnd();};
-        const at=this.context.currentTime+.015;voice.start(at);effects.start(at);
+        const at=this.context.currentTime+.015;this.activity?.follow(compiled.voice,()=>this.context.currentTime-at);voice.start(at);effects.start(at);
       }).catch(fail);
     }catch{fail();}
   }

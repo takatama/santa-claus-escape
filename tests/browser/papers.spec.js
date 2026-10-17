@@ -14,14 +14,14 @@ test('papers: keyboard alone completes all six; resize and pointer cancellation 
 
 test('papers: tap selection, separate da IDs, exchanges, return, keyboard and stable focus',async({page})=>{
   await setupPapers(page);await expect(page.locator('button[data-paper-id]')).toHaveCount(6);await expect(page.locator('input[type="text"]')).toHaveCount(0);
-  for(const selector of ['[data-paper-move="-1"]','[data-paper-move="1"]','[data-paper-return]'])await expect(page.locator(selector)).toBeDisabled();
+  for(const selector of ['[data-paper-move="-1"]','[data-paper-move="1"]','[data-paper-return]'])await expect(page.locator(selector)).toHaveCount(0);
   await card(page,'red-1').click();await expect(card(page,'red-1')).toHaveAttribute('aria-pressed','true');await slot(page,0).click();await expect(card(page,'red-1')).toBeFocused();
   await card(page,'yellow-1').press('Enter');await slot(page,1).locator('button').press('Space');
   expect((await saved(page)).spellSlots.slice(0,2)).toEqual(['red-1','yellow-1']);
   await card(page,'yellow-1').press('ArrowLeft');await expect(card(page,'yellow-1')).toBeFocused();expect((await saved(page)).spellSlots.slice(0,2)).toEqual(['yellow-1','red-1']);
   await card(page,'blue-0').click();await slot(page,1).click();await expect(card(page,'red-1')).toHaveAttribute('aria-label',/手元/);await expect(card(page,'blue-0')).toBeFocused();
   await card(page,'blue-0').press('Delete');await expect(card(page,'blue-0')).toBeFocused();expect((await saved(page)).spellSlots[1]).toBe(null);
-  await card(page,'yellow-1').press('Escape');await card(page,'yellow-1').click();await page.locator('[data-paper-return]').click();await expect(card(page,'yellow-1')).toHaveAttribute('aria-label',/手元/);
+  await card(page,'yellow-1').press('Escape');await card(page,'yellow-1').click();await page.locator('.paper-home[data-vacant="true"]').first().click();await expect(card(page,'yellow-1')).toHaveAttribute('aria-label',/手元/);
   await expect(page.locator('.paper-stage')).toHaveAttribute('data-phase','spell');expect((await saved(page)).spellDraft).toBe('');
 });
 test('papers: drag placement and occupied swap, tray return, outside drop, cancel and DOM stability during settings',async({page})=>{

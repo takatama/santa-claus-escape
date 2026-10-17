@@ -15,7 +15,12 @@ export function paintForestStage(ctx,layout,{forest,branch,wizard},progress=1,sh
   const opening=side=>side===-1?s.leftOpening*(portrait?1.24:1):.055+s.rightOpening*((portrait?1.24:1)-.055);
   layout.handles=[-1,1].map(side=>{
     const p=boughPoint(portrait?.58:.69,.49,opening(side),bounds.w,bounds.h,portrait?.65:0);
-    return {x:clamp(side===-1?bounds.x+p.x:w*(portrait?1.06:.98)-p.x,32,w-32),y:clamp(bounds.y+p.y,32,h-32),side};
+    const initial=boughPoint(portrait?.58:.69,.49,side===-1?0:.055,bounds.w,bounds.h,portrait?.65:0);
+    const start=clamp(side===-1?bounds.x+initial.x:w*(portrait?1.06:.98)-initial.x,32,w-32);
+    // The branch tip follows a curve; its grip keeps usable horizontal travel
+    // until BOTH branches finish, instead of clipping to the edge early.
+    const end=side===-1?32:w-32;
+    return {x:start+(end-start)*clamp(progress),y:clamp(bounds.y+p.y,32,h-32),side,distance:Math.max(1,Math.abs(end-start))};
   });
   if(forest){const scale=Math.max(w/forest.width,h/forest.height);ctx.drawImage(forest,(w-forest.width*scale)/2,(h-forest.height*scale)/2,forest.width*scale,forest.height*scale);}
   if(wizard&&showWizard){const b=layout.wizard;

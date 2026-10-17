@@ -9,7 +9,7 @@ export async function early(page,muted=true,{waitForArt=true}={}) {
   if(waitForArt)await expect(page.locator('#app')).not.toHaveAttribute('inert',{timeout:20000});
 }
 export async function dragBranch(page,side,amount,{cancel=false}={}) {
-  const b=grip(page,side),a=await b.boundingBox(),distance=await page.locator('.witch-picture').evaluate(e=>Math.max(90,e.clientWidth*.28));
+  const b=grip(page,side),a=await b.boundingBox(),distance=Number(await b.getAttribute('data-drag-distance'));
   await page.mouse.move(a.x+a.width/2,a.y+a.height/2);await page.mouse.down();await page.mouse.move(a.x+a.width/2+side*amount*distance,a.y+a.height/2,{steps:8});
   if(cancel)await b.press('Escape');await page.mouse.up();
 }

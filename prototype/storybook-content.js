@@ -10,7 +10,7 @@ export function storybookSegments(key,segments) {
     if(key==='intro'&&index===1)return {...segment,text:segment.text.replace('この端末に閉じ込められて','このスノードームに閉じ込められて')};
     if(key==='help'&&index===0)return {...segment,text:segment.text.replace('この端末によびかけてくれれば','ひみつの言葉をわしに伝えてくれれば')};
     if(key==='blue4')return {...segment,text:segment.text.replace('その高さは、この端末が知っている',BLUE_CLUE).replace('サガルマータについて調べますか？','サガルマータを検索しますか？')};
-    if(key==='information')return {...segment,text:'サガルマータは、ネパール語で、エベレストのことです。\nエベレストは、世界で一番高い山です。今の高さは、およそ8849メートルです。昔の資料では、8848メートルと書かれています。\nこの箱は、どちらの数字でも開きます。',spoken:'サガルマータは、ネパール語で、エベレストのことです。エベレストは、世界で一番高い山です。今の高さは、およそ八千八百四十九メートルです。昔の資料では、八千八百四十八メートルと書かれています。この箱は、どちらの数字でも開きます。'};
+    if(key==='information')return {...segment,text:'サガルマータは、ネパール語で、エベレストのことです。\nエベレストは、世界で一番高い山です。今の高さは、およそ8849メートルです。昔の資料では、8848メートルと書かれています。',spoken:'サガルマータは、ネパール語で、エベレストのことです。エベレストは、世界で一番高い山です。今の高さは、およそ八千八百四十九メートルです。昔の資料では、八千八百四十八メートルと書かれています。'};
     if(key==='paused'&&index===2)return {...segment,text:PAUSED_NARRATION};
     if(key==='rescue'&&index===1)return {...segment,text:`シャララララーン。${RESCUE_APPEARED}`,spoken:RESCUE_APPEARED};
     return segment;

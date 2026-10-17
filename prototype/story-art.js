@@ -59,7 +59,7 @@ export function createBoxOverview(canvas,color,onError) {
     if(!w||!h)return;
     canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
     const opened=view.boxes[color].opened&&view.boxes[color].lidOpen;
-    const {x,y,w:bw,h:bh}=boxOverviewLayout(w,h,assets.body.height/assets.body.width,opened);
+    const {x,y,w:bw,h:bh}=boxOverviewLayout(w,h,assets.body.height/assets.body.width);
     ctx.save();ctx.translate(w/2,y+bh*.97);ctx.scale(1,.15);
     const shadow=ctx.createRadialGradient(0,0,0,0,0,bw*.5);shadow.addColorStop(0,'#071828a0');shadow.addColorStop(1,'#07182800');ctx.fillStyle=shadow;ctx.fillRect(-bw*.5,-bw*.5,bw,bw);ctx.restore();
     ctx.drawImage(assets.body,x,y,bw,bh);
@@ -77,7 +77,7 @@ export function createBoxOverview(canvas,color,onError) {
     const q=lidQuad(opened?1:0,hinge);
     if(!q.edgeOn)mesh(ctx,assets.lid,(u,v)=>quadPoint(q,u,v),12,7);
     if(!q.edgeOn&&q.face==='top')mesh(ctx,lidSnow,(u,v)=>quadPoint(q,u,v),12,7);
-    Object.assign(canvas.dataset,{ready:'true',opened:String(opened)});
+    Object.assign(canvas.dataset,{ready:'true',opened:String(opened),box:JSON.stringify({x,y,w:bw,h:bh})});
   };
   const observer=new ResizeObserver(paint);observer.observe(canvas);
   const p=BOX_PRESENTATIONS[color];p.loadArt().then(images=>{if(!disposed){assets=images;paint();}}).catch(()=>{if(!disposed){canvas.dataset.ready='error';onError();}});

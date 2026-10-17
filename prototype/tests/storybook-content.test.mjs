@@ -52,7 +52,10 @@ test('storybook: versioned recordings match spoken text and hashes; unchanged co
   for(const [key,id]of Object.entries(STORYBOOK_AUDIO_IDS)){
     const bytes=await readFile(new URL(`../assets/audio/${id}.wav`,import.meta.url)),meta=JSON.parse(await readFile(new URL(`../reference/audio-generation/${id}.json`,import.meta.url),'utf8'));
     const expected=key==='rescue-appeared'?[{speaker:'narrator',text:scenes.rescue[1].spoken}]:spokenSegments({segments:scenes[key]});
-    assert.deepEqual(meta.segments,expected);assert.equal(meta.sha256,createHash('sha256').update(bytes).digest('hex'));
+    // The information source still contains the omitted final sentence; playback
+    // uses a reviewed range, not a new recording or rewritten provenance.
+    const played=key==='information'?meta.segments.map(segment=>({...segment,text:segment.text.replace('この箱は、どちらの数字でも開きます。',''),spoken:segment.spoken.replace('この箱は、どちらの数字でも開きます。','')})):meta.segments;
+    assert.deepEqual(played,expected);assert.equal(meta.sha256,createHash('sha256').update(bytes).digest('hex'));
     assert.equal(meta.voices.narrator,'Sulafat');if(meta.voices.santa)assert.equal(meta.voices.santa,'Algieba');if(meta.voices.witch)assert.equal(meta.voices.witch,'Leda');
     if(meta.usage)assert.ok(meta.usage.total_output_tokens<meta.maxOutputTokens);
     if(meta.derivedFrom){
