@@ -72,6 +72,10 @@ test('witch: seven viewport sizes keep fixed scene geometry, visible controls, s
     // use real UI from the cover and never seed progress.
     const s=await saved(page);s.phase='witchQuestion';s.questionIndex=0;s.responses=[];s.questionDraft='';s.history=s.history.filter(e=>!e.phase.startsWith('witch')||e.phase==='witchInvite');
     await page.evaluate(({key,s})=>localStorage.setItem(key,JSON.stringify(s)),{key:STORAGE_KEY,s});await page.reload();await btn(page,'resume').click();
+    // Compare the loaded illustration, not the square placeholder painted
+    // behind the loading screen while restored assets are still decoding.
+    await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
+    await expect(page.locator('#app')).not.toHaveAttribute('inert');
   }
   await page.emulateMedia({reducedMotion:'reduce'});expect(await page.locator('.box-voice-bars i').first().evaluate(e=>getComputedStyle(e).animationName)).toBe('none');
 });

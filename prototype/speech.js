@@ -1,3 +1,4 @@
+import { speechPauseAfter } from './voice-edits.js';
 // 音声は進行を制御しない。キャンセル後のイベントも世代番号で無効化する。
 export class SpeechPlayer {
   constructor(synth, makeUtterance, report = () => {}, { clips = {}, makeAudio = null, resolveClip = key => clips[key], resolveTimeline = () => null, sequencePlayer = null } = {}) {
@@ -36,24 +37,24 @@ export class SpeechPlayer {
     this.report(muted ? '音声オフ・文字で遊べます' : '音声オン・聞き直しで再生');
   }
   setEffectsEnabled(enabled){this.sequencePlayer?.setEffectsEnabled?.(enabled);}
-  play(segments, key = '') {
+  play(segments, key = '', {recorded=true} = {}) {
     this.stop(false);
     if (this.muted) return this.report('音声オフ・文字で遊べます');
-    const timeline=this.resolveTimeline(key);
+    const timeline=recorded?this.resolveTimeline(key):null;
     if(timeline&&this.sequencePlayer?.playTimeline){
       const generation=this.generation;this.report('読み上げ中');
       this.sequencePlayer.playTimeline(timeline,
         ()=>{if(generation===this.generation)this.report('読み上げが終わりました');},
-        ()=>{if(generation===this.generation&&!this.muted)this.play(segments);},
+        ()=>{if(generation===this.generation&&!this.muted)this.play(segments,key,{recorded:false});},
       );return;
     }
-    const clip = this.resolveClip(key);
+    const clip = recorded ? this.resolveClip(key) : null;
     if(Array.isArray(clip)&&this.sequencePlayer){
       const generation=this.generation;
       this.report('読み上げ中');
       this.sequencePlayer.play(clip,
         ()=>{if(generation===this.generation)this.report('読み上げが終わりました');},
-        ()=>{if(generation===this.generation&&!this.muted)this.play(segments);},
+        ()=>{if(generation===this.generation&&!this.muted)this.play(segments,key,{recorded:false});},
       );
       return;
     }
@@ -61,19 +62,21 @@ export class SpeechPlayer {
       const generation = this.generation;
       const fallback = () => {
         if (generation !== this.generation || this.muted) return;
-        this.play(segments); // ファイルの失敗時は同じ台詞をブラウザで読む。
+        this.play(segments,key,{recorded:false}); // ファイルの失敗時は同じ台詞をブラウザで読む。
       };
       try {
         const audio = this.makeAudio(clip);
         this.audio = audio;
         audio.onended = () => {
           if (generation !== this.generation) return;
+          this.sequencePlayer?.stopObservation?.();
           this.audio = null;
           this.report('読み上げが終わりました');
         };
         audio.onerror = fallback;
         this.report('読み上げ中');
         const playback = audio.play();
+        this.sequencePlayer?.observeMedia?.(audio,clip);
         playback?.catch(fallback);
       } catch { fallback(); }
       return;
@@ -96,7 +99,11 @@ export class SpeechPlayer {
         const voices = this.synth.getVoices?.() || [];
         const japanese = voices.filter(voice => /^ja(?:-|_)/i.test(voice.lang));
         utterance.voice = japanese.find(voice => voice.localService) || japanese[0] || null;
-        utterance.onend = next;
+        utterance.onend = () => {
+          if(generation!==this.generation)return;
+          const pause=speechPauseAfter(key,segment.text);
+          if(pause){this.report('考える時間');this.timer=setTimeout(next,pause*1000);}else next();
+        };
         utterance.onerror = () => {
           if (generation !== this.generation) return;
           this.stop(false);

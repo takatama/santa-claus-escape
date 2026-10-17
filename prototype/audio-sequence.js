@@ -18,11 +18,23 @@ export function joinAudioBuffers(context,buffers){
   }
   return joined;
 }
+// A recording may supply several cues. Crop before joining/trimming so cue
+// boundaries are always measured against the original decoded recording.
+export function sliceAudioBuffer(context, buffer, {start=0,end=buffer.length/buffer.sampleRate}={}) {
+  const first=Math.max(0,Math.round(start*buffer.sampleRate));
+  const last=Math.min(buffer.length,Math.round(end*buffer.sampleRate));
+  if(last<=first)throw Error('Empty audio range');
+  const result=context.createBuffer(buffer.numberOfChannels,last-first,buffer.sampleRate);
+  for(let channel=0;channel<buffer.numberOfChannels;channel++)result.getChannelData(channel).set(buffer.getChannelData(channel).subarray(first,last));
+  return result;
+}
 export class AudioSequence {
-  constructor({makeContext=()=>{const Context=globalThis.AudioContext||globalThis.webkitAudioContext;return Context?new Context():null;},fetchAudio=src=>fetch(src)}={}){
+  constructor({makeContext=()=>{const Context=globalThis.AudioContext||globalThis.webkitAudioContext;return Context?new Context():null;},fetchAudio=src=>fetch(src),activity=null}={}){
+    this.activity=activity;
     this.makeContext=makeContext;this.fetchAudio=fetchAudio;this.context=null;this.source=null;this.gain=null;this.generation=0;this.buffers=new Map();
   }
   stop(){
+    this.activity?.stop();
     this.generation++;
     if(this.source){this.source.onended=null;try{this.source.stop();}catch{}this.source.disconnect();this.source=null;}
     this.gain?.disconnect();this.gain=null;
@@ -37,6 +49,18 @@ export class AudioSequence {
   prepare(sources){
     try{this.context ||= this.makeContext();if(!this.context)return Promise.resolve(false);return Promise.all([this.context.resume(),...sources.map(src=>this.load(src))]).then(()=>true,()=>false);}catch{return Promise.resolve(false);}
   }
+  // HTML audio keeps its playback path. Reuse the timeline's decode cache only
+  // after playback is requested; a meter failure never interrupts the voice.
+  observeMedia(audio,src){
+    const generation=this.generation;
+    try{
+      this.context ||= this.makeContext();if(!this.context)return;
+      this.load(src).then(buffer=>{
+        if(generation===this.generation&&!audio.ended)this.activity?.follow(buffer,()=>audio.paused?-1:audio.currentTime);
+      }).catch(()=>{});
+    }catch{/* Existing playback and device-speech fallback remain available. */}
+  }
+  stopObservation(){this.activity?.stop();}
   play(sources,onEnd,onFailure,volume=1,maxSeconds=null){
     this.stop();const generation=this.generation;
     const fail=()=>{if(generation===this.generation){this.stop();onFailure();}};
@@ -48,7 +72,9 @@ export class AudioSequence {
         if(generation!==this.generation)return;
         const source=this.context.createBufferSource();source.buffer=joinAudioBuffers(this.context,buffers);this.source=source;
         if(volume!==1){this.gain=this.context.createGain();this.gain.gain.value=volume;this.gain.connect(this.context.destination);}source.connect(this.gain||this.context.destination);
-        source.onended=()=>{if(generation!==this.generation)return;source.disconnect();this.source=null;this.gain?.disconnect();this.gain=null;onEnd();};
+        source.onended=()=>{if(generation!==this.generation)return;this.activity?.stop();source.disconnect();this.source=null;this.gain?.disconnect();this.gain=null;onEnd();};
+        const at=this.context.currentTime;
+        this.activity?.follow(source.buffer,()=>this.context.currentTime-at);
         if(maxSeconds>0)source.start(0,0,Math.min(maxSeconds,source.buffer.length/source.buffer.sampleRate));else source.start();
       }).catch(fail);
     }catch{fail();}

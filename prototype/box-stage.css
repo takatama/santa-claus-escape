@@ -107,11 +107,15 @@ body.box-playing { background:#102031; }
 .box-voice-icon { display:flex; align-items:center; gap:5px; height:40px; }
 .box-voice-icon svg { width:24px; height:32px; }
 .box-voice-bars { display:flex; align-items:center; gap:3px; height:40px; }
-.box-voice-bars i { width:4px; height:30px; border-radius:3px; background:currentColor; animation:box-voice-pulse 950ms ease-in-out infinite alternate; }
-.box-voice-bars i:nth-child(2n) { animation-delay:-650ms; height:36px; }
-.box-voice-bars i:nth-child(3n) { animation-delay:-350ms; height:22px; }
-.box-voice-bars i:nth-child(4n) { animation-delay:-150ms; }
-@keyframes box-voice-pulse { from { transform:scaleY(.18); } to { transform:scaleY(1); } }
+/* Each bar follows decoded voice samples; pauses and effects stay quiet. */
+.box-voice-bars i { width:4px;height:30px;border-radius:3px;background:currentColor;transform:scaleY(var(--voice-0,.1)); }
+.box-voice-bars i:nth-child(2) { transform:scaleY(var(--voice-1,.1)); }
+.box-voice-bars i:nth-child(3) { transform:scaleY(var(--voice-2,.1)); }
+.box-voice-bars i:nth-child(4) { transform:scaleY(var(--voice-3,.1)); }
+.box-voice-bars i:nth-child(5) { transform:scaleY(var(--voice-4,.1)); }
+.box-voice-bars i:nth-child(6) { transform:scaleY(var(--voice-5,.1)); }
+.box-voice-bars i:nth-child(7) { transform:scaleY(var(--voice-6,.1)); }
+
 .box-caption-label { margin:0 auto 4px; max-width:720px; font-size:12px; color:#725c3d; }
 .box-dialogue-scroll { min-height:0; overflow:auto; overscroll-behavior:contain; scrollbar-gutter:stable; padding:0 16px 12px; font-size:17px; line-height:1.7; touch-action:pan-y; }
 .box-dialogue-scroll:focus-visible { outline:2px solid #855823; outline-offset:-3px; }
@@ -126,3 +130,5 @@ body.box-playing { background:#102031; }
 @media (orientation:landscape) and (max-height:500px) { .box-stage { grid-template-rows:44px minmax(0,1fr) 26px; } .box-content { grid-template-rows:minmax(0,1fr); grid-template-columns:minmax(0,1fr) clamp(180px,26vw,320px); } .box-dialogue { border-top:0; border-left:1px solid #b99a65; } .box-dialogue header { flex-basis:36px; } .box-dialogue-scroll { font-size:16px; } .box-actions .primary { width:260px; } }
 @container box-play (max-width:599px) { .box-stage:not(.box-opened) .box-canvas,.box-stage:not(.box-opened) .box-snowfall { height:max(100%,344px); } }
 @media (prefers-reduced-motion:reduce) { .box-snowfall { display:none; } .box-stage *, .box-stage *::before,.box-stage *::after { animation:none !important; transition:none !important; } }
+
+@media (prefers-reduced-motion:reduce) { .box-voice-bars i { transform:scaleY(.35); } }

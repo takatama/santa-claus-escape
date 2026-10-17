@@ -2,6 +2,7 @@
 import { BOXES,REMAINING_BOX_MESSAGES,productionScenes } from './full-scenario.js';
 import { STORYBOOK_AUDIO_IDS } from './storybook-content.js';
 import { mediaPath } from './media-assets.js';
+import { VOICE_EDITS } from './voice-edits.js';
 export const TIMED_VOICE_SEGMENTS=Object.freeze({
   ...Object.fromEntries(Object.entries(BOXES).flatMap(([color,box])=>{
     const text=productionScenes()[`${color}-open`][0].spoken;
@@ -19,6 +20,12 @@ const effect=(file,volume=.18)=>({type:'effect',src:mediaPath('effect',file),vol
 const pause=seconds=>({type:'pause',seconds});
 const number=(color,digits)=>voice([`answer-prefix-${color}`,...digits.split('').map(n=>`answer-digit-${n}`),'answer-set'].map(asset));
 export function resolveAudioTimeline(key){
+  const edit=VOICE_EDITS[key];
+  if(edit){
+    const sources=[asset(edit.id)];
+    if(edit.split)return [{...voice(sources),range:{end:edit.split}},pause(edit.pause),{...voice(sources),range:{start:edit.split}}];
+    return [{...voice(sources),range:{end:edit.end}}];
+  }
   const match=/^(red|blue|yellow)-(open(?:-\d{4})?|wrong-\d{4})$/.exec(key);
   if(match){
     const [,color,result]=match,opened=result.startsWith('open'),digits=result==='open'?BOXES[color].answer:result.slice(opened?5:6);

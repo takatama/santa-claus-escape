@@ -11,7 +11,7 @@ export function discovery(progress) {
     progress: p,
     opening: smooth(0, 1, p),
     leftOpening: smooth(0.03, 0.98, p),
-    rightOpening: smooth(0, 0.70, p),
+    rightOpening: smooth(0.03, 0.98, p),
     warmth: smooth(0.02, 0.95, p),
     staff: smooth(0.08, 0.42, p),
     face: smooth(0.32, 0.76, p),

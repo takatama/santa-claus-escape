@@ -6,7 +6,7 @@ import { createPaperArt } from './paper-art.js';
 export function createPaperStage({ getState, onPlacement, onSubmit }) {
   const element = document.createElement('section'); element.className = 'paper-stage';
   element.innerHTML = `<header class="box-header"><h1 id="screen-heading" tabindex="-1">ひみつのことば</h1><details class="box-settings"><summary>音の設定</summary><div class="box-settings-content"></div></details></header>
-    <div class="paper-content"><div class="paper-play"><canvas class="paper-canvas" role="img" aria-label="森の中の球に閉じ込められたサンタ"></canvas><div class="paper-work"><section class="paper-workspace" aria-label="六枚の紙を並べる"><p id="paper-help">紙をつかんで枠へ。紙を選んで、枠を押しても置けます。</p><p class="paper-row-label">手元の紙</p><div id="paper-tray" class="paper-row" aria-label="手元の紙"></div><p class="paper-row-label">ことばの枠</p><div id="word-slots" class="paper-row" aria-label="左から読む六つの枠"></div><p id="selection-status" role="status">動かす紙を選んでください。</p><div class="paper-actions"><button type="button" data-paper-move="-1">← 左へ</button><button type="button" data-paper-move="1">右へ →</button><button type="button" data-paper-return>手元へ戻す</button></div><details class="paper-key-help"><summary>キーでの動かし方</summary><p>Tabで紙を選び、EnterかSpaceでつかみます。枠へTabで移り、EnterかSpaceで置きます。並べた紙は左右キーで移動・交換、Deleteで手元へ。Escapeで選択やドラッグを中断します。</p></details><p class="paper-art-error" role="status" hidden>絵を読み込めませんでした。紙とお話で続けられます。</p></section></div>
+    <div class="paper-content"><div class="paper-play"><canvas class="paper-canvas" role="img" aria-label="森の中の球に閉じ込められたサンタ"></canvas><div class="paper-work"><section class="paper-workspace" aria-label="六枚の紙を並べる"><p id="paper-help">紙を枠へドラッグ。手元の紙はダブルクリックでも置けます。</p><p class="paper-row-label">手元の紙</p><div id="paper-tray" class="paper-row" aria-label="手元の紙"></div><p class="paper-row-label">ことばの枠</p><div id="word-slots" class="paper-row" aria-label="左から読む六つの枠"></div><p id="selection-status" role="status">動かす紙を選んでください。</p><details class="paper-key-help"><summary>タップ・キーでの動かし方</summary><p>紙を選んで枠を押しても置けます。戻すときは紙を選び、手元の空きを押します。</p><p>Tabで紙を選び、EnterかSpaceでつかみます。枠へTabで移り、EnterかSpaceで置きます。並べた紙は左右キーで移動・交換、Deleteで手元へ。Escapeで選択やドラッグを中断します。</p></details><p class="paper-art-error" role="status" hidden>絵を読み込めませんでした。紙とお話で続けられます。</p></section></div>
     <div class="paper-submit-bar"><p id="paper-feedback" role="status"></p><button type="button" class="primary" data-paper-submit>この並びで伝える</button><button type="button" class="primary" data-action="continue_spell" hidden>まほう使いに会う</button></div></div>${stageDialogueMarkup()}</div><footer class="box-footer"><span id="save-status"></span><button type="button" data-action="reset">やり直す</button></footer>`;
   const find = selector => element.querySelector(selector), tray = find('#paper-tray'), slots = find('#word-slots');
   const captions = createStageDialogue(element), listeners = new AbortController(), options = {signal:listeners.signal};
@@ -23,8 +23,6 @@ export function createPaperStage({ getState, onPlacement, onSubmit }) {
   function selection(message) {
     const index = selected ? getState().spellSlots.indexOf(selected) : -1;
     for (const [id, button] of buttons) { button.classList.toggle('selected', id === selected); button.setAttribute('aria-pressed', String(id === selected)); }
-    for (const button of element.querySelectorAll('[data-paper-move]')) button.disabled = !active() || index < 0 || index + Number(button.dataset.paperMove) < 0 || index + Number(button.dataset.paperMove) >= 6;
-    find('[data-paper-return]').disabled = !active() || index < 0;
     find('#selection-status').textContent = message || (getState().spellReview ? 'このことばで、まほう使いを呼びました。' : selected ? `${label(selected)}を選んでいます。${index < 0 ? '置く枠を押してください。' : '左右に移すと、となりの紙と交換できます。'}` : '動かす紙を選んでください。');
   }
   function select(id, toggle = false) { if (!active() || !buttons.has(id)) return; selected = toggle && selected === id ? null : id; selection(); }
@@ -60,8 +58,14 @@ export function createPaperStage({ getState, onPlacement, onSubmit }) {
     if (zone && selected && getState().spellSlots[Number(zone.dataset.slotIndex)] !== selected) placement(selected,Number(zone.dataset.slotIndex));
     else if (button) select(button.dataset.paperId,true);
     else if (zone) selection('先に、動かす紙を選んでください。');
-    else if (event.target.closest('[data-paper-move]')) move(Number(event.target.closest('[data-paper-move]').dataset.paperMove));
-    else if (event.target.closest('[data-paper-return]') && selected) placement(selected,null);
+    else if (event.target.closest('#paper-tray') && selected && getState().spellSlots.includes(selected)) placement(selected,null);
+  }, options);
+  element.addEventListener('dblclick', event => {
+    if (!active() || performance.now() < suppressUntil) return;
+    const button = event.target.closest('button[data-paper-id]');
+    if (!button || !tray.contains(button)) return;
+    const index = getState().spellSlots.indexOf(null);
+    if (index >= 0) placement(button.dataset.paperId,index);
   }, options);
   find('[data-paper-submit]').addEventListener('click', () => { if (active() && !drag) onSubmit(getState().revision); }, options);
   element.addEventListener('pointerdown', event => {

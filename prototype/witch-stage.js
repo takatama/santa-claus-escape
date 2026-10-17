@@ -22,7 +22,8 @@ export function createWitchStage({getState,onProgress,onDraft,onReply}) {
   }
   element.addEventListener('pointerdown',e=>{
     const b=e.target.closest('[data-branch-side]');if(!b||!active()||drag||!e.isPrimary||e.button!==0)return;
-    suppressUntil=0;drag={button:b,id:e.pointerId,x:e.clientX,y:e.clientY,start:progress(),side:Number(b.dataset.branchSide),distance:layout.distance,width:layout.width,height:layout.height,moved:false};
+    const side=Number(b.dataset.branchSide),handle=layout.handles.find(p=>p.side===side);
+    suppressUntil=0;drag={button:b,id:e.pointerId,x:e.clientX,y:e.clientY,start:progress(),side,distance:handle.distance,width:layout.width,height:layout.height,moved:false};
     b.setPointerCapture(e.pointerId);b.focus({preventScroll:true});
   },options);
   window.addEventListener('pointermove',e=>{
@@ -54,7 +55,7 @@ export function createWitchStage({getState,onProgress,onDraft,onReply}) {
   },options);
   const art=createWitchArt(find('canvas'),value=>{
     if(drag&&(value.width!==drag.width||value.height!==drag.height))finish();
-    layout=value;for(const p of layout.handles){const b=find(`[data-branch-side="${p.side}"]`);b.style.left=`${p.x}px`;b.style.top=`${p.y}px`;}
+    layout=value;for(const p of layout.handles){const b=find(`[data-branch-side="${p.side}"]`);b.style.left=`${p.x}px`;b.style.top=`${p.y}px`;b.dataset.dragDistance=String(p.distance);}
   },()=>{find('.witch-art-error').hidden=false;});
   function actions(view) {
     const host=find('.witch-actions');host.replaceChildren();composing=false;
