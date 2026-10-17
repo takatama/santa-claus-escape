@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readPrivateOriginalReference } from '../test-reference.mjs';
-import { BOXES, productionScenes } from '../../prototype/full-scenario.js';
+import { BOXES, originalProductionScenes } from '../../prototype/full-scenario.js';
 import { EXAM_CLUES, INFORMATION, INFORMATION_NOTE, BLUE_CODE, BLUE_PAPERS,
   newTrial, examineTrial, normalizeCode, tryCode, setOpening, boxReveal } from './box-math.js';
 
@@ -11,8 +11,8 @@ function test(name, run) {
   console.log(`PASS ${name}`);
 }
 
-test('Japanese clue order, original information, code, and papers match the maintained full scenario', () => {
-  const scenes = productionScenes();
+test('Japanese clue order, original information, code, and papers match the preserved original scenario', () => {
+  const scenes = originalProductionScenes();
   assert.equal(BLUE_CODE, BOXES.blue.answer);
   assert.equal(EXAM_CLUES.length, 4);
   EXAM_CLUES.forEach((clue, index) => assert.equal(clue, scenes[`blue${index + 1}`][0].text));

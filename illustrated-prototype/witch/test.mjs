@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readPrivateOriginalReference } from '../test-reference.mjs';
-import { QUESTIONS as sourceQuestions, productionScenes, sceneFor } from '../../prototype/full-scenario.js';
+import { QUESTIONS as sourceQuestions, originalProductionScenes, sceneFor } from '../../prototype/full-scenario.js';
 import { QUESTIONS, newConversation, restoreConversation, transitionConversation, conversationScene } from './conversation.js';
 
 let passed = 0;
@@ -11,10 +11,14 @@ function answer(state, value) { return send(state, { type: 'REPLY', questionId: 
 function proceed(state) { return send(state, { type: 'CONTINUE', questionId: QUESTIONS[state.questionIndex].id }); }
 const copy = value => structuredClone(value);
 const legacy = await readPrivateOriginalReference();
+const originalSceneFor = state => {
+  const scene = sceneFor(state);
+  return { ...scene, segments: originalProductionScenes()[scene.key] };
+};
 
 test('Copied questions and every invite, pause, reinvite, and rescue segment match the maintained original source', () => {
   assert.deepEqual(QUESTIONS, sourceQuestions);
-  const source = productionScenes();
+  const source = originalProductionScenes();
   assert.deepEqual(conversationScene(newConversation()).segments, source.invite);
   const paused = send(newConversation(), { type: 'DECLINE' });
   assert.deepEqual(conversationScene(paused).segments, source.paused);
@@ -39,10 +43,10 @@ test('Question and response scenes match source metadata, spoken ten repetitions
     let state = start();
     for (const value of inputs) {
       const question = conversationScene(state);
-      const sourceQuestion = sceneFor({ phase: 'witchQuestion', questionIndex: state.questionIndex, boxes: {}, responses: [] });
+      const sourceQuestion = originalSceneFor({ phase: 'witchQuestion', questionIndex: state.questionIndex, boxes: {}, responses: [] });
       assert.deepEqual(question, sourceQuestion);
       state = answer(state, value);
-      const sourceResponse = sceneFor({ phase: 'witchResponse', questionIndex: state.questionIndex, boxes: {}, responses: state.responses });
+      const sourceResponse = originalSceneFor({ phase: 'witchResponse', questionIndex: state.questionIndex, boxes: {}, responses: state.responses });
       assert.deepEqual(conversationScene(state), sourceResponse);
       assert.equal(conversationScene(state).segments[0].text.startsWith('その通り！'), correct);
       state = proceed(state);

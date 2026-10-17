@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { SCENARIO } from '../../prototype/scenario.js';
-import { productionScenes, sceneFor } from '../../prototype/full-scenario.js';
+import { originalProductionScenes, sceneFor } from '../../prototype/full-scenario.js';
 import { newIntroduction, restoreIntroduction, transitionIntroduction, introductionScene } from './story.js';
 
 let passed = 0;
@@ -14,7 +14,7 @@ const send = (state, type) => transitionIntroduction(state, { type }).state;
 const sourceState = phase => ({ phase, boxes: Object.fromEntries(['red', 'blue', 'yellow'].map(color => [color, { opened: false }])) });
 
 test('Every introduction and help segment exactly matches both maintained original scenario sources', () => {
-  const source = productionScenes();
+  const source = originalProductionScenes();
   const intro = states.slice(0, 3).flatMap(state => introductionScene(state).segments);
   assert.deepEqual(intro, SCENARIO.messages.intro);
   assert.deepEqual(intro, source.intro);

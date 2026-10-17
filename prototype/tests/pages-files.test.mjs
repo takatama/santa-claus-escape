@@ -6,7 +6,7 @@ import { promisify } from 'node:util';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { pagesFiles, pagesCodeFiles, pagesAssetFiles, inspectPagesOutput } from '../../scripts/pages-files.mjs';
+import { pagesFiles, pagesCodeFiles, pagesAssetFiles, illustratedPageFiles, inspectPagesOutput } from '../../scripts/pages-files.mjs';
 import { AUDIO_FILES, IMAGE_FILES } from '../media-assets.js';
 
 const run = promisify(execFile), repository = new URL('../../',import.meta.url);
@@ -22,9 +22,10 @@ async function fixture(t) {
     await mkdir(new URL('.',target),{recursive:true});await writeFile(target,text);
   }
   for(const name of [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES])await save(`prototype/${name}`,name==='index.html'?'full-app.js':name);
+  for(const name of illustratedPageFiles)await save(`illustrated-prototype/${name.slice('illustrated/'.length)}`,name);
   await save('package.json','{"type":"module"}');
   await save('LICENSE');await save('NOTICE.md');
-  for(const name of ['social-build.mjs','analytics-build.mjs','build-pages.mjs','pages-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
+  for(const name of ['social-build.mjs','analytics-build.mjs','build-pages.mjs','pages-files.mjs','illustrated-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
     await save(`scripts/${name}`);await copyFile(new URL(`scripts/${name}`,repository),new URL(`scripts/${name}`,root));
   }
   await copyFile(new URL('prototype/media-assets.js',repository),new URL('prototype/media-assets.js',root));
@@ -44,9 +45,14 @@ test('real build excludes unlisted source variants and rejects stale output befo
   assert.ok(!pagesFiles.includes(alternate));
   await save(`prototype/${alternate}`,'old source variant');
   await save('prototype/assets/rescue/empty-globe.png','source-only original');
+  await save('illustrated-prototype/assets/PROMPTS.json','authoring record');
+  await save('illustrated-prototype/qa/private.png','QA screenshot');
   await build();await inspectPagesOutput(dist,{complete:true});
   await assert.rejects(readFile(new URL(alternate,dist)),{code:'ENOENT'});
   await assert.rejects(readFile(new URL('assets/rescue/empty-globe.png',dist)),{code:'ENOENT'});
+  for(const name of illustratedPageFiles)assert.equal(await readFile(new URL(name,dist),'utf8'),name);
+  await assert.rejects(readFile(new URL('illustrated/assets/PROMPTS.json',dist)),{code:'ENOENT'});
+  await assert.rejects(readFile(new URL('illustrated/qa/private.png',dist)),{code:'ENOENT'});
   const before = await readFile(new URL('full-app.js',dist));
   await save('prototype/full-app.js','changed source');
   await save(`dist/${alternate}`,'stale output variant');

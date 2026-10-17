@@ -26,7 +26,7 @@ test('loading: an uncached box waits for its art and a failed image releases usa
   const images = new Promise(resolve => { release = resolve; });
   await page.route('**/assets/red-box/*.webp', async route => { await images; await route.abort(); });
   await page.addInitScript(({state,key}) => localStorage.setItem(key, JSON.stringify(state)), {state,key:STORAGE_KEY});
-  await page.goto('/');
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
   await btn(page, 'resume').click();
   await expect(page.locator('#scene-loading')).toBeVisible();
   release();

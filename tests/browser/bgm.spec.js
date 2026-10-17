@@ -26,6 +26,10 @@ test('BGM: a slow first music load still plays after narration, and controls wor
     await button(page,'bgm').click();
     await expect.poll(()=>music.evaluate(audio=>!audio.paused&&!audio.muted)).toBe(true);
     expect(await voice.evaluate(audio=>audio.ended)).toBe(true);
+    await button(page,'mute').click();expect(await music.evaluate(audio=>audio.paused&&audio.muted)).toBe(true);
+    await button(page,'mute').click();
+    await expect.poll(()=>music.evaluate(audio=>!audio.paused&&!audio.muted)).toBe(true);
+    expect(await voice.evaluate(audio=>audio.ended)).toBe(true);
     await button(page,'stop').click();expect(await music.evaluate(audio=>audio.paused)).toBe(true);
     await page.locator('#bgm-volume').fill('50');expect(await music.evaluate(audio=>audio.paused)).toBe(true);
   }finally{releaseMusic();}

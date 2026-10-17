@@ -59,9 +59,14 @@ test('witch audio: replay/stop/mute clear sources and pending loads; resume neve
 
 for(const stopped of [false,true])test(`witch audio: delayed appearance art ${stopped?'after stop stays silent':'is painted before shine/voice starts'}`,async({page})=>{
   let release;const gate=new Promise(resolve=>{release=resolve;});await page.route('**/assets/witch/*.webp',async route=>{await gate;await route.continue();});
-  await recordSources(page);await early(page,false);await grip(page).press('End');await expect(btn(page,'accept')).toBeVisible();await page.waitForTimeout(300);expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);
-  if(stopped){await page.locator('.box-settings>summary').click();await btn(page,'stop').click();await page.locator('.box-settings>summary').click();}
-  release();await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await expect(page.locator('canvas')).toHaveAttribute('data-wizard-visible','true');
+  await recordSources(page);await early(page,false,{waitForArt:false});
+  await expect(page.locator('#scene-loading')).toBeVisible();await expect(grip(page)).toBeHidden();expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);
+  // Internal cancellation still rejects a pending appearance if its callback
+  // arrives during loading; the covered controls cannot receive user input.
+  if(stopped){await grip(page).dispatchEvent('keydown',{key:'End'});await btn(page,'stop').evaluate(button=>button.click());}
+  release();await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await expect(page.locator('#scene-loading')).toBeHidden();
+  if(!stopped)await grip(page).press('End');
+  await expect(page.locator('canvas')).toHaveAttribute('data-wizard-visible','true');
   if(stopped){await page.waitForTimeout(300);expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);await expect(page.locator('.box-voice')).toBeHidden();}
   else await expect.poll(()=>page.evaluate(()=>window.witchSources.length)).toBe(2);
   await grip(page).press('Home');await grip(page).press('End');expect(await page.evaluate(()=>window.witchSources.length)).toBe(stopped?0:2);

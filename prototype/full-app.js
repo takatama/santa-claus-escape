@@ -268,7 +268,7 @@ app.addEventListener('click', event => {
     state = transition(state, { type: action.toUpperCase() }); save();
     if (action === 'mute') { boxNarration.clear(); rescueNarration.clear(); player.setMuted(state.muted); track.configure(state); }
     if (['bgm', 'sfx'].includes(action)) track.configure(state);
-    if(action==='bgm'&&state.bgmEnabled&&!state.muted&&!resumePending&&state.phase!=='welcome')track.begin(sceneFor(currentState()).bgm);
+    if(['bgm','mute'].includes(action)&&state.bgmEnabled&&!state.muted&&!resumePending&&state.phase!=='welcome')track.begin(sceneFor(currentState()).bgm);
     if(action==='sfx')player.setEffectsEnabled(state.sfxEnabled);
     render(); return;
   }

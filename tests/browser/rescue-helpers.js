@@ -5,7 +5,7 @@ import { setupPapers,btn,saved } from './paper-helpers.js';
 export {btn,saved};
 export const light=page=>page.locator('.rescue-handle');
 export function rescueState(muted=true){let s=transition(transition(initialState(muted),{type:'START'}),{type:'BOXES'});for(const event of [{type:'DRAFT',value:'だいすきだよ',field:'spell'},{type:'SPELL'},{type:'DISCOVERY_PROGRESS',value:1},{type:'ACCEPT'}])s=transition(s,event);for(let i=0;i<3;i++){s=transition(s,{type:'REPLY',value:i===1?'太陽':'わからない',questionId:QUESTIONS[i].id});s=transition(s,{type:'CONTINUE_WITCH'});}return s;}
-export const setupRescue=(page,state=rescueState())=>setupPapers(page,state,{stage:'rescue'});
+export const setupRescue=(page,state=rescueState(),options={})=>setupPapers(page,state,{stage:'rescue',...options});
 export async function dragLight(page,amount,interrupt){const b=await light(page).boundingBox(),distance=Number(await page.locator('canvas').getAttribute('data-drag-distance'));await page.mouse.move(b.x+b.width/2,b.y+b.height/2);await page.mouse.down();await page.mouse.move(b.x+b.width/2+distance*amount,b.y+b.height/2,{steps:8});if(interrupt)await interrupt();await page.mouse.up();}
 export async function finishRescue(page){await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','rescue');await light(page).press('End');await expect(page.locator('#transcript')).toContainText('クリスマスの夜を楽しみにしていてくれ');await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');}
 export async function recordRescueAudio(page,rate=.25){await page.addInitScript(rate=>{
