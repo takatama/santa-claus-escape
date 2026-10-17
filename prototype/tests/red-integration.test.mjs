@@ -22,14 +22,16 @@ test('red: original four examinations and answer at any stage remain available',
   state=transition(state,{type:'LID',value:.4});assert.equal(restoreState(state).boxes.red.lidProgress,.4);assert.equal(state.boxes.red.lidOpen,false);
   assert.equal(transition(state,{type:'LID',value:2}),state);
 });
-test('red: valid old direct input migrates into the only lock and old open saves stay open',()=>{
-  let state=redState();state.boxes.red={...state.boxes.red,inputMode:'direct',draft:'３１３８'};
-  let restored=restoreState(state);assert.equal(restored.boxes.red.dial,'3138');assert.equal(restored.boxes.red.inputMode,'dial');
-  restored=transition(restored,{type:'ANSWER'});delete restored.boxes.red.lidOpen;delete restored.boxes.red.lidProgress;
-  assert.equal(restoreState(restored).boxes.red.lidOpen,true);
+test('red: current lock round-trips without importing the draft; missing lid state is rejected',()=>{
+  let state=transition(redState(),{type:'BOX_DIAL',value:'3138'});
+  state.boxes.red.draft='0000';
+  assert.equal(restoreState(state).boxes.red.dial,'3138');
+  state=transition(state,{type:'ANSWER'});
+  for(const field of ['lidOpen','lidProgress']) {const raw=structuredClone(state);delete raw.boxes.red[field];assert.equal(restoreState(raw),null);}
   assert.equal(transition(redState(),{type:'OPEN_LID'}).phase,'box');
   assert.equal(transition(redState(),{type:'BOX_DIAL',value:'31380'}).boxes.red.dial,'0000');
 });
+
 test('red: narration allows actions; rapid actions cannot bypass motion',()=>{
   const gate=new BoxActionGate();gate.hold(100);gate.setStatus('読み上げ中');
   assert.equal(gate.blocked(751),false);assert.equal(gate.speaking,true);gate.setStatus('読み上げが終わりました');assert.equal(gate.blocked(751),false);

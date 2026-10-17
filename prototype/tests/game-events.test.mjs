@@ -108,7 +108,7 @@ test('question outcomes use accepted responses only; every correct/wrong combina
   send(choice, 'REPLY', { questionId: QUESTIONS[1].id, value: '選択肢にない答え' });
 });
 
-test('rescue releases and completes once; legacy already-released rescue only completes, readings/restores do not count', () => {
+test('rescue releases and completes once; readings and restores do not count', () => {
   const reached = answerQuestions(accept(reveal(summon(start()))));
   let state = reached; state = send(state, 'FINISH');
   for (const value of [.4, .99, .2, 0]) state = send(state, 'RESCUE_PROGRESS', { value });
@@ -117,8 +117,7 @@ test('rescue releases and completes once; legacy already-released rescue only co
   state = send(state, 'RESCUE_PROGRESS', { value: 1 }); state = send(state, 'FINISH');
   assert.deepEqual(extractGameEvents(state, freeze(restoreState(state))), []);
   for (let i = 0; i < state.history.length; i++) assert.deepEqual(extractGameEvents(state, freeze(readingState(state, i))), []);
-  const legacy = freeze(restoreState({ ...reached, rescueMotion: undefined }));
-  send(legacy, 'FINISH', {}, [{ type: 'game-completed' }]);
+  assert.equal(restoreState({ ...reached, rescueMotion: undefined }), null);
   state = send(state, 'RESET', {}, [{ type: 'game-reset' }]); state = send(state, 'RESET');
 });
 

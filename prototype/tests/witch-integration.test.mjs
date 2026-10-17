@@ -51,17 +51,14 @@ test('witch: all eight correct/wrong combinations through all six box orders kee
   }
 });
 
-test('witch: optional legacy fields recover without rewinding reached conversation or corrupting original saves',()=>{
+test('witch: missing or invalid discovery is rejected throughout the conversation',()=>{
   let s=reveal(summon(start()));
   const phases=[s,send(s,'DECLINE'),send(s,'ACCEPT')];
   s=phases[2];for(let i=0;i<3;i++){s=send(s,'REPLY',{value:i===1?'りんご':'わからない',questionId:QUESTIONS[i].id});phases.push(s);s=send(s,'CONTINUE_WITCH');phases.push(s);}phases.push(send(send(s,'RESCUE_PROGRESS',{value:1}),'FINISH'));
   for(const state of phases)for(const field of [undefined,null,{},[],{progress:'bad',pending:'true'},{progress:NaN,pending:true}]){
-    const old={...state,witchDiscovery:field};delete old.spellSlots;delete old.spellReview;
-    // A true pending marker is only meaningful before the first invitation.
-    if(state.phase==='witchInvite'&&field?.pending===true)continue;
-    const restored=restoreState(old);assert.equal(restored.phase,state.phase);assert.equal(restored.witchDiscovery.pending,false);assert.equal(restored.witchDiscovery.progress,1);assert.deepEqual(restored.responses,state.responses);
+    assert.equal(restoreState({...state,witchDiscovery:field}),null);
   }
-  for(const value of [-1,2,'1',null,Infinity]){const restored=restoreState({...summon(start()),witchDiscovery:{progress:value,pending:true}});assert.equal(restored.witchDiscovery.progress,0);assert.equal(restored.phase,'witchInvite');}
+  for(const value of [-1,2,'1',null,Infinity]){assert.equal(restoreState({...summon(start()),witchDiscovery:{progress:value,pending:true,appeared:false}}),null);}
   const memory=new Map(),storage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v)};
   assert.equal(writeSave(storage,s),true);assert.deepEqual(readSave(storage).state,s);assert.equal(STORAGE_KEY,'santa-claus-escape:ja-full:v2');
   assert.equal(writeSave({setItem(){throw Error('disabled');}},s),false);assert.equal(send(send(s,'RESCUE_PROGRESS',{value:1}),'FINISH').phase,'complete');

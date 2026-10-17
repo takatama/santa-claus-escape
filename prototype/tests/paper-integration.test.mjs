@@ -37,22 +37,23 @@ test('paper: empty, incomplete and wrong submissions leave arrangement and origi
   s=arrange(s,papers(s).map(p=>p.id));assert.equal(arrangedWord(s.spellSlots,papers(s)),'すだいよきだ');assert.strictEqual(send(s,'SPELL',{source:'papers'}),s);assert.equal(s.spellDraft,'前の考え');
   const old=s;s=send(s,'MUTE');s=send(s,'BGM_VOLUME',{value:42});assert.deepEqual(s.spellSlots,old.spellSlots);assert.equal(s.phase,'spell');
 });
-test('paper: save/resume, kana draft migration, absent fields, kanji draft and paused saves remain compatible',()=>{
-  let s=send(full(),'PLACE_PAPER',{id:'blue-1',index:3});assert.deepEqual(restoreState(JSON.parse(JSON.stringify(s))).spellSlots,s.spellSlots);
+test('paper: current arrangement and independent drafts round-trip; missing fields are rejected',()=>{
   for(const draft of ['', 'ダイ スキ ダヨ', 'だだ', 'すだいよきだ', '大好きだよ']) {
-    const raw={...full(),spellDraft:draft};delete raw.spellSlots;delete raw.spellReview;const restored=restoreState(raw);assert.equal(restored.spellDraft,draft);assert.ok(validSlots(restored.spellSlots,papers(restored)));
-    if(draft==='ダイ スキ ダヨ')assert.equal(arrangedWord(restored.spellSlots,papers(restored)),'だいすきだよ');
-    if(draft==='大好きだよ')assert.deepEqual(restored.spellSlots.slice(0,2),[null,null]);
+    const raw=send(send(full(),'PLACE_PAPER',{id:'blue-1',index:3}),'DRAFT',{value:draft});
+    const restored=restoreState(JSON.parse(JSON.stringify(raw)));
+    assert.deepEqual(restored,raw);assert.deepEqual(restored.spellSlots,[null,null,null,'blue-1',null,null]);
+    for(const field of ['spellSlots','spellReview']) {const old={...raw};delete old[field];assert.equal(restoreState(old),null);}
   }
-  s=send(send(start(),'DRAFT',{value:'大好きだよ',field:'spell'}),'SPELL');s=discover(s);s=send(s,'DECLINE');delete s.spellSlots;delete s.spellReview;
-  s=restoreState(s);assert.equal(papers(s).length,0);assert.deepEqual(s.spellSlots,emptySlots());assert.equal(send(s,'CALL_AGAIN').phase,'witchInvite');
+  let paused=send(discover(send(send(start(),'DRAFT',{value:'大好きだよ',field:'spell'}),'SPELL')),'DECLINE');
+  paused=restoreState(paused);assert.equal(papers(paused).length,0);assert.equal(send(paused,'CALL_AGAIN').phase,'witchInvite');
 });
-test('paper: corrupted optional fields reset only the layout and cannot award or advance',()=>{
+
+test('paper: invalid arrangements are rejected without awarding or advancing',()=>{
   const s=full();
   for(const raw of [null,{},[],Array(7).fill(null),['red-0','red-0',null,null,null,null],['unknown',null,null,null,null,null],[0,null,null,null,null,null],[undefined,null,null,null,null,null]]){
-    const restored=restoreState({...s,spellSlots:raw,spellReview:true});assert.ok(restored);assert.deepEqual(restored.spellSlots,emptySlots());assert.equal(restored.phase,'spell');assert.equal(papers(restored).length,6);assert.equal(restored.spellReview,false);
+    assert.equal(restoreState({...s,spellSlots:raw}),null);
   }
-  const partial=send(open(start(),'red'),'CONTINUE_BOX');const restored=restoreState({...partial,spellSlots:['blue-0',null,null,null,null,null]});assert.deepEqual(restored.spellSlots,emptySlots());assert.equal(papers(restored).length,2);assert.equal(restored.boxes.blue.opened,false);
+  const partial=send(open(start(),'red'),'CONTINUE_BOX');const restored=restoreState({...partial,spellSlots:['blue-0',null,null,null,null,null]});assert.equal(restored,null);assert.equal(papers(partial).length,2);assert.equal(partial.boxes.blue.opened,false);
   assert.strictEqual(send(start(),'SPELL',{source:'papers'}).phase,'boxes');
 });
 test('paper: original early aliases work with zero papers, save failure stays playable and reset clears slots',()=>{

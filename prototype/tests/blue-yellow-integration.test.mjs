@@ -35,11 +35,11 @@ for(const color of ['blue','yellow']) {
     }
     for(const value of [-1,2,NaN])assert.equal(transition(state,{type:'LID',value}),state);
   });
-  test(`${color}: legacy direct draft and open saves migrate; corrupt lid data cannot unlock`,()=>{
-    let state=enter(color);state.boxes[color].inputMode='direct';state.boxes[color].draft=BOXES[color].answer.replace(/\d/g,c=>String.fromCharCode(c.charCodeAt(0)+0xfee0));
-    let restored=restoreState(state);assert.equal(restored.boxes[color].dial,BOXES[color].answer);assert.equal(restored.boxes[color].inputMode,'dial');
-    restored=transition(restored,{type:'ANSWER'});delete restored.boxes[color].lidOpen;delete restored.boxes[color].lidProgress;
-    assert.equal(restoreState(restored).boxes[color].lidOpen,true);
+  test(`${color}: current lock round-trips; missing and corrupt lid states are rejected`,()=>{
+    let state=transition(enter(color),{type:'BOX_DIAL',value:BOXES[color].answer});
+    assert.equal(restoreState(state).boxes[color].dial,BOXES[color].answer);
+    const opened=transition(state,{type:'ANSWER'});
+    for(const field of ['lidOpen','lidProgress']) {const raw=structuredClone(opened);delete raw.boxes[color][field];assert.equal(restoreState(raw),null);}
     state.boxes[color].lidOpen=true;assert.equal(restoreState(state),null);
     state.boxes[color].lidOpen=false;state.boxes[color].lidProgress=.4;assert.equal(restoreState(state),null);
   });
