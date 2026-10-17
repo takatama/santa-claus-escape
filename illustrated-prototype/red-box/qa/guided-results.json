@@ -1,0 +1,196 @@
+{
+  "date": "2026-10-07",
+  "red": {
+    "initial": {
+      "clueHidden": true,
+      "formHidden": true,
+      "initial": {
+        "awarded": "false",
+        "box": "{\"x\":155.625,\"y\":464.7138289962825,\"w\":213.74999999999997,\"h\":125.86617100371747}",
+        "exam": "1",
+        "globe": "{\"x\":6.749999999999999,\"y\":336.6,\"w\":203.05430463576158,\"h\":214.2}",
+        "handle": "{\"x\":262.5,\"y\":511.2843122676579}",
+        "hasExamined": "false",
+        "hinge": "[{\"x\":181.275,\"y\":468.489814126394},{\"x\":343.725,\"y\":468.489814126394}]",
+        "lidFace": "top",
+        "paperCount": "0",
+        "progress": "0.00000",
+        "ready": "true",
+        "santaContained": "true",
+        "unlocked": "false"
+      },
+      "narration": "まずは、赤い箱をタップして調べよう。"
+    },
+    "first": {
+      "clue": "あなたは赤色の箱を調べました。\n箱にはカギがかかっています。ダイヤル式のカギです。開けるためには四つの数字が必要です。何か書いてあるようです。",
+      "exam": "1",
+      "hasExamined": "true",
+      "hidden": false
+    },
+    "previousStageEntry": {
+      "firstSelected": "true",
+      "focused": "BUTTON",
+      "formHidden": false,
+      "globe": "{\"x\":6.749999999999999,\"y\":336.6,\"w\":203.05430463576158,\"h\":214.2}",
+      "hint": "1桁目の数字を選ぶ。",
+      "padHidden": false
+    },
+    "backPreservesNumber": {
+      "code": "3000",
+      "focus": "answer-start",
+      "hidden": true
+    },
+    "complete": {
+      "awarded": "true",
+      "box": "{\"x\":155.625,\"y\":464.7138289962825,\"w\":213.74999999999997,\"h\":125.86617100371747}",
+      "exam": "4",
+      "globe": "{\"x\":6.749999999999999,\"y\":336.6,\"w\":203.05430463576158,\"h\":214.2}",
+      "handle": "{\"x\":262.5,\"y\":372.82712483411507}",
+      "hasExamined": "true",
+      "hinge": "[{\"x\":181.275,\"y\":468.489814126394},{\"x\":343.725,\"y\":468.489814126394}]",
+      "lidFace": "inside",
+      "paperCount": "2",
+      "progress": "1.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "unlocked": "true"
+    },
+    "reset": {
+      "clueHidden": true,
+      "code": "0000",
+      "formHidden": true,
+      "hasExamined": "false"
+    },
+    "logs": [],
+    "wide": {
+      "initial": {
+        "clueHidden": true,
+        "document": 1265,
+        "formHidden": true,
+        "handle": {
+          "x": 885.5,
+          "y": 362.05382408921935
+        },
+        "hasExamined": "false",
+        "w": 1280
+      },
+      "tap": {
+        "exam": "1",
+        "hasExamined": "true"
+      },
+      "early": {
+        "exam": "1",
+        "hasExamined": "false",
+        "p": "0.00000",
+        "unlocked": "true"
+      },
+      "narrow": {
+        "document": 305,
+        "formHidden": false,
+        "padHidden": false,
+        "w": 320
+      },
+      "logs": []
+    }
+  },
+  "yellow": {
+    "initial": {
+      "data": {
+        "choices": "[null,null,null,null]",
+        "step": "1",
+        "summary": "false"
+      },
+      "document": 390,
+      "futureDisabled": [
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "nextDisabled": true,
+      "viewport": {
+        "h": 844,
+        "w": 390
+      }
+    },
+    "initialFutureDisabled": [
+      false,
+      true,
+      true,
+      true
+    ],
+    "selectionStays": {
+      "data": {
+        "choices": "[\"グー\",null,null,null]",
+        "step": "1",
+        "summary": "false"
+      },
+      "status": "あなたの手は「グー」。ほかの手にも変えられます。"
+    },
+    "back": {
+      "choices": "[\"チョキ\",\"パー\",null,null]",
+      "step": "1",
+      "summary": "false"
+    },
+    "summary": {
+      "choices": "[\"チョキ\",\"パー\",\"グー\",\"チョキ\"]",
+      "step": "4",
+      "summary": "true"
+    },
+    "oneChange": {
+      "choices": "[\"チョキ\",\"グー\",\"グー\",\"チョキ\"]",
+      "step": "4",
+      "summary": "true"
+    },
+    "reset": {
+      "choices": "[null,null,null,null]",
+      "step": "1",
+      "summary": "false"
+    },
+    "keyboard": {
+      "choices": "[\"パー\",null,null,null]",
+      "step": "2",
+      "summary": "false"
+    },
+    "gapTapStayed": "1",
+    "narrow": {
+      "buttons": [
+        {
+          "h": 105.5,
+          "w": 79.65625
+        },
+        {
+          "h": 105.5,
+          "w": 79.671875
+        },
+        {
+          "h": 105.5,
+          "w": 79.65625
+        }
+      ],
+      "document": 305,
+      "nextDisabled": true,
+      "viewport": 320
+    },
+    "wide": {
+      "buttons": [
+        {
+          "h": 116,
+          "w": 136.65625
+        },
+        {
+          "h": 116,
+          "w": 136.671875
+        },
+        {
+          "h": 116,
+          "w": 136.671875
+        }
+      ],
+      "document": 1265,
+      "viewport": 1280
+    },
+    "logs": []
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "sceneResults": [
+    {
+      "id": "intro",
+      "title": "君の助けが、必要なんじゃ。",
+      "current": "true"
+    },
+    {
+      "id": "boxes",
+      "title": "三つの箱を、好きな順に。",
+      "current": "true"
+    },
+    {
+      "id": "investigation",
+      "title": "調べた分だけ、見えてくる。",
+      "current": "true"
+    },
+    {
+      "id": "opening",
+      "title": "箱の中に、ふたつの文字。",
+      "current": "true"
+    },
+    {
+      "id": "letters",
+      "title": "六つの文字を、並べなおして。",
+      "current": "true"
+    },
+    {
+      "id": "discovery",
+      "title": "枝の向こうに、誰かがいる。",
+      "current": "true"
+    },
+    {
+      "id": "invitation",
+      "title": "私と、あそんでよ。",
+      "current": "true"
+    },
+    {
+      "id": "question",
+      "title": "三つの遊びを、一緒に。",
+      "current": "true"
+    },
+    {
+      "id": "rescue",
+      "title": "やっと、外に出られたよ。",
+      "current": "true"
+    },
+    {
+      "id": "ending",
+      "title": "クリスマスの夜を、楽しみに。",
+      "current": "true"
+    }
+  ],
+  "clueResults": [
+    {
+      "color": "red",
+      "exam": 1,
+      "text": "まだ、何か書いてあるようです。"
+    },
+    {
+      "color": "red",
+      "exam": 2,
+      "text": "サンタ、イタチ\nサンタ、ハタチ"
+    },
+    {
+      "color": "red",
+      "exam": 3,
+      "text": "サンタ、イタチ、サンタ、ハタチ\n\nたぬきの絵\nここは新規イラストのラフ"
+    },
+    {
+      "color": "red",
+      "exam": 4,
+      "text": "サンタ、イタチ、サンタ、ハタチ\n\nたぬきの絵\nたぬき"
+    },
+    {
+      "color": "blue",
+      "exam": 1,
+      "text": "まだ、絵がかいてあるようです。"
+    },
+    {
+      "color": "blue",
+      "exam": 2,
+      "text": "△ 山の絵\n絵の横に何か書いてある。"
+    },
+    {
+      "color": "blue",
+      "exam": 3,
+      "text": "△ 山の絵\nサガルマータ"
+    },
+    {
+      "color": "blue",
+      "exam": 4,
+      "text": "△ 山の絵\nサガルマータ\n\nその高さは、この端末が知っている"
+    },
+    {
+      "color": "yellow",
+      "exam": 1,
+      "text": "まだ、絵がかいてあるようです。"
+    },
+    {
+      "color": "yellow",
+      "exam": 2,
+      "text": "グー、チョキ、パー、グー\n\n四つの手の絵は未制作"
+    },
+    {
+      "color": "yellow",
+      "exam": 3,
+      "text": "グー、チョキ、パー、グー\n負けるが勝ち"
+    },
+    {
+      "color": "yellow",
+      "exam": 4,
+      "text": "グー、チョキ、パー、グー\n負けるが勝ち\n\n指の数があなたをみちびく"
+    }
+  ],
+  "beforeInfo": "△ 山の絵\nサガルマータ\n\nその高さは、この端末が知っている",
+  "afterInfo": "求めた時だけ読む固定資料\nサガルマータはエベレスト。\n原作時点の高さは8848m。",
+  "papers": [
+    {
+      "id": "red-0",
+      "text": "す赤1"
+    },
+    {
+      "id": "red-1",
+      "text": "だ赤2"
+    },
+    {
+      "id": "blue-0",
+      "text": "い青1"
+    },
+    {
+      "id": "blue-1",
+      "text": "よ青2"
+    },
+    {
+      "id": "yellow-0",
+      "text": "き黄1"
+    },
+    {
+      "id": "yellow-1",
+      "text": "だ黄2"
+    }
+  ],
+  "inviteResults": [
+    {
+      "id": "invite",
+      "caption": "あそんでくれたら、\nサンタを自由にしてあげる。"
+    },
+    {
+      "id": "paused",
+      "caption": "あそびたくなったら、\nひみつの言葉で私をよんでね。"
+    },
+    {
+      "id": "reinvite",
+      "caption": "箱は消えてしまいました。\nまほう使いと遊びますか？"
+    }
+  ]
+}

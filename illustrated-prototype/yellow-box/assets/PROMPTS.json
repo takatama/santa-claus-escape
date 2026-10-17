@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-08",
+  "tool": "built-in image_gen.imagegen",
+  "transparent_background": true,
+  "assets": [
+    {
+      "file": "yellow-body.png",
+      "source": "C:/Users/takat/.codex/generated_images/01a11851-e0b9-7172-bc0c-d216aeec3fd9/exec-d57c5922-3b26-45b4-988a-bc40d453149f.png",
+      "prompt": "Use case: precise-object-edit. Asset type: isolated transparent BODY sprite for the yellow Christmas keepsake chest in a hand-painted picture-book browser game. Image 1 is the EDIT TARGET, approved cobalt BLUE body sprite. Change ONLY all blue painted wood/velvet/paper inside and outside to warm clear buttercup YELLOW, honey-yellow in shadows, pale sunny yellow in highlights. Leave the gold trim distinct by contrast: antique gold is darker amber bronze at its contours against lighter yellow wood. Preserve EXACT silhouette, wide rectangle proportions, perspective, empty open top cavity, feet, placement of gold stars and corner filigree, gold rim geometry, brush/fibrous paper texture, framing and alpha transparency. It is the exact matching sibling of the blue body, NOT a redesign. Front is a large quiet yellow field for a separate physical four-wheel lock and clue card rendered by code later. No lid, no lock, no digits, no letters, no words, no plaque, no clue paper, no snow, no scene, no background, no characters or other objects. Genuine transparent background and whole body inside the same comfortable margins. Preserve existing transparency. Hand-painted gouache children's book, tactile paint, warm gold light, not vector or glossy plastic.",
+      "reference_images": [
+        "C:/Users/takat/OneDrive/ドキュメント/ChatGPT/santa-clause-escape/illustrated-prototype/blue-box/assets/blue-body.png"
+      ]
+    },
+    {
+      "file": "yellow-lid.png",
+      "source": "C:/Users/takat/.codex/generated_images/01a11851-e0b9-7172-bc0c-d216aeec3fd9/exec-bb083301-f340-46bf-b980-823124d281a9.png",
+      "prompt": "Use case: precise-object-edit. Asset type: isolated transparent detached LID PANEL sprite matching a buttercup YELLOW Christmas keepsake chest. Image 1 is the EDIT TARGET, approved flat cobalt blue lid. Change ONLY the blue paper-painted area to warm clear buttercup YELLOW, with honey-yellow shadows and pale sunny yellow highlights. Gold contours remain darker amber/bronze against the lighter yellow field, for legible antique-gold decoration. Preserve EXACT rectangular silhouette, front-on flat orthographic panel, continuous thin gold outer rim, gold stars and corner filigree, handmade gouache/fibrous paper brush texture, proportions, framing, transparent margins. No attached body, no perspective box, no latch, no lock, no numbers, words, labels, snow, forest, background or characters. Entire detached rectangle panel comfortably inside frame. This is perspective-projected by code, so remain a flat rectangular sprite. Genuine transparent background; preserve alpha. Same style and material as the approved blue sprite; only blue paint changes to yellow.",
+      "reference_images": [
+        "C:/Users/takat/OneDrive/ドキュメント/ChatGPT/santa-clause-escape/illustrated-prototype/blue-box/assets/blue-lid.png"
+      ]
+    },
+    {
+      "file": "rock.png",
+      "source": "C:/Users/takat/.codex/generated_images/01a11851-e0b9-7172-bc0c-d216aeec3fd9/exec-910066d7-12c2-4fa6-a80a-5843c9467dbe.png",
+      "prompt": "Use case: illustration-story. Asset type: isolated transparent gouache illustration of ONE small human hand making ROCK (Japanese janken GU), for a painted puzzle clue card. Show the palm-facing view of a compact CLOSED FIST: all four fingers folded into palm, thumb folded securely ACROSS the bent fingers, ZERO extended fingers. Four knuckle shapes and folding creases, anatomically plausible thumb, no extra digits, no sleeves, no body or other hands. Warm cream peach skin, restrained soft brown outlines, warm honey rim light and muted blue-gray gouache shadows. Cute hand-painted children's picture-book illustration, fibrous paper grain and irregular brush-painted edges, not flat vector, not realistic photo, no aggressive expression. Frame full hand and very short wrist end centrally in generous transparent margins. The silhouette must be unmistakably CLOSED at 45 pixels wide. NO letters, NO digits, no labels, no symbols, no surrounding paper, no rectangle, no background or props. Genuine transparent background.",
+      "reference_images": []
+    },
+    {
+      "file": "scissors.png",
+      "source": "C:/Users/takat/.codex/generated_images/01a11851-e0b9-7172-bc0c-d216aeec3fd9/exec-c0230f84-4720-4766-8fb4-c89e09273bf2.png",
+      "prompt": "Use case: illustration-story. Asset type: isolated transparent gouache illustration of ONE small human hand making SCISSORS (Japanese janken CHOKI), for a painted puzzle clue card. Palm-facing view, INDEX and MIDDLE fingers extended upward in a clear wide V, exactly TWO extended fingers. Ring finger and pinky folded down into the palm, thumb folded across them. Anatomically plausible five-digit hand, no extra digit, no sleeve, no body or other hands. Warm cream peach skin, restrained soft brown outlines, warm honey rim light and muted blue-gray gouache shadows. Cute hand-painted children's picture-book illustration, fibrous paper grain and irregular brush-painted edges, not flat vector, not realistic photo. Entire V and short wrist clearly inside generous transparent margins. Unmistakable TWO upright fingers at 45 pixels wide. NO text, NO numbers, labels, symbols, surrounding paper, rectangle, background or props. Genuine transparent background.",
+      "reference_images": []
+    },
+    {
+      "file": "paper.png",
+      "source": "C:/Users/takat/.codex/generated_images/01a11851-e0b9-7172-bc0c-d216aeec3fd9/exec-30299dd9-47fd-41cb-9237-46b218d3478d.png",
+      "prompt": "Use case: illustration-story. Asset type: isolated transparent gouache illustration of ONE small human hand making PAPER (Japanese janken PA), for a painted puzzle clue card. Palm-facing view of OPEN PALM, exactly FIVE extended and gently spread digits, clearly distinct thumb to the left, index, middle, ring and pinky upward. Anatomically plausible proportions, no sixth digit, no folded or missing finger, no sleeve, no body or other hands. Warm cream peach skin, restrained soft brown outlines, warm honey rim light and muted blue-gray gouache shadows. Cute hand-painted children's picture-book illustration, fibrous paper grain and irregular brush-painted edges, not flat vector, not realistic photo. Full open hand and very short wrist centrally within generous transparent margins. Silhouette must show all FIVE fingers clearly at 45 pixels wide. NO text, numbers, labels, symbols, surrounding paper, rectangle, background or props. Genuine transparent background.",
+      "reference_images": []
+    }
+  ],
+  "runtime": "Only local bundled files are used. Original blue/reference assets remain unchanged. Alpha padding is trimmed only in memory by rescue/paint.js.",
+  "inspection": "The five generated assets were inspected visually for geometry, finger counts and absence of text. Body/lid preserve sibling geometry. The fourth depicted hand reuses rock.png."
+}

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101f35" />
+    <meta name="description" content="四つの数字の錠がついた青い箱。調べると雪が落ちて、箱の文字や絵を順に発見する動く絵本の試作。" />
+    <title>サンタの脱出 — 青い箱と雪の下の手がかり</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%23efd093' d='m20 3 4.3 11.8L37 15l-10.2 7.5L30.5 35 20 27.4 9.5 35l3.7-12.5L3 15l12.7-.2Z'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../red-box/inspection.css" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="../journey/box-completion.css" />
+  </head>
+  <body>
+    <main class="storybook box-storybook" aria-label="サンタの脱出、青い箱ひとつの試作">
+      <section class="scene-shell" aria-label="雪の森に置かれた青い箱の絵">
+        <canvas id="scene" width="1600" height="1000" tabindex="0" aria-label="四つの数字の錠がついた青い箱。箱を触ると、大きく見られます。" aria-describedby="interaction-help">
+          スノーボールの中のサンタと、四桁ダイアル錠の青い箱。「箱を大きく見る」で数字を合わせ、箱の手がかりを順に調べられます。解錠後はふたを開けられます。
+        </canvas>
+        <header class="masthead">
+          <div class="title-block">
+            <h1>サンタの脱出<span class="title-star" aria-hidden="true">✦</span></h1>
+            <p id="scene-subtitle">雪の森の青い箱</p>
+          </div>
+          <button id="reset" class="reset-button" type="button">最初に戻す</button>
+        </header>
+        <p id="loading" class="loading-message" role="status">雪の森に、青い箱を置いています…</p>
+      </section>
+      <section class="reader-panel box-reader-panel" aria-label="青い箱の操作">
+        <p id="narration" class="narration" aria-live="polite" aria-atomic="true">雪の森に、青い箱が置いてある。</p>
+        <button id="inspect" class="step-button inspect-button" type="button" disabled>箱を大きく見る<span aria-hidden="true">›</span></button>
+        <div class="controls lid-controls" aria-label="箱のふたを開く操作" hidden>
+          <button id="close" class="step-button" type="button" disabled><span aria-hidden="true">‹</span>少し閉じる</button>
+          <div class="progress-control">
+            <label for="progress">ふたの開き</label>
+            <input id="progress" type="range" min="0" max="100" step="1" value="0" aria-label="ふたの開き" disabled />
+          </div>
+          <button id="open" class="step-button open-button" type="button" disabled>少し開ける<span aria-hidden="true">›</span></button>
+        </div>
+        <p id="interaction-help" class="interaction-hint" hidden><span>ふたを上へ引く · タップでも開けられます</span><span class="keyboard-hint">↑ ↓ で調整 · Home / End</span></p>
+        <section id="box-completion" class="box-completion" aria-label="見つけた文字と次の行き先" hidden>
+          <p id="collected" class="collected" aria-live="polite" hidden>見つけた文字 <span>い</span><span>よ</span></p>
+          <a id="box-next" class="box-next" href="../letters/index.html"><span data-next-label>六枚の紙のひみつへ</span><span aria-hidden="true">›</span></a>
+          <p id="box-paper-count" class="box-paper-count" hidden></p>
+        </section>
+        <footer class="prototype-links" aria-label="試作の関連ページ">
+          <a href="../red-box/index.html">赤い箱へ</a>
+          <a href="../yellow-box/index.html">黄色い箱へ</a>
+          <a href="../letters/index.html">六枚の紙のひみつへ</a>
+          <a href="../storyboard/index.html">全編の絵コンテへ</a>
+        </footer>
+      </section>
+    </main>
+    <script type="module" src="../journey/navigation.js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

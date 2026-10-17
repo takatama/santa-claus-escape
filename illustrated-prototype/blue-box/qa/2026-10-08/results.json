@@ -1,0 +1,672 @@
+{
+  "desktopStart": {
+    "clue": {
+      "bottom": 592.578125,
+      "height": 204.875,
+      "left": 358.828125,
+      "right": 896.15625,
+      "top": 387.703125,
+      "width": 537.328125,
+      "x": 358.828125,
+      "y": 387.703125
+    },
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "false"
+    },
+    "information": "",
+    "informationVisible": false,
+    "pageWidth": 1265,
+    "plate": {
+      "bottom": 331.1875,
+      "height": 156,
+      "left": 427.5,
+      "right": 827.5,
+      "top": 175.1875,
+      "width": 400,
+      "x": 427.5,
+      "y": 175.1875
+    },
+    "reading": "",
+    "scene": {
+      "awarded": "false",
+      "box": "{\"x\":641.74,\"y\":247.21840236686393,\"w\":487.52,\"h\":287.3915976331361}",
+      "clue": "{\"x\":722.1808,\"y\":434.0229408284024,\"w\":326.6384,\"h\":73.28485739644971}",
+      "code": "0000",
+      "exam": "1",
+      "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+      "handle": "{\"x\":885.5,\"y\":353.55329349112424}",
+      "hinge": "[{\"x\":700.2424,\"y\":255.840150295858},{\"x\":1070.7576,\"y\":255.840150295858}]",
+      "lidFace": "top",
+      "lock": "{\"x\":746.5568000000001,\"y\":366.4859153846154,\"w\":277.8864,\"h\":57.47831952662722}",
+      "paperCount": "0",
+      "progress": "0.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "snowProgress": "0.00000",
+      "snowStage": "0",
+      "unlocked": "false"
+    },
+    "tryButton": {
+      "bottom": 383.1875,
+      "height": 44,
+      "left": 427.5,
+      "right": 827.5,
+      "top": 339.1875,
+      "width": 400,
+      "x": 427.5,
+      "y": 339.1875
+    },
+    "viewport": 1280
+  },
+  "beforeHintsWrong": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "false"
+    },
+    "feedback": "カチ…まだ開かない。"
+  },
+  "upTap": "1000",
+  "downTap": "0000",
+  "desktopDuring": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.517",
+      "revealing": "true",
+      "snowProgress": "0.1722",
+      "snowStage": "0",
+      "unlocked": "false"
+    },
+    "infoText": "",
+    "reading": ""
+  },
+  "desktopMountain": {
+    "body": {
+      "bottom": 674.8125,
+      "height": 596.8125,
+      "left": 183.5,
+      "right": 1081.5,
+      "top": 78,
+      "width": 898,
+      "x": 183.5,
+      "y": 78
+    },
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.3333",
+      "snowStage": "1",
+      "unlocked": "false"
+    },
+    "infoHidden": true,
+    "plate": {
+      "bottom": 246.1875,
+      "height": 156,
+      "left": 427.5,
+      "right": 827.5,
+      "top": 90.1875,
+      "width": 400,
+      "x": 427.5,
+      "y": 90.1875
+    },
+    "reading": "山の絵。"
+  },
+  "desktopName": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.6667",
+      "snowStage": "2",
+      "unlocked": "false"
+    },
+    "infoHidden": true,
+    "infoText": "",
+    "reading": "山の絵。その横に「サガルマータ」。"
+  },
+  "desktopStatement": {
+    "answerAbsent": true,
+    "body": {
+      "bottom": 674.8125,
+      "height": 596.8125,
+      "left": 183.5,
+      "right": 1081.5,
+      "top": 78,
+      "width": 898,
+      "x": 183.5,
+      "y": 78
+    },
+    "clue": {
+      "bottom": 507.578125,
+      "height": 204.875,
+      "left": 358.828125,
+      "right": 896.15625,
+      "top": 302.703125,
+      "width": 537.328125,
+      "x": 358.828125,
+      "y": 302.703125
+    },
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "1.0000",
+      "snowStage": "3",
+      "unlocked": "false"
+    },
+    "infoRect": {
+      "bottom": 601,
+      "height": 48,
+      "left": 505.046875,
+      "right": 749.9375,
+      "top": 553,
+      "width": 244.890625,
+      "x": 505.046875,
+      "y": 553
+    },
+    "infoText": "",
+    "pageWidth": 1265,
+    "plate": {
+      "bottom": 246.1875,
+      "height": 156,
+      "left": 427.5,
+      "right": 827.5,
+      "top": 90.1875,
+      "width": 400,
+      "x": 427.5,
+      "y": 90.1875
+    },
+    "reading": "山の絵。その横に「サガルマータ」。\n「その高さは、この端末が知っている」",
+    "viewport": 1280
+  },
+  "mobileStart": {
+    "clue": {
+      "bottom": 598.28125,
+      "height": 204.875,
+      "left": 67.28125,
+      "right": 307.703125,
+      "top": 393.40625,
+      "width": 240.421875,
+      "x": 67.28125,
+      "y": 393.40625
+    },
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "false"
+    },
+    "header": {
+      "bottom": 83.703125,
+      "height": 61,
+      "left": 9,
+      "right": 366,
+      "top": 22.703125,
+      "width": 357,
+      "x": 9,
+      "y": 22.703125
+    },
+    "pageWidth": 375,
+    "plate": {
+      "bottom": 336.890625,
+      "height": 156,
+      "left": 61.8671875,
+      "right": 313.1328125,
+      "top": 180.890625,
+      "width": 251.265625,
+      "x": 61.8671875,
+      "y": 180.890625
+    },
+    "try": {
+      "bottom": 388.890625,
+      "height": 44,
+      "left": 61.8671875,
+      "right": 313.1328125,
+      "top": 344.890625,
+      "width": 251.265625,
+      "x": 61.8671875,
+      "y": 344.890625
+    },
+    "viewport": 390
+  },
+  "mobileMountain": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.3333",
+      "snowStage": "1",
+      "unlocked": "false"
+    },
+    "infoHidden": true,
+    "infoText": "",
+    "pageWidth": 375,
+    "reading": "山の絵。"
+  },
+  "mobileName": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.6667",
+      "snowStage": "2",
+      "unlocked": "false"
+    },
+    "infoHidden": true,
+    "infoText": "",
+    "reading": "山の絵。その横に「サガルマータ」。"
+  },
+  "mobileStatement": {
+    "answerAbsent": true,
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "1.0000",
+      "snowStage": "3",
+      "unlocked": "false"
+    },
+    "infoHidden": false,
+    "infoRect": {
+      "bottom": 698.703125,
+      "height": 48,
+      "left": 65.046875,
+      "right": 309.9375,
+      "top": 650.703125,
+      "width": 244.890625,
+      "x": 65.046875,
+      "y": 650.703125
+    },
+    "infoText": "",
+    "pageWidth": 375,
+    "reading": "山の絵。その横に「サガルマータ」。\n「その高さは、この端末が知っている」"
+  },
+  "mobileInformation": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "true",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "1.0000",
+      "snowStage": "3",
+      "unlocked": "false"
+    },
+    "expanded": "true",
+    "header": {
+      "bottom": 70,
+      "height": 61,
+      "left": 9,
+      "right": 366,
+      "top": 9,
+      "width": 357,
+      "x": 9,
+      "y": 9
+    },
+    "note": "※この謎では、原作時点の高さを使います。",
+    "pageWidth": 375,
+    "panel": {
+      "bottom": 804.1875,
+      "height": 221.1875,
+      "left": 13,
+      "right": 352,
+      "top": 583,
+      "width": 339,
+      "x": 13,
+      "y": 583
+    },
+    "text": "サガルマータは、ネパール語で、エベレストのことです。\nエベレストは、世界で一番高い山です。エベレストの高さは、8848メートルです。"
+  },
+  "informationClosed": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "1.0000",
+      "snowStage": "3",
+      "unlocked": "false"
+    },
+    "hidden": true,
+    "text": ""
+  },
+  "mobileDragUp": {
+    "code": "1000",
+    "digit": "1",
+    "visibleStrip": [
+      "9",
+      "0",
+      "1",
+      "2",
+      "3"
+    ]
+  },
+  "mobileDragDown": {
+    "code": "0000",
+    "digit": "0"
+  },
+  "keyboardUp": "1000",
+  "keyboardDirectAndNext": {
+    "code": "7000",
+    "focused": "2桁目のダイアル"
+  },
+  "reopen": {
+    "dialog": {
+      "code": "7000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "1.0000",
+      "snowStage": "3",
+      "unlocked": "false"
+    },
+    "information": ""
+  },
+  "reset": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "false"
+    },
+    "information": "",
+    "scene": {
+      "awarded": "false",
+      "box": "{\"x\":155.625,\"y\":515.7200073964498,\"w\":213.74999999999997,\"h\":126.00499260355029}",
+      "clue": "{\"x\":190.89375,\"y\":597.6232525887575,\"w\":143.21249999999998,\"h\":32.13127311390532}",
+      "code": "0000",
+      "exam": "1",
+      "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+      "handle": "{\"x\":262.5,\"y\":562.3418546597634}",
+      "hinge": "[{\"x\":181.275,\"y\":519.5001571745563},{\"x\":343.725,\"y\":519.5001571745563}]",
+      "lidFace": "top",
+      "lock": "{\"x\":201.58125,\"y\":568.0120793269232,\"w\":121.83749999999998,\"h\":25.20099852071006}",
+      "paperCount": "0",
+      "progress": "0.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "snowProgress": "0.00000",
+      "snowStage": "0",
+      "unlocked": "false"
+    }
+  },
+  "beforeHintsSuccess": {
+    "dialog": {
+      "code": "8848",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "true"
+    },
+    "dialogOpen": false,
+    "scene": {
+      "awarded": "false",
+      "box": "{\"x\":155.625,\"y\":515.7200073964498,\"w\":213.74999999999997,\"h\":126.00499260355029}",
+      "clue": "{\"x\":190.89375,\"y\":597.6232525887575,\"w\":143.21249999999998,\"h\":32.13127311390532}",
+      "code": "8848",
+      "exam": "1",
+      "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+      "handle": "{\"x\":262.5,\"y\":562.3418546597634}",
+      "hinge": "[{\"x\":181.275,\"y\":519.5001571745563},{\"x\":343.725,\"y\":519.5001571745563}]",
+      "lidFace": "top",
+      "lock": "{\"x\":201.58125,\"y\":568.0120793269232,\"w\":121.83749999999998,\"h\":25.20099852071006}",
+      "paperCount": "0",
+      "progress": "0.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "snowProgress": "0.00000",
+      "snowStage": "0",
+      "unlocked": "true"
+    }
+  },
+  "mobileOpeningPartial": {
+    "awarded": "false",
+    "box": "{\"x\":155.625,\"y\":515.7200073964498,\"w\":213.74999999999997,\"h\":126.00499260355029}",
+    "clue": "{\"x\":190.89375,\"y\":597.6232525887575,\"w\":143.21249999999998,\"h\":32.13127311390532}",
+    "code": "8848",
+    "exam": "1",
+    "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+    "handle": "{\"x\":262.5,\"y\":443.0078655446264}",
+    "hinge": "[{\"x\":181.275,\"y\":519.5001571745563},{\"x\":343.725,\"y\":519.5001571745563}]",
+    "lidFace": "inside",
+    "lock": "{\"x\":201.58125,\"y\":568.0120793269232,\"w\":121.83749999999998,\"h\":25.20099852071006}",
+    "paperCount": "0",
+    "progress": "0.66667",
+    "ready": "true",
+    "santaContained": "true",
+    "snowProgress": "0.00000",
+    "snowStage": "0",
+    "unlocked": "true"
+  },
+  "mobileOpeningReverse": {
+    "awarded": "false",
+    "box": "{\"x\":155.625,\"y\":515.7200073964498,\"w\":213.74999999999997,\"h\":126.00499260355029}",
+    "clue": "{\"x\":190.89375,\"y\":597.6232525887575,\"w\":143.21249999999998,\"h\":32.13127311390532}",
+    "code": "8848",
+    "exam": "1",
+    "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+    "handle": "{\"x\":262.5,\"y\":516.4853022972815}",
+    "hinge": "[{\"x\":181.275,\"y\":519.5001571745563},{\"x\":343.725,\"y\":519.5001571745563}]",
+    "lidFace": "inside",
+    "lock": "{\"x\":201.58125,\"y\":568.0120793269232,\"w\":121.83749999999998,\"h\":25.20099852071006}",
+    "paperCount": "0",
+    "progress": "0.33333",
+    "ready": "true",
+    "santaContained": "true",
+    "snowProgress": "0.00000",
+    "snowStage": "0",
+    "unlocked": "true"
+  },
+  "mobileFullyOpen": {
+    "collected": "見つけた文字 いよ",
+    "pageWidth": 375,
+    "scene": {
+      "awarded": "true",
+      "box": "{\"x\":155.625,\"y\":515.7200073964498,\"w\":213.74999999999997,\"h\":126.00499260355029}",
+      "clue": "{\"x\":190.89375,\"y\":597.6232525887575,\"w\":143.21249999999998,\"h\":32.13127311390532}",
+      "code": "8848",
+      "exam": "1",
+      "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+      "handle": "{\"x\":262.5,\"y\":423.8252517931486}",
+      "hinge": "[{\"x\":181.275,\"y\":519.5001571745563},{\"x\":343.725,\"y\":519.5001571745563}]",
+      "lidFace": "inside",
+      "lock": "{\"x\":201.58125,\"y\":568.0120793269232,\"w\":121.83749999999998,\"h\":25.20099852071006}",
+      "paperCount": "2",
+      "progress": "1.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "snowProgress": "0.00000",
+      "snowStage": "0",
+      "unlocked": "true"
+    },
+    "visible": true
+  },
+  "repeatFullOpen": {
+    "collected": "見つけた文字 いよ",
+    "scene": {
+      "awarded": "true",
+      "box": "{\"x\":155.625,\"y\":515.7200073964498,\"w\":213.74999999999997,\"h\":126.00499260355029}",
+      "clue": "{\"x\":190.89375,\"y\":597.6232525887575,\"w\":143.21249999999998,\"h\":32.13127311390532}",
+      "code": "8848",
+      "exam": "1",
+      "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+      "handle": "{\"x\":262.5,\"y\":423.8252517931486}",
+      "hinge": "[{\"x\":181.275,\"y\":519.5001571745563},{\"x\":343.725,\"y\":519.5001571745563}]",
+      "lidFace": "inside",
+      "lock": "{\"x\":201.58125,\"y\":568.0120793269232,\"w\":121.83749999999998,\"h\":25.20099852071006}",
+      "paperCount": "2",
+      "progress": "1.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "snowProgress": "0.00000",
+      "snowStage": "0",
+      "unlocked": "true"
+    }
+  },
+  "resetAfterAward": {
+    "awarded": "false",
+    "box": "{\"x\":155.625,\"y\":515.7200073964498,\"w\":213.74999999999997,\"h\":126.00499260355029}",
+    "clue": "{\"x\":190.89375,\"y\":597.6232525887575,\"w\":143.21249999999998,\"h\":32.13127311390532}",
+    "code": "0000",
+    "exam": "1",
+    "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+    "handle": "{\"x\":262.5,\"y\":562.3418546597634}",
+    "hinge": "[{\"x\":181.275,\"y\":519.5001571745563},{\"x\":343.725,\"y\":519.5001571745563}]",
+    "lidFace": "top",
+    "lock": "{\"x\":201.58125,\"y\":568.0120793269232,\"w\":121.83749999999998,\"h\":25.20099852071006}",
+    "paperCount": "0",
+    "progress": "0.00000",
+    "ready": "true",
+    "santaContained": "true",
+    "snowProgress": "0.00000",
+    "snowStage": "0",
+    "unlocked": "false"
+  },
+  "closeDuringBrushing": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "false",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.3333",
+      "snowStage": "1",
+      "unlocked": "false"
+    },
+    "information": "",
+    "reading": "山の絵。"
+  },
+  "desktopInformation": {
+    "dialog": {
+      "code": "0000",
+      "informationOpen": "true",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "1.0000",
+      "snowStage": "3",
+      "unlocked": "false"
+    },
+    "text": "サガルマータは、ネパール語で、エベレストのことです。\nエベレストは、世界で一番高い山です。エベレストの高さは、8848メートルです。"
+  },
+  "afterInformationSuccess": {
+    "dialogOpen": false,
+    "infoText": "",
+    "scene": {
+      "awarded": "false",
+      "box": "{\"x\":641.74,\"y\":247.21840236686393,\"w\":487.52,\"h\":287.3915976331361}",
+      "clue": "{\"x\":722.1808,\"y\":434.0229408284024,\"w\":326.6384,\"h\":73.28485739644971}",
+      "code": "8848",
+      "exam": "4",
+      "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+      "handle": "{\"x\":885.5,\"y\":353.55329349112424}",
+      "hinge": "[{\"x\":700.2424,\"y\":255.840150295858},{\"x\":1070.7576,\"y\":255.840150295858}]",
+      "lidFace": "top",
+      "lock": "{\"x\":746.5568000000001,\"y\":366.4859153846154,\"w\":277.8864,\"h\":57.47831952662722}",
+      "paperCount": "0",
+      "progress": "0.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "snowProgress": "1.00000",
+      "snowStage": "3",
+      "unlocked": "true"
+    }
+  },
+  "buttonOpen": {
+    "awarded": "false",
+    "box": "{\"x\":641.74,\"y\":247.21840236686393,\"w\":487.52,\"h\":287.3915976331361}",
+    "clue": "{\"x\":722.1808,\"y\":434.0229408284024,\"w\":326.6384,\"h\":73.28485739644971}",
+    "code": "8848",
+    "exam": "4",
+    "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+    "handle": "{\"x\":885.5,\"y\":314.8420025776061}",
+    "hinge": "[{\"x\":700.2424,\"y\":255.840150295858},{\"x\":1070.7576,\"y\":255.840150295858}]",
+    "lidFace": "top",
+    "lock": "{\"x\":746.5568000000001,\"y\":366.4859153846154,\"w\":277.8864,\"h\":57.47831952662722}",
+    "paperCount": "0",
+    "progress": "0.20000",
+    "ready": "true",
+    "santaContained": "true",
+    "snowProgress": "1.00000",
+    "snowStage": "3",
+    "unlocked": "true"
+  },
+  "sceneKeyUp": {
+    "awarded": "false",
+    "box": "{\"x\":641.74,\"y\":247.21840236686393,\"w\":487.52,\"h\":287.3915976331361}",
+    "clue": "{\"x\":722.1808,\"y\":434.0229408284024,\"w\":326.6384,\"h\":73.28485739644971}",
+    "code": "8848",
+    "exam": "4",
+    "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+    "handle": "{\"x\":885.5,\"y\":350.9538068949955}",
+    "hinge": "[{\"x\":700.2424,\"y\":255.840150295858},{\"x\":1070.7576,\"y\":255.840150295858}]",
+    "lidFace": "top",
+    "lock": "{\"x\":746.5568000000001,\"y\":366.4859153846154,\"w\":277.8864,\"h\":57.47831952662722}",
+    "paperCount": "0",
+    "progress": "0.05000",
+    "ready": "true",
+    "santaContained": "true",
+    "snowProgress": "1.00000",
+    "snowStage": "3",
+    "unlocked": "true"
+  },
+  "desktopFullyOpen": {
+    "collected": "見つけた文字 いよ",
+    "pageWidth": 1265,
+    "scene": {
+      "awarded": "true",
+      "box": "{\"x\":641.74,\"y\":247.21840236686393,\"w\":487.52,\"h\":287.3915976331361}",
+      "clue": "{\"x\":722.1808,\"y\":434.0229408284024,\"w\":326.6384,\"h\":73.28485739644971}",
+      "code": "8848",
+      "exam": "4",
+      "globe": "{\"x\":165.98171712393565,\"y\":221.60000000000002,\"w\":262.58656575212865,\"h\":277}",
+      "handle": "{\"x\":885.5,\"y\":100}",
+      "hinge": "[{\"x\":700.2424,\"y\":255.840150295858},{\"x\":1070.7576,\"y\":255.840150295858}]",
+      "lidFace": "inside",
+      "lock": "{\"x\":746.5568000000001,\"y\":366.4859153846154,\"w\":277.8864,\"h\":57.47831952662722}",
+      "paperCount": "2",
+      "progress": "1.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "snowProgress": "1.00000",
+      "snowStage": "3",
+      "unlocked": "true"
+    },
+    "viewport": 1280
+  },
+  "logs": [],
+  "redNavigation": {
+    "blueLink": "青い箱へ",
+    "code": "0000",
+    "ready": "true",
+    "title": "サンタの脱出 — 雪の下の手がかり"
+  },
+  "blueNavigation": {
+    "code": "0000",
+    "ready": "true",
+    "title": "サンタの脱出 — 青い箱と雪の下の手がかり"
+  }
+}

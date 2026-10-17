@@ -1,6 +1,7 @@
 // 公開する静的ファイルだけを dist/ へ集める。Pages Functions / Workers は使用しない。
 import { mkdir, copyFile, readFile, writeFile, stat } from 'node:fs/promises';
-import { pagesCodeFiles, pagesAssetFiles, inspectPagesOutput } from './pages-files.mjs';
+import { pagesCodeFiles, pagesAssetFiles, illustratedPageFiles, inspectPagesOutput } from './pages-files.mjs';
+import { illustratedRoot } from './illustrated-files.mjs';
 import { AUDIO_FILES, IMAGE_FILES } from '../prototype/media-assets.js';
 import { boxArtFiles } from './box-files.mjs';
 import { paperArtFiles } from './paper-files.mjs';
@@ -22,8 +23,13 @@ for(const file of [...IMAGE_FILES,...AUDIO_FILES,...pagesAssetFiles]){
   const target=new URL(file,dist);await mkdir(new URL('.',target),{recursive:true});
   await copyFile(new URL(file,prototype),target);
 }
+for(const name of illustratedPageFiles){
+  const source=new URL(name.slice('illustrated/'.length),illustratedRoot),target=new URL(name,dist);
+  if((await stat(source)).size>25*1024*1024)throw new Error(`Pages asset too large: ${name}`);
+  await mkdir(new URL('./',target),{recursive:true});await copyFile(source,target);
+}
 await copyFile(new URL('scripts/pages-404.html',root),new URL('404.html',dist));
 await copyFile(new URL('LICENSE',root),new URL('LICENSE',dist));await copyFile(new URL('NOTICE.md',root),new URL('NOTICE.txt',dist));
 await writeFile(new URL('_headers',dist),`/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  Permissions-Policy: camera=(), microphone=(), geolocation=()\n  Content-Security-Policy: default-src \'self\'; script-src \'self\'${csp.script}; style-src \'self\'; img-src \'self\' data:${csp.img}; media-src \'self\'; connect-src \'self\'${csp.connect}; base-uri \'self\'; frame-ancestors \'none\'\n`);
 const index=await readFile(new URL('index.html',dist),'utf8');if(!index.includes('full-app.js'))throw new Error('Wrong entrypoint');
-console.log(JSON.stringify({host:'Cloudflare Pages',output:'dist',files:pagesCodeFiles.length,audioFiles:AUDIO_FILES.length,boxArtFiles:boxArtFiles.length,paperArtFiles:paperArtFiles.length,witchArtFiles:witchArtFiles.length,backend:'none'}));
+console.log(JSON.stringify({host:'Cloudflare Pages',output:'dist',files:pagesCodeFiles.length,audioFiles:AUDIO_FILES.length,boxArtFiles:boxArtFiles.length,paperArtFiles:paperArtFiles.length,witchArtFiles:witchArtFiles.length,illustratedFiles:illustratedPageFiles.length,backend:'none'}));

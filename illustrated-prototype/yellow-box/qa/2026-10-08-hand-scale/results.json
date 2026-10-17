@@ -1,0 +1,119 @@
+[
+  {
+    "view": "desktop-stage1",
+    "result": {
+      "dialog": {
+        "code": "0000",
+        "revealFraction": "0.000",
+        "revealing": "false",
+        "snowProgress": "0.3333",
+        "snowStage": "1",
+        "unlocked": "false"
+      },
+      "pageWidth": 1265,
+      "reading": "見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。",
+      "viewport": {
+        "height": 720,
+        "width": 1280
+      }
+    }
+  },
+  {
+    "view": "desktop-stage2",
+    "result": {
+      "dialog": {
+        "code": "0000",
+        "revealFraction": "0.000",
+        "revealing": "false",
+        "snowProgress": "0.6667",
+        "snowStage": "2",
+        "unlocked": "false"
+      },
+      "reading": "見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。\n「負けるが勝ち」"
+    }
+  },
+  {
+    "view": "desktop-stage3",
+    "result": {
+      "dialog": {
+        "code": "0000",
+        "revealFraction": "0.000",
+        "revealing": "false",
+        "snowProgress": "1.0000",
+        "snowStage": "3",
+        "unlocked": "false"
+      },
+      "pageWidth": 1265,
+      "reading": "見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。\n「負けるが勝ち」\n「指の数があなたをみちびく」"
+    },
+    "logs": []
+  },
+  {
+    "view": "mobile-stage0",
+    "result": {
+      "dialog": {
+        "code": "0000",
+        "revealFraction": "0.000",
+        "revealing": "false",
+        "snowProgress": "0.0000",
+        "snowStage": "0",
+        "unlocked": "false"
+      },
+      "pageWidth": 375,
+      "reading": "見えた文字を読む",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    }
+  },
+  {
+    "view": "mobile-stage1",
+    "result": {
+      "dialog": {
+        "code": "0000",
+        "revealFraction": "0.000",
+        "revealing": "false",
+        "snowProgress": "0.3333",
+        "snowStage": "1",
+        "unlocked": "false"
+      },
+      "pageWidth": 375,
+      "reading": "見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。",
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    }
+  },
+  {
+    "view": "mobile-stage2",
+    "result": {
+      "dialog": {
+        "code": "0000",
+        "revealFraction": "0.000",
+        "revealing": "false",
+        "snowProgress": "0.6667",
+        "snowStage": "2",
+        "unlocked": "false"
+      },
+      "reading": "見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。\n「負けるが勝ち」"
+    }
+  },
+  {
+    "view": "mobile-stage3",
+    "result": {
+      "dialog": {
+        "code": "0000",
+        "revealFraction": "0.000",
+        "revealing": "false",
+        "snowProgress": "1.0000",
+        "snowStage": "3",
+        "unlocked": "false"
+      },
+      "pageWidth": 375,
+      "reading": "見えた文字を読む「グー、チョキ、パー、グー」の四つの絵。\n「負けるが勝ち」\n「指の数があなたをみちびく」"
+    },
+    "logs": []
+  }
+]

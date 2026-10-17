@@ -1,0 +1,282 @@
+{
+  "desktopDuring": {
+    "reading": "",
+    "state": {
+      "code": "0000",
+      "revealFraction": "0.496",
+      "revealing": "true",
+      "snowProgress": "0.1653",
+      "snowStage": "0",
+      "unlocked": "false"
+    }
+  },
+  "desktopText": {
+    "reading": "「サンタ、イタチ」\n「サンタ、ハタチ」",
+    "state": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.3333",
+      "snowStage": "1",
+      "unlocked": "false"
+    }
+  },
+  "desktopPicture": {
+    "reading": "「サンタ、イタチ」\n「サンタ、ハタチ」\nその横に、たぬきの絵。",
+    "state": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.6667",
+      "snowStage": "2",
+      "unlocked": "false"
+    }
+  },
+  "desktopComplete": {
+    "dialogWidth": 898,
+    "pageWidth": 1265,
+    "reading": "「サンタ、イタチ」\n「サンタ、ハタチ」\nその横に、たぬきの絵。\n絵の下に「たぬき」、最初の「た」に×。",
+    "state": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "1.0000",
+      "snowStage": "3",
+      "unlocked": "false"
+    },
+    "viewport": 1280
+  },
+  "mobileStart": {
+    "clue": {
+      "bottom": 605.28125,
+      "height": 204.875,
+      "left": 67.28125,
+      "right": 307.703125,
+      "top": 400.40625,
+      "width": 240.421875,
+      "x": 67.28125,
+      "y": 400.40625
+    },
+    "dialog": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "false"
+    },
+    "dialogWidth": 357,
+    "pageWidth": 375,
+    "plate": {
+      "bottom": 343.890625,
+      "height": 156,
+      "left": 61.8671875,
+      "right": 313.1328125,
+      "top": 187.890625,
+      "width": 251.265625,
+      "x": 61.8671875,
+      "y": 187.890625
+    },
+    "tryButton": {
+      "bottom": 395.890625,
+      "height": 44,
+      "left": 61.8671875,
+      "right": 313.1328125,
+      "top": 351.890625,
+      "width": 251.265625,
+      "x": 61.8671875,
+      "y": 351.890625
+    },
+    "viewport": 390
+  },
+  "beforeHintsWrong": {
+    "feedback": "カチ…まだ開かない。",
+    "state": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "false"
+    }
+  },
+  "mobileDuring": {
+    "reading": "",
+    "state": {
+      "code": "0000",
+      "revealFraction": "0.516",
+      "revealing": "true",
+      "snowProgress": "0.1721",
+      "snowStage": "0",
+      "unlocked": "false"
+    }
+  },
+  "mobileText": {
+    "reading": "「サンタ、イタチ」\n「サンタ、ハタチ」",
+    "state": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.3333",
+      "snowStage": "1",
+      "unlocked": "false"
+    }
+  },
+  "mobilePicture": {
+    "reading": "「サンタ、イタチ」\n「サンタ、ハタチ」\nその横に、たぬきの絵。",
+    "state": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.6667",
+      "snowStage": "2",
+      "unlocked": "false"
+    }
+  },
+  "mobileComplete": {
+    "dialogWidth": 357,
+    "pageWidth": 375,
+    "reading": "「サンタ、イタチ」\n「サンタ、ハタチ」\nその横に、たぬきの絵。\n絵の下に「たぬき」、最初の「た」に×。",
+    "state": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "1.0000",
+      "snowStage": "3",
+      "unlocked": "false"
+    },
+    "viewport": 390
+  },
+  "upTap": "1000",
+  "downTap": "0000",
+  "upDrag": "1000",
+  "downDrag": "0000",
+  "keyboardUp": "1000",
+  "beforeHintsCorrectInput": {
+    "code": "3138",
+    "revealFraction": "0.000",
+    "revealing": "false",
+    "snowProgress": "0.0000",
+    "snowStage": "0",
+    "unlocked": "false"
+  },
+  "beforeHintsUnlocked": {
+    "dialog": {
+      "code": "3138",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "true"
+    },
+    "dialogOpen": false,
+    "feedback": "カチッ。鍵が開いた。",
+    "scene": {
+      "awarded": "false",
+      "box": "{\"x\":155.625,\"y\":515.8588289962826,\"w\":213.74999999999997,\"h\":125.86617100371747}",
+      "clue": "{\"x\":190.89375,\"y\":597.671840148699,\"w\":143.21249999999998,\"h\":32.09587360594796}",
+      "code": "3138",
+      "exam": "1",
+      "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+      "handle": "{\"x\":262.5,\"y\":562.429312267658}",
+      "hinge": "[{\"x\":181.275,\"y\":519.6348141263941},{\"x\":343.725,\"y\":519.6348141263941}]",
+      "lidFace": "top",
+      "lock": "{\"x\":201.58125,\"y\":568.0932899628253,\"w\":121.83749999999998,\"h\":25.173234200743494}",
+      "paperCount": "0",
+      "progress": "0.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "snowProgress": "0.00000",
+      "snowStage": "0",
+      "unlocked": "true"
+    }
+  },
+  "closeDuringReveal": {
+    "code": "0000",
+    "revealFraction": "0.000",
+    "revealing": "false",
+    "snowProgress": "0.3333",
+    "snowStage": "1",
+    "unlocked": "false"
+  },
+  "resetAfterReveal": {
+    "dialog": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "false"
+    },
+    "scene": {
+      "awarded": "false",
+      "box": "{\"x\":155.625,\"y\":515.8588289962826,\"w\":213.74999999999997,\"h\":125.86617100371747}",
+      "clue": "{\"x\":190.89375,\"y\":597.671840148699,\"w\":143.21249999999998,\"h\":32.09587360594796}",
+      "code": "0000",
+      "exam": "1",
+      "globe": "{\"x\":6.749999999999999,\"y\":365.75000000000006,\"w\":220.6390728476821,\"h\":232.74999999999997}",
+      "handle": "{\"x\":262.5,\"y\":562.429312267658}",
+      "hinge": "[{\"x\":181.275,\"y\":519.6348141263941},{\"x\":343.725,\"y\":519.6348141263941}]",
+      "lidFace": "top",
+      "lock": "{\"x\":201.58125,\"y\":568.0932899628253,\"w\":121.83749999999998,\"h\":25.173234200743494}",
+      "paperCount": "0",
+      "progress": "0.00000",
+      "ready": "true",
+      "santaContained": "true",
+      "snowProgress": "0.00000",
+      "snowStage": "0",
+      "unlocked": "false"
+    }
+  },
+  "doubleClick": {
+    "code": "0000",
+    "revealFraction": "0.000",
+    "revealing": "false",
+    "snowProgress": "0.3333",
+    "snowStage": "1",
+    "unlocked": "false"
+  },
+  "desktopStart": {
+    "clue": {
+      "bottom": 592.578125,
+      "height": 204.875,
+      "left": 358.828125,
+      "right": 896.15625,
+      "top": 387.703125,
+      "width": 537.328125,
+      "x": 358.828125,
+      "y": 387.703125
+    },
+    "dialog": {
+      "code": "0000",
+      "revealFraction": "0.000",
+      "revealing": "false",
+      "snowProgress": "0.0000",
+      "snowStage": "0",
+      "unlocked": "false"
+    },
+    "pageWidth": 1265,
+    "plate": {
+      "bottom": 331.1875,
+      "height": 156,
+      "left": 427.5,
+      "right": 827.5,
+      "top": 175.1875,
+      "width": 400,
+      "x": 427.5,
+      "y": 175.1875
+    },
+    "tryButton": {
+      "bottom": 383.1875,
+      "height": 44,
+      "left": 427.5,
+      "right": 827.5,
+      "top": 339.1875,
+      "width": 400,
+      "x": 427.5,
+      "y": 339.1875
+    },
+    "viewport": 1280
+  },
+  "logs": []
+}

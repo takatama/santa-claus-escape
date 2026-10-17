@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>サンタの脱出 — 黄色い箱の手を選ぶラフ</title>
+  <link rel="stylesheet" href="yellow-hands.css">
+  <script src="yellow-hands.js" type="module"></script>
+</head>
+<body>
+  <header class="page-header">
+    <a href="../red-box/index.html">赤い箱へ</a>
+    <span>サンタの脱出</span>
+    <a href="index.html">絵コンテへ</a>
+  </header>
+  <main>
+    <p class="review-note">手がかりを調べた後から始める操作ラフ。全編にはまだ接続していません。</p>
+    <h1>黄色い箱の、四つの絵。</h1>
+    <p class="lead">箱の絵を見て、あなたの手を一つ選ぶ。</p>
+    <section class="puzzle" aria-labelledby="puzzle-title">
+      <div class="forest-window">
+        <img src="../assets/globe.png" alt="雪の森。サンタは丸いスノーボールの中にいる。" draggable="false">
+        <span>箱の絵を、順番に見てみよう。</span>
+      </div>
+      <div class="paper-area">
+        <aside class="box-writing" aria-label="箱に書かれた言葉">
+          <span>箱に書かれた言葉</span>
+          <p>負けるが勝ち</p>
+          <p>指の数があなたをみちびく</p>
+        </aside>
+        <div id="choosing-view">
+          <h2 id="puzzle-title"><span id="step-number">1 / 4</span><span>箱の絵</span></h2>
+          <div class="opponent" id="opponent"></div>
+          <h3>あなたの手を選ぶ</h3>
+          <div class="hand-choices" id="hand-choices" role="group" aria-label="あなたの手"></div>
+          <p class="choice-status" id="choice-status" aria-live="polite">下の三つから、一つ選んでください。</p>
+          <div class="step-navigation">
+            <button type="button" id="previous" disabled>前の絵へ</button>
+            <button type="button" id="next" class="primary" disabled>次の絵へ <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+        <div id="summary-view" hidden>
+          <h2 class="summary-title" tabindex="-1" id="summary-title">四つの手が、そろいました。</h2>
+          <p class="summary-note">箱の絵と、あなたが選んだ手です。</p>
+          <div class="summary-grid" id="summary-grid"></div>
+          <p class="edit-note">変えたい列の「選び直す」から戻れます。</p>
+        </div>
+        <nav class="step-list" id="step-list" aria-label="四つの絵への移動"></nav>
+      </div>
+    </section>
+    <footer>
+      <button type="button" id="restart">最初から選ぶ</button>
+      <p>このラフでは手を選ぶ操作まで試せます。</p>
+    </footer>
+  </main>
+</body>
+</html>
