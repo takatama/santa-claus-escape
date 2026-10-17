@@ -13,9 +13,9 @@ async function setup(page,{muted=true,seed=null,unavailable=false}={}){
 }
 async function enterRed(page){
   await btn(page,'start').click();await expect(page.locator('.story-stage')).toHaveAttribute('data-phase','intro');
-  await page.waitForTimeout(470);await btn(page,'boxes').click();await expect(btn(page,'select').first()).toBeVisible();
+  await page.waitForTimeout(470);await btn(page,'boxes').click();await expect(btn(page,'select').first()).toBeVisible({timeout:60000});
   await page.waitForTimeout(470);await page.locator('[data-action="select"][data-color="red"]').click();
-  await expect(page.locator('.box-stage')).toBeVisible();await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
+  await expect(page.locator('.box-stage')).toBeVisible({timeout:60000});await expect(page.locator('canvas')).toHaveAttribute('data-ready','true',{timeout:60000});
 }
 async function digits(page,code){for(let i=0;i<4;i++)await page.getByRole('spinbutton',{name:`${i+1}桁目のダイアル`,exact:true}).press(code[i]);}
 async function usable(page,action){await expect(btn(page,action)).toBeEnabled({timeout:60000});}

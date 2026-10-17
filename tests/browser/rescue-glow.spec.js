@@ -27,8 +27,19 @@ test('rescue glow: bright pulse reveals empty globe plus Santa before the grip; 
 test('rescue glow: reduced motion immediately reveals the grip, with no timed completion or pulse',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});await thirdResponse(page);await expect(light(page)).toBeVisible();await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await expect(page.locator('canvas')).toHaveAttribute('data-globe-source','edited-empty');await expect(page.locator('.rescue-stage')).toHaveAttribute('data-intro','ready');expect((await page.evaluate(()=>window.pulses)).every(v=>v===0)).toBe(true);expect((await saved(page)).phase).toBe('rescue');expect((await saved(page)).rescueMotion.progress).toBe(0);
 });
-for(const action of ['pagehide','reset'])test(`rescue glow: ${action} cancels the pulse; late artwork cannot replay it or advance the save`,async({page})=>{
-  let release;const gate=new Promise(r=>release=r);await page.route('**/assets/rescue/*.webp',async route=>{await gate;await route.continue();});await thirdResponse(page);await expect.poll(()=>page.locator('canvas').evaluate(c=>Number(c.dataset.glowPulse))).toBeGreaterThan(.1);
-  if(action==='pagehide')await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));else{await btn(page,'reset').click();await page.locator('#confirm-reset').click();}release();await page.waitForTimeout(1000);
-  if(action==='reset'){await expect(btn(page,'start')).toBeVisible();expect((await saved(page)).phase).toBe('welcome');}else{await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await expect(page.locator('canvas')).toHaveAttribute('data-globe-source','edited-empty');await expect(page.locator('canvas')).toHaveAttribute('data-glow-pulse','0');await expect(light(page)).toBeVisible();expect((await saved(page)).rescueMotion.progress).toBe(0);}
+for(const action of ['pagehide','reset'])test(`rescue glow: late artwork after ${action} cannot restart the glow or advance the save`,async({page})=>{
+  let release;const gate=new Promise(r=>release=r);await page.route('**/assets/rescue/*.webp',async route=>{await gate;await route.continue();});
+  try{
+    await thirdResponse(page);await expect(page.locator('#scene-loading')).toBeVisible();await expect(light(page)).toBeHidden();
+    if(action==='pagehide')await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));
+    else{
+      // Real controls are covered while loading. Exercise the internal reset
+      // cancellation directly, then confirm through the visible modal.
+      await btn(page,'reset').dispatchEvent('click');await page.locator('#confirm-reset').click();
+    }
+    await page.evaluate(()=>{window.pulses=[];});release();await page.waitForTimeout(1000);
+    expect((await page.evaluate(()=>window.pulses)).every(value=>value===0)).toBe(true);
+    if(action==='reset'){await expect(btn(page,'start')).toBeVisible();expect((await saved(page)).phase).toBe('welcome');}
+    else{await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await expect(page.locator('canvas')).toHaveAttribute('data-globe-source','edited-empty');await expect(page.locator('canvas')).toHaveAttribute('data-glow-pulse','0');await expect(light(page)).toBeVisible();expect((await saved(page)).rescueMotion.progress).toBe(0);}
+  }finally{release();}
 });

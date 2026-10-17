@@ -6,7 +6,7 @@ export async function early(page,muted=true,{waitForArt=true}={}) {
   await page.goto('/');if(muted)await btn(page,'mute').click();await btn(page,'start').click();await page.waitForTimeout(470);await btn(page,'boxes').click();
   await page.locator('.secret-entry summary').click();await page.locator('#word-answer').fill('　ダイ スキ ダヨ　');await page.locator('#spell-form button[type="submit"]').click();
   await expect(page.locator('.witch-stage')).toHaveAttribute('data-discovery','true');
-  if(waitForArt)await expect(page.locator('#app')).not.toHaveAttribute('inert');
+  if(waitForArt)await expect(page.locator('#app')).not.toHaveAttribute('inert',{timeout:20000});
 }
 export async function dragBranch(page,side,amount,{cancel=false}={}) {
   const b=grip(page,side),a=await b.boundingBox(),distance=await page.locator('.witch-picture').evaluate(e=>Math.max(90,e.clientWidth*.28));

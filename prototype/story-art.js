@@ -9,7 +9,7 @@ import { createLidSnow,paintBoxBodySnow,paintBoxLockSilhouette } from './box-art
 /** Static views for the book's remaining pages; no inputs or game state. */
 export function createStoryArt(canvas,onError) {
   const ctx=canvas.getContext('2d',{alpha:false});
-  let assets,view,isCover=false,mode='forest',disposed=false,delegate,boxArt,generation=0;
+  let assets,view,isCover=false,mode='forest',disposed=false,delegate,boxArt,generation=0,forestFailed=false;
   function paint() {
     if(disposed||!view||delegate||(mode.startsWith('box:')&&!boxArt))return;
     if(boxArt) {
@@ -29,7 +29,7 @@ export function createStoryArt(canvas,onError) {
     Object.assign(canvas.dataset,{ready:'true',santaContained:'true',globe:JSON.stringify(g),mode});
   }
   const observer=new ResizeObserver(paint);observer.observe(canvas);
-  loadForestArt().then(result=>{if(!disposed){assets=result;paint();}}).catch(()=>{if(!disposed){canvas.dataset.ready='error';onError();}});
+  loadForestArt().then(result=>{if(!disposed){assets=result;paint();}}).catch(()=>{if(!disposed){forestFailed=true;if(mode==='forest'){canvas.dataset.ready='error';onError();}}});
   return {
     update(value,{cover=false,reading=false}={}) {
       view=value;isCover=cover;
@@ -41,6 +41,7 @@ export function createStoryArt(canvas,onError) {
           const token=generation,p=BOX_PRESENTATIONS[value.selectedBox];
           p.loadArt().then(images=>{if(!disposed&&token===generation){boxArt=p.createArt(canvas,images);paint();}}).catch(()=>{if(!disposed&&token===generation){canvas.dataset.ready='error';onError();}});
         }
+        else if(forestFailed){canvas.dataset.ready='error';onError();}
       }
       // Reading is a static illustration, never a second discovery gesture.
       if(delegate)delegate.update({...view,witchDiscovery:null});else paint();

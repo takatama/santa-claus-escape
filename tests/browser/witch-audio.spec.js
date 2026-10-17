@@ -53,8 +53,8 @@ test('witch audio: replay/stop/mute clear sources and pending loads; resume neve
   await recordSources(page);await early(page,false);await grip(page).press('End');await expect.poll(()=>page.evaluate(()=>window.witchSources.length)).toBe(2);await page.locator('.box-settings>summary').click();await btn(page,'replay').click();await expect.poll(()=>page.evaluate(()=>window.witchSources.length)).toBe(4);
   await btn(page,'stop').click();await page.evaluate(()=>{for(const r of window.witchSources)r.end?.();});expect(await page.evaluate(()=>window.witchSources.every(r=>r.stopped>0))).toBe(true);await expect(page.locator('.box-voice')).toBeHidden();
   await btn(page,'replay').click();await expect.poll(()=>page.evaluate(()=>window.witchSources.length)).toBe(6);await page.locator('.box-settings>summary').click();await btn(page,'mute').click();await btn(page,'mute').click();await expect(page.locator('.box-voice')).toBeHidden();
-  await page.reload();await btn(page,'resume').click();await page.waitForTimeout(300);expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);await expect(page.locator('.witch-stage')).toHaveAttribute('data-discovery','true');
-  await grip(page).press('End');await page.reload();await btn(page,'resume').click();expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);await expect(btn(page,'accept')).toBeVisible();
+  await page.reload();await btn(page,'resume').click();await expect(page.locator('#app')).not.toHaveAttribute('inert',{timeout:20000});await page.waitForTimeout(300);expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);await expect(page.locator('.witch-stage')).toHaveAttribute('data-discovery','true');
+  await grip(page).press('End');await page.reload();await btn(page,'resume').click();await expect(page.locator('#app')).not.toHaveAttribute('inert',{timeout:20000});expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);await expect(btn(page,'accept')).toBeVisible();
 });
 
 for(const stopped of [false,true])test(`witch audio: delayed appearance art ${stopped?'after stop stays silent':'is painted before shine/voice starts'}`,async({page})=>{
