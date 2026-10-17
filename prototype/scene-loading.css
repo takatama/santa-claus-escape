@@ -1,0 +1,10 @@
+html,body { background:#102031; }
+.assets-loading .site-header,.assets-loading .site-footer { display:none; }
+.assets-loading #app { visibility:hidden; }
+.scene-loading { position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;background:#102031;color:#f7e7c8;text-align:center;font-family:'Yu Gothic',Meiryo,sans-serif; }
+.scene-loading[hidden] { display:none; }
+.scene-loading p { margin:0;font-size:18px;line-height:1.8; }
+.scene-loading small { font-size:14px;color:#decaa7; }
+.scene-loading::before { content:'';width:32px;height:32px;border:3px solid #f7e7c833;border-top-color:#f3d5a0;border-radius:50%;animation:loading-turn 1s linear infinite; }
+@keyframes loading-turn { to { transform:rotate(360deg); } }
+@media (prefers-reduced-motion:reduce) { .scene-loading::before { animation:none; } }

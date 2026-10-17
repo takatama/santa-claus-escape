@@ -23,12 +23,13 @@ test('枝の案内は指定の一文と既存のSulafatで収録し、登場後�
 test('三箱の正解は数字確認の後に解錠・開箱宣言・正解音、不正解は閉じた台詞の後に鳴る',()=>{
   for(const color of COLORS){
     const steps=resolveAudioTimeline(`${color}-open`);
-    assert.deepEqual(steps.map(s=>s.type),['effect','pause','voice','pause','effect','voice','effect','voice']);
-    assert.ok(steps[0].src.endsWith('dial.mp3'));assert.ok(steps[4].src.endsWith('unlocking-1.mp3'));
-    assert.equal(steps[2].sources[0],`./assets/audio/answer-prefix-${color}.m4a`);
-    assert.deepEqual(steps[2].sources.slice(1,5),BOXES[color].answer.split('').map(n=>`./assets/audio/answer-digit-${n}.m4a`));
-    assert.equal(steps[5].sources[0],`./assets/audio/cue-box-${color}-opened.m4a`);assert.ok(steps[6].src.endsWith('magic-cure2.mp3'));assert.ok(steps[7].sources[0].endsWith(`cue-box-${color}-paper.m4a`));
-    const wrong=resolveAudioTimeline(`${color}-wrong-0000`);assert.ok(wrong[0].src.endsWith('dial.mp3'));assert.equal(wrong.at(-2).sources[0],'./assets/audio/answer-closed.m4a');assert.ok(wrong.at(-1).src.endsWith('stupid3.mp3'));
+    assert.deepEqual(steps.map(s=>s.type),['voice','pause','effect','voice','effect','voice']);
+    assert.ok(steps[2].src.endsWith('unlocking-1.mp3'));
+    assert.equal(steps[0].sources[0],`./assets/audio/answer-prefix-${color}.m4a`);
+    assert.deepEqual(steps[0].sources.slice(1,5),BOXES[color].answer.split('').map(n=>`./assets/audio/answer-digit-${n}.m4a`));
+    assert.equal(steps[3].sources[0],`./assets/audio/cue-box-${color}-opened.m4a`);assert.ok(steps[4].src.endsWith('magic-cure2.mp3'));assert.ok(steps[5].sources[0].endsWith(`cue-box-${color}-paper.m4a`));
+    const wrong=resolveAudioTimeline(`${color}-wrong-0000`);assert.equal(wrong[0].sources[0],`./assets/audio/answer-prefix-${color}.m4a`);assert.equal(wrong.at(-2).sources[0],'./assets/audio/answer-closed.m4a');assert.ok(wrong.at(-1).src.endsWith('stupid3.mp3'));
+    for(const result of [steps,wrong,resolveAudioTimeline(`${color}-open-0000`)])assert.ok(result.every(step=>!step.src?.endsWith('dial.mp3')));
   }
   const rescue=resolveAudioTimeline('rescue');assert.ok(rescue[0].sources[0].endsWith('cue-rescue-fairy-first.m4a'));assert.equal(rescue[1].seconds,.5);assert.ok(rescue[2].src.endsWith('shine3.mp3'));assert.ok(rescue[3].sources[0].endsWith('storybook-rescue-appeared.m4a'));assert.ok(rescue[5].sources[0].endsWith('rescue-dialogue.m4a'));
 });

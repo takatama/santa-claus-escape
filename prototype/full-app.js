@@ -1,3 +1,4 @@
+import './scene-loading.js';
 import { QUESTIONS, papers, sceneFor, spokenSegments } from './full-scenario.js';
 import { initialState, transition, validateDigits, normalizeWord, readSave, writeSave, readingState } from './full-game.js';
 import { SpeechPlayer } from './speech.js';
@@ -43,7 +44,8 @@ function reportAudioStatus(status) {
     storyStage?.setStatus(status);
     const element = document.querySelector('#audio-status'); if (element) { element.textContent = status; annotateReadings(element); }
     document.querySelector('.santa-device')?.classList.toggle('speaking', status === '読み上げ中');
-    if (status !== '読み上げ中') track.quiet();
+    // BGM belongs to the scene, including the time spent exploring after a
+    // narration. Its first load may finish later than the voice recording.
     if (status === '読み上げが終わりました') boxNarration?.finish();
     else if (/未対応|再生できません/.test(status)) boxNarration?.finish();
     if(status==='読み上げが終わりました' || /未対応|再生できません/.test(status))rescueNarration?.finish();
@@ -266,7 +268,7 @@ app.addEventListener('click', event => {
     state = transition(state, { type: action.toUpperCase() }); save();
     if (action === 'mute') { boxNarration.clear(); rescueNarration.clear(); player.setMuted(state.muted); track.configure(state); }
     if (['bgm', 'sfx'].includes(action)) track.configure(state);
-    if(action==='bgm'&&state.bgmEnabled&&!state.muted&&audioStatus==='読み上げ中')track.begin(sceneFor(currentState()).bgm);
+    if(action==='bgm'&&state.bgmEnabled&&!state.muted&&!resumePending&&state.phase!=='welcome')track.begin(sceneFor(currentState()).bgm);
     if(action==='sfx')player.setEffectsEnabled(state.sfxEnabled);
     render(); return;
   }

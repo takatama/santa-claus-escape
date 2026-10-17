@@ -44,10 +44,12 @@ for(const color of ['blue','yellow']){
     const errors=[];page.on('pageerror',e=>errors.push(e.message));
     await page.setViewportSize({width:390,height:844});await setup(page,color);
     await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
+    await expect(page.locator('.box-examine-cue')).toBeVisible();
     await expect(page.getByRole('spinbutton')).toHaveCount(4);await expect(page.locator('input[type="text"]')).toHaveCount(0);
     await expect(page.locator('.box-extra')).toBeHidden();await expect(page.locator('#transcript')).not.toContainText(color==='blue'?'サガルマータ':'負けるが勝ち');
     await btn(page,'examine').evaluate(b=>{b.click();for(let i=0;i<12;i++)b.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
     await expect(stage(page)).toHaveAttribute('data-exam','2');await expect(stage(page)).toHaveAttribute('data-revealing','true');
+    await expect(page.locator('.box-examine-cue')).toHaveCount(0);
     await expect.poll(()=>page.locator('.rb-snowflake').count()).toBeGreaterThan(0);await ready(page);
     await protectedSnow(page,color);
     await expect(page.locator('canvas')).not.toHaveAttribute('aria-label',color==='blue'?/サガルマータ/:/負けるが勝ち/);

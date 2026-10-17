@@ -141,6 +141,7 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
     art = createArt(canvas, assets); find('.box-loading').hidden = true; paint();
   }).catch(() => {
     if (disposed) return;
+    canvas.dataset.ready = 'error';
     find('.box-loading').hidden = true; find('.box-fallback').hidden = false; canvas.hidden = true;
   });
   element.addEventListener('keydown', event => {
@@ -176,7 +177,12 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
       find('.box-discovery').hidden=view.boxMessage==='wrong';
       find('.box-discovery').textContent = b.opened ? open ? '二枚の紙が見つかった。' : 'カギが開いた！' : b.exam === 4 ? '手がかりが、そろった。' : '雪の下を調べよう。';
       find('[data-action="examine"]').hidden = b.opened || b.exam >= 4;
-      find('[data-action="examine"]').textContent = examineLabels[b.exam] || '調べる';
+      const examine=find('[data-action="examine"]');
+      examine.textContent = examineLabels[b.exam] || '調べる';
+      if(b.exam===1&&!b.opened){
+        const cue=document.createElement('span');cue.className='box-examine-cue';cue.textContent='ここを押して、手がかりを見つけよう';
+        examine.prepend(cue);
+      }
       find('[data-action="box_try"]').hidden = b.opened;
       find('.box-result').textContent = view.boxMessage === 'wrong' ? 'まだ開かない。もう一度ためそう。' : b.opened ? 'カギが開いた' : '';
       find('[data-action="open_lid"]').hidden = !b.opened || open;

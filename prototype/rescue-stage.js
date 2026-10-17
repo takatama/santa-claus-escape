@@ -36,7 +36,7 @@ export function createRescueStage({getState,onProgress,intro=false}) {
   window.addEventListener('scroll',finish,{...options,capture:true,passive:true});document.addEventListener('visibilitychange',()=>{if(document.hidden){finish();finishIntro();}},options);
   reduced.addEventListener('change',()=>{if(reduced.matches)finishIntro();},options);
   element.addEventListener('click',e=>{if(['reset','stop'].includes(e.target.closest('[data-action]')?.dataset.action))finishIntro();},options);
-  handle.addEventListener('click',e=>{if(active()&&!(e.detail>0&&performance.now()<suppressUntil))set(progress()+.2);},options);
+  handle.addEventListener('click',e=>{if(active()&&!(e.detail>0&&performance.now()<suppressUntil))set(progress()+.35);},options);
   element.addEventListener('keydown',e=>{if(e.key==='Escape'){finish();return;}if(e.target!==handle||!active())return;if(e.repeat&&['Enter',' '].includes(e.key)){e.preventDefault();return;}
     let value;if(e.key==='ArrowLeft')value=progress()-.05;if(e.key==='ArrowRight')value=progress()+.05;if(e.key==='Home')value=0;if(e.key==='End')value=1;
     if(value!==undefined){e.preventDefault();finish();set(value);}

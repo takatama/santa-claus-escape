@@ -11,7 +11,7 @@ export function createStoryArt(canvas,onError) {
   const ctx=canvas.getContext('2d',{alpha:false});
   let assets,view,isCover=false,mode='forest',disposed=false,delegate,boxArt,generation=0;
   function paint() {
-    if(disposed||!view||delegate)return;
+    if(disposed||!view||delegate||(mode.startsWith('box:')&&!boxArt))return;
     if(boxArt) {
       const b=view.boxes[view.selectedBox],open=view.phase==='boxResponse';
       boxArt.paint({exam:b.exam,progress:open?1:0,unlocked:open,compact:true,staticView:true});return;

@@ -11,7 +11,7 @@ import { illustratedFiles } from './illustrated-files.mjs';
 export const illustratedPageFiles = (await illustratedFiles()).map(name => `illustrated/${name}`);
 
 export const pagesCodeFiles = [
-  'index.html','styles.css','full-app.js','full-game.js','full-scenario.js','full-audio.js',
+  'index.html','styles.css','scene-loading.js','scene-loading.css','full-app.js','full-game.js','full-scenario.js','full-audio.js',
   'audio-sequence.js','audio-timeline.js','timed-audio.js','game.js','scenario.js','audio.js',
   'speech.js','soundtrack.js','sound-settings.js','illustrations.js','media-assets.js','game-events.js',
   'analytics.js','analytics-config.js','privacy.html',

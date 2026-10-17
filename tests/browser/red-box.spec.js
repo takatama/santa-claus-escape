@@ -34,6 +34,8 @@ test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid,
   await page.setViewportSize({width:390,height:844});await setup(page);
   await expect.poll(()=>artRequests.length).toBe(3);await expect(btn(page,'start')).toBeVisible();
   await enterRed(page);
+  await expect(page.locator('.box-examine-cue')).toHaveText('ここを押して、手がかりを見つけよう');
+  await expect(page.locator('.box-examine-cue')).toBeVisible();
   expect(await page.getByRole('spinbutton').count()).toBe(4);expect(await page.locator('input[type="text"]').count()).toBe(0);
   await expect(page.locator('.rb-cylinder-direction')).toHaveCount(0);
   // Rubbing the illustrated snow must not bypass the one-press examination stages.
@@ -46,6 +48,7 @@ test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid,
   await expect.poll(()=>page.locator('.rb-snowflake').count()).toBeGreaterThan(0);
   await shot(page,'mobile-snow-sweep');
   await expect(page.locator('.box-stage')).toHaveAttribute('data-exam','2');
+  await expect(page.locator('.box-examine-cue')).toHaveCount(0);
   await expect(page.locator('canvas')).not.toHaveAttribute('aria-label',/たぬき/);
   await usable(page,'examine');await shot(page,'mobile-text');await btn(page,'examine').click();await usable(page,'examine');
   await expect(page.locator('.box-stage')).toHaveAttribute('data-exam','3');
