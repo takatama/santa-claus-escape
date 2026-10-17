@@ -1,4 +1,4 @@
-import { AudioSequence,joinAudioBuffers } from './audio-sequence.js';
+import { AudioSequence,joinAudioBuffers,sliceAudioBuffer } from './audio-sequence.js';
 export function compileTimeline(context,entries){
   const markers=[];let cursor=0;
   for(const entry of entries){
@@ -30,7 +30,10 @@ export class AudioTimeline extends AudioSequence {
       const resumed=this.context.resume();
       const loading=steps.map(async step=>{
         if(step.type==='pause')return step;
-        if(step.type==='voice')return {...step,buffer:joinAudioBuffers(this.context,await Promise.all(step.sources.map(src=>this.load(src))))};
+        if(step.type==='voice'){
+          const buffers=await Promise.all(step.sources.map(src=>this.load(src)));
+          return {...step,buffer:joinAudioBuffers(this.context,step.range?buffers.map(buffer=>sliceAudioBuffer(this.context,buffer,step.range)):buffers)};
+        }
         if(step.type==='effect'){
           // 効果音だけ読めない場合も、声とゲームを続ける。未取得音を別時刻に鳴らさない。
           try{return {...step,buffer:await this.load(step.src)};}catch{return {...step,buffer:null};}

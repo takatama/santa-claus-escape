@@ -18,6 +18,16 @@ export function joinAudioBuffers(context,buffers){
   }
   return joined;
 }
+// A recording may supply several cues. Crop before joining/trimming so cue
+// boundaries are always measured against the original decoded recording.
+export function sliceAudioBuffer(context, buffer, {start=0,end=buffer.length/buffer.sampleRate}={}) {
+  const first=Math.max(0,Math.round(start*buffer.sampleRate));
+  const last=Math.min(buffer.length,Math.round(end*buffer.sampleRate));
+  if(last<=first)throw Error('Empty audio range');
+  const result=context.createBuffer(buffer.numberOfChannels,last-first,buffer.sampleRate);
+  for(let channel=0;channel<buffer.numberOfChannels;channel++)result.getChannelData(channel).set(buffer.getChannelData(channel).subarray(first,last));
+  return result;
+}
 export class AudioSequence {
   constructor({makeContext=()=>{const Context=globalThis.AudioContext||globalThis.webkitAudioContext;return Context?new Context():null;},fetchAudio=src=>fetch(src)}={}){
     this.makeContext=makeContext;this.fetchAudio=fetchAudio;this.context=null;this.source=null;this.gain=null;this.generation=0;this.buffers=new Map();
