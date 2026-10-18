@@ -28,8 +28,16 @@ export function createPaperStage({ getState, onPlacement, onSubmit }) {
   function select(id, toggle = false) { if (!active() || !buttons.has(id)) return; selected = toggle && selected === id ? null : id; selection(); }
   function placement(id, index) {
     if (!active()) return;
+    const previous = getState().spellSlots.indexOf(id);
     selected = id; result = '';
     onPlacement({type:index === null ? 'REMOVE_PAPER' : 'PLACE_PAPER',id,index,revision:getState().revision});
+    const button=buttons.get(id), placed=getState().spellSlots.indexOf(id);
+    if(button && placed!==previous) {
+      button.classList.remove('paper-landed');
+      // Re-trigger only an accepted placement, never selection or a failed drop.
+      void button.offsetWidth;
+      button.classList.add('paper-landed');
+    }
     // Moving the actual button preserves identity; reparenting needs explicit focus.
     buttons.get(id)?.focus({preventScroll:true});
     selection(index === null ? `${label(id)}を手元に戻しました。` : `${label(id)}を${index + 1}番目に置きました。`);

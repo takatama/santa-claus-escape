@@ -11,7 +11,10 @@ test('witch audio: correct word starts branch narration, first full opening canc
   const requests=[];page.on('request',r=>requests.push(r.url()));await recordSources(page);await early(page,false);
   expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);expect(requests.some(url=>/shine1\.mp3|ja-leda-invite\.m4a/.test(url))).toBe(false);
   await expect(page.locator('#transcript')).toContainText('枝の向こうに誰かがいるようです。');await expect(page.locator('.box-voice')).toBeVisible();await expect(btn(page,'accept')).toBeHidden();
-  const branchVoice=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>branchVoice.evaluate(a=>a.currentTime)).toBeGreaterThan(0);await branchVoice.evaluate(a=>{window.branchEnd=a.onended;window.branchError=a.onerror;});
+  const branchVoice=await page.locator('#audio-host audio').elementHandle();await expect.poll(()=>branchVoice.evaluate(a=>a.currentTime)).toBeGreaterThan(0);
+  // Like the buffer sources above, keep this narration alive while exercising
+  // controls. Natural completion on a busy machine is not an interruption.
+  await branchVoice.evaluate(a=>{a.playbackRate=.25;window.branchEnd=a.onended;window.branchError=a.onerror;});
   expect(await branchVoice.evaluate(a=>a.src.endsWith('/ja-branch-discovery.m4a'))).toBe(true);
   await expect(page.getByText('枝のつまみを外へ引こう。押しても開けます。')).toHaveCount(0);await expect(btn(page,'continue_discovery')).toHaveCount(0);
   await dragBranch(page,1,.5);expect(await page.evaluate(()=>window.witchSources.length)).toBe(0);expect(await branchVoice.evaluate(a=>!a.paused)).toBe(true);

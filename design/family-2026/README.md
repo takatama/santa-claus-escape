@@ -47,7 +47,7 @@ AI が7つの立場（保護者、発達心理、ゲームデザイナー、実�
 | [stress/](stress/) | 上位3案のプレモーテムと家族プレイの机上の想定（AI による想像で、実データではない） |
 | [research/00-research-brief.md](research/00-research-brief.md) | 統合リサーチブリーフ（原作の核、PR #1 の評価、共遊の原則、市場、日本の家庭、技術、オーナーの価値観、矛盾の裁定） |
 | [research/01〜11](research/) | 元の調査レポート：原作の物語と謎、声の絵本、PR #1 の体験、PR #1 のコードレビュー、素材と権利、これまでの判断の記録、共遊の研究、ベンチマーク、日本の家庭、技術、実ブラウザでの通しプレイ所見 |
-| [bench/](bench/) | Canvas 2D と WebGL2 のメッシュ描画の比較ベンチ。PR #1 のブランチの `illustrated-prototype/` を読む（`ILLUSTRATED_DIR` で場所を変えられる）。`node design/family-2026/bench/server.mjs` で `http://127.0.0.1:4297/` |
+| 旧比較ベンチ | 旧試作を参照する実行ファイルは2026-10-18に廃止。測定方法・結果は調査記録、実装はGit履歴の `8ca4da8:design/family-2026/bench/` を参照。現行ゲームの起動には使わない |
 
 ## 作り方と、読むときの注意
 

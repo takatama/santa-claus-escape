@@ -4,6 +4,8 @@
 
 **日本語版は、導入・三つの箱・ひみつの言葉・まほう使いとの三問・サンタの救出まで遊べます。** 原作の問題群から固定の問題を選んでいます。英語版と問題のランダム出題は未実装です。
 
+開発・起動対象は **`prototype/` の統合版**です。`index.html` → `full-app.js` が入口です。独立した旧 `illustrated-prototype/` と `/illustrated/` の公開・起動導線は廃止しました。箱は拡大画面のまま開閉し、スノードームは表示しません。[現行の作業先](AGENTS.md)。
+
 ![絵本版の表紙](prototype/qa/gemini-storybook-cover.jpg)
 
 ## 起動

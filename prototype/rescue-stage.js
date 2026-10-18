@@ -2,6 +2,7 @@ import { stageDialogueMarkup,createStageDialogue,createStageSettings } from './s
 import { createRescueArt } from './rescue-art.js';
 import { clamp } from './witch-math.js';
 import { mediaUrl } from './media-assets.js';
+import { createRescueAtmosphere } from './rescue-atmosphere.js';
 
 // Presentation and input only. Game, saves and the two voice intervals stay outside.
 export function createRescueStage({getState,onProgress,intro=false}) {
@@ -12,10 +13,12 @@ export function createRescueStage({getState,onProgress,intro=false}) {
   const finaleError=Object.assign(document.createElement('p'),{className:'rescue-art-error rescue-finale-error',textContent:'最後の絵を読み込めませんでした。お話と読み返しは続けられます。',hidden:true});finaleError.setAttribute('role','status');find('.rescue-picture').append(finale,finaleError);
   const listeners=new AbortController(),options={signal:listeners.signal},reduced=matchMedia('(prefers-reduced-motion: reduce)');let disposed=false,layout,drag=null,suppressUntil=0,introPending=intro&&!reduced.matches,introFrame,latest,rescueArtFailed=false,finaleFailed=false,finaleRequested=false;
   const finaleReached=()=>latest&&(latest.view.phase==='complete'||latest.reading&&latest.view.phase==='rescue'&&latest.view.rescueMotion?.released===true);
+  const weather=createRescueAtmosphere(find('.rescue-picture'),finale,()=>({layout,view:latest?.view}));
   function syncFinale(){
     if(disposed)return;const complete=finaleReached(),show=complete&&finale.naturalWidth>0&&!finaleFailed;
     finale.hidden=!show;finaleError.hidden=!complete||!finaleFailed;find('.rescue-art-error').hidden=!rescueArtFailed||show;find('canvas').setAttribute('aria-hidden',String(show));
     element.dataset.finale=complete?(show?'ready':finaleFailed?'error':'loading'):'inactive';
+    weather.refresh();
   }
   finale.addEventListener('load',syncFinale,options);finale.addEventListener('error',()=>{finaleFailed=true;syncFinale();},options);
   const active=()=>!disposed&&!introPending&&getState().phase==='rescue'&&getState().rescueMotion?.released===false;
@@ -41,7 +44,7 @@ export function createRescueStage({getState,onProgress,intro=false}) {
     let value;if(e.key==='ArrowLeft')value=progress()-.05;if(e.key==='ArrowRight')value=progress()+.05;if(e.key==='Home')value=0;if(e.key==='End')value=1;
     if(value!==undefined){e.preventDefault();finish();set(value);}
   },options);
-  const art=createRescueArt(find('canvas'),value=>{if(drag&&(value.width!==drag.width||value.height!==drag.height))finish();layout=value;handle.style.left=`${value.handle.x}px`;handle.style.top=`${value.handle.y}px`;},()=>{rescueArtFailed=true;syncFinale();},{beforeReveal:introPending});
+  const art=createRescueArt(find('canvas'),value=>{if(drag&&(value.width!==drag.width||value.height!==drag.height))finish();layout=value;handle.style.left=`${value.handle.x}px`;handle.style.top=`${value.handle.y}px`;weather.refresh();},()=>{rescueArtFailed=true;syncFinale();},{beforeReveal:introPending});
   // One short presentation pulse on entry only, independent of voice/art fetches.
   if(introPending){let started;const tick=time=>{if(disposed||!introPending)return;started??=time;const t=Math.min(1,(time-started)/1100);art.setGlow(Math.sin(Math.PI*t)**2,{reveal:t>=.5});if(t===1)finishIntro();else introFrame=requestAnimationFrame(tick);};introFrame=requestAnimationFrame(tick);}
   return {element,ready:art.ready,setStatus:status=>captions.setStatus(status),
@@ -56,6 +59,6 @@ export function createRescueStage({getState,onProgress,intro=false}) {
       find('.rescue-caption').textContent=reading?'読み返しの時間':released?'サンタは、スノードームの外へ。':'さぁ、サンタを助けよう';
       settingsPanel.update(settings);captions.update({dialogue,muted:view.muted,status});find('#save-status').textContent=saved?'この端末に自動保存':'保存できません・このまま遊べます';
       for(const b of element.querySelectorAll('[data-action]'))b.dataset.revision=String(view.revision);art.update(view);
-    },destroy(){disposed=true;cancelAnimationFrame(introFrame);finish();listeners.abort();art.destroy();},
+    },destroy(){disposed=true;cancelAnimationFrame(introFrame);finish();listeners.abort();art.destroy();weather.destroy();},
   };
 }

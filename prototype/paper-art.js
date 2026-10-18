@@ -1,10 +1,19 @@
 import { glow } from './red-paint.js';
 import { loadForestArt } from './forest-art.js';
+import { createAtmosphere, fallingSnow, createLivingGlobe } from './atmosphere.js';
 
 // PR #1's existing forest and closed globe. No rescue or branch interaction.
 export function createPaperArt(canvas, workspace, onError) {
   const ctx = canvas.getContext('2d', { alpha: false });
-  let assets, disposed = false, accepted = false;
+  let assets, disposed = false, accepted = false, backdrop, globeBox, livingGlobe;
+  const atmosphere = createAtmosphere(canvas, (time, moving) => {
+    if (disposed || !backdrop || !globeBox) return;
+    const w=canvas.clientWidth,h=canvas.clientHeight;
+    ctx.drawImage(backdrop,0,0,backdrop.width,backdrop.height,0,0,w,h);
+    fallingSnow(ctx,w,h,time,0);fallingSnow(ctx,w,h,time,1);
+    livingGlobe(ctx,globeBox,time,moving);
+    fallingSnow(ctx,w,h,time,2,[globeBox]);
+  });
   function paint() {
     if (disposed) return;
     const w = canvas.clientWidth, h = canvas.clientHeight, dpr = Math.min(devicePixelRatio || 1, 2);
@@ -17,11 +26,14 @@ export function createPaperArt(canvas, workspace, onError) {
     const gh = wide ? Math.min(h * .8, w * .34) : Math.min(room, w * .65), gw = gh * globe.width / globe.height;
     const x = wide ? w * .18 - gw / 2 : (w - gw) / 2, y = wide ? (h - gh) / 2 : Math.max(0, (room - gh) / 2);
     if (accepted) glow(ctx, w * .8, h * .55, Math.min(w, h) * .45, .75);
-    ctx.drawImage(globe, x, y, gw, gh);
+    backdrop=document.createElement('canvas');backdrop.width=canvas.width;backdrop.height=canvas.height;
+    backdrop.getContext('2d').drawImage(canvas,0,0);
+    globeBox={x,y,w:gw,h:gh};
+    atmosphere.refresh();
     Object.assign(canvas.dataset, { ready: 'true', santaContained: 'true', branchesOpen: 'false', accepted: String(accepted), globe: JSON.stringify({x,y,w:gw,h:gh}) });
   }
   const observer = new ResizeObserver(paint); observer.observe(canvas); observer.observe(workspace);
   paint();
-  loadForestArt().then(result => { if (!disposed) { assets = result; paint(); } }).catch(() => { if (!disposed) { canvas.dataset.ready = 'error'; onError(); } });
-  return { update(value) { accepted = value; paint(); }, destroy() { disposed = true; observer.disconnect(); } };
+  loadForestArt().then(result => { if (!disposed) { assets = result; livingGlobe=createLivingGlobe(assets[1]);paint(); } }).catch(() => { if (!disposed) { canvas.dataset.ready = 'error'; onError(); } });
+  return { update(value) { accepted = value; paint(); }, destroy() { disposed = true; observer.disconnect(); atmosphere.destroy(); } };
 }
