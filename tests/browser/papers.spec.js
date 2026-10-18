@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import { test, expect } from '@playwright/test';
 import { initialState, transition, STORAGE_KEY } from '../../game/full-game.js';
 import { btn, card, slot, paperState, setupPapers, arrangePapers, correctOrder, saved, dragTo, discover } from './paper-helpers.js';
@@ -70,11 +71,11 @@ test('papers: seven viewports, readable six papers, pinned main action, scroll p
     const text=page.locator('#transcript');await text.press('End');await expect.poll(()=>text.evaluate(e=>Math.abs(e.scrollHeight-e.clientHeight-e.scrollTop)<1)).toBe(true);const scroll=await text.evaluate(e=>e.scrollTop);await card(page,'red-1').click();await slot(page,0).click();expect(await text.evaluate(e=>e.scrollTop)).toBe(scroll);
     await btn(page,'mute').click();await btn(page,'mute').click();expect(await text.evaluate(e=>e.scrollTop)).toBe(scroll);
     await page.locator('.box-settings>summary').click();await page.locator('#bgm-volume').fill('35');await page.locator('.sound-settings>summary').click();await btn(page,'sfx').click();await expect(btn(page,'sfx')).toBeFocused();expect(await text.evaluate(e=>e.scrollTop)).toBe(scroll);await page.locator('.sound-settings>summary').click();await page.locator('.box-settings>summary').click();
-    await page.screenshot({path:`test-results/pr-c/papers-${width}x${height}.png`});
+    await captureEvidence(page,{path:`test-results/pr-c/papers-${width}x${height}.png`});
     await card(page,'red-1').press('Delete');
   }
   await page.emulateMedia({reducedMotion:'reduce'});await arrangePapers(page);await page.locator('[data-paper-submit]').click();await expect(page.locator('.witch-stage')).toBeVisible();
-  await page.screenshot({path:'test-results/pr-c/papers-to-branches.png'});await expect(page.locator('canvas')).toHaveAttribute('data-santa-contained','true');
+  await captureEvidence(page,{path:'test-results/pr-c/papers-to-branches.png'});await expect(page.locator('canvas')).toHaveAttribute('data-santa-contained','true');
   expect(await page.locator('.box-voice-bars i').first().evaluate(e=>getComputedStyle(e).animationName)).toBe('none');
 });
 test.describe('paper touch emulation',()=>{

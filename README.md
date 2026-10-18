@@ -70,6 +70,8 @@ npm run build
 
 これらはローカルの検査で、外部APIを呼びません。非公開の原作コピーがない場合、原本との直接照合テストだけをスキップして明示します。状態遷移・入力・保存・音声ファイルの検査は公開版でも実行します。
 
+ブラウザ検査は `npm ci` と `npx playwright install chromium` の後、`npm run build && npm run test:e2e` で実行します。失敗時のスクリーンショットとトレースを自動保存します。正常時の目視確認用画像も必要な場合は `SANTA_E2E_SCREENSHOTS=1 npm run test:e2e` を使います。[テストを残す・削る判断と計測](docs/TEST-REVIEW.md)。
+
 `game/scripts/generate-audio.mjs --plan` は生成計画の表示のみです。`--sample` / `--all` / `--full` / `--answers` は制作専用で、未生成ファイルがある場合にGemini APIを呼びます。実行する場合は、自分のキーと利用枠を別途用意してください。通常の起動・テスト・ビルドでは実行しません。
 
 上のスクリプトは初期収録の生成記録を再現するものです。採用後の妖精の声は `game/scripts/generate-fairy-production.mjs --plan` で確認できます。`--generate` は12場面を15音声として各一回生成し、`compose-fairy-scenes.mjs` は二話者ずつに分けた保留・救出の音声を制作時に結合します。声選びと採用の記録は [妖精の試聴](game/qa/FAIRY-VOICE-AUDITION.md)。

@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import { test, expect } from '@playwright/test';
 import { QUESTIONS } from '../../game/full-scenario.js';
 import { STORAGE_KEY, transition } from '../../game/full-game.js';
@@ -34,7 +35,7 @@ test('witch: zero-paper early full path with correct aliases, drafts/responses/r
 
 test('witch: both branch directions, partial pause/reverse/cancel/resize/reload, tap/keys and one summon',async({page})=>{
   await early(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await expect(btn(page,'accept')).toBeHidden();
-  await page.screenshot({path:'test-results/pr-d/discovery-start.png'});const base=await saved(page);await dragBranch(page,1,.5);expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.5,1);const partial=(await saved(page)).witchDiscovery.progress;await page.screenshot({path:'test-results/pr-d/discovery-middle.png'});
+  await captureEvidence(page,{path:'test-results/pr-d/discovery-start.png'});const base=await saved(page);await dragBranch(page,1,.5);expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.5,1);const partial=(await saved(page)).witchDiscovery.progress;await captureEvidence(page,{path:'test-results/pr-d/discovery-middle.png'});
   await page.waitForTimeout(600);expect((await saved(page)).witchDiscovery.progress).toBe(partial);await dragBranch(page,1,-.2);expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.3,1);
   await dragBranch(page,-1,.2,{cancel:true});expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.5,1);
   // Reload can show the controls before decoded art releases the inert screen.
@@ -58,13 +59,13 @@ test('witch: both branch directions, partial pause/reverse/cancel/resize/reload,
 test('witch: seven viewport sizes keep fixed scene geometry, visible controls, settings/input/caption focus and reduced motion',async({page})=>{
   await early(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
   for(const [width,height]of [[320,568],[390,844],[568,320],[844,390],[768,1024],[1024,768],[1280,720]]){
-    await page.setViewportSize({width,height});const text=page.locator('#transcript');await expect(text).toContainText('枝の向こうに誰かがいるようです。');await text.press('End');const r=await text.boundingBox();expect(r.y).toBeGreaterThanOrEqual(0);expect(r.y+r.height).toBeLessThanOrEqual(height-44);expect(await text.evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await expect(btn(page,'accept')).toBeHidden();await page.screenshot({path:`test-results/pr-d/branch-narration-${width}x${height}.png`});
+    await page.setViewportSize({width,height});const text=page.locator('#transcript');await expect(text).toContainText('枝の向こうに誰かがいるようです。');await text.press('End');const r=await text.boundingBox();expect(r.y).toBeGreaterThanOrEqual(0);expect(r.y+r.height).toBeLessThanOrEqual(height-44);expect(await text.evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);await expect(btn(page,'accept')).toBeHidden();await captureEvidence(page,{path:`test-results/pr-d/branch-narration-${width}x${height}.png`});
   }
   for(const [width,height]of [[320,568],[390,844],[568,320],[844,390],[768,1024],[1024,768],[1280,720]]){
     await page.setViewportSize({width,height});await grip(page).press('End');await expect(btn(page,'accept')).toBeVisible();
     for(const action of ['accept','decline']){const main=await btn(page,action).boundingBox();expect(main.y).toBeGreaterThanOrEqual(0);expect(main.y+main.height).toBeLessThanOrEqual(height-44);expect(main.height).toBeGreaterThanOrEqual(44);}
     for(const side of [-1,1]){const r=await grip(page,side).boundingBox();expect(r.width).toBeGreaterThanOrEqual(44);expect(r.height).toBeGreaterThanOrEqual(44);expect(r.x).toBeGreaterThanOrEqual(0);expect(r.y+r.height).toBeLessThanOrEqual(height);}
-    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:`test-results/pr-d/discovery-${width}x${height}.png`});
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await captureEvidence(page,{path:`test-results/pr-d/discovery-${width}x${height}.png`});
   }
   await page.setViewportSize({width:390,height:844});await page.waitForTimeout(470);await btn(page,'accept').click();
   await page.locator('#word-answer').fill('く');const node=await page.locator('#word-answer').elementHandle();const text=page.locator('#transcript');await text.press('End');await expect.poll(()=>text.evaluate(e=>Math.abs(e.scrollHeight-e.clientHeight-e.scrollTop)<1)).toBe(true);const scroll=await text.evaluate(e=>e.scrollTop);
@@ -73,10 +74,10 @@ test('witch: seven viewport sizes keep fixed scene geometry, visible controls, s
   for(const [width,height]of [[320,568],[390,844],[568,320],[844,390],[768,1024],[1024,768],[1280,720]]){
     await page.setViewportSize({width,height});await expect.poll(()=>page.locator('canvas').evaluate(e=>e.width===Math.round(e.clientWidth*Math.min(devicePixelRatio||1,2)))).toBe(true);const g=await page.locator('canvas').getAttribute('data-globe');
     for(const selector of ['#word-answer','#reply-form button']){const r=await page.locator(selector).boundingBox();expect(r.y+r.height).toBeLessThanOrEqual(height);expect(r.height).toBeGreaterThanOrEqual(44);}
-    await page.screenshot({path:`test-results/pr-d/question-${width}x${height}.png`});await page.locator('#word-answer').fill('クマ');await page.locator('#reply-form button').click();await expect(page.locator('canvas')).toHaveAttribute('data-santa-contained','true');expect(await page.locator('canvas').getAttribute('data-globe')).toBe(g);
-    await page.screenshot({path:`test-results/pr-d/response-${width}x${height}.png`});await page.waitForTimeout(470);await btn(page,'continue_witch').click();
+    await captureEvidence(page,{path:`test-results/pr-d/question-${width}x${height}.png`});await page.locator('#word-answer').fill('クマ');await page.locator('#reply-form button').click();await expect(page.locator('canvas')).toHaveAttribute('data-santa-contained','true');expect(await page.locator('canvas').getAttribute('data-globe')).toBe(g);
+    await captureEvidence(page,{path:`test-results/pr-d/response-${width}x${height}.png`});await page.waitForTimeout(470);await btn(page,'continue_witch').click();
     for(const button of await page.locator('[data-action="choice"]').all()){const r=await button.boundingBox();expect(r.y+r.height).toBeLessThanOrEqual(height);expect(r.height).toBeGreaterThanOrEqual(44);}
-    await page.screenshot({path:`test-results/pr-d/choices-${width}x${height}.png`});
+    await captureEvidence(page,{path:`test-results/pr-d/choices-${width}x${height}.png`});
     // Revisit the first question only for the viewport matrix; full paths above
     // use real UI from the cover and never seed progress.
     const s=await saved(page);s.phase='witchQuestion';s.questionIndex=0;s.responses=[];s.questionDraft='';s.history=s.history.filter(e=>!e.phase.startsWith('witch')||e.phase==='witchInvite');
@@ -105,13 +106,13 @@ test('witch: unavailable image/audio/storage still completes the early session',
 
 test.describe('witch touch emulation',()=>{
   test.use({hasTouch:true,viewport:{width:390,height:844}});
-  test('branch taps and original answers through ending without dragging or speech',async({page})=>{
+  test('branch taps reveal the wizard and accept starts the first question',async({page})=>{
     await early(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');
     const original=await saved(page);
     await grip(page).tap();expect((await saved(page)).witchDiscovery.progress).toBe(.35);await expect(btn(page,'accept')).toBeHidden();
     await grip(page).tap();expect((await saved(page)).witchDiscovery.progress).toBe(.7);await expect(btn(page,'accept')).toBeHidden();
     await grip(page).tap();expect((await saved(page)).witchDiscovery.progress).toBe(1);await expect(btn(page,'accept')).toBeVisible();
     expect((await saved(page)).boxes).toEqual(original.boxes);
-    await page.waitForTimeout(470);await btn(page,'accept').tap();await answerAll(page);
+    await page.waitForTimeout(470);await btn(page,'accept').tap();await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchQuestion');await expect(page.locator('#word-answer')).toBeVisible();expect((await saved(page)).responses).toEqual([]);
   });
 });

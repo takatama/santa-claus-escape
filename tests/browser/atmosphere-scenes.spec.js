@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import {test,expect} from '@playwright/test';
 import {initialState,transition} from '../../game/full-game.js';
 import {BOXES} from '../../game/full-scenario.js';
@@ -33,7 +34,7 @@ test('paper atmosphere: snowfall behind letters, accepted landing, no motion but
   await card(page,'red-0').press('ArrowRight');
   expect(await card(page,'red-0').evaluate(e=>getComputedStyle(e).animationName)).toBe('none');
   await expect(card(page,'red-0')).not.toHaveClass(/paper-landed/);
-  await page.screenshot({path:'test-results/atmosphere/papers.png'});
+  await captureEvidence(page,{path:'test-results/atmosphere/papers.png'});
   await page.emulateMedia({reducedMotion:'reduce'});await page.reload();await btn(page,'resume').click();
   await expect(canvas).toHaveAttribute('data-motion','paused');expect(errors).toEqual([]);
 });
@@ -63,7 +64,7 @@ test('rescue atmosphere: reversible progress, release settles, finale clips snow
   await page.emulateMedia({reducedMotion:'reduce'});await expect(weather).toHaveAttribute('data-motion','paused');
   const snapshot=await weather.innerHTML(),complete=await saved(page);
   await page.waitForTimeout(180);expect(await weather.innerHTML()).toBe(snapshot);expect(await saved(page)).toEqual(complete);
-  await page.screenshot({path:'test-results/atmosphere/rescue-finale.png'});expect(errors).toEqual([]);
+  await captureEvidence(page,{path:'test-results/atmosphere/rescue-finale.png'});expect(errors).toEqual([]);
 });
 test('rescue atmosphere: reduced motion completes without a lingering release burst',async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});await setupRescue(page);await finishRescue(page);

@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import {test,expect} from '@playwright/test';
 import {early,grip,btn,saved} from './witch-helpers.js';
 const art=page=>page.locator('.witch-picture canvas');
@@ -51,14 +52,14 @@ test('wizard puppet: first reveal hops, smiles, waves twice; reverse/resume neve
   await page.clock.install();await page.clock.pauseAt(new Date(Date.now()+10000));
   await grip(page).press('End');
   await page.clock.runFor(360);expect((await pose(page)).y).toBeLessThan(-.15);
-  await page.screenshot({path:'test-results/wizard-puppet/01-hop.png'});
+  await captureEvidence(page,{path:'test-results/wizard-puppet/01-hop.png'});
   await advanceTo(page,1);expect((await pose(page)).smile).toBe(true);
-  await page.screenshot({path:'test-results/wizard-puppet/02-smile.png'});
+  await captureEvidence(page,{path:'test-results/wizard-puppet/02-smile.png'});
   await advanceTo(page,1.24);const greeting=await pose(page);
   expect(Math.abs(greeting.arm)).toBeGreaterThan(.03);expect(Math.abs(greeting.arm)).toBeLessThan(.14);
   expect(greeting.eyesClosed).toBe(true);
   expect(greeting.y).toBe(0);expect(greeting.sy).toBe(1);
-  await page.screenshot({path:'test-results/wizard-puppet/03-wave.png'});
+  await captureEvidence(page,{path:'test-results/wizard-puppet/03-wave.png'});
   await advanceTo(page,1.42);expect((await pose(page)).eyesClosed).toBe(false);
   await advanceTo(page,2.3);await expect(art(page)).toHaveAttribute('data-wizard-animation','idle');
   await grip(page).press('Home');await grip(page).press('End');
@@ -82,7 +83,7 @@ test('wizard puppet: reduce skips entrance, freezes pixels, 320px header fits; c
   expect(await saved(page)).toEqual(before);
   const bounds=await page.locator('.box-settings>summary').boundingBox();expect(bounds.x+bounds.width).toBeLessThanOrEqual(320);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-  await page.screenshot({path:'test-results/wizard-puppet/320-reduced.png'});
+  await captureEvidence(page,{path:'test-results/wizard-puppet/320-reduced.png'});
   await page.emulateMedia({reducedMotion:'no-preference'});await expect(art(page)).toHaveAttribute('data-wizard-animation','idle');
 });
 
@@ -118,7 +119,7 @@ test('wizard puppet: atlas failure falls back to original girl with available na
   await expect(art(page)).toHaveAttribute('data-ready','error');await expect(art(page)).toHaveAttribute('data-wizard-parts','fallback');
   await expect(page.locator('.witch-art-error')).toBeVisible();await grip(page).press('End');
   await page.waitForTimeout(470);await btn(page,'accept').click();await expect(page.locator('#word-answer')).toBeVisible();
-  await page.screenshot({path:'test-results/wizard-puppet/fallback.png'});
+  await captureEvidence(page,{path:'test-results/wizard-puppet/fallback.png'});
 });
 
 test('wizard puppet: missing closed-eye painting keeps the approved whole body and hand usable',async({page})=>{
@@ -140,7 +141,7 @@ test('wizard puppet: all three questions and responses use closed eyes and mouth
     await advanceConversationTo(page,.38);
     let p=await pose(page);expect(p.eyesClosed).toBe(true);expect(p.y).toBe(0);expect(p.sy).toBe(1);
     if(i===0){
-      await page.screenshot({path:'test-results/wizard-puppet/playing-question.png'});
+      await captureEvidence(page,{path:'test-results/wizard-puppet/playing-question.png'});
       const before=await saved(page);await page.clock.runFor(5600);
       expect(await saved(page)).toEqual(before);p=await pose(page);
       expect(p.arm).toBe(0);expect(p.eyesClosed).toBe(true);expect(p.y).toBe(0);
@@ -154,7 +155,7 @@ test('wizard puppet: all three questions and responses use closed eyes and mouth
     await expect(page.locator('.witch-stage')).toHaveAttribute('data-phase','witchResponse');
     await advanceConversationTo(page,.38);p=await pose(page);
     expect(p.eyesClosed).toBe(true);expect(p.lean).toBeLessThan(-.02);expect(p.y).toBe(0);
-    if(i===0)await page.screenshot({path:'test-results/wizard-puppet/playing-response.png'});
+    if(i===0)await captureEvidence(page,{path:'test-results/wizard-puppet/playing-response.png'});
     await page.clock.runFor(600);expect((await pose(page)).eyesClosed).toBe(false);
     if(i<2)await btn(page,'continue_witch').click();
   }

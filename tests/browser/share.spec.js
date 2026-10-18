@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import {test,expect} from '@playwright/test';
 import {tag} from './analytics-helpers.js';
 import {setupRescue,finishRescue,btn,saved} from './rescue-helpers.js';
@@ -22,7 +23,7 @@ test('share: clipboard and manual alternatives preserve completion at seven view
   for(const [width,height]of [[320,568],[390,844],[568,320],[844,390],[768,1024],[1024,768],[1280,720]]){
     await page.setViewportSize({width,height});for(const action of ['share','read','reset']){const b=await btn(page,action).boundingBox();expect(b.height).toBeGreaterThanOrEqual(44);expect(b.x).toBeGreaterThanOrEqual(0);expect(b.y+b.height).toBeLessThanOrEqual(height-44);}
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth&&document.documentElement.scrollHeight<=innerHeight)).toBe(true);
-    await page.screenshot({path:`test-results/share/complete-${width}x${height}.png`});
+    await captureEvidence(page,{path:`test-results/share/complete-${width}x${height}.png`});
   }
   await btn(page,'share').click();await expect(page.locator('#share-message')).toContainText('URLをコピーしました');expect(await page.evaluate(()=>window.copiedUrl)).toContain('utm_content=copy');expect(await saved(page)).toEqual(before);await page.locator('[data-share-close]').click();
   await page.evaluate(()=>window.denyCopy=true);await btn(page,'share').click();await expect(page.locator('#share-url')).toHaveValue(/utm_content=manual_copy/);await expect(page.locator('#share-url')).toBeFocused();await page.locator('[data-share-copy-done]').click();expect(await saved(page)).toEqual(before);await page.locator('[data-share-close]').click();

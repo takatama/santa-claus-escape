@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import {test,expect} from '@playwright/test';
 import {initialState,transition} from '../../game/full-game.js';
 import {setupPapers,paperState,card,slot,saved,btn} from './paper-helpers.js';
@@ -32,7 +33,7 @@ test('issue11: double click fills the first gap once, preserves da identities an
   for(const id of ['red-0','blue-0','yellow-0'])await card(page,id).dblclick();
   const before=(await saved(page)).spellSlots;
   expect((await saved(page)).phase).toBe('spell');expect(new Set(before).size).toBe(6);expect(errors).toEqual([]);
-  await page.setViewportSize({width:390,height:844});await page.screenshot({path:'test-results/issue11/papers-390x844.png'});
+  await page.setViewportSize({width:390,height:844});await captureEvidence(page,{path:'test-results/issue11/papers-390x844.png'});
 });
 
 test('issue11: all mixed box states share body scale and ground at portrait, landscape and desktop',async({page})=>{
@@ -47,7 +48,7 @@ test('issue11: all mixed box states share body scale and ground at portrait, lan
     const boxes=await canvases.evaluateAll(nodes=>nodes.map(c=>JSON.parse(c.dataset.box)));
     for(const box of boxes){expect(box.w).toBeCloseTo(boxes[0].w,4);expect(box.y+box.h).toBeCloseTo(boxes[0].y+boxes[0].h,4);}
     await expect(canvases.nth(0)).toHaveAttribute('data-opened','true');await expect(canvases.nth(2)).toHaveAttribute('data-opened','false');
-    await page.screenshot({path:`test-results/issue11/boxes-${width}x${height}.png`});
+    await captureEvidence(page,{path:`test-results/issue11/boxes-${width}x${height}.png`});
   }
 });
 
@@ -66,7 +67,7 @@ test('issue11: each branch can open fully without leaving the picture, with paus
       const b=await grip(page,side).boundingBox();await page.mouse.move(b.x+b.width/2,b.y+b.height/2);await page.mouse.down();await page.mouse.move(end,b.y+b.height/2,{steps:8});await page.mouse.up();
       expect((await saved(page)).witchDiscovery.progress).toBeGreaterThanOrEqual(.98);await expect(btn(page,'accept')).toBeVisible();
     }
-    if(width===390||width===1280)await page.screenshot({path:`test-results/issue11/branches-${width}x${height}.png`});
+    if(width===390||width===1280)await captureEvidence(page,{path:`test-results/issue11/branches-${width}x${height}.png`});
   }
 });
 

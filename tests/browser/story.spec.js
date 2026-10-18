@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import {test,expect} from '@playwright/test';
 import {initialState,transition,readingState,STORAGE_KEY} from '../../game/full-game.js';
 import {QUESTIONS,sceneFor,BOXES} from '../../game/full-scenario.js';
@@ -34,7 +35,7 @@ test('story: cover, introduction and three boxes use one stage with visible prim
       else await visibleInViewport(page,btn(page,phase==='welcome'?'start':'boxes'));
       if(phase==='intro')await expect(btn(page,'reset')).toHaveAccessibleName('やり直す');
       const sphere=await mainCanvas(page).evaluate(e=>({g:JSON.parse(e.dataset.globe),w:e.clientWidth,h:e.clientHeight}));expect(sphere.g.x).toBeGreaterThanOrEqual(0);expect(sphere.g.y+sphere.g.h).toBeLessThanOrEqual(sphere.h);
-      if([[390,844],[1280,720],[568,320]].some(([w,h])=>width===w&&height===h))await page.screenshot({path:`test-results/pr-f/${phase}-${width}x${height}.png`});
+      if([[390,844],[1280,720],[568,320]].some(([w,h])=>width===w&&height===h))await captureEvidence(page,{path:`test-results/pr-f/${phase}-${width}x${height}.png`});
     }
     if(phase!=='boxes'){await page.waitForTimeout(470);await btn(page,phase==='welcome'?'start':'boxes').click();}
   }
@@ -66,7 +67,7 @@ test('story: found letters use the arrangement ink and snowy box overviews prese
       await expect(choice.locator('canvas')).toHaveAttribute('data-opened',String(color==='red'));
     }
     await expect(found.nth(0)).toHaveAttribute('data-paper-id','red-0');await expect(found.nth(1)).toHaveAttribute('data-paper-id','red-1');
-    await page.screenshot({path:`test-results/pr-f/boxes-partial-${width}x${height}.png`});expect(await saved(page)).toEqual(before);
+    await captureEvidence(page,{path:`test-results/pr-f/boxes-partial-${width}x${height}.png`});expect(await saved(page)).toEqual(before);
   }
   await page.evaluate(({state,key})=>localStorage.setItem(key,JSON.stringify(state)),{state:paperState(true),key:STORAGE_KEY});
   await page.reload();await btn(page,'resume').click();await expect(page.locator('.paper-stage')).toBeVisible();
@@ -100,7 +101,7 @@ test('story: every visited scene can be read with original art/text and navigati
           await page.setViewportSize({width,height});await visibleInViewport(page,btn(page,'read-next'));await visibleInViewport(page,btn(page,'read-exit'));
           expect(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight&&document.documentElement.scrollWidth<=innerWidth)).toBe(true);
           expect(await page.locator('#transcript').evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
-          if(width===390&&height===844)await page.screenshot({path:`test-results/pr-f/reading-${view.phase}-${width}x${height}.png`});
+          if(width===390&&height===844)await captureEvidence(page,{path:`test-results/pr-f/reading-${view.phase}-${width}x${height}.png`});
         }
       }
     }

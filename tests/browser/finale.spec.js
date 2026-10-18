@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import {test,expect} from '@playwright/test';
 import {resolve} from 'node:path';
 import {setupRescue,light,btn,saved} from './rescue-helpers.js';
@@ -14,7 +15,7 @@ test('finale: release shows one uncropped illustration at seven sizes; resume an
     expect(await finale(page).evaluate(e=>getComputedStyle(e).objectFit)).toBe('contain');expect(await finale(page).evaluate(e=>e.complete&&e.naturalWidth>0&&e.naturalHeight>0)).toBe(true);
     for(const action of ['read','reset']){const r=await btn(page,action).boundingBox();expect(r.height).toBeGreaterThanOrEqual(44);expect(r.y+r.height).toBeLessThanOrEqual(height-44);}
     expect(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight&&document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await saved(page)).toEqual(before);
-    if(width===390||width===1280||width===568)await page.screenshot({path:`test-results/finale/complete-${width}x${height}.png`});
+    if(width===390||width===1280||width===568)await captureEvidence(page,{path:`test-results/finale/complete-${width}x${height}.png`});
   }
   await page.reload();await btn(page,'resume').click();await expect(finale(page)).toBeVisible();expect(await saved(page)).toEqual(before);
   // Preserve the existing 450 ms action gate even when the WebP arrives quickly.
@@ -24,7 +25,7 @@ test('finale: release shows one uncropped illustration at seven sizes; resume an
     await page.setViewportSize({width,height});await expect(finale(page)).toBeVisible();
     const b=await finale(page).boundingBox();expect(b.width).toBeGreaterThan(44);expect(b.height).toBeGreaterThan(44);expect(b.x).toBeGreaterThanOrEqual(0);expect(b.y).toBeGreaterThanOrEqual(0);expect(b.x+b.width).toBeLessThanOrEqual(width);expect(b.y+b.height).toBeLessThanOrEqual(height-44);
     for(const action of ['read-prev','read-next','read-exit']){const r=await btn(page,action).boundingBox();expect(r.height).toBeGreaterThanOrEqual(44);expect(r.y).toBeGreaterThanOrEqual(0);expect(r.y+r.height).toBeLessThanOrEqual(height-44);expect(r.x+r.width).toBeLessThanOrEqual(width);}
-    expect(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight&&document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await saved(page)).toEqual(before);if(width===390||width===568)await page.screenshot({path:`test-results/finale/reading-last-${width}x${height}.png`});
+    expect(await page.evaluate(()=>document.documentElement.scrollHeight<=innerHeight&&document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await saved(page)).toEqual(before);if(width===390||width===568)await captureEvidence(page,{path:`test-results/finale/reading-last-${width}x${height}.png`});
   }
   // Minimum targets must survive smaller font metrics than Windows Japanese fonts.
   await page.evaluate(()=>{const sheet=[...document.styleSheets].find(s=>s.href?.endsWith('/rescue-stage.css'));sheet.insertRule('.rescue-stage .reading-nav button{line-height:1}',sheet.cssRules.length);});

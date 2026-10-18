@@ -34,7 +34,16 @@ for(const action of ['stop','mute','reset','pagehide','hidden'])test(`rescue aud
   if(action==='hidden')await page.evaluate(()=>{Object.defineProperty(document,'hidden',{configurable:true,value:true});document.dispatchEvent(new Event('visibilitychange'));});
   const before=await saved(page);await page.evaluate(()=>window.rescueSources.forEach(x=>x.end?.()));await page.waitForTimeout(250);expect(await page.evaluate(()=>window.rescueSources.length)).toBe(2);expect(await page.evaluate(()=>window.rescueSources.every(x=>x.stopped>0))).toBe(true);expect((await saved(page)).phase).toBe(before.phase);if(action!=='reset')await expect(page.locator('.box-voice')).toBeHidden();
 });
-for(const cue of ['cue-rescue-fairy-first','rescue-dialogue'])for(const action of ['stop','mute','reset','pagehide'])test(`rescue audio: late ${cue} after ${action} cannot revive voice or effects`,async({page})=>{
+// Both cues use the same AudioTimeline cancellation. Cover each load phase and
+// every action without repeating the entire cue x action product. The playback
+// reservation tests above still exercise all actions, including visibility loss.
+for(const [cue,action] of [
+  ['cue-rescue-fairy-first','stop'],
+  ['cue-rescue-fairy-first','mute'],
+  ['rescue-dialogue','stop'],
+  ['rescue-dialogue','reset'],
+  ['rescue-dialogue','pagehide'],
+])test(`rescue audio: late ${cue} after ${action} cannot revive voice or effects`,async({page})=>{
   let release;const gate=new Promise(resolve=>{release=resolve;});let requested=false;await page.route(`**/${cue}.m4a`,async route=>{requested=true;await gate;await route.continue();});await recordRescueAudio(page);await setupRescue(page,rescueState(false));
   if(cue==='rescue-dialogue'){await expect.poll(()=>page.evaluate(()=>window.rescueSources.length)).toBe(2);await light(page).press('End');await page.evaluate(()=>window.rescueSources[0].end());}else await light(page).press('End');await expect.poll(()=>requested).toBe(true);
   if(action==='stop'){await page.locator('.box-settings>summary').click();await btn(page,'stop').click();}if(action==='mute')await btn(page,'mute').click();if(action==='reset'){await btn(page,'reset').click();await page.locator('#confirm-reset').click();}if(action==='pagehide')await page.evaluate(()=>window.dispatchEvent(new Event('pagehide')));
