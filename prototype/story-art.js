@@ -6,11 +6,21 @@ import { BOXES } from './full-scenario.js';
 import { mesh } from './red-paint.js';
 import { lidQuad,quadPoint } from './red-hinge-math.js';
 import { createLidSnow,paintBoxBodySnow,paintBoxLockSilhouette } from './box-art.js';
+import { createAtmosphere, fallingSnow, createLivingGlobe } from './atmosphere.js';
 
-/** Static views for the book's remaining pages; no inputs or game state. */
+/** Book artwork and decorative motion; no gameplay state changes. */
 export function createStoryArt(canvas,onError) {
   const ctx=canvas.getContext('2d',{alpha:false});
   let assets,view,isCover=false,mode='forest',disposed=false,delegate,boxArt,generation=0,forestFailed=false;
+  let atmosphere, backdrop, globeBox, livingGlobe;
+  function animate(time,moving) {
+    if(disposed||mode!=='forest'||!backdrop||!globeBox)return;
+    const w=canvas.clientWidth,h=canvas.clientHeight;
+    ctx.drawImage(backdrop,0,0,backdrop.width,backdrop.height,0,0,w,h);
+    fallingSnow(ctx,w,h,time,0);fallingSnow(ctx,w,h,time,1);
+    livingGlobe(ctx,globeBox,time,moving);
+    fallingSnow(ctx,w,h,time,2,[globeBox]);
+  }
   function paint() {
     if(disposed||!view||delegate||(mode.startsWith('box:')&&!boxArt))return;
     if(boxArt) {
@@ -24,19 +34,24 @@ export function createStoryArt(canvas,onError) {
     if(!assets)return;
     const [forest,globe]=assets,scale=Math.max(w/forest.width,h/forest.height);
     ctx.drawImage(forest,(w-forest.width*scale)/2,(h-forest.height*scale)/2,forest.width*scale,forest.height*scale);
+    backdrop=document.createElement('canvas');backdrop.width=canvas.width;backdrop.height=canvas.height;
+    backdrop.getContext('2d').drawImage(canvas,0,0);
     const hub=!isCover&&view.phase==='boxes',gh=Math.min(h*(hub?.51:isCover?.72:.85),w*(hub?.6:.72)),gw=gh*globe.width/globe.height;
     const g={x:(w-gw)/2,y:hub?h*.04:Math.max(0,(h-gh)*(isCover?.78:.5)),w:gw,h:gh};
+    globeBox=g;
     ctx.drawImage(globe,g.x,g.y,g.w,g.h);
     Object.assign(canvas.dataset,{ready:'true',santaContained:'true',globe:JSON.stringify(g),mode});
+    atmosphere ||= createAtmosphere(canvas,animate);
+    atmosphere.refresh();
   }
   const observer=new ResizeObserver(paint);observer.observe(canvas);
-  loadForestArt().then(result=>{if(!disposed){assets=result;paint();}}).catch(()=>{if(!disposed){forestFailed=true;if(mode==='forest'){canvas.dataset.ready='error';onError();}}});
+  loadForestArt().then(result=>{if(!disposed){assets=result;livingGlobe=createLivingGlobe(assets[1]);paint();}}).catch(()=>{if(!disposed){forestFailed=true;if(mode==='forest'){canvas.dataset.ready='error';onError();}}});
   return {
     update(value,{cover=false,reading=false}={}) {
       view=value;isCover=cover;
       const next=reading&&value.phase.startsWith('witch')?'witch':reading&&['box','boxResponse'].includes(value.phase)?`box:${value.selectedBox}`:'forest';
       if(next!==mode) {
-        generation++;delegate?.destroy();delegate=null;boxArt=null;mode=next;canvas.dataset.mode=mode;canvas.dataset.ready='loading';
+        generation++;atmosphere?.destroy();atmosphere=null;delegate?.destroy();delegate=null;boxArt=null;mode=next;canvas.dataset.mode=mode;canvas.dataset.ready='loading';
         if(mode==='witch')delegate=createWitchArt(canvas,()=>{},onError);
         else if(mode.startsWith('box:')) {
           const token=generation,p=BOX_PRESENTATIONS[value.selectedBox];
@@ -47,7 +62,7 @@ export function createStoryArt(canvas,onError) {
       // Reading is a static illustration, never a second discovery gesture.
       if(delegate)delegate.update({...view,witchDiscovery:null});else paint();
     },
-    destroy(){disposed=true;generation++;delegate?.destroy();observer.disconnect();},
+    destroy(){disposed=true;generation++;atmosphere?.destroy();delegate?.destroy();observer.disconnect();},
   };
 }
 

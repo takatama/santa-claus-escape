@@ -26,11 +26,7 @@ GitHub連携の権限は必要なリポジトリだけに限定できます。`G
 
 ## 公開後の確認
 
-2026-10-10追加：絵本風試作は同じビルドの `dist/illustrated/` に出力します。入口は `/illustrated/intro/index.html`、従来版はルート `/` のままです。PRブランチへのpushで自動生成されるCloudflareプレビューにも同じ入口が含まれます。本番への反映はPRのマージ後です。Build commandと出力先の設定変更は不要です。
-
-試作の実行用HTML・CSS・JavaScript・画像のみを許可リストで出力し、制作資料・QA・テスト・原作参照コピーは除外します。`404.html` を同梱し、存在しない資料パスを従来版の画面へフォールバックさせません。`npm run check:pages` は試作80ファイルの配信内容・MIME・CSPと、除外した資料の404も検査します。
-
-CIでは `npm --prefix illustrated-prototype test` と `npm --prefix illustrated-prototype run check` も実行します。
+2026-10-18更新：独立した旧試作 `illustrated-prototype/` を廃止し、`dist/illustrated/` の出力と専用CIを削除しました。入口は統合版のルート `/` に統一します。旧試作URLは404で、現行ゲームへ黙って転送しません。`npm run check:pages` で旧URLと旧成果物の不在も検査します。
 
 1. Pagesのデプロイ成功と `pages.dev` URLを確認。
 2. 初回の「サンタを助ける」で音声が始まることを確認。
@@ -46,7 +42,7 @@ CIでは `npm --prefix illustrated-prototype test` と `npm --prefix illustrated
 
 2026-10-13、本人は[今回GA4を見送る方針](GA4-OFF-DECISION.md)に同意した。[CFの設定画面と維持する値](GA4-CLOUDFLARE-SETTINGS.md)、[計測OFFでのプライバシー対応](GA4-PRIVACY-SCOPE.md)を参照する。承認フラグfalseとWeb Analytics disabledを維持し、有効化や本番の再デプロイは行わない。
 
-本番へのマージ・再公開は今回行っていません。音声と画像の原本をGitに保持し、本編のビルドは配信用AAC/WebPと静的OGP画像をdistへコピーします。本編のPNG/WAV原本、制作スクリプト、FFmpeg、未使用の録音をdistへ含めません。保全した独立試作の `dist/illustrated/` は専用PNGを含む実行用80ファイルを使用します。`npm run check:media`で本編の原本・派生のハッシュを確認します。[2026-10-17のPR一本化](PR-CONSOLIDATION-2026-10-17.md)も参照してください。
+本番へのマージ・再公開は今回行っていません。音声と画像の原本をGitに保持し、本編のビルドは配信用AAC/WebPと静的OGP画像をdistへコピーします。本編のPNG/WAV原本、制作スクリプト、FFmpeg、未使用の録音をdistへ含めません。独立した旧試作の配信は2026-10-18に廃止しました。`npm run check:media`で本編の原本・派生のハッシュを確認します。[2026-10-17のPR一本化](PR-CONSOLIDATION-2026-10-17.md)も参照してください。
 
 GA4の準備コードは無効のまま維持し、保存済みの測定IDや評価originから有効化しません。[日本語ガイド](GA4-SETUP-JA.md)の有効化手順は参考記録で、今回実行しません。`SANTA_PUBLIC_URL`はOGP・共有の正規URLとして使い、HTTPSのルートURLを指定します。プレビューのOG画像だけはCloudflareのCF_PAGES_URLを使います。
 

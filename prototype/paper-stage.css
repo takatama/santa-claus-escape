@@ -27,6 +27,9 @@ body.paper-playing { background:#102031; }
 .paper-slot-target { width:100%;height:100%;min-height:82px;border:0;background:#091e3244;color:#bbaa8a;font-size:24px !important; }
 .drop-target { outline:3px solid #f5d68e;outline-offset:2px;background:#d8b16b44; }
 .paper-card.drag-source { opacity:.3; }
+.paper-card.paper-landed { animation:paper-land .28s ease-out; }
+.paper-stage:has(canvas[data-motion="paused"]) .paper-card.paper-landed { animation:none; }
+@keyframes paper-land { from { transform:translateY(-7px) rotate(-2deg); } 65% { transform:translateY(1px) rotate(.4deg); } to { transform:none; } }
 .paper-ghost { position:fixed;z-index:1000;pointer-events:none;opacity:.9;margin:0;box-shadow:0 8px 20px #06182e8c,0 0 0 2px #ffe0a9; }
 /* Keep placement feedback for assistive technology, without the visual log. */
 #selection-status { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap; }

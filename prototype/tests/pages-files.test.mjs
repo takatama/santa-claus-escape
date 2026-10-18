@@ -6,7 +6,7 @@ import { promisify } from 'node:util';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { pagesFiles, pagesCodeFiles, pagesAssetFiles, illustratedPageFiles, inspectPagesOutput } from '../../scripts/pages-files.mjs';
+import { pagesFiles, pagesCodeFiles, pagesAssetFiles, inspectPagesOutput } from '../../scripts/pages-files.mjs';
 import { AUDIO_FILES, IMAGE_FILES } from '../media-assets.js';
 
 const run = promisify(execFile), repository = new URL('../../',import.meta.url);
@@ -22,10 +22,9 @@ async function fixture(t) {
     await mkdir(new URL('.',target),{recursive:true});await writeFile(target,text);
   }
   for(const name of [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES])await save(`prototype/${name}`,name==='index.html'?'full-app.js':name);
-  for(const name of illustratedPageFiles)await save(`illustrated-prototype/${name.slice('illustrated/'.length)}`,name);
   await save('package.json','{"type":"module"}');
   await save('LICENSE');await save('NOTICE.md');
-  for(const name of ['social-build.mjs','analytics-build.mjs','build-pages.mjs','pages-files.mjs','illustrated-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
+  for(const name of ['social-build.mjs','analytics-build.mjs','build-pages.mjs','pages-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
     await save(`scripts/${name}`);await copyFile(new URL(`scripts/${name}`,repository),new URL(`scripts/${name}`,root));
   }
   await copyFile(new URL('prototype/media-assets.js',repository),new URL('prototype/media-assets.js',root));
@@ -37,6 +36,7 @@ test('publication manifest has no duplicate or source-only files',()=>{
   assert.equal(new Set(pagesFiles).size,pagesFiles.length);
   assert.ok(!pagesFiles.includes('assets/rescue/empty-globe.png'));
   assert.ok(!pagesFiles.some(name=>name.endsWith('-provenance.json')));
+  assert.ok(!pagesFiles.some(name=>name.startsWith('illustrated/')));
 });
 
 test('real build excludes unlisted source variants and rejects stale output before copying',async t=>{
@@ -50,7 +50,6 @@ test('real build excludes unlisted source variants and rejects stale output befo
   await build();await inspectPagesOutput(dist,{complete:true});
   await assert.rejects(readFile(new URL(alternate,dist)),{code:'ENOENT'});
   await assert.rejects(readFile(new URL('assets/rescue/empty-globe.png',dist)),{code:'ENOENT'});
-  for(const name of illustratedPageFiles)assert.equal(await readFile(new URL(name,dist),'utf8'),name);
   await assert.rejects(readFile(new URL('illustrated/assets/PROMPTS.json',dist)),{code:'ENOENT'});
   await assert.rejects(readFile(new URL('illustrated/qa/private.png',dist)),{code:'ENOENT'});
   const before = await readFile(new URL('full-app.js',dist));
@@ -65,6 +64,15 @@ test('delivery inspection rejects an expected asset missing from an otherwise va
   const {dist,build} = await fixture(t);
   await build();await rm(new URL(IMAGE_FILES[0],dist));
   await assert.rejects(inspectPagesOutput(dist,{complete:true}),new RegExp(`Missing build file: ${IMAGE_FILES[0].replaceAll('.','\\.')}`));
+});
+
+test('retired illustrated output is rejected before any current file is overwritten',async t=>{
+  const {dist,save,build}=await fixture(t);
+  await build();const before=await readFile(new URL('full-app.js',dist));
+  await save('dist/illustrated/intro/index.html','obsolete runnable page');
+  await save('prototype/full-app.js','changed current source');
+  await assert.rejects(build(),error=>error.stderr.includes('Unexpected build folder: illustrated'));
+  assert.deepEqual(await readFile(new URL('full-app.js',dist)),before);
 });
 
 test('changing one catalog group format publishes its new paths without old source variants',async t=>{

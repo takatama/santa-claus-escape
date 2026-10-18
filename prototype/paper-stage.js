@@ -28,13 +28,27 @@ export function createPaperStage({ getState, onPlacement, onSubmit }) {
   function select(id, toggle = false) { if (!active() || !buttons.has(id)) return; selected = toggle && selected === id ? null : id; selection(); }
   function placement(id, index) {
     if (!active()) return;
+    const previous = getState().spellSlots.indexOf(id);
     selected = id; result = '';
     onPlacement({type:index === null ? 'REMOVE_PAPER' : 'PLACE_PAPER',id,index,revision:getState().revision});
+    const button=buttons.get(id), placed=getState().spellSlots.indexOf(id);
+    if(button && placed!==previous && find('.paper-canvas').dataset.motion==='playing' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      button.classList.remove('paper-landed');
+      // Re-trigger only an accepted placement, never selection or a failed drop.
+      void button.offsetWidth;
+      button.classList.add('paper-landed');
+    }
     // Moving the actual button preserves identity; reparenting needs explicit focus.
     buttons.get(id)?.focus({preventScroll:true});
     selection(index === null ? `${label(id)}を手元に戻しました。` : `${label(id)}を${index + 1}番目に置きました。`);
   }
   function move(delta) { const index = selected ? getState().spellSlots.indexOf(selected) : -1; if (index >= 0 && index + delta >= 0 && index + delta < 6) placement(selected,index+delta); }
+  for(const name of ['animationend','animationcancel'])element.addEventListener(name,event=>{
+    if(event.animationName!=='paper-land'||!event.target.matches('.paper-card'))return;
+    // A rapid second placement can cancel the previous animation. Do not clear
+    // the new landing when that older cancellation event arrives.
+    if(!event.target.getAnimations().some(animation=>animation.playState==='running'))event.target.classList.remove('paper-landed');
+  },options);
   function targetAt(x,y) {
     const hit = document.elementFromPoint(x,y), slot = hit?.closest('[data-slot-index]');
     if (slot && slots.contains(slot)) return {element:slot,index:Number(slot.dataset.slotIndex)};
