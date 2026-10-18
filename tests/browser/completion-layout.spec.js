@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import {test,expect} from '@playwright/test';
 import {setupRescue,finishRescue,btn,saved} from './rescue-helpers.js';
 
@@ -25,6 +26,6 @@ test('completion: read/share/restart stay grouped and centered from narrow phone
     }
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth&&document.documentElement.scrollHeight<=innerHeight)).toBe(true);
     expect(await saved(page)).toEqual(before);
-    if(width===1470)await page.screenshot({path:'test-results/completion-layout/wide-desktop.png'});
+    if(width===1470)await captureEvidence(page,{path:'test-results/completion-layout/wide-desktop.png'});
   }
 });

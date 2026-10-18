@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import {test,expect} from '@playwright/test';
 import {setupRescue,btn} from './rescue-helpers.js';
 
@@ -45,6 +46,6 @@ test('readings: rescue caption annotates only 助 and keeps its original sentenc
   for(const [width,height] of [[320,568],[390,844],[568,320],[1280,720]]) {
     await page.setViewportSize({width,height});await expectKanjiReadings(caption);
     expect(await caption.evaluate(e=>e.scrollWidth<=e.clientWidth)).toBe(true);
-    await page.screenshot({path:`test-results/ruby-okurigana/rescue-${width}x${height}.png`});
+    await captureEvidence(page,{path:`test-results/ruby-okurigana/rescue-${width}x${height}.png`});
   }
 });

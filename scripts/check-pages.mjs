@@ -25,7 +25,7 @@ try{
     assert.equal(createHash('sha256').update(served).digest('hex'),createHash('sha256').update(original).digest('hex'),name);
   }
   for(const name of ['app.js','game.js','illustrations.js','reference/legacy-index.js','.env','scripts/generate-audio.mjs','docs/PR-D-WITCH.md','illustrated-prototype/witch/conversation.js','illustrated-prototype/journey/state.js','assets/witch/README.md','docs/PR-E-RESCUE.md','docs/pr-e/art-provenance.json','assets/rescue/PROMPTS.json','tests/rescue-integration.test.mjs','docs/pr-e/rescue-glow.png','tests/browser/rescue-glow.spec.js'])assert.equal((await fetch(`${base}/${name}`)).status,404,name);
-  for(const name of ['illustrated/intro/index.html','illustrated/blue-box/index.html','blue-box/index.html','explore/index.html']) {
+  for(const name of ['illustrated/intro/index.html','illustrated/blue-box/index.html','illustrated-prototype/index.html','blue-box/index.html','blue-box/index.html?journey=1','explore/index.html']) {
     assert.equal((await fetch(`${base}/${name}`)).status,404,name);
     await assert.rejects(readFile(new URL(name,dist)),{code:'ENOENT'});
   }

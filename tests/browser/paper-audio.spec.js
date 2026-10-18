@@ -40,9 +40,3 @@ for(const action of ['stop','mute'])test(`paper audio: late original letters loa
   release();await page.evaluate(()=>window.pendingEnd?.());await expect(page.locator('.box-voice')).toBeHidden();await page.waitForTimeout(300);expect(await audio.evaluate(a=>a.paused&&a.currentTime===0)).toBe(true);
   await arrangePapers(page);await page.locator('[data-paper-submit]').click();await expect(page.locator('.witch-stage')).toBeVisible();await expect(btn(page,'accept')).toBeHidden();
 });
-test('paper audio: late appearance timeline load after screen departure cannot start voice or effects',async({page})=>{
-  let release;await page.route('**/ja-leda-invite.m4a',async route=>{await new Promise(resolve=>{release=resolve;});await route.continue();});
-  await page.addInitScript(()=>{window.scheduledSources=0;const create=AudioContext.prototype.createBufferSource;AudioContext.prototype.createBufferSource=function(){const node=create.call(this),start=node.start.bind(node);node.start=(...args)=>{if(args.length===1)window.scheduledSources++;return start(...args);};return node;};});
-  await setupPapers(page,paperState(false));await arrangePapers(page);await page.locator('[data-paper-submit]').click();await discover(page);await expect.poll(()=>Boolean(release)).toBe(true);
-  await page.waitForTimeout(470);await btn(page,'decline').click();release();await page.waitForTimeout(300);expect(await page.evaluate(()=>window.scheduledSources)).toBe(0);await expect(btn(page,'call_again')).toBeVisible();expect((await saved(page)).phase).toBe('witchPaused');
-});

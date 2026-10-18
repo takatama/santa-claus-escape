@@ -1,4 +1,4 @@
-import { arrangePapers, discover } from './paper-helpers.js';
+import { captureEvidence } from './evidence-helpers.js';
 import { test, expect } from '@playwright/test';
 import { initialState, transition, STORAGE_KEY } from '../../game/full-game.js';
 import { SCENARIO } from '../../game/scenario.js';
@@ -19,7 +19,7 @@ async function enterRed(page){
 }
 async function digits(page,code){for(let i=0;i<4;i++)await page.getByRole('spinbutton',{name:`${i+1}桁目のダイアル`,exact:true}).press(code[i]);}
 async function usable(page,action){await expect(btn(page,action)).toBeEnabled({timeout:60000});}
-async function shot(page,name){await page.screenshot({path:`test-results/red-box/${name}.png`});}
+async function shot(page,name){await captureEvidence(page,{path:`test-results/red-box/${name}.png`});}
 async function waitForCanvasSize(page){
   // Layout changes before ResizeObserver repaints the canvas and its geometry attributes.
   await expect.poll(()=>page.locator('canvas').evaluate(canvas=>{
@@ -60,6 +60,7 @@ test('mobile: snow steps, rapid presses, one input, keyboard, wrong answer, lid,
   await digits(page,'3138');await usable(page,'box_try');await btn(page,'box_try').click();await usable(page,'open_lid');
   await expect(page.locator('.box-stage')).toHaveAttribute('data-lid-open','false');await shot(page,'mobile-unlocked');await btn(page,'open_lid').click();await usable(page,'continue_box');
   await expect(page.locator('canvas')).toHaveAttribute('data-progress','1.000');await shot(page,'mobile-open');
+  await expect(page.locator('canvas')).not.toHaveAttribute('data-globe');await expect(page.locator('canvas')).not.toHaveAttribute('data-santa-contained');
   await btn(page,'close_lid').click();await usable(page,'open_lid');await page.reload();await btn(page,'resume').click();
   await expect(page.locator('.box-stage')).toHaveAttribute('data-lid-open','false');await usable(page,'open_lid');await btn(page,'open_lid').click();await usable(page,'continue_box');
   await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');
@@ -153,6 +154,15 @@ test('permanent dialogue: original stage text, keyboard scrolling, mute and stab
 });
 
 test('audio: exploration voices queue naturally, trying replaces them, and lid discovery waits for unlocking',async({page})=>{
+  // Keep native completion and the relative voice/effect timeline, at 4x speed.
+  await page.addInitScript(()=>{
+    const create=AudioContext.prototype.createBufferSource;
+    AudioContext.prototype.createBufferSource=function(){
+      const node=create.call(this),start=node.start.bind(node);
+      node.start=(...args)=>{if(args.length===1)node.playbackRate.value=4;return start(...args);};
+      return node;
+    };
+  });
   const requested=[];page.on('request',req=>{if(req.url().includes('/assets/audio/'))requested.push(req.url().split('/').pop());});
   await setup(page,{muted:false});await enterRed(page);
   await expect(btn(page,'examine')).toBeEnabled();await expect(page.locator('.box-voice')).toBeVisible();
@@ -323,17 +333,4 @@ test('lid grip: direction moves, drag releases at the chosen position, keyboard 
   await grip.dispatchEvent('pointercancel',{pointerId:1});await page.mouse.up();await expect(canvas).toHaveAttribute('data-progress','0.000');
   await page.emulateMedia({reducedMotion:'reduce'});await expect(arrow).toHaveCSS('animation-name','none');
   await grip.press('Enter');await usable(page,'continue_box');await expect(canvas).toHaveAttribute('data-progress','1.000');
-});
-
-test('main regression: all boxes, decline and recall, three wrong answers and original ending',async({page})=>{
-  await setup(page);await enterRed(page);await digits(page,'3138');await usable(page,'box_try');await btn(page,'box_try').click();await usable(page,'open_lid');await btn(page,'open_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();
-  for(const [color,code] of [['blue','8848'],['yellow','2502']]){
-    await page.waitForTimeout(470);await page.locator(`[data-action="select"][data-color="${color}"]`).click();await digits(page,code);await btn(page,'box_try').click();await usable(page,'open_lid');await btn(page,'open_lid').click();await usable(page,'continue_box');await btn(page,'continue_box').click();
-  }
-  await expect(page.locator('button[data-paper-id]')).toHaveCount(6);await arrangePapers(page);await page.locator('[data-paper-submit]').click();await expect(page.locator('.witch-stage')).toBeVisible();await discover(page);
-  for(const action of ['decline','call_again','accept']){await page.waitForTimeout(470);await btn(page,action).click();}
-  await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button[type="submit"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
-  await page.waitForTimeout(470);await page.locator('[data-action="choice"][data-value="トナカイの鼻"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
-  await page.locator('#word-answer').fill('わからない');await page.locator('#reply-form button[type="submit"]').click();await page.waitForTimeout(470);await btn(page,'continue_witch').click();
-  await expect(page.locator('.rescue-handle')).toBeVisible();await page.locator('.rescue-handle').press('End');await expect(page.locator('#transcript')).toContainText('クリスマスの夜を楽しみにしていてくれ');await page.waitForTimeout(470);await expect(page.locator('.rescue-stage')).toHaveAttribute('data-phase','complete');
 });

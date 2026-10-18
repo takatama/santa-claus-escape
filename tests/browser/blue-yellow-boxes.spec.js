@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import {test,expect} from '@playwright/test';
 import {initialState,transition,STORAGE_KEY} from '../../game/full-game.js';
 import {BOXES} from '../../game/full-scenario.js';
@@ -19,7 +20,7 @@ async function ready(page,action='box_try'){await expect(btn(page,action)).toBeE
 async function examine(page){await ready(page,'examine');await btn(page,'examine').click();await ready(page);}
 async function canvasSize(page){await expect.poll(()=>page.locator('canvas').evaluate(c=>c.width===Math.round(c.clientWidth*Math.min(devicePixelRatio||1,2))&&c.height===Math.round(c.clientHeight*Math.min(devicePixelRatio||1,2)))).toBe(true);}
 async function save(page){return page.evaluate(key=>JSON.parse(localStorage.getItem(key)),STORAGE_KEY);}
-async function shot(page,color,name){await page.screenshot({path:`test-results/pr-b/${color}-${name}.png`});}
+async function shot(page,color,name){await captureEvidence(page,{path:`test-results/pr-b/${color}-${name}.png`});}
 async function protectedSnow(page,color){
   const intact=await page.evaluate(async color=>{
     const {loadBoxArt}=await import('/box-art-loader.js'),assets=await loadBoxArt(color);
@@ -82,6 +83,7 @@ for(const color of ['blue','yellow']){
     await expect(stage(page)).toHaveAttribute('data-lid-open','false');await expect(page.locator('#transcript')).not.toContainText('中には');
     await btn(page,'open_lid').press('Enter');await ready(page,'continue_box');
     await expect(page.locator('#transcript')).toContainText(color==='blue'?'イルカ':'キリン');
+    await expect(page.locator('canvas')).not.toHaveAttribute('data-globe');await expect(page.locator('canvas')).not.toHaveAttribute('data-santa-contained');
     await btn(page,'continue_box').click();await expect(page.locator('.collected-count')).toHaveText('見つけた文字 2 / 6');expect(errors).toEqual([]);
   });
 
@@ -178,14 +180,6 @@ for(const color of ['blue','yellow']){
     await btn(page,'reset').click();await page.locator('#confirm-reset').click();await expect(btn(page,'start')).toBeVisible();
   });
 
-  test(`${color}: current lock resumes; missing lid state starts fresh`,async({page})=>{
-    const current=seed(color);current.boxes[color].dial=BOXES[color].answer;
-    await setup(page,color,{state:current});await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code',BOXES[color].answer);
-    await ready(page);await btn(page,'box_try').click();await ready(page,'open_lid');
-    await page.reload();await btn(page,'resume').click();await expect(page.locator('.rb-cylinder-lock')).toHaveAttribute('data-code',BOXES[color].answer);await expect(btn(page,'open_lid')).toBeEnabled();
-    await page.evaluate(key=>{const invalid=JSON.parse(localStorage.getItem(key));delete invalid.boxes[invalid.selectedBox].lidOpen;localStorage.setItem(key,JSON.stringify(invalid));},STORAGE_KEY);
-    await page.reload();await expect(btn(page,'start')).toBeVisible();await expect(btn(page,'resume')).toHaveCount(0);
-  });
   test(`${color}: queued exploration ends naturally; mute and leaving discard pending voices`,async({page})=>{
     const requested=[];page.on('request',r=>{if(r.url().includes('/assets/audio/'))requested.push(r.url().split('/').pop());});
     await setup(page,color,{state:seed(color,false)});

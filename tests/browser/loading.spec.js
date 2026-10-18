@@ -1,3 +1,4 @@
+import { captureEvidence } from './evidence-helpers.js';
 import { test, expect } from '@playwright/test';
 import { initialState, transition, STORAGE_KEY } from '../../game/full-game.js';
 import { QUESTIONS } from '../../game/full-scenario.js';
@@ -13,7 +14,7 @@ test('loading: the first screen stays covered until the forest and globe are dec
   await expect(page.locator('#app')).toHaveAttribute('aria-busy', 'true');
   await expect(btn(page, 'start')).toBeHidden();
   expect(await page.evaluate(() => getComputedStyle(document.body).backgroundColor)).toBe('rgb(16, 32, 49)');
-  await page.screenshot({ path: 'test-results/playtest/first-loading.png' });
+  await captureEvidence(page,{ path: 'test-results/playtest/first-loading.png' });
   release();
   await expect(page.locator('#scene-loading')).toBeHidden();
   await expect(page.locator('#app')).not.toHaveAttribute('inert');
