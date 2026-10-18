@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-18",
+  "tool": "built-in image_gen",
+  "reference": "prototype/assets/witch/wizard-whole-v2.png",
+  "referenceSha256": "e06fe07f8ca3a6cd0bb66f2746e3bc5ddd610a0aaf0ec55543bea9c8232ff49e",
+  "referenceUnchanged": true,
+  "source": "assets/witch/wizard-blink-v1.png",
+  "target": "assets/witch/wizard-blink-v1.webp",
+  "sourceBytes": 1411458,
+  "targetBytes": 398762,
+  "reductionPercent": 71.75,
+  "sourceSha256": "12b93cbef2c7a0fce43bcadc61772082e1fab7692295030c35d05e4966844550",
+  "targetSha256": "60f6d0fd829c941864edb965a79915214809c808bf2c6c4d1036796f51eb02e6",
+  "dimensions": [
+    1285,
+    1224
+  ],
+  "alphaPreserved": true,
+  "quality": 95,
+  "registration": "prototype/wizard-parts.js",
+  "note": "Additional complete-body closed-eyes and closed-mouth painting. Existing body expressions and approved hand continue to use the unchanged wizard-whole-v2 atlas."
+}

@@ -433,5 +433,15 @@
     "source": "assets/rescue/finale-v1.png",
     "target": "assets/rescue/finale-v1.webp",
     "quality": 85
+  },
+  {
+    "source": "assets/witch/wizard-whole-v2.png",
+    "target": "assets/witch/wizard-whole-v2.webp",
+    "quality": 95
+  },
+  {
+    "source": "assets/witch/wizard-blink-v1.png",
+    "target": "assets/witch/wizard-blink-v1.webp",
+    "quality": 95
   }
 ]

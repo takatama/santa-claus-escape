@@ -25,7 +25,7 @@ export const MEDIA_GROUPS=Object.freeze({
   blueBox:group('./assets/blue-box/','webp','blue-body blue-lid mountain'),
   yellowBox:group('./assets/yellow-box/','webp','yellow-body yellow-lid rock scissors paper'),
   forest:group('./assets/papers/','webp','forest-clean globe'),
-  witch:group('./assets/witch/','webp','branch wizard-feet-v2'),
+  witch:group('./assets/witch/','webp','branch wizard-feet-v2 wizard-whole-v2 wizard-blink-v1'),
   rescue:group('./assets/rescue/','webp','empty-globe-original-v2 santa finale-v1'),
 });
 export function mediaPath(key,id){

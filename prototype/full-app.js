@@ -165,7 +165,7 @@ function render(focus = false, scroll = false, rescueIntro = false) {
             // A stop, mute, navigation or reset also cancels an asset wait.
             const stage=witchStage,generation=player.generation;
             stage.ready.then(()=>{
-              if(witchStage===stage && generation===player.generation && state.phase==='witchInvite' && state.witchDiscovery?.pending && state.witchDiscovery.progress>=.98 && !resumePending && readingIndex===null && !document.hidden)speak();
+              if(witchStage===stage && generation===player.generation && state.phase==='witchInvite' && state.witchDiscovery?.pending && state.witchDiscovery.progress>=.98 && !resumePending && readingIndex===null && !document.hidden){stage.appear();speak();}
             });
           }
         },

@@ -103,3 +103,9 @@ PeriTuneのOGGは原音のまま配信し、Vorbis非対応環境向けの原作
 ## 紹介画像
 
 `prototype/assets/share-card.png` は既存の森・スノードームのPNGをHTML/CSSで配置した1200×630画像です。答えや結末を含めず、生成APIを使っていません。同じ生成イラストのMIT条件を引き継ぎます。出典と構成は `docs/ogp-provenance.json` と `scripts/create-ogp.mjs`、元の生成記録は `docs/pr-c/art-provenance.json`。
+
+## 2026-10-18：まほう使いの部品アニメーション
+
+`prototype/assets/witch/wizard-whole-v2.png` は、既存の女の子 `wizard-feet-v2.png` を参照して、組み込みImageツールで編集生成した全身一体の口閉じ／笑顔と手の素材です。首が不自然になった旧パーツ分割案を撤回し、独立して動くのは手だけにしています。原画は保持しています。配信用WebPは寸法・アルファを保持した形式変換です。本リポジトリのMIT Licenseを適用します。使用プロンプト・ハッシュ・実測した部品の登録方法は `docs/wizard-entrance/` に記録しています。音声の生成・変更はありません。
+
+同日の追加依頼で `wizard-whole-v2.png` を組み込みImageツールで編集し、目と口を閉じた全身 `prototype/assets/witch/wizard-blink-v1.png` を追加しました。既存の全身・手は上書きせず、新素材の左上の全身だけを表情切替に使用します。配信用WebPは寸法・アルファを保持しています。同じMIT Licenseを適用し、プロンプト・ハッシュは `docs/wizard-entrance/prompt-blink-v1.md` と `blink-provenance.json` に記録しています。

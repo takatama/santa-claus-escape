@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-18",
+  "tool": "built-in image_gen",
+  "reference": "prototype/assets/witch/wizard-feet-v2.png",
+  "referenceSha256": "87bc4ada8967b4bf486354ba23b8931019c26aaf7fa14a418ce47486feec3098",
+  "originalUnchanged": true,
+  "source": "assets/witch/wizard-whole-v2.png",
+  "target": "assets/witch/wizard-whole-v2.webp",
+  "sourceBytes": 1622277,
+  "targetBytes": 495936,
+  "reductionPercent": 69.43,
+  "sourceSha256": "e06fe07f8ca3a6cd0bb66f2746e3bc5ddd610a0aaf0ec55543bea9c8232ff49e",
+  "targetSha256": "24926537b5d5908f84c0322d9fb465973c6d9bbf52b3abab90c338f8c0c12a8b",
+  "dimensions": [
+    1285,
+    1224
+  ],
+  "alphaPreserved": true,
+  "quality": 95,
+  "registration": "prototype/wizard-parts.js",
+  "note": "Supersedes rejected separate-head puppet. Two continuous full-body paintings; only bare waving hand is independently drawn. No head, neck, hat, torso, hem or boot registration joints."
+}
