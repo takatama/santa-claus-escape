@@ -1,7 +1,7 @@
 {
   "id": "original-ja-full-design-v1",
   "status": "design-only",
-  "source": "../prototype/reference/legacy-index.js",
+  "source": "../game/reference/legacy-index.js",
   "initialBuild": {"red": "red-3138", "yellowHands": ["グー", "チョキ", "パー", "グー"], "yellowAnswer": "2502", "riddle": "christmas-creatures", "quiz": "red-ornament", "trick": "deer-ten-times"},
   "boxes": {
     "red": {"digits": 4, "letters": [{"id":"red-su","text":"す"},{"id":"red-da","text":"だ"}], "mapping": {"サンタ":3,"イタチ":1,"ハタチ":8}, "variants": [

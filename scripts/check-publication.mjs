@@ -4,9 +4,11 @@ import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 
 const root = new URL('../', import.meta.url);
-const files = execFileSync('git', ['ls-files', '--cached', '-z'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean);
+// Exclude working-tree deletions as well as deletions already staged for commit.
+const deleted = new Set(execFileSync('git', ['ls-files', '--deleted', '-z'], { cwd: root, encoding: 'utf8' }).split('\0'));
+const files = execFileSync('git', ['ls-files', '--cached', '-z'], { cwd: root, encoding: 'utf8' }).split('\0').filter(file => file && !deleted.has(file));
 assert.ok(files.length, 'Git管理対象の公開ファイルがありません');
-const forbidden = /(?:^|\/)(?:\.env(?:\..*)?|node_modules)(?:\/|$)|^design\/reference\/|^prototype\/reference\/(?!audio-generation\/[^/]+\.json$)/;
+const forbidden = /(?:^|\/)(?:\.env(?:\..*)?|node_modules)(?:\/|$)|^design\/reference\/|^game\/reference\/(?!audio-generation\/[^/]+\.json$)/;
 const secrets = [
   /AIza[0-9A-Za-z_-]{30,}/,
   /gh[pousr]_[0-9A-Za-z]{20,}/,

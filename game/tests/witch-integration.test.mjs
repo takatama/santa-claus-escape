@@ -1,3 +1,4 @@
+import { recordedAssetUrl } from './recorded-asset.mjs';
 import test from 'node:test';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
@@ -77,5 +78,5 @@ test('witch: bough roots, continuous channels, both outward directions and rever
 
 test('witch: published branch/corrected wizard assets retain recorded original bytes',async()=>{
   const record=JSON.parse(await readFile(new URL('../../docs/pr-d/art-provenance.json',import.meta.url),'utf8'));
-  for(const entry of record.files){const bytes=await readFile(new URL('../../'+entry.target,import.meta.url));assert.equal(bytes.length,entry.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),entry.sha256);assert.equal(entry.originalByteEquality,true);}
+  for(const entry of record.files){const bytes=await readFile(recordedAssetUrl(entry.target));assert.equal(bytes.length,entry.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),entry.sha256);assert.equal(entry.originalByteEquality,true);}
 });

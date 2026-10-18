@@ -135,7 +135,7 @@ difflib で数えた「同一行の数 ÷ 大きい方のファイルの行数�
 | 青・黄の `inspection.js:1` | `../red-box/cylinder-lock.js` | 同上 |
 | 青・黄の `index.html:11` | `../red-box/inspection.css` | 同上 |
 | 三箱・`letters`・`witch` | `../rescue/paint.js`、`../rescue/rescue-math.js` | 救出場面のフォルダが事実上の共通ライブラリになっている |
-| 各 `test.mjs` | `../../prototype/full-scenario.js` など | 別試作のソースに依存する（§6） |
+| 各 `test.mjs` | `../../game/full-scenario.js` など | 別試作のソースに依存する（§6） |
 
 ### 3.3 二重モードの分岐
 
@@ -268,7 +268,7 @@ valid journey papers: 2  restore with 65-char draft -> null
 | 種類 | 例 | 評価 |
 |---|---|---|
 | **純関数の振る舞いテスト** | `test.mjs`：進捗を1000分割し、単調増加・境界での連続性・逆戻しで同じ見た目になることを検査。`hinge-test.mjs`。`journey/test.mjs` の6通りの探索順、不正な保存の拒否 | ◎ 性質ベースに近く、移植する価値がある |
-| **原作テキストとの一致（データのスナップショット）** | `red-box/test.mjs:15-22` など。`prototype/scenario.js`・`full-scenario.js` と本文が一字一句同じかを見る | ○ 忠実さは守れる。ただし同じ文面を2か所に置くことを強制している |
+| **原作テキストとの一致（データのスナップショット）** | `red-box/test.mjs:15-22` など。`game/scenario.js`・`full-scenario.js` と本文が一字一句同じかを見る | ○ 忠実さは守れる。ただし同じ文面を2か所に置くことを強制している |
 | **実装のスナップショット** | 授与閾値（§5.2(2)）、`intro/test.mjs:132-134`（`story.js` のソースを正規表現で読み、import がないことを確認）、`letters/test.mjs:11, 28-29`（別試作 `full-app.js` の文字列を含むか） | △ 変更しにくく、振る舞いを保証しない |
 | **DOM / E2E** | なし | × |
 
@@ -278,7 +278,7 @@ valid journey papers: 2  restore with 65-char draft -> null
 - **ブラウザの QA は再現できない**：`results.json` の `"browser": "Codex in-app browser"` は手作業かエージェントによる観測ログで、再実行できるスクリプト（Playwright など）は含まれていない
 - **CI に未接続**：ルートの `verify.yml` が実行する `npm test` は `npm --prefix prototype test` だけ（ルートの `package.json`）。PR の確認記録自身も「CI構成はこのPRでは変更しません」と書いている（`qa/PR-VERIFICATION.md`）
 - **独自の簡易ハーネス**：`function test(name, run)` を各ファイルに書き写している。最初の失敗で例外が出てファイルが止まり、`&&` でつないだ後続のファイルも実行されない。`node:test` を使っていない
-- **別試作への依存**：テストが `../../prototype/full-scenario.js`・`full-game.js`・`scenario.js` を import している。`prototype/` を移動・整理するとこのテストが壊れる
+- **別試作への依存**：テストが `../../game/full-scenario.js`・`full-game.js`・`scenario.js` を import している。`game/` を移動・整理するとこのテストが壊れる
 
 ---
 
@@ -465,7 +465,7 @@ scratchpad 上で WebP（cwebp `-q 82 -alpha_q 90 -m 6`）に変換した。
 
 ## 14. 原作から引き継いだ内容の注意（コードのバグではなく製品判断）【確認済】
 
-**誤字・誤った言い回しを、原作どおり意図的に残している**（`prototype/FULL-GAME-NOTES.md:58` に記載）。
+**誤字・誤った言い回しを、原作どおり意図的に残している**（`game/FULL-GAME-NOTES.md:58` に記載）。
 
 - 「みんなを**よろばせて**やれるわい」（`witch/conversation.js:26`）
 - 黄箱の誤答ヒント「負けるが勝ちなので、グーに**勝つ**のはチョキのようです」（`yellow-box/box-math.js:19`）。実際はグーに**負ける**のがチョキ
@@ -488,7 +488,7 @@ scratchpad 上で WebP（cwebp `-q 82 -alpha_q 90 -m 6`）に変換した。
 |---|---|---|
 | **絵の素材** | 実際に使っている PNG 17枚（森、球、枝、まほう使いの修正版、空の球、サンタ、三箱の本体とふた、たぬき、山、グー・チョキ・パー） | WebP / AVIF に変換し（約1/8）、透明な余白をビルド時に切り取り、表示サイズの2倍を上限にする。来歴 manifest（ハッシュ・ツール・規約）を作り、`NOTICE.md` に追記する。生成プロンプトは再生成用の資料として残す |
 | **描画数学** | `scene-math.js`（34行）、`red-box/hinge-math.js`（33行）、`rescue/rescue-math.js`（55行）、`rescue/paint.js` のメッシュ変形（61行） | ほぼそのまま共通の `lib/` へ移す。縦横の判定を1つにまとめる。動かない層はオフスクリーンにキャッシュする |
-| **ドメインの状態遷移** | `witch/conversation.js` の `transitionConversation`、`intro/story.js`、`letters/word-math.js`（`normalizeWord`、`placePaper` の入れ替え規則）、`box-math.js`（三箱を1つの「謎の定義データ＋共通ロジック」へ） | 文面と正解はシナリオデータとして1か所にまとめ、`prototype/` と共有する。テスト間で写した文面を比べる必要がなくなる |
+| **ドメインの状態遷移** | `witch/conversation.js` の `transitionConversation`、`intro/story.js`、`letters/word-math.js`（`normalizeWord`、`placePaper` の入れ替え規則）、`box-math.js`（三箱を1つの「謎の定義データ＋共通ロジック」へ） | 文面と正解はシナリオデータとして1か所にまとめ、`game/` と共有する。テスト間で写した文面を比べる必要がなくなる |
 | **触る仕掛け** | 物理的な四桁錠 `cylinder-lock.js`（spinbutton の a11y を含む）、段階的な雪払い（`snow-reveal.js` の一定の軌跡と段階の考え方）、ふたを途中で止めたり戻したりできる開閉、枝を開くと光・杖・顔・手の順に見える発見、球から出て歩くサンタ、紙を並べ替える操作（ドラッグ・タップ・キーボード） | 箱ごとの写しをやめ、設定で動かす部品にする。【推定】雪払いは現在「調べてみる」ボタンを押すと自動で払われる（`red-box/inspection.js:276-285`）。製品では指でこする操作にすると、親子で交代して遊ぶ盛り上がりどころになる |
 | **設計の原則** | 「すべての見た目を0〜1の進捗の純関数にする」「受理しなかった入力は元の参照を返す」「インベントリを作り出させない不変条件」「外部通信なし」 | そのまま新しい設計の規約にする |
 | **テストのやり方** | 進捗を細かく区切って、単調さ・連続性・逆戻しを確かめるテスト | `node:test` へ移し、CI で必ず実行する |
@@ -515,7 +515,7 @@ scratchpad 上で WebP（cwebp `-q 82 -alpha_q 90 -m 6`）に変換した。
 5. **品質保証**
    - Playwright の E2E を CI に入れる。入口→三箱→紙→発見→会話→救出の通しと、390幅・タッチ・iOS Safari のエミュレーション
    - QA の画像は CI の成果物として出し、リポジトリにはコミットしない
-6. **文字と読みやすさ**：本文と操作の文字を14〜16px以上にする。ルビの表示切り替えと、読み上げ（main の `prototype/` にある Gemini TTS の台詞 WAV 93ファイルを流用できるか検討する）を加える。リセットには確認を入れる（B3 の解消）
+6. **文字と読みやすさ**：本文と操作の文字を14〜16px以上にする。ルビの表示切り替えと、読み上げ（main の `game/` にある Gemini TTS の台詞 WAV 93ファイルを流用できるか検討する）を加える。リセットには確認を入れる（B3 の解消）
 7. **互換性の方針**：対応 OS の下限を決める。iOS 15 を切るか、`roundRect` などに代替実装を用意する（B10）
 
 ### 15.3 捨てるもの（新しいアプリへは持ち込まない）

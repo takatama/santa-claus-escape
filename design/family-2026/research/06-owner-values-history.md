@@ -13,14 +13,14 @@
 
 ## 0. 要点
 
-1. **【事実】作業期間は短く、方向転換が多い。** 2026-10-04の原作照合に始まり、10-05〜07の「声の絵本」（`prototype/`、main、コミット9件）、10-07〜09の「絵の中を探索する動く絵本」（`illustrated-prototype/`、PR #1、21,781行、335ファイル）と進んだ。赤い箱の操作だけで、約2日のうちに7回以上作り直している。
-2. **【事実】一番強く守られている制約は「原作への忠実さ」。** 台詞・謎・答え・登場人物の関係は変えない。変える場合は「修正案」として記録し、承認されてから実装している（`design/README.md:15`、`prototype/FULL-GAME-NOTES.md:50-54`）。調査レポートにあった「再発明案A/B/C」は仕様に採用しないと明記されている（`design/FULL-GAME-DESIGN.md:14`、`prototype/SOURCE-NOTES.md:9`）。
+1. **【事実】作業期間は短く、方向転換が多い。** 2026-10-04の原作照合に始まり、10-05〜07の「声の絵本」（`game/`、main、コミット9件）、10-07〜09の「絵の中を探索する動く絵本」（`illustrated-prototype/`、PR #1、21,781行、335ファイル）と進んだ。赤い箱の操作だけで、約2日のうちに7回以上作り直している。
+2. **【事実】一番強く守られている制約は「原作への忠実さ」。** 台詞・謎・答え・登場人物の関係は変えない。変える場合は「修正案」として記録し、承認されてから実装している（`design/README.md:15`、`game/FULL-GAME-NOTES.md:50-54`）。調査レポートにあった「再発明案A/B/C」は仕様に採用しないと明記されている（`design/FULL-GAME-DESIGN.md:14`、`game/SOURCE-NOTES.md:9`）。
 3. **【事実】技術面の制約もはっきりしている。** 遊ぶときに実行時AI・外部API・バックエンド・マイク・アカウント・アクセス解析を使わない。静的配信とlocalStorageだけで動かし、CSPと `Permissions-Policy: microphone=()` まで設定している（`scripts/build-pages.mjs:17`）。
 4. **【事実】物語の核は「さびしかった魔法使いと遊んであげると、サンタが自由になる」。** 全問誤答でも救出される。敵を倒す演出・スコア・正解必須・続編は入れない（`design/FULL-GAME-DESIGN.md:21`、`illustrated-prototype/storyboard/PLAN.md:38`）。
-5. **【事実】ほぼすべてのQA文書で、親子の初見体験が「未検証」とされている。** 該当箇所は15ファイル18か所。UI文言にも「ひとりでも、いっしょに考えても。」（`prototype/index.html:21`）、「時間制限はありません。ひとりでも、相談しながらでも。」（`prototype/full-app.js:64`）とある。**【推測】親子で一緒に遊ぶ場面は、オーナーが最初から想定していた**と考えられる。ただし、その場面での観察はまだ一度も行われていない。
+5. **【事実】ほぼすべてのQA文書で、親子の初見体験が「未検証」とされている。** 該当箇所は15ファイル18か所。UI文言にも「ひとりでも、いっしょに考えても。」（`game/index.html:21`）、「時間制限はありません。ひとりでも、相談しながらでも。」（`game/full-app.js:64`）とある。**【推測】親子で一緒に遊ぶ場面は、オーナーが最初から想定していた**と考えられる。ただし、その場面での観察はまだ一度も行われていない。
 6. **【事実】絵と音、触ったときの感覚へのこだわりは細かい。** 錠の取り付け位置は実在する金庫の写真で確かめている。ほかにも、ダイヤルの回転方向、じゃんけんの手を右手にそろえること（エージェントの誤りをオーナーが2回指摘）、魔法使いの脚、サンタの大きさ、BGMの音量（0.075→0.025→スライダー20%→25%）、効果音の鳴る順番などを指摘している。
-7. **【事実】オーナーは並べて比べてから選びたい人である。** 妖精の声は3案の試聴からLedaを選び（`prototype/qa/FAIRY-VOICE-AUDITION.md:3`）、錠も「まずは画像」で案を見てから実装させた（`illustrated-prototype/red-box/concepts/2026-10-08/README.md:5`）。
-8. **【事実】2つの試作ラインがまだ統合されていない。** `prototype/` は声・BGM・効果音がそろっているが、絵は簡素なSVG/CSS。`illustrated-prototype/` は絵が豊かだが音が一切ない（導入に「声を聞く ›」ボタンがあるのに音は鳴らない：`illustrated-prototype/intro/main.js:57`）。Cloudflare Pagesで配信しているのは `prototype/` だけ（`scripts/build-pages.mjs:4`）。
+7. **【事実】オーナーは並べて比べてから選びたい人である。** 妖精の声は3案の試聴からLedaを選び（`game/qa/FAIRY-VOICE-AUDITION.md:3`）、錠も「まずは画像」で案を見てから実装させた（`illustrated-prototype/red-box/concepts/2026-10-08/README.md:5`）。
+8. **【事実】2つの試作ラインがまだ統合されていない。** `game/` は声・BGM・効果音がそろっているが、絵は簡素なSVG/CSS。`illustrated-prototype/` は絵が豊かだが音が一切ない（導入に「声を聞く ›」ボタンがあるのに音は鳴らない：`illustrated-prototype/intro/main.js:57`）。Cloudflare Pagesで配信しているのは `game/` だけ（`scripts/build-pages.mjs:4`）。
 9. **【推測】新設計で一番の争点は、オーナーが今回「現在の実装に縛られなくてよい」と言ったことと、これまで「原作から逸脱した案は承認制で、原則として採用しない」としてきたこととの折り合い。** 変えてはいけない層、承認があれば変えてよい層、自由に変えてよい層を分けた地図を作り、各案がどこを変えるかを示して選んでもらう形が合う（9章）。
 10. **【事実】作業環境の注意点。** このマシンの `gh` は既定のアクティブアカウントが 別のアカウント になっている（takatamaはログイン済みだが非アクティブ）。本調査ではコマンドごとに `GH_TOKEN="$(gh auth token --user takatama)"` を指定し、読み取りだけを行った。今後GitHubで操作するときも、takatamaを明示する必要がある。
 
@@ -29,9 +29,9 @@
 ## 1. 調査範囲と方法
 
 - git履歴：`git log --all --stat`（全10コミット、すべて author `takatama <takatama@users.noreply.github.com>`）
-- 文書：`README.md`、`NOTICE.md`、`design/*.md`、`docs/CLOUDFLARE-PAGES.md`、`prototype/*.md`、`prototype/qa/FAIRY-VOICE-AUDITION.md`、`illustrated-prototype/` 内のREADME・REFINEMENT・INTERACTION-GUIDANCE・FEASIBILITY・QA・storyboard/PLAN・red-box/concepts/2026-10-08（HANDOFF/README/LOCK-MOUNT-EDIT）・qa/*.md・各箱・intro・explore・letters・witch・rescue の README と VERIFICATION
-- コード：原作台詞データ `prototype/scenario.js`、`prototype/full-scenario.js`、UI文言 `prototype/full-app.js`、`prototype/index.html`、`scripts/build-pages.mjs`、`scripts/check-publication.mjs`、`illustrated-prototype/check.mjs`、`illustrated-prototype/storyboard/storyboard.js`、画像生成の記録 `illustrated-prototype/assets/PROMPTS.json`
-- 画面：QAスクリーンショットを数点（`prototype/qa/gemini-storybook-cover.jpg`、`illustrated-prototype/intro/qa/2026-10-09/initial-desktop.png`、`witch/qa/2026-10-09/invite-desktop.png`、`explore/qa/2026-10-08/start-mobile.png`、`red-box/qa/2026-10-08-brushed/label-mobile.png`、`qa/2026-10-09-pr/santa-freed.png`）
+- 文書：`README.md`、`NOTICE.md`、`design/*.md`、`docs/CLOUDFLARE-PAGES.md`、`game/*.md`、`game/qa/FAIRY-VOICE-AUDITION.md`、`illustrated-prototype/` 内のREADME・REFINEMENT・INTERACTION-GUIDANCE・FEASIBILITY・QA・storyboard/PLAN・red-box/concepts/2026-10-08（HANDOFF/README/LOCK-MOUNT-EDIT）・qa/*.md・各箱・intro・explore・letters・witch・rescue の README と VERIFICATION
+- コード：原作台詞データ `game/scenario.js`、`game/full-scenario.js`、UI文言 `game/full-app.js`、`game/index.html`、`scripts/build-pages.mjs`、`scripts/check-publication.mjs`、`illustrated-prototype/check.mjs`、`illustrated-prototype/storyboard/storyboard.js`、画像生成の記録 `illustrated-prototype/assets/PROMPTS.json`
+- 画面：QAスクリーンショットを数点（`game/qa/gemini-storybook-cover.jpg`、`illustrated-prototype/intro/qa/2026-10-09/initial-desktop.png`、`witch/qa/2026-10-09/invite-desktop.png`、`explore/qa/2026-10-08/start-mobile.png`、`red-box/qa/2026-10-08-brushed/label-mobile.png`、`qa/2026-10-09-pr/santa-freed.png`）
 - GitHub（takatamaとして読み取りのみ）：PR #1 の本文・コメント・レビュー。コメントはCloudflare Pagesボット（プレビューのデプロイ成功）と、Codexの自動レビュー（P2指摘2件。保存失敗時に進行が失われる問題：`illustrated-prototype/red-box/main.js:96`、`illustrated-prototype/main.js:285`）。**オーナー本人のコメントはない。**
 - テスト（読み取り専用で実行）：ルートの `npm test` は pass 44 / skip 2 / fail 0。`npm --prefix illustrated-prototype test` は PASS行97、FAIL 0、SKIP 5（スキップは非公開の原作資料がないため）。作業ツリーは変更していない。
 - 原作のソース、DialogflowやDriveの原本、調査レポート（`research/santa-claus-escape-2026.md`、`feedback-aggregate.json`）、旧試作（paper-prototype、threejs-prototype）、画風の参照画像はリポジトリに含まれておらず、**読めていない**。
@@ -45,16 +45,16 @@
 | 時期 | 内容 | 出典 |
 | --- | --- | --- |
 | 〜2021-01 | Google Assistant（Dialogflow）向けの音声ゲーム「サンタの脱出」。日本語と英語の2版。intentは58ファイル。最終更新は `index.js` 2021年1月 | 【事実】`design/FULL-GAME-DESIGN.md:11-12` |
-| 〜2021 | 実際のプレイヤーからの「フィードバック」スプレッドシートと「分析シート」がある。終了時に旧サービスで星評価を求め、過去のコードには感想送信もあった | 【事実】`prototype/SOURCE-NOTES.md:12`、`design/FULL-GAME-DESIGN.md:178` |
+| 〜2021 | 実際のプレイヤーからの「フィードバック」スプレッドシートと「分析シート」がある。終了時に旧サービスで星評価を求め、過去のコードには感想送信もあった | 【事実】`game/SOURCE-NOTES.md:12`、`design/FULL-GAME-DESIGN.md:178` |
 | 原作の出題 | 赤4候補×黄18候補×なぞなぞ2×クイズ3のランダム出題。箱は好きな順に開けられ、合言葉を知っていれば直接呼べる | 【事実】`design/FULL-GAME-DESIGN.md:45,62,202` |
 | 2023年（外部知識） | Google Assistantの会話型アクションが終了し、原作は遊べなくなった | 【推測】筆者の一般知識で、リポジトリには記述がない。ブラウザで作り直す動機の一つと考えられる |
 
-### 2.1 フェーズA：原作の照合と「声と仕掛けの絵本」（`prototype/`、mainに統合済み）
+### 2.1 フェーズA：原作の照合と「声と仕掛けの絵本」（`game/`、mainに統合済み）
 
 | 日時（JST） | コミット／記録 | 変わったこと | 理由・オーナーの関与 |
 | --- | --- | --- | --- |
-| 10-04 | `prototype/SOURCE-NOTES.md:3`、`prototype/QA.md:3` | 原作ソース（SHA-256で照合）から赤い箱だけをブラウザで試作。音声はブラウザの読み上げ（SpeechSynthesis） | 調査レポートの再発明案A/B/Cは「実装仕様として採用しない」（`SOURCE-NOTES.md:9`） |
-| 10-05 午前（コミット前） | `SOURCE-NOTES.md:65-82`、`prototype/AUDIO-QA.md:3` | 紙のミニチュアを使った見開き絵本に変更。Gemini TTSで9点を収録 | 「ユーザーの絵本化の提案」（`SOURCE-NOTES.md:67`）。「Gemini TTSためしていいよ」（`AUDIO-QA.md:3`） |
+| 10-04 | `game/SOURCE-NOTES.md:3`、`game/QA.md:3` | 原作ソース（SHA-256で照合）から赤い箱だけをブラウザで試作。音声はブラウザの読み上げ（SpeechSynthesis） | 調査レポートの再発明案A/B/Cは「実装仕様として採用しない」（`SOURCE-NOTES.md:9`） |
+| 10-05 午前（コミット前） | `SOURCE-NOTES.md:65-82`、`game/AUDIO-QA.md:3` | 紙のミニチュアを使った見開き絵本に変更。Gemini TTSで9点を収録 | 「ユーザーの絵本化の提案」（`SOURCE-NOTES.md:67`）。「Gemini TTSためしていいよ」（`AUDIO-QA.md:3`） |
 | 10-05 11:46 | `96f6727` 公開（MIT） | 赤い箱まで遊べる試作と全編の設計（2,592経路のモデル検査）を公開 | リポジトリの説明文は「声と仕掛けの絵本」 |
 | 10-05 21:37 | `0c2ac14` | 日本語の全編（三箱→合言葉→三問→救出）とCloudflare Pages用ビルドを追加 | Pages用の成果物は「利用者の指定」（`docs/CLOUDFLARE-PAGES.md:3`）。承認された変更が3点（`FULL-GAME-NOTES.md:52-54`） |
 | 10-05 22:27 | `ac0acb4` | 誤答の四桁も同じ声で読むよう、0〜9の数字音声を追加。効果音ラボの4音を導入 | 声が途中で替わる不自然さを改善する依頼（`FULL-GAME-NOTES.md:60`） |
@@ -91,10 +91,10 @@
 
 | 案 | 内容 | 扱い | 出典 |
 | --- | --- | --- | --- |
-| 再発明案A/B/C | 調査レポート（`research/santa-claus-escape-2026.md`）にあった作り直し案。中身はリポジトリにない | 仕様に採用しない | 【事実】`design/FULL-GAME-DESIGN.md:14`、`prototype/SOURCE-NOTES.md:9` |
+| 再発明案A/B/C | 調査レポート（`research/santa-claus-escape-2026.md`）にあった作り直し案。中身はリポジトリにない | 仕様に採用しない | 【事実】`design/FULL-GAME-DESIGN.md:14`、`game/SOURCE-NOTES.md:9` |
 | paper-prototype／threejs-prototype | 紙の試作とThree.jsの試作 | 「旧」試作として変更対象外。リポジトリにはない | 【事実】`storyboard/PLAN.md:120`、`illustrated-prototype/README.md:87`。【推測】ポート4186で動いていたのはこのどちらか |
 | 物理的な本・ページめくり | 参照画像には「page-turn」が含まれていた | 画風の参照にだけ使い、本の構造は除外 | 【事実】`assets/PROMPTS.json:4`、`storyboard/PLAN.md:42` |
-| 最初のブラウザ版（browser-v1） | 絵本化する前の画面 | 参照用に保存し、配信しない | 【事実】`prototype/SOURCE-NOTES.md:73` |
+| 最初のブラウザ版（browser-v1） | 絵本化する前の画面 | 参照用に保存し、配信しない | 【事実】`game/SOURCE-NOTES.md:73` |
 | 自作効果音（ダイヤル・解錠） | コードで合成したクリック音 | 削除。自作効果音はゼロ | 【事実】`design/ORIGINAL-AUDIO-RESTORATION.md:17-19` |
 | BGMの公式MP3版 | 原作のOGGループ版とは別の版 | 原作のOGGに戻した | 【事実】`ORIGINAL-AUDIO-RESTORATION.md:10` |
 | 妖精B（Zephyr）・C（Puck） | 軽やかな妖精／元気ないたずらっ子 | 選ばれなかった。A（幼く素直）を採用 | 【事実】`FAIRY-VOICE-AUDITION.md:15-19` |
@@ -125,13 +125,13 @@
 | --- | --- | --- | --- |
 | C1 | 遊ぶときに実行時AI・外部API・バックエンドを使わない。生成AIを使うのは制作時だけ | `README.md:30`、`illustrated-prototype/README.md:50`、`qa/PR-VERIFICATION.md:20`、`FULL-GAME-DESIGN.md:97`、`storyboard/PLAN.md:75`、`illustrated-prototype/check.mjs`（実行時の資源はローカル必須） | 規則（全文書で一貫） |
 | C2 | マイク・音声認識を使わない（原作は音声ゲームだが、ボタン・ダイヤル・短い入力に置き換えた） | `README.md:30`、`SOURCE-NOTES.md:46`、`FULL-GAME-NOTES.md:54`、`scripts/build-pages.mjs:17` | 明示（承認された変更） |
-| C3 | アカウント・DB・アクセス解析・課金を持たない。保存は端末内のlocalStorageだけ | `prototype/QA.md:10`、`explore/README.md:21`、`docs/CLOUDFLARE-PAGES.md:3,35` | 規則 |
+| C3 | アカウント・DB・アクセス解析・課金を持たない。保存は端末内のlocalStorageだけ | `game/QA.md:10`、`explore/README.md:21`、`docs/CLOUDFLARE-PAGES.md:3,35` | 規則 |
 | C4 | 原作の台詞・謎・答え・登場人物の関係を変えない。変える場合は修正案として承認を得る | `design/README.md:15`、`FULL-GAME-NOTES.md:50-54`、`storyboard/PLAN.md:30`、`intro/README.md:5` | 明示＋規則 |
 | C5 | 全問誤答でも救出する。正解数を救出の条件にしない。採点表示も出さない | `FULL-GAME-DESIGN.md:21,172`、`witch/README.md:3`、`illustrated-prototype/README.md:5` | 規則（原作の仕様） |
 | C6 | 敵を倒す演出・スコア・追加の旅・追加の謎・続編を入れない。魔法使いを悪役として終わらせない | `storyboard/PLAN.md:38`、`storyboard/storyboard.js:56` | 規則 |
 | C7 | 答えを先に描かない。数字への自動変換や正誤の補助をしない | `FULL-GAME-DESIGN.md:79,86-93`、`INTERACTION-GUIDANCE.md:29` | 規則 |
 | C8 | 最初から正解を示す新しいヒントは追加しない。必要ならプレイ観察の後に別案として扱う | `FULL-GAME-DESIGN.md:66` | 規則（観察後なら可能性あり） |
-| C9 | 時間制限を設けない（原作の「10秒間」も締切にしない） | `FULL-GAME-DESIGN.md:140,176`、`prototype/QA.md:35`、`witch/README.md:7` | 規則 |
+| C9 | 時間制限を設けない（原作の「10秒間」も締切にしない） | `FULL-GAME-DESIGN.md:140,176`、`game/QA.md:35`、`witch/README.md:7` | 規則 |
 | C10 | サンタは救出の前までスノーボールの中にいる。閉じ込められた場所を別の場所にすり替えない | `illustrated-prototype/README.md:5`、`FULL-GAME-DESIGN.md:80`、`storyboard/PLAN.md:32` | 明示（PR本文でも強調） |
 | C11 | 自作の効果音を使わない。原作の音を優先する | `README.md:67`、`ORIGINAL-AUDIO-RESTORATION.md:3` | 明示 |
 | C12 | 出所と利用条件が確認できない素材は使わない。結末の鈴（jingle.mp3）は許諾記録が確認できるまで、同梱も代替もしない | `NOTICE.md:41-43`、`ORIGINAL-AUDIO-RESTORATION.md:11` | 明示＋規則 |
@@ -139,7 +139,7 @@
 | C14 | 錠は本体の前面上部に収め、ふたの継ぎ目をまたがない。ダイヤルは列が回る向きに動く | `HANDOFF.md:25-30`、`LOCK-MOUNT-EDIT.md` | 明示 |
 | C15 | ヒントには順番がある。「調べてみる」を押すと、雪が手で払うように少しずつ取れ、払ったあとも不規則に残る | `HANDOFF.md:27-29`、`BRUSHED-SNOW.md:7-11` | 明示 |
 | C16 | BGMは小さく（初期25%）。声の聞きやすさを優先する | `BGM-VOLUME-CONTROL.md:5,7`、`FULL-GAME-DESIGN.md:148` | 明示 |
-| C17 | 開箱後にサンタの長い説明を繰り返さない | `prototype/full-scenario.js:12`、`FULL-GAME-NOTES.md:18` | 明示 |
+| C17 | 開箱後にサンタの長い説明を繰り返さない | `game/full-scenario.js:12`、`FULL-GAME-NOTES.md:18` | 明示 |
 | C18 | 効果音は原作SSMLの順番どおり、台詞の後に鳴らす | `AUDIO-TIMING-NOTES.md:10,16-19` | 明示 |
 | C19 | 妖精（まほう使い）の声はLeda。三役の声を分ける | `FAIRY-VOICE-AUDITION.md:3`、`README.md:32` | 明示 |
 | C20 | 生成AIへの送信・費用は事前承認制。費用は記録し、新しい契約は結ばない | `AUDIO-QA.md:3,44-46`、`FULL-GAME-QA.md:95` | 明示 |
@@ -157,8 +157,8 @@
 | # | 価値観 | 根拠 | 確度 |
 | --- | --- | --- | --- |
 | V1 | **原作への敬意と、出典への誠実さ。** 文字列・ハッシュ・波形の相関まで照合する | 文書とコードで「原作」が289回。音源8点を原作ファイルとバイト一致で確認（`NOTICE.md:21`）。ダイヤル音は波形の相関0.671〜0.743で同じ録音と判断（`ORIGINAL-AUDIO-RESTORATION.md:8`） | 事実 |
-| V2 | **子どもを責めない、罰しない、怖がらせない。** 失敗にも誘いを断ったことにも優しい | 「責める言葉なし」（`prototype/QA.md:22`）。断っても失敗や罰として扱わない（`storyboard.js:41`）。8849を入力しても責めない（`FULL-GAME-DESIGN.md:171`）。声の演技指示に「怖い脅しにしない」「赤ちゃん言葉にはしない」（`prototype/reference/audio-generation/ja-leda-paused.json:33`、`a-leda.json:26`） | 事実 |
-| V3 | **一緒に考える余白を大切にする。** 相談・沈黙・中断を許す | 「ひとりでも、いっしょに考えても。」（`prototype/index.html:21`）。「時間制限はありません。ひとりでも、相談しながらでも。」（`full-app.js:64`）。「相談しながら遊ぶ場で確認する」（`FULL-GAME-DESIGN.md:196,217`）。「今は遊ばない」でしおりをはさめる。親子の初見体験を15ファイル18か所で「未検証」と記録 | 事実（親子を想定していることは推測） |
+| V2 | **子どもを責めない、罰しない、怖がらせない。** 失敗にも誘いを断ったことにも優しい | 「責める言葉なし」（`game/QA.md:22`）。断っても失敗や罰として扱わない（`storyboard.js:41`）。8849を入力しても責めない（`FULL-GAME-DESIGN.md:171`）。声の演技指示に「怖い脅しにしない」「赤ちゃん言葉にはしない」（`game/reference/audio-generation/ja-leda-paused.json:33`、`a-leda.json:26`） | 事実 |
+| V3 | **一緒に考える余白を大切にする。** 相談・沈黙・中断を許す | 「ひとりでも、いっしょに考えても。」（`game/index.html:21`）。「時間制限はありません。ひとりでも、相談しながらでも。」（`full-app.js:64`）。「相談しながら遊ぶ場で確認する」（`FULL-GAME-DESIGN.md:196,217`）。「今は遊ばない」でしおりをはさめる。親子の初見体験を15ファイル18か所で「未検証」と記録 | 事実（親子を想定していることは推測） |
 | V4 | **自分で解く喜びを守る。** 答えを漏らさない一方、答えを知っている人を待たせない | ヒントは最小限で、自動変換もしない（C7・C8）。手がかりを見なくても正解を入れれば開く（`HANDOFF.md:21`）。合言葉を知っていれば直接呼べる経路を残す（`FULL-GAME-DESIGN.md:45`） | 事実 |
 | V5 | **物理的にもっともらしい、手触りのある仕掛け。** | 実在の金庫で確認。ダイヤルの回転方向。ふたは付け根を軸に回り、途中で止まり、逆にも戻る。雪の払い方。左右の手。脚 | 事実 |
 | V6 | **静けさと控えめな演出。** | 考えている間は静かにする（`FULL-GAME-DESIGN.md:148`）。カメラや絵全体を動かす演出はない。慣性も吸着もない（`illustrated-prototype/README.md:67`）。人物の絵を突然切り替えない（同:71）。動きを減らす設定に対応 | 事実 |
@@ -174,7 +174,7 @@
 
 ### 5.1 絵
 
-- **フェーズA（`prototype/`）**【事実】SVG/CSSで作った紙のミニチュア、飛び出す絵本風。表紙では、雪のジオラマに置いた端末の画面の中にサンタがいる（`prototype/qa/gemini-storybook-cover.jpg`）。キャッチコピーは「A CHRISTMAS POP-UP STORY」「音声つきの、飛び出す絵本。」（`prototype/index.html:16`）。色はクリーム・深緑・赤。
+- **フェーズA（`game/`）**【事実】SVG/CSSで作った紙のミニチュア、飛び出す絵本風。表紙では、雪のジオラマに置いた端末の画面の中にサンタがいる（`game/qa/gemini-storybook-cover.jpg`）。キャッチコピーは「A CHRISTMAS POP-UP STORY」「音声つきの、飛び出す絵本。」（`game/index.html:16`）。色はクリーム・深緑・赤。
 - **フェーズB（`illustrated-prototype/`）**【事実】厚い紙に描いたガッシュや水彩の質感、深い夜の青の雪の森、古い金色の光、丸くてかわいい人物（サンタはほおが赤く、まほう使いは若い女の子）。生成プロンプトに「tactile gouache / watercolor on thick textured paper, deep midnight-blue snow forest and warm antique gold light」とある（`assets/PROMPTS.json`）。発見場面は好評だった（`storyboard/PLAN.md:24`）。
 - **好むこと**【事実】
   - 視点を固定し、背景や球の位置・大きさを場面をまたいで変えない（`REFINEMENT.md:11`）
@@ -194,7 +194,7 @@
 
 ### 5.3 語り口・トーン
 
-- サンタ【事実】おじいさん口調（「わし」「〜じゃ」）でユーモラス。「いやー、こまった、こまった。このままでは、プレゼントのじゅんびが間に合わん。」（`prototype/scenario.js:10`）
+- サンタ【事実】おじいさん口調（「わし」「〜じゃ」）でユーモラス。「いやー、こまった、こまった。このままでは、プレゼントのじゅんびが間に合わん。」（`game/scenario.js:10`）
 - まほう使い【事実】明るく自分勝手だが、本当はさびしい。「だって、だって、さびしかったんだもの。」（`full-scenario.js:33`）
 - ナレーター【事実】**端末そのものが語り手**。冒頭は「あれれ？私の中から声が聞こえます。」（`scenario.js:9`）、中断時は「私の中にサンタさんがいるのは変な感じです。」（`full-scenario.js:31`）。【推測】手元のスマートフォンやスピーカーの中にサンタがいるという、メタで温かい仕掛けが原作の独自性。illustrated版では、この端末をスノーボールに置き換えて絵にしている（`storyboard/PLAN.md:32`）。
 - UI文言【事実】短く詩的な見出し（「調べた分だけ、見えてくる。」「私と、あそんでよ。」：`storyboard.js`）。保存を「しおり」、中断を「しおりをはさんで」と言い換えている（`full-scenario.js:71`）。
@@ -218,7 +218,7 @@
 | P2 | **実機・初見・親子での確認が一度もない** | 「未検証」36回、「実機」66回、親子の言及18か所。観察計画（`storyboard/PLAN.md:84`）は未実行 | 未解決。一番大きい空白 |
 | P3 | **音のバランスと順番** | 24時間で関連コミット4件（BGMを1/3に、順番の修正、原作音への復元、スライダー） | 一応決着。実機での聴取は未確認（`BGM-VOLUME-CONTROL.md:29`） |
 | P4 | **絵の整合**（比率、左右、脚、縮尺） | 修正の表（`REFINEMENT.md:9-14`）。右手は2回やり直し | 進行中 |
-| P5 | **声のラインと絵のラインに分かれたまま** | `prototype/` には音があり絵が簡素、`illustrated-prototype/` は絵があり音がない。Pagesで配信しているのは前者だけ（`build-pages.mjs:4`） | 未決（D1） |
+| P5 | **声のラインと絵のラインに分かれたまま** | `game/` には音があり絵が簡素、`illustrated-prototype/` は絵があり音がない。Pagesで配信しているのは前者だけ（`build-pages.mjs:4`） | 未決（D1） |
 | P6 | **舞台の意味**（端末かスノーボールか、外か家か） | 「外か、家か」（`REFINEMENT.md:10`）。絵の確認項目に「森を別の閉じ込め場所と誤解させない」（`storyboard.js:11`） | 森で暫定継続。端末というメタファーとのずれは未整理 |
 | P7 | **原作データの不整合** | エベレストの8848と8848.86、ソリティア、オーストラリアのクイズの一般化（`FULL-GAME-DESIGN.md:168-180`） | 一部は承認済み。オーストラリアは未決 |
 | P8 | **繰り返し遊べるか** | ランダム出題を復元していない。英語版がない（`README.md:5`） | 未着手 |
@@ -278,7 +278,7 @@
 
 | # | 決めること | 選択肢の例 | 関連 |
 | --- | --- | --- | --- |
-| D1 | **土台をどれにするか。** PR #1 をどう扱うか | (a) `prototype/`（声の絵本）を土台に絵を差し替える／(b) `illustrated-prototype/` に音を戻す／(c) 新しく作り、両方の資産を移す／PR #1 をマージ・保留・閉じる | P5 |
+| D1 | **土台をどれにするか。** PR #1 をどう扱うか | (a) `game/`（声の絵本）を土台に絵を差し替える／(b) `illustrated-prototype/` に音を戻す／(c) 新しく作り、両方の資産を移す／PR #1 をマージ・保留・閉じる | P5 |
 | D2 | **「現在の実装に縛られない」の範囲。** 原作からどこまで逸脱してよいか | 9.1 の地図で、各層の許容度を決めてもらう | C4・R7 |
 | D3 | **大人向けの層や新しい遊びを足してよいか**（大人だけが見るヒントカード、大人向けの追加の謎、大人と子で役割を分けるなど） | 本編の外に置く／任意にする／入れない | C6・C8 |
 | D4 | **声・音をどうするか。** illustrated版に声を戻すか。追加のTTS生成を承認するか、予算はいくらか | 既存の音声を再利用／不足分だけ追加生成／親が読み上げる前提にする | C19・C20 |
@@ -321,14 +321,14 @@
 
 | 日付 | 内容（「」は記録上の引用） | 出典 |
 | --- | --- | --- |
-| 10-05 | 絵本にしてはどうかという提案 | `prototype/SOURCE-NOTES.md:67` |
-| 10-05 | 「Gemini TTSためしていいよ」 | `prototype/AUDIO-QA.md:3` |
-| 10-05 | 原作の台詞をGemini APIへ送って生成することを承認 | `prototype/FULL-GAME-QA.md:95` |
+| 10-05 | 絵本にしてはどうかという提案 | `game/SOURCE-NOTES.md:67` |
+| 10-05 | 「Gemini TTSためしていいよ」 | `game/AUDIO-QA.md:3` |
+| 10-05 | 原作の台詞をGemini APIへ送って生成することを承認 | `game/FULL-GAME-QA.md:95` |
 | 10-05 | Cloudflare Pages用の成果物まで作るよう指定 | `docs/CLOUDFLARE-PAGES.md:3` |
-| 10-05 | 承認した変更：青い箱は原作時点の高さと明記／完全一致の判定、ソリティアを除外／タップ・ダイヤル・入力に置き換え、時間切れ・マイク・実行時AIなし | `prototype/FULL-GAME-NOTES.md:52-54` |
+| 10-05 | 承認した変更：青い箱は原作時点の高さと明記／完全一致の判定、ソリティアを除外／タップ・ダイヤル・入力に置き換え、時間切れ・マイク・実行時AIなし | `game/FULL-GAME-NOTES.md:52-54` |
 | 10-06 | 効果音が台詞より前に鳴る、数字を合わせる音がない、サンタの説明が繰り返される、という指摘 | `design/AUDIO-TIMING-NOTES.md:10` |
-| 10-06 | 開箱後はサンタの説明を繰り返さず、残りの箱だけを知らせるよう指定 | `prototype/full-scenario.js:12` |
-| 10-06 | 妖精の声の試聴でAのLedaを選択 | `prototype/qa/FAIRY-VOICE-AUDITION.md:3` |
+| 10-06 | 開箱後はサンタの説明を繰り返さず、残りの箱だけを知らせるよう指定 | `game/full-scenario.js:12` |
+| 10-06 | 妖精の声の試聴でAのLedaを選択 | `game/qa/FAIRY-VOICE-AUDITION.md:3` |
 | 10-06 | ダイヤル音の出所を示し、「原作音を優先」と指定 | `design/ORIGINAL-AUDIO-RESTORATION.md:3` |
 | 10-06 | 「BGMが大きい」 | `design/BGM-VOLUME-CONTROL.md:7` |
 | 10-07 | BGMの初期値を25%に指定 | `design/BGM-VOLUME-CONTROL.md:5` |
@@ -348,5 +348,5 @@
 
 - git：10コミット（2026-10-05 11:46 〜 2026-10-09 08:13 JST）。PR #1 は +21,781 / −0、335ファイル。状態はOPEN、オーナーのコメントなし。
 - テスト：ルート `npm test` は 44 pass / 2 skip。`illustrated-prototype` は PASS行97、FAIL 0、SKIP 5（非公開の原作資料がないため）。PR本文の「101組成功」と数え方は違うが、失敗はない。
-- 容量：`illustrated-prototype/` 全体は65MB。実行時のPNG（qa と concepts を除く）は約38MB。`prototype/assets/audio/` は77MB（93ファイル）。
+- 容量：`illustrated-prototype/` 全体は65MB。実行時のPNG（qa と concepts を除く）は約38MB。`game/assets/audio/` は77MB（93ファイル）。
 - 文書中の出現回数：「原作」289、「実機」66、「球内」52、「未検証」36、親子・子どもと保護者 18（15ファイル）。

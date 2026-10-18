@@ -10,11 +10,11 @@
 
 ## 現行の素材と証拠
 
-- [全身2パターン＋手のPNG](../../prototype/assets/witch/wizard-whole-v2.png)
-- [配信用WebP](../../prototype/assets/witch/wizard-whole-v2.webp)
+- [全身2パターン＋手のPNG](../../game/assets/witch/wizard-whole-v2.png)
+- [配信用WebP](../../game/assets/witch/wizard-whole-v2.webp)
 - [組み込みimage_genの使用プロンプト](prompt-whole-v2.md) / [ハッシュと変換記録](art-provenance.json)
-- [目と口を閉じた全身の追加PNG](../../prototype/assets/witch/wizard-blink-v1.png) / [配信用WebP](../../prototype/assets/witch/wizard-blink-v1.webp) / [追加生成プロンプト](prompt-blink-v1.md) / [追加素材のハッシュ](blink-provenance.json)
-- [切り出し座標](../../prototype/wizard-parts.js) / [全身と手の描画](../../prototype/wizard-puppet.js)
+- [目と口を閉じた全身の追加PNG](../../game/assets/witch/wizard-blink-v1.png) / [配信用WebP](../../game/assets/witch/wizard-blink-v1.webp) / [追加生成プロンプト](prompt-blink-v1.md) / [追加素材のハッシュ](blink-provenance.json)
+- [切り出し座標](../../game/wizard-parts.js) / [全身と手の描画](../../game/wizard-puppet.js)
 - [拡大した組立確認](parts-review.png)：口閉じ・目と口閉じ・笑顔・手振り上／下・跳躍を実際の描画関数で表示。
 - [実ゲーム画面の動く記録](entrance-stable.webp)：公開用ビルドのChromium画面を40ms刻みに撮影した76フレーム、3.04秒、音声なし。ブラウザー時計を制御した記録で、確認画像も1回だけ再生します。ゲームの登場は初回のみです。
 - [跳躍](hop.png) / [手振り](wave.png) / [待機](idle.png)

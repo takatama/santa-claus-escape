@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
-import {AUDIO_FILES} from '../../prototype/media-assets.js';
+import {AUDIO_FILES} from '../../game/media-assets.js';
 const report=JSON.parse(await readFile(new URL('../../docs/performance/assets.json',import.meta.url),'utf8'));
 test('media: every delivered AAC decodes to the original duration in real Web Audio',async({page})=>{
   await page.goto('/');
@@ -16,7 +16,7 @@ test('media: every delivered AAC decodes to the original duration in real Web Au
 });
 test('media: original and compressed digits keep order, silence guards and joined duration',async({page})=>{
   const ids=['answer-prefix-blue',...Array.from({length:10},(_,i)=>'answer-digit-'+i),'answer-set','answer-closed'];
-  const originals=await Promise.all(ids.map(async id=>({id,data:(await readFile(new URL(`../../prototype/assets/audio/${id}.wav`,import.meta.url))).toString('base64')})));
+  const originals=await Promise.all(ids.map(async id=>({id,data:(await readFile(new URL(`../../game/assets/audio/${id}.wav`,import.meta.url))).toString('base64')})));
   await page.goto('/');const results=await page.evaluate(async({originals})=>{
     const {joinAudioBuffers:joinBuffers}=await import('/audio-sequence.js');const context=new AudioContext(),before={},after={},out=[];
     try{

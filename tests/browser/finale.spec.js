@@ -43,6 +43,6 @@ test('finale: completion does not wait for the image; delivery after reset canno
   let held,arrived;const requested=new Promise(resolve=>arrived=resolve);await page.route('**/assets/rescue/finale-v1.webp',r=>{held=r;arrived();});
   await setupRescue(page);await expect(page.locator('canvas')).toHaveAttribute('data-ready','true');await light(page).press('End');await requested;
   expect((await saved(page)).phase).toBe('complete');await expect(page.locator('.rescue-stage')).toHaveAttribute('data-finale','loading');await expect(finale(page)).toBeHidden();await expect(btn(page,'read')).toBeEnabled();
-  await btn(page,'reset').click();await page.locator('#confirm-reset').click();const after=await saved(page);await held.fulfill({path:resolve('prototype/assets/rescue/finale-v1.webp'),contentType:'image/png'});await page.waitForTimeout(200);
+  await btn(page,'reset').click();await page.locator('#confirm-reset').click();const after=await saved(page);await held.fulfill({path:resolve('game/assets/rescue/finale-v1.webp'),contentType:'image/png'});await page.waitForTimeout(200);
   await expect(btn(page,'start')).toBeVisible();await expect(finale(page)).toHaveCount(0);expect(await saved(page)).toEqual(after);
 });

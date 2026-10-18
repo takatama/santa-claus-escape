@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { initialState, transition, STORAGE_KEY } from '../../prototype/full-game.js';
+import { initialState, transition, STORAGE_KEY } from '../../game/full-game.js';
 import { btn, card, slot, paperState, setupPapers, arrangePapers, correctOrder, saved, dragTo, discover } from './paper-helpers.js';
 
 test('papers: keyboard alone completes all six; resize and pointer cancellation keep the last saved positions',async({page})=>{

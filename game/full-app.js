@@ -43,7 +43,6 @@ function reportAudioStatus(status) {
     rescueStage?.setStatus(status);
     storyStage?.setStatus(status);
     const element = document.querySelector('#audio-status'); if (element) { element.textContent = status; annotateReadings(element); }
-    document.querySelector('.santa-device')?.classList.toggle('speaking', status === '読み上げ中');
     // BGM belongs to the scene, including the time spent exploring after a
     // narration. Its first load may finish later than the voice recording.
     if (status === '読み上げが終わりました') boxNarration?.finish();

@@ -20,7 +20,7 @@
 4. **声の追加は金額面ではほぼ無料。** 全音声の参考額は **0.28米ドル**（入力21,415／出力30,333トークン）。【確認】ボトルネックは人による聴き取り確認と、1リクエストあたり2話者までという制約にある。
 5. **最大の権利リスクは Gemini API 規約の年齢条項。** 規約（2026-03-23改定）に、**18歳未満が利用する、または利用しそうなアプリの一部として本サービスを使ってはならない** という趣旨の条項がある（WebFetch の要約で確認）。実行時に API を呼ばない事前生成でも当たるのかは不明。**子ども向け製品として出すなら、法務確認か、声の制作手段の置き換え（人の声優など）を検討すべき**。【要確認】
 6. **配布形態でライセンスの重さが変わる。**
-   - **無料の Web 版**：現状の記録とゲーム内クレジット（`prototype/full-app.js:101`）でほぼ足りる。
+   - **無料の Web 版**：現状の記録とゲーム内クレジット（`game/full-app.js:101`）でほぼ足りる。
    - **ストア配信（特に有料・Kids）**：次の対応が要る。【推測／一部確認】
      - 第三者音源を簡単に取り出せないようにする（PeriTune の新規約・効果音ラボ FAQ の推奨・OpenTracks の禁止事項）
      - Kids カテゴリでは、外部リンクの前に保護者ゲートを置く
@@ -37,18 +37,18 @@
 | --- | --- | ---: | ---: | --- | --- | --- |
 | 生成イラスト（実行時に使用） | `illustrated-prototype/assets/` ほか `*/assets/*.png` | 17 | 34.7MB | **記載なし**（NOTICE 対象外）【確認】 | OpenAI gpt-image（C2PA）、プロンプトは `*/assets/PROMPTS.json` | **中**：表記が無い。AI生成物が著作物になるかは不確実。参照画像の出所が不明 |
 | 生成イラスト（不使用・旧版・案） | `assets/forest.png`、`assets/wizard.png`、`red-box/concepts/2026-10-08/*-v2/v3.png` | 4 | 10.8MB | 記載なし | 同上 | 低（配布しなければ問題なし） |
-| QA スクリーンショット | `illustrated-prototype/**/qa/*.png|jpg`、`prototype/qa/*.jpg` | 178＋13 | 20.6MB＋約0.6MB | 記載なし | ブラウザでの撮影（生成絵を含む） | 低（配布対象外）。ただしリポジトリが重くなる |
-| SVG/CSS の絵（main の絵本） | `prototype/illustrations.js`（50行）、`styles.css` | 7種程度 | 数KB | MIT（`NOTICE.md:7`） | 自作コード | 低。画風が PR #1 と別系統 |
-| Gemini TTS 台詞 WAV（本編で使用） | `prototype/assets/audio/*.wav` | 68 | 約40.4MB／834秒 | MIT（`NOTICE.md:9`） | `prototype/reference/audio-generation/*.json`（87件）。原音に Google C2PA | **中**：Gemini 規約の18歳条項 |
+| QA スクリーンショット | `illustrated-prototype/**/qa/*.png|jpg`、`game/qa/*.jpg` | 178＋13 | 20.6MB＋約0.6MB | 記載なし | ブラウザでの撮影（生成絵を含む） | 低（配布対象外）。ただしリポジトリが重くなる |
+| SVG/CSS の絵（main の絵本） | `game/illustrations.js`（50行）、`styles.css` | 7種程度 | 数KB | MIT（`NOTICE.md:7`） | 自作コード | 低。画風が PR #1 と別系統 |
+| Gemini TTS 台詞 WAV（本編で使用） | `game/assets/audio/*.wav` | 68 | 約40.4MB／834秒 | MIT（`NOTICE.md:9`） | `game/reference/audio-generation/*.json`（87件）。原音に Google C2PA | **中**：Gemini 規約の18歳条項 |
 | Gemini TTS 台詞 WAV（旧版・不使用） | `ja-invite/paused/question-*/response-*/rescue.wav`、`santa-sample.wav` | 13 | 10.6MB／218秒 | MIT | 同上（妖精を Sulafat で読んでいた版） | 低。ただし **`scripts/build-pages.mjs:5` の正規表現で Pages に出てしまう** |
-| 声選びの試聴 WAV | `prototype/qa/fairy-voice-auditions/` | 6 | 6.1MB | MIT（Pages 対象外） | 同上 | 低 |
-| 妖精本編の分割原音 | `prototype/qa/fairy-production/` | 5 | 3.7MB | MIT | 同上（C2PA 付き原音） | 低 |
+| 声選びの試聴 WAV | `game/qa/fairy-voice-auditions/` | 6 | 6.1MB | MIT（Pages 対象外） | 同上 | 低 |
+| 妖精本編の分割原音 | `game/qa/fairy-production/` | 5 | 3.7MB | MIT | 同上（C2PA 付き原音） | 低 |
 | BGM | `laid-back-loop.ogg/.wav`、`spook4-loop.ogg/.wav` | 2曲（4ファイル） | 3.9MB（OGG）＋25.6MB（WAV） | **CC BY 4.0**（`NOTICE.md:15-16,27`） | 原作の参照ファイルとバイト一致（`original-audio-provenance.json`） | 低〜中：クレジットと改変の表示が必須。有料配布時は抽出対策が望ましい |
 | 効果音（CC0） | `dial.mp3` | 1 | 41.6KB | CC0 1.0 | Zott820 / Freesound 174770。波形照合で推定（相関0.67〜0.74） | 低（同一性は推定） |
 | 効果音（提供元規約） | `unlocking-1.mp3`（効果音辞典）、`magic-cure2/stupid3/shine1/shine3.mp3`（効果音ラボ） | 5 | 0.47MB | 提供元の規約、MIT 対象外 | 原作の保存ファイルとバイト一致。解錠は公式配布ともバイト一致 | 低〜中：単体再配布の禁止、AI 学習の禁止。効果音ラボの4点は現在の公式配布版と一致しない（`ORIGINAL-AUDIO-RESTORATION.md:9`） |
 | 結末の鈴 | （未同梱）原作 `jingle.mp3` | 0 | ― | OpenTracks（DOVA SE945） | 保留（`NOTICE.md:43`、`ORIGINAL-AUDIO-RESTORATION.md:11`） | **高（このままでは使えない）** |
 | 書体 | システムフォントのみ（Yu Mincho / Hiragino ほか） | 0 | 0 | ― | ― | 低。端末によって見た目が変わる |
-| 台詞・謎のテキスト | `prototype/full-scenario.js` ほか | 41場面・54区間・2,977字 | ― | MIT（原作者＝オーナー） | 原作（非公開） | 低 |
+| 台詞・謎のテキスト | `game/full-scenario.js` ほか | 41場面・54区間・2,977字 | ― | MIT（原作者＝オーナー） | 原作（非公開） | 低 |
 
 ### 1.2 生成イラストの詳細（目視と画素解析）
 
@@ -80,13 +80,13 @@
 
 ### 1.3 声（Gemini TTS）の詳細【確認】
 
-- モデルは `gemini-3.8-flash-tts`（`prototype/scripts/generate-audio.mjs:8`、`fairy-production-plan.mjs:3`）。エンドポイントは `v1beta/interactions`。`store:false`。自動再試行はしない。
+- モデルは `gemini-3.8-flash-tts`（`game/scripts/generate-audio.mjs:8`、`fairy-production-plan.mjs:3`）。エンドポイントは `v1beta/interactions`。`store:false`。自動再試行はしない。
 - 声と役：
   - ナレーター＝**Sulafat**
   - サンタ＝**Algieba**
-  - 妖精（日本語版の「まほう使い」）＝**Leda**（3案 Leda/Zephyr/Puck の試聴から選定。`prototype/qa/FAIRY-VOICE-AUDITION.md:3,15-19`）
+  - 妖精（日本語版の「まほう使い」）＝**Leda**（3案 Leda/Zephyr/Puck の試聴から選定。`game/qa/FAIRY-VOICE-AUDITION.md:3,15-19`）
 - 演技の指示は日本語の style 文で、役ごとに固定している（`generate-audio.mjs:12-16`、`fairy-production-plan.mjs:5-10`）。共通の禁止事項は「台詞の語句を一切変えず」「謎の答えを付け足さない」。
-- `node prototype/scripts/verify-audio.mjs` の結果：
+- `node game/scripts/verify-audio.mjs` の結果：
   - WAV 81本、合計1,052.5秒。すべて 24kHz・モノラル・16bit
   - クリップ（音割れ）したサンプル 0
   - **RMS は −23.7〜−13.3dBFS で、約10dB の開きがある**
@@ -221,7 +221,7 @@ full-scenario.js（台本）→ 各生成スクリプトの --plan（字数・�
   - 数字×4（各0.96〜1.32秒）
   - 「に合わせました。」（1.72秒）
   - 「あれれ？箱は開きませんでした。」（3.52秒）
-- 実装（`prototype/full-audio.js:8-19`、`audio-sequence.js:2-20`、`timed-audio.js:17-24`）：
+- 実装（`game/full-audio.js:8-19`、`audio-sequence.js:2-20`、`timed-audio.js:17-24`）：
   - 振幅0.001未満を無音として前後を切る
   - 前後に40ms を残し、部品の間に80ms を空ける
 - 一連の長さは約14秒。数字が「さん、いち、さん、はち」と一語ずつ読まれ、平板に聞こえる可能性がある。【推測、聴取は未確認】
@@ -274,7 +274,7 @@ full-scenario.js（台本）→ 各生成スクリプトの --plan（字数・�
 
 | 素材 | 条件 | 必ずやること | ストア／有料配信で追加になること |
 | --- | --- | --- | --- |
-| Laid_Back / Spook4（PeriTune） | **CC BY 4.0**（2026年2月以前の曲は従来どおり。[PeriTune about](https://peritune.com/about/)） | 曲名・作者・ライセンスへのリンク・改変の旨を表示。現状は `prototype/full-app.js:101` の「音の設定・クレジット」と、Pages の `NOTICE.txt` で対応済み | (1) PeriTune の現行規約は「**有償で販売する作品に楽曲を同梱する場合は、ファイルが直接抽出できないよう暗号化等の措置を**」と求め、暗号化しない同梱は無償（非営利）に限って認めている。この規定が CC BY の旧曲にも及ぶかは明記が無い。**有料アプリでは抽出対策をしておくのが安全**【推測】。(2) CC BY 4.0 は受け手の権利を制限する技術的手段（DRM）を加えることを禁じる。ストアの DRM との関係は法務確認を推奨【推測、実害は小】。(3) AAC 等に再エンコードする時は「改変」としてクレジットに書く |
+| Laid_Back / Spook4（PeriTune） | **CC BY 4.0**（2026年2月以前の曲は従来どおり。[PeriTune about](https://peritune.com/about/)） | 曲名・作者・ライセンスへのリンク・改変の旨を表示。現状は `game/full-app.js:101` の「音の設定・クレジット」と、Pages の `NOTICE.txt` で対応済み | (1) PeriTune の現行規約は「**有償で販売する作品に楽曲を同梱する場合は、ファイルが直接抽出できないよう暗号化等の措置を**」と求め、暗号化しない同梱は無償（非営利）に限って認めている。この規定が CC BY の旧曲にも及ぶかは明記が無い。**有料アプリでは抽出対策をしておくのが安全**【推測】。(2) CC BY 4.0 は受け手の権利を制限する技術的手段（DRM）を加えることを禁じる。ストアの DRM との関係は法務確認を推奨【推測、実害は小】。(3) AAC 等に再エンコードする時は「改変」としてクレジットに書く |
 | dial.mp3（Zott820、CC0） | 義務なし | 作者表記（任意。現状あり） | なし。出所が波形照合による推定である点は記録を維持 |
 | unlocking-1.mp3（効果音辞典） | 商用可、クレジット不要 | 単体の再配布禁止、効果音を自由に鳴らせるアプリの禁止、直リンク禁止、**AI 学習用途の禁止**（[規約](https://sounddictionary.info/terms-of-use/)） | アプリの操作音として組み込むのは明記された許可例。公開 GitHub に MP3 がそのまま置かれていることを「単体の再配布」と見なさないかは、効果音辞典側の明記が無い【要確認】 |
 | magic-cure2 / stupid3 / shine1 / shine3（効果音ラボ） | 商用可、クレジット不要、再配布禁止、**AI 学習禁止**（[規約](https://soundeffect-lab.info/agreement/)） | 素材集のような使い方をしない | [FAQ](https://soundeffect-lab.info/faq/)：GitHub 公開もゲーム配布での同梱も可。ただし「**できる限り音源ファイルを隠す措置**」を推奨。アプリ化する時は音源をまとめたり難読化したりするのが望ましい |
@@ -409,7 +409,7 @@ Web 版だけなら12月中旬まで調整できる。
 - `ls -la` / `du -sh` / `sips -g pixelWidth -g pixelHeight`（全 PNG）
 - PNG のチャンクと C2PA 文字列の抽出（`strings`）
 - 依存なしの Node スクリプトによるαヒストグラム（スクラッチパッドの `pngstat.mjs`、`alphahist.mjs`、`lowalpha.mjs`）
-- `node prototype/scripts/verify-audio.mjs`（`--write-report` なし）
+- `node game/scripts/verify-audio.mjs`（`--write-report` なし）
 - 計画表示のみ：`generate-audio.mjs --plan`、`generate-fairy-production.mjs --plan`、`generate-timed-voices.mjs --plan`、`generate-fairy-auditions.mjs --plan`（API は呼んでいない）
 - `node --experimental-vm-modules illustrated-prototype/check.mjs`：JS 51ファイルとローカル参照218件が成功
 - 公式ページ：Gemini API terms、効果音ラボの規約と FAQ、効果音辞典の規約、OpenTracks のライセンス、PeriTune about（以上 WebFetch）、OpenAI terms（WebSearch）

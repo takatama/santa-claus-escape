@@ -4,7 +4,7 @@
 
 ## 調査と変更範囲
 
-- 基準：main `e4d225b`。`prototype/full-game.js` が状態、`full-scenario.js` が原文・答え・紙、`speech.js` / `audio-timeline.js` / `soundtrack.js` が声と音を管理。保存キーは `santa-claus-escape:ja-full:v2`。
+- 基準：main `e4d225b`。`game/full-game.js` が状態、`full-scenario.js` が原文・答え・紙、`speech.js` / `audio-timeline.js` / `soundtrack.js` が声と音を管理。保存キーは `santa-claus-escape:ja-full:v2`。
 - [PR #1](https://github.com/takatama/santa-claus-escape/pull/1) `aead6e9` はページごとの音声なし試作。別のjourney保存・謎モデルは移しません。箱の本体・ふた・たぬきの三枚の画像、`cylinder-lock.js`、段階式 `snow-reveal.js`、ヒンジの計算、メッシュ描画、赤い箱の描画部分を取り出しました。
 - [PR #2](https://github.com/takatama/santa-claus-escape/pull/2) `94f2a82` のPRODUCT-DESIGN §8と実プレイ所見を参照。大きい舞台、場面名のある主操作、暗転しない同一ページ、触れなくても進める操作を採用。音の設定は上部、台詞はユーザーの追加要望に沿って常設。4夜・保護者の役割・合言葉の儀式は追加しません。
 - 赤い箱だけ `red-box-stage.js` を使います。導入・三箱選択・青黄・言葉・三問・救出はmainの既存画面。URLも保存キーも同じです。

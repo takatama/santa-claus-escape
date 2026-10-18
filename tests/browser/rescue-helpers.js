@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
-import { initialState,transition } from '../../prototype/full-game.js';
-import { QUESTIONS } from '../../prototype/full-scenario.js';
+import { initialState,transition } from '../../game/full-game.js';
+import { QUESTIONS } from '../../game/full-scenario.js';
 import { setupPapers,btn,saved } from './paper-helpers.js';
 export {btn,saved};
 export const light=page=>page.locator('.rescue-handle');

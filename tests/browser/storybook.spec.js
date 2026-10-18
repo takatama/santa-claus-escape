@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
-import {initialState,transition} from '../../prototype/full-game.js';
-import {BLUE_SEARCH_URL,BLUE_CLUE} from '../../prototype/storybook-content.js';
+import {initialState,transition} from '../../game/full-game.js';
+import {BLUE_SEARCH_URL,BLUE_CLUE} from '../../game/storybook-content.js';
 import {setupPapers,btn,saved} from './paper-helpers.js';
 function blueState(exam=4){let s=initialState(true);for(const event of [{type:'START'},{type:'BOXES'},{type:'SELECT',color:'blue'}])s=transition(s,event);while(s.boxes.blue.exam<exam)s=transition(s,{type:'EXAMINE'});return s;}
 async function code(page,value){for(const [i,digit]of [...value].entries())await page.getByRole('spinbutton',{name:`${i+1}桁目のダイアル`,exact:true}).press(digit);}

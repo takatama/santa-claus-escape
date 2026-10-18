@@ -15,9 +15,9 @@
 ## 一枚絵の出所
 
 - 制作方法：imagegenスキルの組み込み画像生成ツールを使用。生成1回。
-- 最終素材：`prototype/assets/rescue/finale-v1.png`。元の参照画像は変更していない。
+- 最終素材：`game/assets/rescue/finale-v1.png`。元の参照画像は変更していない。
 - 寸法・容量：1254×1254、3,326,993 bytes。SHA-256：`dc6cd0ed99d927f3b98e0bc6b904cacfcb8616c3292eab6b300743aa97ffd659`。
-- 参照：`prototype/assets/rescue/santa.png`、`prototype/assets/witch/wizard-feet-v2.png`、`prototype/assets/papers/forest-clean.png`、`prototype/assets/rescue/empty-globe-original-v2.png`。
+- 参照：`game/assets/rescue/santa.png`、`game/assets/witch/wizard-feet-v2.png`、`game/assets/papers/forest-clean.png`、`game/assets/rescue/empty-globe-original-v2.png`。
 - 元の生成結果はCodexの`generated_images`に保持し、採用画像をプロジェクトへコピーした。
 
 最終プロンプト：

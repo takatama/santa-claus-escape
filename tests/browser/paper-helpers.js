@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
-import { initialState, transition, STORAGE_KEY } from '../../prototype/full-game.js';
-import { COLORS, BOXES } from '../../prototype/full-scenario.js';
+import { initialState, transition, STORAGE_KEY } from '../../game/full-game.js';
+import { COLORS, BOXES } from '../../game/full-scenario.js';
 export const correctOrder=['red-1','blue-0','red-0','yellow-0','yellow-1','blue-1'];
 export const btn=(page,action)=>page.locator(`[data-action="${action}"]`);
 export const card=(page,id)=>page.locator(`button[data-paper-id="${id}"]`);

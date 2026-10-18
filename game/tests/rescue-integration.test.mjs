@@ -1,3 +1,4 @@
+import { recordedAssetUrl } from './recorded-asset.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
@@ -50,8 +51,8 @@ test('rescue: same camera as the questions; single opaque Santa inside initially
 });
 test('rescue: reused and explicitly edited art hashes/bytes match the provenance record',async()=>{
   const record=JSON.parse(await readFile(new URL('../../docs/pr-e/art-provenance.json',import.meta.url),'utf8'));assert.equal(record.newGeneration,true);
-  for(const item of record.files){const bytes=await readFile(new URL('../../'+item.target,import.meta.url));assert.equal(bytes.length,item.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256);assert.equal(item.originalByteEquality,true);}
-  assert.equal(record.generatedEdits.length,1);const edit=record.generatedEdits[0],source=await readFile(new URL('../../'+edit.source,import.meta.url)),bytes=await readFile(new URL('../../'+edit.target,import.meta.url));
+  for(const item of record.files){const bytes=await readFile(recordedAssetUrl(item.target));assert.equal(bytes.length,item.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256);assert.equal(item.originalByteEquality,true);}
+  assert.equal(record.generatedEdits.length,1);const edit=record.generatedEdits[0],source=await readFile(recordedAssetUrl(edit.source)),bytes=await readFile(recordedAssetUrl(edit.target));
   assert.equal(createHash('sha256').update(source).digest('hex'),edit.sourceSha256);assert.equal(bytes.length,edit.bytes);assert.equal(createHash('sha256').update(bytes).digest('hex'),edit.sha256);
   assert.equal(bytes.readUInt32BE(16),edit.width);assert.equal(bytes.readUInt32BE(20),edit.height);assert.equal(bytes[25],6);assert.equal(record.runtimeComposition.patchOrSantaMask,false);
 });

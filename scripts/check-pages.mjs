@@ -5,11 +5,11 @@ import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { servedPagesFiles, inspectPagesOutput, contentTypes } from './pages-files.mjs';
-import { AUDIO_FILES, IMAGE_FILES } from '../prototype/media-assets.js';
+import { AUDIO_FILES, IMAGE_FILES } from '../game/media-assets.js';
 const root=new URL('../',import.meta.url),dist=new URL('dist/',root);
 for(const [files,type] of [[AUDIO_FILES,'audio/'],[IMAGE_FILES,'image/']])for(const name of files)assert.ok(contentTypes[path.extname(name)]?.startsWith(type),`Unsupported media MIME: ${name}`);
 await inspectPagesOutput(dist,{complete:true});
-const server=spawn(process.execPath,['prototype/serve.mjs','--pages'],{cwd:root,env:{...process.env,SANTA_PORT:'0'},stdio:['ignore','pipe','pipe']});
+const server=spawn(process.execPath,['game/serve.mjs','--pages'],{cwd:root,env:{...process.env,SANTA_PORT:'0'},stdio:['ignore','pipe','pipe']});
 try{
   const base=await new Promise((resolve,reject)=>{
     const timer=setTimeout(()=>reject(Error('Preview did not start')),10000);
@@ -24,7 +24,7 @@ try{
     const original=await readFile(new URL(name,dist));const served=Buffer.from(await response.arrayBuffer());
     assert.equal(createHash('sha256').update(served).digest('hex'),createHash('sha256').update(original).digest('hex'),name);
   }
-  for(const name of ['game.js','reference/legacy-index.js','.env','scripts/generate-audio.mjs','docs/PR-D-WITCH.md','illustrated-prototype/witch/conversation.js','illustrated-prototype/journey/state.js','assets/witch/README.md','docs/PR-E-RESCUE.md','docs/pr-e/art-provenance.json','assets/rescue/PROMPTS.json','tests/rescue-integration.test.mjs','docs/pr-e/rescue-glow.png','tests/browser/rescue-glow.spec.js'])assert.equal((await fetch(`${base}/${name}`)).status,404,name);
+  for(const name of ['app.js','game.js','illustrations.js','reference/legacy-index.js','.env','scripts/generate-audio.mjs','docs/PR-D-WITCH.md','illustrated-prototype/witch/conversation.js','illustrated-prototype/journey/state.js','assets/witch/README.md','docs/PR-E-RESCUE.md','docs/pr-e/art-provenance.json','assets/rescue/PROMPTS.json','tests/rescue-integration.test.mjs','docs/pr-e/rescue-glow.png','tests/browser/rescue-glow.spec.js'])assert.equal((await fetch(`${base}/${name}`)).status,404,name);
   for(const name of ['illustrated/intro/index.html','illustrated/blue-box/index.html','blue-box/index.html','explore/index.html']) {
     assert.equal((await fetch(`${base}/${name}`)).status,404,name);
     await assert.rejects(readFile(new URL(name,dist)),{code:'ENOENT'});

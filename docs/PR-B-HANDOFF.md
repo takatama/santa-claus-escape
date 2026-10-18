@@ -10,7 +10,7 @@ GitHub Issue #3を最終的な完成仕様として、「サンタの脱出」�
 
 - 最終仕様：[Issue #3](https://github.com/takatama/santa-claus-escape/issues/3)。PR Aの検証で確定した方針の追記も読んでください。
 - 引き継ぐ実装：[Draft PR A #4](https://github.com/takatama/santa-claus-escape/pull/4)、ブランチ `codex/red-box-integration` の最新head、`docs/PR-A-RED-BOX.md`、`tests/browser/red-box.spec.js`。**古いmainを作業の開始点にしないでください。** PR Aには、手動のふた、固定倍率の調査画面、常設字幕、「ためす」の音声中断の修正があります。
-- 原作の基準：mainの `prototype/full-game.js`、`full-scenario.js`、`speech.js`、`audio-timeline.js`、`soundtrack.js`。PR A開始時のmainは `e4d225b8aff122bd77e95b69f7a19d8cb869662a`。現在の差分とGitHubの状態も確認してください。
+- 原作の基準：mainの `game/full-game.js`、`full-scenario.js`、`speech.js`、`audio-timeline.js`、`soundtrack.js`。PR A開始時のmainは `e4d225b8aff122bd77e95b69f7a19d8cb869662a`。現在の差分とGitHubの状態も確認してください。
 - 素材・操作の参考：[PR #1](https://github.com/takatama/santa-claus-escape/pull/1)、`codex/illustrated-full-journey`、参照head `aead6e9b69c7c1c264d9730a1bc1737fd0a73b7c`。絵と操作を活用し、PR #1独自の保存・謎・journeyモデルは移しません。
 - 画面原則：[PR #2](https://github.com/takatama/santa-claus-escape/pull/2)のPRODUCT-DESIGN §8とレビュー。4夜構成や家族の役割・儀式は採用しません。
 

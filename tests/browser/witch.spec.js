@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { QUESTIONS } from '../../prototype/full-scenario.js';
-import { STORAGE_KEY, transition } from '../../prototype/full-game.js';
+import { QUESTIONS } from '../../game/full-scenario.js';
+import { STORAGE_KEY, transition } from '../../game/full-game.js';
 import { arrangePapers, discover, paperState, setupPapers } from './paper-helpers.js';
 import { btn, saved, grip, early, dragBranch, answerAll } from './witch-helpers.js';
 

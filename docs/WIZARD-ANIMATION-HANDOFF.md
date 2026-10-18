@@ -6,7 +6,7 @@
 
 - リポジトリ: `C:\Users\takat\OneDrive\ドキュメント\ChatGPT\santa-clause-escape`
 - 先にAGENTS.md、現在のブランチ・差分・origin/mainを確認してください。旧試作廃止と環境演出の統合は前セッションでマージする予定なので、現在のGitで実際の完了状態を確認してください。古い作業ブランチから始めないでください。
-- 現行版は `prototype/`。名前にprototypeとありますが公開ゲームの実装です。入口は `prototype/index.html` → `full-app.js`、`npm start` で `/`、`npm run build` の出力は `dist/`。
+- 現行版は `game/`。名前にprototypeとありますが公開ゲームの実装です。入口は `game/index.html` → `full-app.js`、`npm start` で `/`、`npm run build` の出力は `dist/`。
 - `illustrated-prototype/`、独立した `/blue-box/index.html?journey=1`、`/illustrated/` などは廃止済み。復元・反映先にしないでください。箱操作は箱を拡大して開閉する構図を保ち、箱画面にサンタやスノードームを足さないでください。
 
 ## 目的と合意した演出
@@ -23,8 +23,8 @@
 
 ## 現状を正しく把握する
 
-- `prototype/atmosphere.js` の `createLivingWizard` は一枚絵を16×20のメッシュで局所変形しています。7.2秒周期・32枚キャッシュ、顔が高さの0.3％、髪・裾が幅の0.4〜0.5％程度動くため、ユーザーには全然分かりませんでした。これはパーツ分割や多層キャラクターではありません。この小さな揺れの調整だけで完了にしないでください。
-- `witch-art.js` は森／まほう使い／前景の枝／球内サンタ／雪を合成します。まほう使いは `loadWitchArt()` の `wizard-feet-v2`。原画 `prototype/assets/witch/wizard-feet-v2.png`、配信用は `media-assets.js` のWebPです。
+- `game/atmosphere.js` の `createLivingWizard` は一枚絵を16×20のメッシュで局所変形しています。7.2秒周期・32枚キャッシュ、顔が高さの0.3％、髪・裾が幅の0.4〜0.5％程度動くため、ユーザーには全然分かりませんでした。これはパーツ分割や多層キャラクターではありません。この小さな揺れの調整だけで完了にしないでください。
+- `witch-art.js` は森／まほう使い／前景の枝／球内サンタ／雪を合成します。まほう使いは `loadWitchArt()` の `wizard-feet-v2`。原画 `game/assets/witch/wizard-feet-v2.png`、配信用は `media-assets.js` のWebPです。
 - `forest-stage.js` が共通構図と枝の描画、`witch-math.js` と `witch-stage.js` が発見操作を担当します。既存の手・杖・足の位置を原画で確かめてからパーツ設計してください。
 - 箱から森へ戻るときのサンタの特別な反応は「気が付きにくいから無し」と明示され、削除済みです。再導入しないでください。
 - 森・紙・会話・救出の雪、紙の着地、救出の光、完了ボタンの中央配置は実装済みです。「動きを止める」ボタンは不要とのユーザー指示で撤去しました。再導入しないでください。

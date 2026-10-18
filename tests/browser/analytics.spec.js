@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {tag} from './analytics-helpers.js';
-import {STORAGE_KEY,transition} from '../../prototype/full-game.js';
+import {STORAGE_KEY,transition} from '../../game/full-game.js';
 import {rescueState,finishRescue} from './rescue-helpers.js';
 const events=page=>page.evaluate(()=>Array.from(window.dataLayer||[]).filter(v=>v[0]==='event').map(v=>({name:v[1],params:v[2]})));
 test('analytics: production defaults and local gameplay send no Google requests',async({page})=>{

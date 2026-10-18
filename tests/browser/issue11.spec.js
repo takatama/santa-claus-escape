@@ -1,5 +1,5 @@
 import {test,expect} from '@playwright/test';
-import {initialState,transition} from '../../prototype/full-game.js';
+import {initialState,transition} from '../../game/full-game.js';
 import {setupPapers,paperState,card,slot,saved,btn} from './paper-helpers.js';
 import {grip} from './witch-helpers.js';
 

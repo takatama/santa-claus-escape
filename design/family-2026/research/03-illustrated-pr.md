@@ -11,7 +11,7 @@
 
 1. **物語と謎は親子向けの素材として非常に良いが、PRでは「声と体を使う遊び」が「読む・打つ・押す」に変わっている。** 秘密の言葉が「だいすきだよ」、魔女の三問は「クリスマスに隠れた生き物（クマ）」「シカを10回言ってからの引っかけ（ソリ）」、黄色い箱は「負けるが勝ちのじゃんけん」。どれも親子が声に出したり手を出したりすると一番盛り上がる題材なのに、PRでは文字入力（IMEが必要）とボタンで処理されている（`witch/conversation.js:31-43`, `letters/word-math.js:13-14`）。
 2. **絵の品質は高い。** 深い紺と金の光、羊毛フェルトのような質感のサンタ、スノードーム、手を差し出す少女のまほう使いは、そのまま「キービジュアル」として使える水準。一方で、箱・錠・紙・UIパネルはコードで描いたもので、絵本の画面の上に「Webアプリの部品」が重なって見える。
-3. **音はまったく無い。** `Audio`/`speechSynthesis`/音声ファイルの参照は0件。ただし `main` の `prototype/assets/audio/` には同じ原文のTTS音声・BGM・効果音が103ファイル（77MB）ある（例：`intro.wav`, `ja-leda-question-deer-ten-times.wav`, `dial.mp3`, `unlocking-1.mp3`）。会話モデルにも `spoken`／`bgm` という使われていない受け口がある（`witch/conversation.js:41,130,140`）。
+3. **音はまったく無い。** `Audio`/`speechSynthesis`/音声ファイルの参照は0件。ただし `main` の `game/assets/audio/` には同じ原文のTTS音声・BGM・効果音が103ファイル（77MB）ある（例：`intro.wav`, `ja-leda-question-deer-ten-times.wav`, `dial.mp3`, `unlocking-1.mp3`）。会話モデルにも `spoken`／`bgm` という使われていない受け口がある（`witch/conversation.js:41,130,140`）。
 4. **ゲームの進め方は「大人が読み上げ、子どもがタップする」形に自然となる。** ただ、そうなるように作られているわけではない。漢字はユニーク121字でふりがな無し、本筋の台詞だけで約1,050字ある。8〜12pxの文字指定がCSSに63箇所ある。
 5. **見つけやすさに具体的な欠陥がある。**
    - 森の画面で最も目立つ金色のボタンは、開始直後から「ひみつの言葉を伝える」（`explore/index.html:46`）。
@@ -63,7 +63,7 @@
 - ⚠️ 申告：このMacの `gh` の既定アカウントは 別のアカウント。最初の `gh pr view 1` だけはそのアカウントで実行してしまった（読み取りのみ）。以降は `GH_TOKEN=$(gh auth token --user takatama)` を付け、**takatama として**読み取った（`gh api user` で `takatama` と確認）。`gh` の設定は変更していない。**今後の書き込み作業は takatama を明示する必要がある。**
 
 **公開プレビューの確認**
-- `https://codex-illustrated-full-journ.santa-claus-escape.pages.dev/illustrated-prototype/intro/index.html` にアクセスすると HTTP 200 が返るが、中身は声つき版 `prototype/` の index.html だった（SPAのフォールバック）。illustrated-prototype は公開されていない。
+- `https://codex-illustrated-full-journ.santa-claus-escape.pages.dev/illustrated-prototype/intro/index.html` にアクセスすると HTTP 200 が返るが、中身は声つき版 `game/` の index.html だった（SPAのフォールバック）。illustrated-prototype は公開されていない。
 
 ---
 
@@ -75,7 +75,7 @@
 | `npm --prefix illustrated-prototype run check` | 「Syntax: 51 JavaScript files passed」「Local runtime references: 218 passed; 61 HTML/CSS/JS files inspected」。<br>VM Modules の ExperimentalWarning が出るが、これは検査ツール側の警告。 |
 
 **テストが保証していること**
-- 原文と正解の一致（`prototype/scenario.js`・`full-scenario.js` との厳密比較）
+- 原文と正解の一致（`game/scenario.js`・`full-scenario.js` との厳密比較）
 - 状態遷移の正しさ（6通りの箱の順番、二枚の「だ」が別ID、紙0枚での直接呼びかけ、全問誤答でも救出に進むこと）
 - 保存の整合性（世代・更新番号、古いタブの拒否、保存できないときの扱い）
 - 幾何の連続性・可逆性・ちょうつがいが固定されていること
@@ -414,7 +414,7 @@ intro/index.html（4段：声→サンタの事情→助ける→三箱の説明
 
 | 領域 | 現状【事実】 | 家族向け製品としての影響【推定】 | 重要度 |
 |---|---|---|---|
-| **音・声** | 無音。音の実装は0件。`spoken` と `bgm` の受け口が未使用（`witch/conversation.js:41,130,140`）。`prototype/` には同じ原文のTTS（intro/help/red1-4/ja-blue1-4/ja-yellow1-4/ja-invite/質問/返答/rescue、まほう使いの Leda 版も）、BGM2曲、効果音（dial/unlocking/magic-cure2/shine/stupid3）がある。BGMの Peritune「Laid_Back」は CC BY 4.0、効果音は効果音ラボの規約で MIT ではない（`prototype/assets/audio/*-provenance.json`） | 読めない5〜6歳が置いていかれる。「シカ×10」「カチッ」が成立しない。クリスマスらしい空気が出ない | **最重要** |
+| **音・声** | 無音。音の実装は0件。`spoken` と `bgm` の受け口が未使用（`witch/conversation.js:41,130,140`）。`game/` には同じ原文のTTS（intro/help/red1-4/ja-blue1-4/ja-yellow1-4/ja-invite/質問/返答/rescue、まほう使いの Leda 版も）、BGM2曲、効果音（dial/unlocking/magic-cure2/shine/stupid3）がある。BGMの Peritune「Laid_Back」は CC BY 4.0、効果音は効果音ラボの規約で MIT ではない（`game/assets/audio/*-provenance.json`） | 読めない5〜6歳が置いていかれる。「シカ×10」「カチッ」が成立しない。クリスマスらしい空気が出ない | **最重要** |
 | 文字量・読みやすさ | 本筋の台詞は約1,050字。ユニーク漢字121字でふりがな0。8〜12pxの文字指定が63箇所。長い台詞はページの縦スクロールで読む | 実質的に大人の読み上げが前提。それなのに読み聞かせに向いた表示（大きな文字・ページ送り・ふりがな）がない | 高 |
 | 文字入力 | 問1・問3は自由入力（IMEが必要）。保留からの呼び直しも入力 | 子どもの「答えたい」気持ちを大人の入力が肩代わりしてしまう。音声入力・選択肢・手書きなどの代わりがない | 高 |
 | 見つけやすさ | ハブで最も目立つボタンが開始直後から「ひみつの言葉を伝える」（`explore/index.html:46`）。1280×720では導入の「声を聞く」と誘いの「遊ぶ」ボタンが画面外（`intro/qa/2026-10-09/initial-desktop.png`、`witch/qa/2026-10-09/invite-desktop.png` は1079pxの高さでもボタンが写っていない）。森→箱→ダイアログの3段構造。開発者向けの説明とリンクが常に見えている | 最初の数分で迷う。PRも「初見では使いづらい」というユーザー指摘を受けている（`INTERACTION-GUIDANCE.md:3`） | 高 |
@@ -424,7 +424,7 @@ intro/index.html（4段：声→サンタの事情→助ける→三箱の説明
 | アクセシビリティ | 良い：ほぼ全操作をキーボードで操作可能。`aria-live` と `aria-label` が充実。動きを減らす設定に13ファイルで対応。操作対象は最小44px。<br>未対応・未検証：スクリーンリーダーは未検証。小さい文字。ふりがななし。音声での読み上げ補助なし。色だけに頼らない表示はできている（箱名をテキストで併記） | 機能面の配慮は高い。ただし「読めない子」への配慮（音声・ふりがな）が欠けている | 中 |
 | スマホ・タブレット | 確認したのは1280×720と390×844だけ。タブレット幅（768〜1024px）と横向きは確認記録がない。縦画面の判定が3種類ある（§5.3）。`.storybook` の最小高さが560px、`.scene-shell` が clamp(530px,…) なので、横向きのスマホでは縦スクロールが必要になる。実機の指操作は未検証 | 家庭で一番多いのはiPadやタブレットを囲む遊び方【推定】。その主戦場が未確認 | 高 |
 | 性能・容量 | 初回のページ読み込みは約7〜19MB。画像の切り抜きをJSで毎回行う。描画は1フレーム最大約1,000回の切り抜き付き `drawImage`。ローカルサーバーは `no-store`。実行時に使う画像は約33MB（未使用の `forest.png`、`wizard.png`、`concepts` は別） | モバイル回線では各場面で数秒〜十数秒待つ。低価格機ではカクつきとメモリ圧迫の恐れ（いずれも未計測） | 中〜高 |
-| 公開・配布 | Pages のビルドは `prototype/` だけをコピー（`scripts/build-pages.mjs:3-16`）。PRのプレビューURLには illustrated-prototype が無い（実際に取得して確認） | 実機テストや身近な人へのβ配布ができない。これが「未検証」が残る構造的な原因 | 高（すぐ直せる） |
+| 公開・配布 | Pages のビルドは `game/` だけをコピー（`scripts/build-pages.mjs:3-16`）。PRのプレビューURLには illustrated-prototype が無い（実際に取得して確認） | 実機テストや身近な人へのβ配布ができない。これが「未検証」が残る構造的な原因 | 高（すぐ直せる） |
 | 物語のつながり | 「端末」「私の中」という音声版の語りが、スノードームの絵とずれている。現実のクリスマス（24日の夜や25日の朝）への橋渡しがない | 大人が言い換える必要がある。「クリスマスの夜を楽しみに」という最大の仕掛けが活かされていない | 中 |
 | 思い出・繰り返し遊ぶ価値 | クリア記録、名前、写真、証明書、2周目の要素なし。セーブ枠は1つ | 親が「今年の思い出」として残したくなる要素がない | 中 |
 
@@ -481,7 +481,7 @@ intro/index.html（4段：声→サンタの事情→助ける→三箱の説明
 - キービジュアル一式（森、スノードームのサンタ、まほう使い、枝）と生成プロンプト
 - 「かき分けて見つける」「雪を払う」「ふたを持ち上げる」「光をほどいて出す」の4つの身体的な操作と、その数式
 - 原作の謎と正解、判定の正規化（NFKC、カタカナ→ひらがな）、紙の不変条件
-- `prototype/` の声・BGM・効果音（ライセンス表記つきで）
+- `game/` の声・BGM・効果音（ライセンス表記つきで）
 
 ### 8.2 変えるべき前提
 
