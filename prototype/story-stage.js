@@ -39,7 +39,7 @@ export function createStoryStage({onDraft,onSubmit}) {
         else if(view.phase==='boxes') {
           overview.innerHTML=`<div class="story-boxes">${COLORS.map(c=>`<button type="button" class="story-box-choice" data-action="select" data-color="${c}" aria-label="${BOXES[c].name}の箱を調べる"><canvas aria-hidden="true"></canvas><strong>${BOXES[c].name}の箱</strong><span>${view.boxes[c].opened?'開いた箱を見直す':view.boxes[c].exam?'調べた続きへ':'タップして調べる'}</span></button>`).join('')}</div>`;
           thumbnails=COLORS.map(c=>createBoxOverview(overview.querySelector(`[data-color="${c}"] canvas`),c,()=>{}));
-          controls.innerHTML=`${collection(view)}<details class="secret-entry"><summary>ひみつの言葉が、もう分かったら</summary><p>原作と同じく、箱を全部開ける前でも伝えられます。</p>${wordForm(view.spellDraft)}</details>`;
+          controls.innerHTML=`${collection(view)}<details class="secret-entry"><summary>ひみつの言葉が、もう分かったら</summary><p>箱を全部開けていなくても、分かった言葉を伝えてみよう。</p>${wordForm(view.spellDraft)}</details>`;
         } else controls.innerHTML=wordForm(view.spellDraft);
       }
       element.dataset.phase=cover?'welcome':view.phase;element.dataset.reading=String(reading);element.dataset.cover=String(cover);
