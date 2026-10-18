@@ -89,7 +89,7 @@ export function createWitchStage({getState,onProgress,onDraft,onReply}) {
     }
   }
   return {
-    element,ready:art.ready,setStatus:status=>captions.setStatus(status),
+    element,ready:art.ready,appear:()=>art.appear(),setStatus:status=>captions.setStatus(status),
     update(view,{settings,dialogue,status,saved}) {
       const discovering=active(),key=discovering?'discovery':`${view.phase}:${view.questionIndex}`;
       if(key!==lastKey){finish();actions(view);lastKey=key;}

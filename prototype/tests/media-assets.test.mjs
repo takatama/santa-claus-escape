@@ -12,7 +12,7 @@ test('media catalog serves only delivery derivatives while preserving original f
   const images=Object.entries({
     'red-box':['red-body','red-lid','tanuki'],'blue-box':['blue-body','blue-lid','mountain'],
     'yellow-box':['yellow-body','yellow-lid','rock','scissors','paper'],papers:['forest-clean','globe'],
-    witch:['branch','wizard-feet-v2'],rescue:['empty-globe-original-v2','santa','finale-v1'],
+    witch:['branch','wizard-feet-v2','wizard-whole-v2','wizard-blink-v1'],rescue:['empty-globe-original-v2','santa','finale-v1'],
   }).flatMap(([folder,ids])=>ids.map(id=>`assets/${folder}/${id}.webp`));
   assert.deepEqual([...IMAGE_FILES].sort(),images.sort());
   for(const file of [...AUDIO_FILES,...IMAGE_FILES])await access(new URL(`../${file}`,import.meta.url));

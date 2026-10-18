@@ -67,6 +67,8 @@ test('ambient animation stops, resumes and releases resources without changing g
   f.visible(false); assert.equal(f.requests.size, 0);
   f.visible(true); assert.equal(f.requests.size, 1);
   f.win.dispatchEvent(new Event('pagehide')); assert.equal(f.requests.size, 0);
+  f.motion.refresh();assert.equal(f.requests.size,0,'a render cannot restart a departed page');
+  f.preference.dispatchEvent(new Event('change'));assert.equal(f.requests.size,0);
   f.win.dispatchEvent(new Event('pageshow')); assert.equal(f.requests.size, 1);
   f.motion.destroy();
 }
