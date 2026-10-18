@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { QUESTIONS } from '../../prototype/full-scenario.js';
-import { STORAGE_KEY, transition } from '../../prototype/full-game.js';
+import { QUESTIONS } from '../../game/full-scenario.js';
+import { STORAGE_KEY, transition } from '../../game/full-game.js';
 import { arrangePapers, discover, paperState, setupPapers } from './paper-helpers.js';
 import { btn, saved, grip, early, dragBranch, answerAll } from './witch-helpers.js';
 
@@ -37,7 +37,16 @@ test('witch: both branch directions, partial pause/reverse/cancel/resize/reload,
   await page.screenshot({path:'test-results/pr-d/discovery-start.png'});const base=await saved(page);await dragBranch(page,1,.5);expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.5,1);const partial=(await saved(page)).witchDiscovery.progress;await page.screenshot({path:'test-results/pr-d/discovery-middle.png'});
   await page.waitForTimeout(600);expect((await saved(page)).witchDiscovery.progress).toBe(partial);await dragBranch(page,1,-.2);expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.3,1);
   await dragBranch(page,-1,.2,{cancel:true});expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.5,1);
-  await page.reload();await btn(page,'resume').click();expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.5,1);
+  // Reload can show the controls before decoded art releases the inert screen.
+  // Hold the images to exercise that loading state, then wait before any input.
+  let releaseArt;
+  const images=new Promise(resolve=>{releaseArt=resolve;});
+  await page.route('**/assets/witch/*.webp',async route=>{await images;await route.continue();});
+  await page.reload();await btn(page,'resume').click();
+  await expect(page.locator('#app')).toHaveAttribute('inert','');
+  releaseArt();
+  await expect(page.locator('#app')).not.toHaveAttribute('inert',{timeout:20000});
+  expect((await saved(page)).witchDiscovery.progress).toBeCloseTo(.5,1);
   const b=await grip(page,-1).boundingBox();await page.mouse.move(b.x+30,b.y+30);await page.mouse.down();await page.mouse.move(b.x+10,b.y+30);const before=(await saved(page)).witchDiscovery.progress;await page.setViewportSize({width:1024,height:768});await page.mouse.move(50,50);await page.mouse.up();expect((await saved(page)).witchDiscovery.progress).toBe(before);
   await grip(page,-1).press('Home');await grip(page,-1).press('ArrowLeft');expect((await saved(page)).witchDiscovery.progress).toBe(.05);await grip(page,-1).press('ArrowRight');expect((await saved(page)).witchDiscovery.progress).toBe(0);
   for(let i=0;i<3;i++)await grip(page,-1).press(i%2?'Space':'Enter');await expect(grip(page,-1)).toBeFocused();await expect(btn(page,'accept')).toBeVisible();

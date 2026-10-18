@@ -18,4 +18,4 @@ output.write('RIFF');output.writeUInt32LE(output.length-8,4);output.write('WAVEf
 for(let i=0;i<data.length;i++)output.writeInt16LE(Math.max(-32768,Math.min(32767,Math.round(data[i]*32768))),44+i*2);
 await writeFile(new URL('qa/blue-wrong-8849.wav',root),output);
 await writeFile(new URL('qa/blue-wrong-8849.json',root),JSON.stringify({date:'2026-10-05',purpose:'generated voice only; no third-party effects',derivedFrom:provenance,seconds:data.length/24000,sha256:createHash('sha256').update(output).digest('hex')},null,2)+'\n');
-console.log(JSON.stringify({sample:'prototype/qa/blue-wrong-8849.wav',seconds:Number((data.length/24000).toFixed(2))}));
+console.log(JSON.stringify({sample:'game/qa/blue-wrong-8849.wav',seconds:Number((data.length/24000).toFixed(2))}));

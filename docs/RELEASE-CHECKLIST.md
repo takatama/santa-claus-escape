@@ -46,7 +46,7 @@ GA4の準備コードは無効のまま残し、`SANTA_GA4_POLICY_APPROVED=false
 9. 完了して共有を取消す、共有する、コピーする。進行が変わらず、友人へ送るURLに自分の入力や保存がないか確認する。
 10. VoiceOver/TalkBack等で、キャンバスの視覚的手がかり、紙の配置、ルビ、ライブ領域とダイアログを理解して進められるか確認する。役割やラベルがあるだけで読上げ確認済みにしない。
 
-主観的な試聴の最初の三本：`storybook-help`（お話の声）、`ja-leda-question-deer-ten-times`（まほう使い）、`answer-digit-8`（短い数字）。`prototype/assets/audio/` の元WAVとAACを同じ音量で比べる。数字は実ゲームで0000、0123等の誤答を試し、順序・前後の無音・継ぎ目を聞く。新しいTTSや外部の書き起こしAPIへ送らず検証する。
+主観的な試聴の最初の三本：`storybook-help`（お話の声）、`ja-leda-question-deer-ten-times`（まほう使い）、`answer-digit-8`（短い数字）。`game/assets/audio/` の元WAVとAACを同じ音量で比べる。数字は実ゲームで0000、0123等の誤答を試し、順序・前後の無音・継ぎ目を聞く。新しいTTSや外部の書き起こしAPIへ送らず検証する。
 
 ## 素材の利用条件と運営者の判断
 

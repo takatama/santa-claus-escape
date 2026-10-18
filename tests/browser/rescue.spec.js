@@ -1,5 +1,5 @@
 import {test,expect} from '@playwright/test';
-import {STORAGE_KEY,transition} from '../../prototype/full-game.js';
+import {STORAGE_KEY,transition} from '../../game/full-game.js';
 import {setupRescue,rescueState,btn,saved,light,dragLight,finishRescue} from './rescue-helpers.js';
 
 test('rescue: partial forward/reverse/pause, save resume and explicit completion keep original answers; release cannot be reversed',async({page})=>{

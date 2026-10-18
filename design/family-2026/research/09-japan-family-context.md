@@ -218,7 +218,7 @@
 
 - PWAの manifest も Service Worker も無い（リポジトリ全体を grep。node_modules と .git は除外）。
 - 解析タグ（gtag や analytics）は無い（同上）。進行状況の保存は localStorage だけ（`illustrated-prototype/journey/store.js:36`）。
-- main の `prototype/` は `scripts/build-pages.mjs` で Cloudflare Pages に配信されている（共有コンテキストより）。
+- main の `game/` は `scripts/build-pages.mjs` で Cloudflare Pages に配信されている（共有コンテキストより）。
 
 → **「個人データを集めない、広告もない静的Web」** という、子ども向けとして最も安全な出発点にすでに立っている【推論】。
 
@@ -336,7 +336,7 @@
 
 ### 6.2 文字の方針
 
-1. 既定は **ひらがな＋分かち書き＋全文音声**（main の `prototype/` にある Gemini TTS の声の資産を流用できる）。
+1. 既定は **ひらがな＋分かち書き＋全文音声**（main の `game/` にある Gemini TTS の声の資産を流用できる）。
 2. 漢字は既定で使わない。「おとな表示」に切り替えたときだけ漢字かな交じりにし、学年の配当を超える漢字にはルビ（学習指導要領の配慮事項と同じ考え方）。
 3. カタカナは固有名詞と謎の中だけに使い、**必ず読み上げる**。赤い箱のカタカナの謎は「音で聞いて、絵で考える」謎に置き換える（「サンタ」「イタチ」は絵札でも示せる）。
 4. 「端末」「調べる」「脱出」など、子どもに通じない語は置き換える（`intro/story.js:7, 11`）。例: 「このスノードームに とじこめられて しまったのじゃ」。

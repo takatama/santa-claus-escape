@@ -2,11 +2,11 @@
 
 ## 反映先
 
-`origin/main` の `8ca4da8` を基点に、現行の `prototype/` へ反映。入口はルート `/` → `prototype/index.html` → `full-app.js`。同名の旧試作画面を現行版と取り違えないよう、独立した `illustrated-prototype/` を削除した。
+`origin/main` の `8ca4da8` を基点に、現行の `game/` へ反映。入口はルート `/` → `game/index.html` → `full-app.js`。同名の旧試作画面を現行版と取り違えないよう、独立した `illustrated-prototype/` を削除した。
 
 旧試作の公開許可リスト、コピー処理、専用CI、調査用起動サーバーも削除。旧 `/illustrated/` と旧 `/blue-box/index.html` 等は404とする。ビルドに旧出力が紛れた場合は、現行ファイルを上書きする前に検査で止める。
 
-READMEとAGENTS.mdに現行の作業先を明記。過去の設計・検証記録と素材出典のパスは歴史的参照として残す。採用済み画像・音声は `prototype/assets/` に独立して存在し、原本・配信用派生・ハッシュを変更していない。旧制作情報はGit履歴の `aead6e9` と既存の `docs/pr-*/art-provenance.json` から参照できる。
+READMEとAGENTS.mdに現行の作業先を明記。過去の設計・検証記録と素材出典のパスは歴史的参照として残す。採用済み画像・音声は `game/assets/` に独立して存在し、原本・配信用派生・ハッシュを変更していない。旧制作情報はGit履歴の `aead6e9` と既存の `docs/pr-*/art-provenance.json` から参照できる。
 
 ## 演出
 
@@ -23,7 +23,7 @@ READMEとAGENTS.mdに現行の作業先を明記。過去の設計・検証記�
 
 ## 検査
 
-`prototype/tests/atmosphere.test.mjs` はOS設定による停止・再開、廃止した手動停止設定の無視、表示状態、後始末を検査する。
+`game/tests/atmosphere.test.mjs` はOS設定による停止・再開、廃止した手動停止設定の無視、表示状態、後始末を検査する。
 
 `tests/browser/atmosphere.spec.js` は実際の画素変化と停止時の一致、進行データの不変、320/390/1280pxでの配置、三色の箱の開閉、発見・一問目、旧URLの404を検査する。既存のブラウザーテストとともに実行する。
 

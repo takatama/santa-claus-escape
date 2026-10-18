@@ -54,9 +54,9 @@
 | 画像の読み込み | 素材ごとに JS で全画素を走査し、透明な余白を切り取る | `rescue/paint.js:1-20`、`red-box/main.js:481-482`（PNG 6枚） | 1312×1199 なら157万画素を JS で回す。中位の Android では1枚あたり数十 ms 以上かかる見込み【推測】。**ビルド時に切り取っておくべき** |
 | 画像の量 | 実行時に使う PNG は17枚・34.7MB。1ページで7.5〜20.3MB | `05-assets…md:38`、`04-pr-code-review.md:40` | WebP にした試算は18枚で4.2MB（約1/8）【確認：`（調査用の一時領域）/webp/`】 |
 | 声 | WAV 83本・合計1,197.6秒・73.2MB。うち BGM の WAV が2本（44.1kHz ステレオ、25.6MB）。台詞は 24kHz・モノラル・16bit の PCM | 【計測】ffprobe | 形式を変えれば1桁以上小さくなる（§3） |
-| 音の再生 | 台詞は `new Audio()`。BGM は `AudioContext` と `createMediaElementSource` を通して音量を制御する。Ogg が使えない環境では WAV に切り替える | `prototype/soundtrack.js:4,24,31`、`prototype/speech.js:64-80` | iOS 18.3 以前では BGM に WAV（12〜13MB）を落とす |
-| 数字の読み上げ | 間違えた番号を読むとき、短いクリップを7本続けて再生する（前置き、数字4つ、「に合わせました」「開きませんでした」） | `prototype/full-audio.js:14-19` | `HTMLAudio` で順に鳴らすと継ぎ目に隙間ができやすい【推測】。AudioBuffer で時刻を指定して鳴らせば継ぎ目なく繋がる |
-| 合成音声への退避 | 音声ファイルが失敗したら `speechSynthesis` で読む | `prototype/speech.js:62-63,83-112` | 良い設計。新アプリにも残す |
+| 音の再生 | 台詞は `new Audio()`。BGM は `AudioContext` と `createMediaElementSource` を通して音量を制御する。Ogg が使えない環境では WAV に切り替える | `game/soundtrack.js:4,24,31`、`game/speech.js:64-80` | iOS 18.3 以前では BGM に WAV（12〜13MB）を落とす |
+| 数字の読み上げ | 間違えた番号を読むとき、短いクリップを7本続けて再生する（前置き、数字4つ、「に合わせました」「開きませんでした」） | `game/full-audio.js:14-19` | `HTMLAudio` で順に鳴らすと継ぎ目に隙間ができやすい【推測】。AudioBuffer で時刻を指定して鳴らせば継ぎ目なく繋がる |
+| 合成音声への退避 | 音声ファイルが失敗したら `speechSynthesis` で読む | `game/speech.js:62-63,83-112` | 良い設計。新アプリにも残す |
 | 保存 | `localStorage` のキー `santa-illustrated-journey-v1` に世代番号つきで保存し、複数タブの食い違いを防ぐ | `journey/store.js:3,11-21,61` | 端末をまたぐ同期には使えない。Safari の「7日ルール」で消える危険がある（§3.5） |
 | ゲームの状態 | 純粋なリデューサー（`send(state, event)`） | `witch/test.mjs:22`、`journey/state.js` | **イベントを中継すれば端末間で同期できる**。複数端末にしやすい |
 | 配信時のヘッダー | `Permissions-Policy: camera=(), microphone=()`、CSP は `connect-src 'self'` | `scripts/build-pages.mjs:17` | マイクや他ホストへの WebSocket を使うには変更が要る |
@@ -430,7 +430,7 @@ intro.wav（32.4秒、1,561,264 バイト、24kHz・モノラル・PCM）をエ�
 
 ### 8.1 エピソードのデータ形式（案）
 
-いまは台詞が JS の中に写してある（`intro/story.js`、`witch/conversation.js`、`prototype/full-scenario.js`）。これをデータへ分ける。
+いまは台詞が JS の中に写してある（`intro/story.js`、`witch/conversation.js`、`game/full-scenario.js`）。これをデータへ分ける。
 
 ```
 episodes/
@@ -448,11 +448,11 @@ episodes/
 - 不変条件の検査（`design/check-flow.mjs` の考え方）を、エピソードのデータに対して走らせる
   - 例：「全部の箱が開けられる」「紙が6枚そろう」「どの道でも救出に着く」
 - 台詞 ID と音声ファイルの対応を自動で検査する
-  - 今の `prototype/scripts/verify-audio.mjs` を、エピソードのデータを読む形に広げる
+  - 今の `game/scripts/verify-audio.mjs` を、エピソードのデータを読む形に広げる
 
 ### 8.2 英語版への対応
 
-- 台詞は ID でひく。英語の音声は既存の Gemini TTS の仕組み（`prototype/scripts/generate-audio.mjs`）で作り直す
+- 台詞は ID でひく。英語の音声は既存の Gemini TTS の仕組み（`game/scripts/generate-audio.mjs`）で作り直す
   - ただし Gemini の規約と、生成した音声の表記（05 の報告）を先に解決する
 - **言葉遊びは翻訳できない**
   - 例：「クリスマス」の中のリス・マス・クマ、「だ・い・す・き・だ・よ」の6文字、シカ→ソリの引っかけ

@@ -1,0 +1,153 @@
+/* 現行Canvas版の共通UI。各場面の描画と配置は *-stage.css に定義。 */
+:root{color-scheme:light;--ink:#3d463b;--muted:#7c7d6b;--paper:#faf5e8;--red:#9c443a;--gold:#bc9560;--green:#325e50;--line:#dfd6c1;font-family:'Yu Gothic','Hiragino Kaku Gothic ProN',Meiryo,sans-serif;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0;min-width:280px;background:#203d37;color:var(--ink);background-image:radial-gradient(ellipse at 50% 30%,#466255 0,transparent 65%),repeating-linear-gradient(90deg,#fff0 0 60px,#fff1 61px,#fff0 62px);font-size:15px}
+button,input{font:inherit}
+button{cursor:pointer;border:0}
+button:disabled{cursor:default}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ba8238;outline-offset:5px}
+button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+button[data-action=start] svg:first-child,button[data-action=resume] svg:first-child{fill:currentColor;stroke:none}
+h1,h2,p{margin:0}
+h1:focus{outline:none}
+[hidden]{display:none!important}
+.site-header{max-width:1180px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:31px 4px 28px;color:#f4ecd7;gap:20px}
+.brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:inherit}
+.brand-mark{font-size:32px;color:#d1b279}
+.brand strong{display:block;font-family:'Yu Mincho','Hiragino Mincho ProN',serif;font-size:20px;letter-spacing:3px;font-weight:500}
+.brand small{display:block;font-size:8px;letter-spacing:2.8px;margin-top:5px;color:#c0cbb9}
+.edition{font-size:11px;letter-spacing:1.5px;color:#d5dfca}
+main{max-width:1180px;margin:0 auto;padding:0 0 8px;overflow:clip}
+.audio-toolbar{display:flex;align-items:center;justify-content:space-between;background:#eae4d2;border-radius:9px 9px 0 0;padding:10px 21px;gap:10px;color:#616858;border-bottom:1px solid #d4cdb9}
+.audio-buttons{display:flex;gap:15px}
+.audio-button{display:flex;align-items:center;gap:7px;background:none;padding:5px 7px;font-size:11px;white-space:nowrap}
+.audio-button:disabled{opacity:.35}
+.audio-button[aria-pressed=true]{color:var(--red)}
+#audio-status{font-size:10px;color:#767d6d}
+h1{font-family:'Yu Mincho','Hiragino Mincho ProN',serif;font-weight:600;line-height:1.48;font-size:clamp(27px,3vw,37px);letter-spacing:1.5px;margin-bottom:26px}
+.cover-quote{font-family:'Yu Mincho','Hiragino Mincho ProN',serif;font-size:17px;line-height:1.85;margin-bottom:20px}
+.primary,.secondary{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:46px;border-radius:4px;padding:13px 21px;font-size:13px;line-height:1.5}
+.primary{background:var(--red);color:#fff9e9;box-shadow:0 3px 0 #74332c;transition:background .15s,transform .15s}
+.primary:hover{background:#8d392f}
+.primary:active{transform:translateY(2px);box-shadow:0 1px 0 #74332c}
+.secondary{background:#eee6d3;color:#615d4b;border:1px solid #d6cbb2}
+.secondary:hover{background:#e4d9bf}
+.secondary:disabled{opacity:.4}
+.hero-button{min-width:250px;justify-content:space-between}
+.start-note{margin-top:14px;font-size:10px;line-height:1.6;color:#8d8878}
+.text-button{background:none;color:#847b66;padding:10px 0;font-size:11px;text-decoration:underline;text-underline-offset:4px}
+.speaker{font-size:9px;color:#9b865f;letter-spacing:1px;display:block;margin-bottom:5px}
+.speech-block p{font-family:'Yu Mincho','Hiragino Mincho ProN',serif;font-size:15px;line-height:2;letter-spacing:.25px}
+.speech-block+.speech-block{margin-top:17px}
+.speech-block.santa p{color:#435846}
+.answer-feedback{font-size:11px;line-height:1.8;margin-top:12px;min-height:20px;color:#897d67}
+.reading-nav{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:27px;border-top:1px solid var(--line);padding-top:18px}
+.reading-nav .secondary{font-size:11px;min-height:38px;padding:8px 11px;gap:5px}
+.reading-nav span{white-space:nowrap;font-size:10px;color:#96876c}
+.site-footer{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;color:#92ac9b;padding:23px 4px 28px;font-size:10px;letter-spacing:1px}
+dialog{border:1px solid #dfd0b2;background:var(--paper);color:var(--ink);border-radius:8px;padding:35px;width:min(450px,calc(100% - 30px));box-shadow:0 15px 80px #0005}
+dialog::backdrop{background:#102b2a99}
+dialog h2{font-family:'Yu Mincho',serif;font-size:23px;margin-bottom:18px}
+dialog p{font-size:13px;line-height:1.9}
+.dialog-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:26px}
+@media(max-width:1240px) {
+.site-header,main,.site-footer{margin-left:28px;margin-right:28px}
+}
+@media(min-width:801px) and (max-width:1000px) {
+.audio-toolbar{padding-left:16px;padding-right:16px}
+.hero-button{min-width:0;width:100%}
+}
+@media(max-width:800px) {
+.site-header{padding:21px 0 19px;margin:0 20px}
+.brand strong{font-size:17px}
+.brand small{font-size:7px}
+.brand-mark{font-size:27px}
+.edition{font-size:9px;letter-spacing:.5px}
+main,.site-footer{margin-left:16px;margin-right:16px}
+.cover-quote{font-size:16px;margin-bottom:15px}
+.audio-toolbar{position:sticky;top:0;z-index:20;padding:8px 12px;flex-wrap:wrap;gap:4px}
+.audio-buttons{gap:10px}
+.audio-button{font-size:10px;padding:6px 4px;gap:5px}
+.audio-button svg{width:16px;height:16px}
+#audio-status{font-size:9px}
+h1{font-size:31px;margin-bottom:22px}
+.hero-button{width:100%;min-width:0}
+.speech-block p{font-size:15px}
+.site-footer{padding-top:19px;font-size:9px;letter-spacing:0;gap:15px}
+.reading-nav .secondary{padding:10px 14px}
+}
+@media(max-width:440px) {
+.site-header{padding:17px 0 16px;margin:0 17px}
+.brand{gap:9px}
+.brand strong{font-size:16px}
+.edition{font-size:8px;width:92px;line-height:1.7;text-align:right}
+.audio-toolbar{padding:7px 11px}
+.audio-buttons{gap:7px}
+#audio-status{flex-basis:100%;padding-left:4px}
+.cover-quote{font-size:14px;line-height:1.75;margin-bottom:12px}
+.start-note{font-size:9px;margin-top:11px}
+h1{font-size:28px;letter-spacing:1px}
+.speech-block p{font-size:14px;line-height:2}
+.primary,.secondary{font-size:12px}
+.reading-nav{gap:6px}
+.reading-nav .secondary{font-size:10px;padding:8px}
+.dialog-actions{flex-direction:column}
+.site-footer span:last-child{max-width:140px;text-align:right}
+}
+@media(max-width:350px) {
+main,.site-footer{margin-left:10px;margin-right:10px}
+.site-header{margin-left:13px;margin-right:13px}
+.brand small{letter-spacing:1.5px}
+.brand strong{font-size:14px}
+.edition{width:76px;font-size:7px}
+.brand-mark{font-size:22px}
+.audio-buttons{gap:5px}
+.audio-button{font-size:9px}
+.reading-nav .secondary{font-size:9px;padding:7px}
+.site-footer{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce) {
+*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+.paper-collection{display:flex;flex-wrap:wrap;justify-content:center;gap:13px;margin:24px 0 10px}
+.letter-paper{display:flex;width:43px;height:58px;align-items:center;justify-content:center;font-family:'Yu Mincho',serif;font-size:25px;border:1px solid #d1c39f;background:#fffaf0;box-shadow:2px 4px 0 #ddcfad;transform:rotate(-4deg);border-top:3px solid #a14a3c}
+.letter-paper.blue{border-top-color:#528398;transform:rotate(3deg)}
+.letter-paper.yellow{border-top-color:#c4a649;transform:rotate(-2deg)}
+.collected-count{text-align:center;font-size:10px;color:#8c7d61}
+.word-answer-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.word-answer-row input{width:100%;min-height:48px;border:1px solid #bcae90;border-radius:4px;background:#fffaf0;color:#3d463b;padding:10px 13px;font-size:18px}
+.word-answer-row input[aria-invalid=true]{border-color:#9c443a}
+#spell-form label,#reply-form label{font-size:12px;font-weight:600}
+.secret-entry{margin-top:18px;font-size:11px;color:#7e725e}
+.secret-entry summary{cursor:pointer;padding:12px 0}
+.secret-entry p{line-height:1.8;margin:12px 0}
+.secret-entry form{padding-top:10px}
+.sound-settings{color:#bac9b6;font-size:11px;margin:8px 4px 15px}
+.sound-settings summary{padding:10px 0;cursor:pointer}
+.sound-settings button{margin:8px 8px 8px 0;min-height:40px;font-size:11px}
+.sound-settings p{line-height:1.9;max-width:720px}
+.sound-settings a{color:#e2c992}
+@media(max-width:800px) {
+.paper-collection{gap:9px}
+.sound-settings{margin-left:15px;margin-right:15px}
+}
+.bgm-control{flex-basis:100%;display:flex;align-items:center;gap:12px;padding:4px 3px 0;border-top:1px solid #d4cbb6}
+.bgm-control label{white-space:nowrap;font-size:11px;min-width:75px}
+.bgm-control output{display:inline-block;min-width:32px;text-align:right;font-variant-numeric:tabular-nums}
+.bgm-control input{flex:1;min-width:70px;height:44px;margin:0;accent-color:#325e50;cursor:pointer}
+.bgm-control .audio-button{min-height:44px;white-space:nowrap}
+@media(max-width:440px) {
+.bgm-control{gap:8px}
+.bgm-control label{font-size:10px;min-width:65px}
+.bgm-control .audio-button{font-size:10px}
+}
+.share-dialog{width:min(560px,calc(100vw - 32px));max-height:calc(100svh - 32px);overflow:auto}
+.share-dialog input{width:100%;min-height:44px;font-size:16px}
+.share-dialog button{min-height:44px;margin-top:12px}
+.share-dialog [hidden]{display:none!important}
+body.privacy-page{background:#faf5e8;background-image:none;color:#3d463b}
+.privacy-page main{width:min(840px,calc(100% - 40px));margin:32px auto;padding-bottom:32px}
+.privacy-page h1{font-size:28px;line-height:1.5;margin-bottom:20px;text-wrap:balance}
+.privacy-page h2{font-size:22px;margin:26px 0 12px}
+.privacy-page p{font-size:16px;line-height:1.85;margin:12px 0}
+.privacy-page a{color:#245850;text-decoration:underline}

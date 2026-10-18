@@ -7,11 +7,11 @@
     "node": ">=24"
   },
   "scripts": {
-    "start": "npm --prefix prototype start",
-    "preview": "node prototype/serve.mjs --pages",
-    "test": "npm --prefix prototype test",
+    "start": "npm --prefix game start",
+    "preview": "node game/serve.mjs --pages",
+    "test": "npm --prefix game test",
     "check:design": "node design/check-flow.mjs --model-only",
-    "check:audio": "node prototype/scripts/verify-audio.mjs",
+    "check:audio": "node game/scripts/verify-audio.mjs",
     "check:publication": "node scripts/check-publication.mjs",
     "check:pages": "node scripts/check-pages.mjs",
     "build": "node scripts/build-pages.mjs",

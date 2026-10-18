@@ -4,9 +4,12 @@ import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 
 const root = new URL('../', import.meta.url);
+// An unstaged deletion remains in the index and must not bypass this check.
+const deleted = execFileSync('git', ['ls-files', '--deleted', '-z'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean);
+assert.equal(deleted.length, 0, '未ステージの削除があります。削除をステージするか、ファイルを復元してから公開検査を実行してください。');
 const files = execFileSync('git', ['ls-files', '--cached', '-z'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean);
 assert.ok(files.length, 'Git管理対象の公開ファイルがありません');
-const forbidden = /(?:^|\/)(?:\.env(?:\..*)?|node_modules)(?:\/|$)|^design\/reference\/|^prototype\/reference\/(?!audio-generation\/[^/]+\.json$)/;
+const forbidden = /(?:^|\/)(?:\.env(?:\..*)?|node_modules)(?:\/|$)|^design\/reference\/|^game\/reference\/(?!audio-generation\/[^/]+\.json$)/;
 const secrets = [
   /AIza[0-9A-Za-z_-]{30,}/,
   /gh[pousr]_[0-9A-Za-z]{20,}/,

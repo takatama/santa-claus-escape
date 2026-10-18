@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
-import {initialState,transition,readingState,STORAGE_KEY} from '../../prototype/full-game.js';
-import {QUESTIONS,sceneFor,BOXES} from '../../prototype/full-scenario.js';
+import {initialState,transition,readingState,STORAGE_KEY} from '../../game/full-game.js';
+import {QUESTIONS,sceneFor,BOXES} from '../../game/full-scenario.js';
 import {paperState,setupPapers,btn,saved} from './paper-helpers.js';
 
 const sizes=[[320,568],[390,844],[568,320],[844,390],[768,1024],[1024,768],[1280,720]];

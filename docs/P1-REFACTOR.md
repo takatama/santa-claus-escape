@@ -4,7 +4,7 @@
 
 ## 素材参照
 
-`prototype/media-assets.js` の `MEDIA_GROUPS` に音声・画像の参照先、拡張子、ID一覧を集約した。グループの `base` / `extension` でまとめて変更でき、`overrides` で一部のファイル名だけ指定できる。BGMは既存のOGG能力判定とWAVフォールバックを同じ位置に残す。
+`game/media-assets.js` の `MEDIA_GROUPS` に音声・画像の参照先、拡張子、ID一覧を集約した。グループの `base` / `extension` でまとめて変更でき、`overrides` で一部のファイル名だけ指定できる。BGMは既存のOGG能力判定とWAVフォールバックを同じ位置に残す。
 
 `mediaPath(group, id)` は従来と同じ相対URL、`mediaUrl(group, id)` は画像用の絶対URLを返す。URL生成は純粋な処理で、fetch、画像生成、デコード、再生を行わない。呼び出し元の読み込み時点、Promise共有、失敗時の再試行、音声キャッシュは既存の処理を使う。
 
@@ -12,7 +12,7 @@
 
 ## 出来事の抽出
 
-`prototype/game-events.js` の `extractGameEvents(previous, next, action?)` に、同じ既存 `transition()` 呼び出しの直前・直後の状態を渡す。復元された保存データや `readingState()` の投影は入力対象にしない。関数は状態を変更せず、保存・通信・イベントの保持も行わない。現段階ではゲーム本体へ通知処理を接続しない。
+`game/game-events.js` の `extractGameEvents(previous, next, action?)` に、同じ既存 `transition()` 呼び出しの直前・直後の状態を渡す。復元された保存データや `readingState()` の投影は入力対象にしない。関数は状態を変更せず、保存・通信・イベントの保持も行わない。現段階ではゲーム本体へ通知処理を接続しない。
 
 出力は `type` と必要最小限の値だけを持つ中立的なレコードであり、GA4のイベント名・送信仕様ではない。開始、箱の選択と判定、ひみつの言葉の成立、まほう使いの初登場・選択・再呼び出し、三問の判定、救出開始・解放・完了、リセットを抽出する。回答数字、自由入力本文、保存内容は出力しない。
 

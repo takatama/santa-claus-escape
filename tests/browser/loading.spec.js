@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { initialState, transition, STORAGE_KEY } from '../../prototype/full-game.js';
-import { QUESTIONS } from '../../prototype/full-scenario.js';
+import { initialState, transition, STORAGE_KEY } from '../../game/full-game.js';
+import { QUESTIONS } from '../../game/full-scenario.js';
 import { btn, paperState, setupPapers } from './paper-helpers.js';
 
 test('loading: the first screen stays covered until the forest and globe are decoded', async ({ page }) => {

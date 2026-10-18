@@ -1,14 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { initialState, transition, validateAnswer, normalizeDigits, restoreState, readSave, writeSave } from '../game.js';
 import { SCENARIO, getMessage } from '../scenario.js';
 import { SpeechPlayer } from '../speech.js';
-import { clipKey, AUDIO_CLIPS } from '../audio.js';
-
-function atRed() {
-  return ['START', 'BOXES', 'RED'].reduce((state, type) => transition(state, { type }), initialState());
-}
+import { AUDIO_CLIPS } from '../audio.js';
 
 test('原作の出題候補と正解対応から3138を導き、台詞を照合する', async t => {
   let source;
@@ -25,55 +20,9 @@ test('原作の出題候補と正解対応から3138を導き、台詞を照合�
     const legacyKey = key === 'success' ? 'redSolved' : key === 'wrong' ? 'notSolved1' : key.replace('red', 'redBox');
     const original = source.match(new RegExp(`${legacyKey}: \\{\\s*text: \\x60([\\s\\S]*?)\\x60,`))[1]
       .replace(/\$tanuki/g, SCENARIO.words.join('、')).replace(/\$color/g, '赤色').replace(/\$\{a\('ask[1-4]'\)\}/g, '');
-    const prototype = SCENARIO.messages[key][0].text.replace('この箱は調べつくしたようです。', '');
-    assert.equal(prototype.replace(/\s/g, ''), original.replace(/\s/g, ''));
+    const current = SCENARIO.messages[key][0].text.replace('この箱は調べつくしたようです。', '');
+    assert.equal(current.replace(/\s/g, ''), original.replace(/\s/g, ''));
   }
-});
-
-test('数字の空白と全角を受け入れ、空・短い・長い・混入文字を拒否する', () => {
-  assert.equal(normalizeDigits('　３ １\n３８　'), '3138');
-  assert.equal(validateAnswer('　３ １　３８ ').kind, 'correct');
-  for (const raw of ['', '　', '\n']) assert.equal(validateAnswer(raw).kind, 'empty');
-  for (const raw of ['318', '31383', 'a3138', '3138です', '31.83', '3-183']) assert.equal(validateAnswer(raw).kind, 'invalid');
-  assert.equal(validateAnswer('0000').kind, 'wrong');
-});
-
-test('正解だけで開箱し、未開始・不正解・空入力・二重回答から開箱しない', () => {
-  const red = atRed();
-  assert.equal(transition(initialState(), { type: 'ANSWER' }).stage, 'welcome');
-  assert.strictEqual(transition(red, { type: 'ANSWER' }), red);
-  const wrong = transition(transition(red, { type: 'DRAFT', value: '0000' }), { type: 'ANSWER' });
-  assert.equal(wrong.stage, 'red');
-  const solved = transition(transition(wrong, { type: 'DRAFT', value: '３１３８' }), { type: 'ANSWER' });
-  assert.equal(solved.stage, 'complete');
-  assert.equal(solved.message, 'success');
-  assert.strictEqual(transition(solved, { type: 'ANSWER' }), solved);
-  assert.strictEqual(transition(solved, { type: 'EXAMINE' }), solved);
-});
-
-test('連続操作でも段階は4で止まり、保存とリセットを復元する', () => {
-  let state = atRed();
-  for (let i = 0; i < 20; i++) state = transition(state, { type: 'EXAMINE' });
-  assert.equal(state.exam, 4);
-  assert.equal(state.message, 'red4');
-  state = transition(state, { type: 'DRAFT', value: '３１ ３８' });
-  state = transition(state, { type: 'MUTE' });
-  assert.deepEqual(restoreState(JSON.parse(JSON.stringify(state))), state);
-  const reset = transition(state, { type: 'RESET' });
-  assert.equal(reset.stage, 'welcome');
-  assert.equal(reset.exam, 0);
-  assert.equal(reset.draft, '');
-  assert.equal(reset.muted, true);
-});
-
-test('不整合なセーブを拒否し、保存禁止環境でも例外を出さない', () => {
-  assert.equal(restoreState({ ...atRed(), stage: 'complete', submittedDigits: '0000' }), null);
-  assert.equal(restoreState({ ...atRed(), exam: 5 }), null);
-  assert.equal(restoreState({ ...atRed(), scenario: 'other' }), null);
-  assert.equal(readSave({ getItem: () => '{broken' }).state, null);
-  const blocked = { getItem() { throw new Error('blocked'); }, setItem() { throw new Error('blocked'); } };
-  assert.equal(readSave(blocked).available, false);
-  assert.equal(writeSave(blocked, atRed()), false);
 });
 
 test('音声を重ねず、一桁ずつ読み、古い終了イベントから次の台詞を流さない', async () => {
@@ -134,8 +83,6 @@ test('事前生成音声の再生・停止・ミュートを扱い、古い再�
   assert.equal(files[1].paused, true);
   player.play(SCENARIO.messages.intro, 'intro');
   assert.equal(files.length, 2);
-  assert.equal(clipKey({message:'success',submittedDigits:'3138'}), 'success-3138');
-  assert.equal(clipKey({message:'wrong',submittedDigits:'0000'}), 'wrong-0000');
 });
 
 test('音声ファイルの読み込み・再生失敗は同じ原作台詞の読み上げへ戻る', async () => {

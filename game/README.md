@@ -1,6 +1,6 @@
 # サンタの脱出 — 日本語全編
 
-この `prototype/` が現行の統合版です。入口は `index.html` → `full-app.js`。独立した旧 `illustrated-prototype/` は廃止しました。開発対象の取り違えを防ぐため [作業先の指示](../AGENTS.md) を参照してください。
+この `game/` が現行の統合版です。入口は `index.html` → `full-app.js`。独立した旧 `illustrated-prototype/` は廃止しました。開発対象の取り違えを防ぐため [作業先の指示](../AGENTS.md) を参照してください。
 
 三つの箱を自由な順で調べ、ひみつの言葉でまほう使いを呼び、原作の三問で遊んでサンタを救出する、音声つきの絵本。2026-10-05、日本語の固定出題を全編へ拡張した。
 
@@ -14,10 +14,10 @@
 
 - `full-scenario.js`：原作台詞・謎・正解。旧 `scenario.js` の導入と赤箱を再利用。
 - `full-game.js`：固定進行、正解判定、現在の全編形式の保存・復元。
-- `full-app.js` / `styles.css` / `illustrations.js`：操作と絵本の表示。
+- `full-app.js` / `styles.css` と各 `*-stage.js` / `*-art.js`：操作とCanvasによる絵本の表示。
 - `full-audio.js` / `audio-sequence.js` / `speech.js`：事前生成WAV、四桁の結合、再生停止と重複防止、再生失敗時の読み上げへのフォールバック。
 - `soundtrack.js`：PeriTuneのBGM二曲、効果音ラボの四音、自作ダイヤル音。
-- `app.js` / `game.js` / `audio.js`：以前の赤箱体験版の記録。現在の入口は `full-app.js`。
+- `scenario.js` / `audio.js`：現行版が再利用する原作台詞と収録音声の対応。旧体験版の画面・状態管理・SVG描画は削除済み。
 
 制作時にGemini TTSで追加29点と、誤答用の定型台詞・数字15点を生成。通常の起動、検査、ビルド、遊ぶときに生成API・APIキー・マイクを使わない。既存の六場面を再利用し、数字の誤答も同じ声で読む。音声の読み込み・再生に失敗した場合だけブラウザ読み上げへ戻り、その声・品質は端末により変わる。文字だけでも進められる。
 

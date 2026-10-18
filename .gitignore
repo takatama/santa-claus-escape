@@ -11,8 +11,8 @@ playwright-report/
 .measurements/
 
 # 原作の参照コピー、旧画面、Driveの原本と調査用メタデータは非公開。
-prototype/reference/*
-!prototype/reference/audio-generation/
-prototype/reference/audio-generation/*
-!prototype/reference/audio-generation/*.json
+game/reference/*
+!game/reference/audio-generation/
+game/reference/audio-generation/*
+!game/reference/audio-generation/*.json
 design/reference/

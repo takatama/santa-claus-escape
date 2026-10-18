@@ -9,7 +9,7 @@
 - 実在したミラー: `C:\Users\takat\.codex\.chatgpt-projects\g-p-6ac1ba25041c8191a2748a55ea35f733`
 - `AGENTS.md` を確認。`sources/` および同期資料は変更しない。
 - `research/santa-claus-escape-2026.md`、`research/legacy-index.js`、`research/feedback-aggregate.json` を確認。再発明案A/B/Cは実装仕様として採用しない。
-- 指定された `C:\Users\takat.codex.chatgpt-projects\…` という表記のパスは存在しなかった。試作は書き込み可能な現在のワークスペースの `prototype/` に作成した。
+- 指定された `C:\Users\takat.codex.chatgpt-projects\…` という表記のパスは存在しなかった。試作は書き込み可能な現在のワークスペースの `game/` に作成した。
 - [原作ソース](https://drive.google.com/file/d/1OzKQxpfxEA5Ib7J3Wg-IPIKJWCR4gUHi/view) を取得し、参照用コピーを `reference/legacy-index.js` に保存。ミラーのコピーとSHA-256が一致: `B381E1EB9D9F8519EB3EF2C50F5CE101FF7CE9696AB6163A8B981DE7FB1CAEFB`。
 - [フィードバック](https://docs.google.com/spreadsheets/d/1pBX5T-uJ5BV9S_6pKq6Wk9JH5N1Q5jfv35fta7sf_UM/edit) と [分析シート](https://docs.google.com/spreadsheets/d/1EXGpJSm9u5rjUSh8UYjFLYaJCrt-vII39A_SCBpq3_g/edit) は takatama.app 接続で読めた。全件再集計は行っていない。
 

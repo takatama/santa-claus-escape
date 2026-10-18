@@ -32,16 +32,16 @@ FのPR・ブランチはまだ作成しておらず、この変更は未コミ�
 
 ## 責務
 
-- `prototype/story-stage.js`：残る画面のDOM、三箱の選択、早期合言葉の入力、IME、読み返しのナビゲーション。進行の決定は既存controllerへ渡す。
-- `prototype/story-art.js`：既存の森・球・箱の外観、読み返しの静止画。既存の箱描画と`witch-art`を使用し、遅い取得は描画だけに反映。離脱後の取得は破棄。
-- `prototype/box-art.js`：拡大と一覧で共通のふた・本体の雪描画。調査の雪払い・ヒント・開閉の計算は変更しない。
-- `prototype/story-stage.css`：縦横の舞台配置、既存舞台と共通の文字・ルビ・ボタンの表示。
-- `prototype/readings.js`：文脈別の語彙と表示用ruby。`rt`の読みはCSSの生成内容として描画し、アクセシビリティからは除外する。DOM本文・コピーの文字列は原文のまま。操作の読み上げ名は原文を明示し、動的ラベル変更にも追随する。
-- `prototype/full-app.js`：既存状態に基づく舞台の選択と共通字幕の接続。置き換えた旧見開きの描画だけを除去した。
-- `prototype/storybook-content.js`：承認された全編の台詞、検索URL、版を分けた音声ID。原作データと採用文の境界。
-- `prototype/full-scenario.js` / `full-game.js`：青の正解候補・提出した数字の反応・保存の検証。状態と保存形式は追加しない。
-- `prototype/box-presentation.js` / `timed-audio.js`：8849の音声経路と救出の差し替え。既存の数字収録・効果音・開閉順を再利用。
-- `prototype/scripts/generate-storybook-voices.mjs`：6点の生成計画・一回生成・既存会話のPCM結合。過去の生成スクリプトは原作の場面を参照し、古い記録を再現できるようにした。
+- `game/story-stage.js`：残る画面のDOM、三箱の選択、早期合言葉の入力、IME、読み返しのナビゲーション。進行の決定は既存controllerへ渡す。
+- `game/story-art.js`：既存の森・球・箱の外観、読み返しの静止画。既存の箱描画と`witch-art`を使用し、遅い取得は描画だけに反映。離脱後の取得は破棄。
+- `game/box-art.js`：拡大と一覧で共通のふた・本体の雪描画。調査の雪払い・ヒント・開閉の計算は変更しない。
+- `game/story-stage.css`：縦横の舞台配置、既存舞台と共通の文字・ルビ・ボタンの表示。
+- `game/readings.js`：文脈別の語彙と表示用ruby。`rt`の読みはCSSの生成内容として描画し、アクセシビリティからは除外する。DOM本文・コピーの文字列は原文のまま。操作の読み上げ名は原文を明示し、動的ラベル変更にも追随する。
+- `game/full-app.js`：既存状態に基づく舞台の選択と共通字幕の接続。置き換えた旧見開きの描画だけを除去した。
+- `game/storybook-content.js`：承認された全編の台詞、検索URL、版を分けた音声ID。原作データと採用文の境界。
+- `game/full-scenario.js` / `full-game.js`：青の正解候補・提出した数字の反応・保存の検証。状態と保存形式は追加しない。
+- `game/box-presentation.js` / `timed-audio.js`：8849の音声経路と救出の差し替え。既存の数字収録・効果音・開閉順を再利用。
+- `game/scripts/generate-storybook-voices.mjs`：6点の生成計画・一回生成・既存会話のPCM結合。過去の生成スクリプトは原作の場面を参照し、古い記録を再現できるようにした。
 - `scripts/story-files.mjs`：新しい実行コード5ファイルの配信許可リスト。開発サーバーとPagesビルドへ接続。
 
 保存キー `santa-claus-escape:ja-full:v2` / version 2、箱の自由順、六枚の紙、重複する「だ」のID、辞退／呼び直し、全問誤答でも救出できる分岐を維持。原作参照資料・他のプロトタイプ・未追跡のE引継ぎを変更していない。新しい画像素材・状態ストア・音声予約の保存・章・謎は導入していない。

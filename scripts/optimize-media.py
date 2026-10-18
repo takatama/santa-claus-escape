@@ -21,10 +21,10 @@ def encode(source,target,codec,bitrate):
     if codec=='aac':cmd+=['-movflags','+faststart']
     subprocess.run(cmd+[str(target)],check=True)
 for item in plan:
-    source=root/'prototype'/item['source']
+    source=root/'game'/item['source']
     if args.samples and item['source'] not in ['assets/audio/storybook-help.wav','assets/audio/ja-leda-question-deer-ten-times.wav','assets/audio/answer-digit-8.wav','assets/papers/forest-clean.png','assets/papers/globe.png','assets/red-box/red-body.png']:continue
     before=digest(source)
-    target=(root/'.measurements/representatives'/item['target']) if args.samples else root/'prototype'/item['target']
+    target=(root/'.measurements/representatives'/item['target']) if args.samples else root/'game'/item['target']
     target.parent.mkdir(parents=True,exist_ok=True)
     details={}
     if source.suffix=='.png':

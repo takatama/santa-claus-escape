@@ -1,7 +1,7 @@
-# 02 声の絵本プロトタイプ（`prototype/`、main）調査レポート
+# 02 声の絵本プロトタイプ（`game/`、main）調査レポート
 
-調査日: 2026-10-09 ／ 調査者視点: シニアフロントエンドエンジニア＋UXレビュー ／ 対象: `prototype/`（入口 `prototype/index.html` → `full-app.js`）
-リポジトリの状態: `codex/illustrated-full-journey`（PR #1 head）をチェックアウト済み。PR #1 は `illustrated-prototype/` だけを追加しており（`git diff --name-only main...HEAD` で他ディレクトリの変更は0件）、`prototype/` は main と同一。
+調査日: 2026-10-09 ／ 調査者視点: シニアフロントエンドエンジニア＋UXレビュー ／ 対象: `game/`（入口 `game/index.html` → `full-app.js`）
+リポジトリの状態: `codex/illustrated-full-journey`（PR #1 head）をチェックアウト済み。PR #1 は `illustrated-prototype/` だけを追加しており（`git diff --name-only main...HEAD` で他ディレクトリの変更は0件）、`game/` は main と同一。
 
 凡例: **【確認】** = コード・コマンド・実ブラウザで確かめた事実。**【推測】** = 根拠に基づく推論・評価。どちらも付いていない数値は計測値。
 
@@ -12,7 +12,7 @@
 1. **【確認】最後まで遊べる、本番公開中の日本語版。** https://santa-claus-escape.pages.dev/ は main のビルドを配信している（`sound-settings.js` のSHA-256がローカルと一致。main の `e4d225b` に Cloudflare Pages のチェックが success）。README の「Pagesへの実公開は利用者側で設定します」（README.md:67）は、すでに実施済み。
 2. **【確認】技術の土台は堅い。** 依存ゼロのVanilla JS（ESM）。純粋関数の状態機械（12フェーズ、`revision` で古いイベントを拒否）と厳格なセーブ検証があり、取り消し可能な音声エンジン（声と効果音を同じ時計で鳴らすWeb Audioタイムライン）を持つ。`npm test` は46件中44件成功、2件スキップ（非公開の原作コピーとの照合）で、失敗は0件。
 3. **【確認】声の資産は約17.5分ある。** Gemini TTS（`gemini-3.8-flash-tts`）で作った声のWAVが81本・1,052.5秒。三役の声種を分けている（語り=Sulafat、サンタ=Algieba、まほう使い=Leda。Ledaは三案の試聴から選定）。参考の生成費は全体で約0.28米ドル。**台本を書き直しても再生成のコストは障壁にならない。**
-4. **【確認】資産は重く、整理されていない。** `prototype/` は89MB、`assets/audio` は77MB（WAV 83本・MP3 6本・OGG 2本）。どこからも参照されない孤立ファイルが15本・12.6MB、タイムラインに上書きされて実行時に使われないファイルが7本・7.4MB あり、どちらも本番に配信されている。OGG非対応環境向けのBGM用WAVは2本で25.6MB。全編を1回遊ぶと約31.5MBをダウンロードする（声は無圧縮の24kHz PCM）。
+4. **【確認】資産は重く、整理されていない。** `game/` は89MB、`assets/audio` は77MB（WAV 83本・MP3 6本・OGG 2本）。どこからも参照されない孤立ファイルが15本・12.6MB、タイムラインに上書きされて実行時に使われないファイルが7本・7.4MB あり、どちらも本番に配信されている。OGG非対応環境向けのBGM用WAVは2本で25.6MB。全編を1回遊ぶと約31.5MBをダウンロードする（声は無圧縮の24kHz PCM）。
 5. **【推測】親子で遊ぶアプリとしての最大の弱点は「大人が一人で読み操作する前提」の設計。** 根拠は次の3点。
    - 漢字が多くルビがない。台詞3,091字のうち漢字が436字（14%）、異なり字数は112字。
    - 文字が小さい。11px以下のフォント指定が64か所あり、「タップして調べる」は9px。
@@ -26,17 +26,17 @@
    - たぬき言葉（「た」抜き）
    - じゃんけんの「負けるが勝ち」を指の数で解く謎
    - 「シカ」を10回言わせるひっかけ問題
-7. **【確認】PR #1 の Cloudflare プレビューは、声の絵本しか表示しない。** ビルドが `prototype/` だけを `dist/` に集めるため（`scripts/build-pages.mjs:4-5`）。`/illustrated-prototype/...` へのアクセスは SPA フォールバックで声の絵本の index.html が返る。PR #1 の絵本試作は、現状 Pages では見られない。
+7. **【確認】PR #1 の Cloudflare プレビューは、声の絵本しか表示しない。** ビルドが `game/` だけを `dist/` に集めるため（`scripts/build-pages.mjs:4-5`）。`/illustrated-prototype/...` へのアクセスは SPA フォールバックで声の絵本の index.html が返る。PR #1 の絵本試作は、現状 Pages では見られない。
 
 ---
 
 ## 1. 調査範囲と方法
 
-- 読んだ文書: `README.md`、`NOTICE.md`、`prototype/{README,FULL-GAME-NOTES,FULL-GAME-QA,STORYBOOK-QA,AUDIO-QA,QA,SOURCE-NOTES}.md`、`prototype/qa/FAIRY-VOICE-AUDITION.md`、`design/{AUDIO-ASSET-AUDIT,AUDIO-REVIEW-2026-10-06,AUDIO-TIMING-NOTES,BGM-VOLUME-CONTROL,ORIGINAL-AUDIO-RESTORATION,FULL-GAME-DESIGN,README}.md`、`docs/CLOUDFLARE-PAGES.md`。
-- 読んだコード: `index.html`、`full-app.js`、`full-game.js`、`full-scenario.js`、`scenario.js`、`full-audio.js`、`audio.js`、`speech.js`、`audio-sequence.js`、`audio-timeline.js`、`timed-audio.js`、`soundtrack.js`、`sound-settings.js`、`illustrations.js`、`styles.css`、`serve.mjs`、`scripts/build-pages.mjs`、`scripts/check-pages.mjs`、`scripts/check-publication.mjs`、`prototype/scripts/{generate-audio,fairy-production-plan}.mjs`、`tests/full-game.test.mjs`（一部）、`.github/workflows/verify.yml`。
+- 読んだ文書: `README.md`、`NOTICE.md`、`game/{README,FULL-GAME-NOTES,FULL-GAME-QA,STORYBOOK-QA,AUDIO-QA,QA,SOURCE-NOTES}.md`、`game/qa/FAIRY-VOICE-AUDITION.md`、`design/{AUDIO-ASSET-AUDIT,AUDIO-REVIEW-2026-10-06,AUDIO-TIMING-NOTES,BGM-VOLUME-CONTROL,ORIGINAL-AUDIO-RESTORATION,FULL-GAME-DESIGN,README}.md`、`docs/CLOUDFLARE-PAGES.md`。
+- 読んだコード: `index.html`、`full-app.js`、`full-game.js`、`full-scenario.js`、`scenario.js`、`full-audio.js`、`audio.js`、`speech.js`、`audio-sequence.js`、`audio-timeline.js`、`timed-audio.js`、`soundtrack.js`、`sound-settings.js`、`illustrations.js`、`styles.css`、`serve.mjs`、`scripts/build-pages.mjs`、`scripts/check-pages.mjs`、`scripts/check-publication.mjs`、`game/scripts/{generate-audio,fairy-production-plan}.mjs`、`tests/full-game.test.mjs`（一部）、`.github/workflows/verify.yml`。
 - 実行したこと（すべて読み取り専用。リポジトリ内のファイルは変更していない）:
   - `npm test`、`npm run check:design`、`npm run check:audio`、`npm run check:publication`。`npm run build` は `dist/` を書き出すので実行していない。
-  - ローカル開発サーバー（`prototype/serve.mjs`）を Browser ペインで開いた。375×812 で表紙 → 導入 → 三つの箱 → 赤い箱の調査3 → 誤答0000 → 正解3138 の開箱まで実際に操作した。そのあと localStorage に途中状態を書き込んで再開し、まほう使いの問題画面と救出画面も表示した。最後に1280幅で見開き表示を見た。ブラウザ内の保存は最後に消去。
+  - ローカル開発サーバー（`game/serve.mjs`）を Browser ペインで開いた。375×812 で表紙 → 導入 → 三つの箱 → 赤い箱の調査3 → 誤答0000 → 正解3138 の開箱まで実際に操作した。そのあと localStorage に途中状態を書き込んで再開し、まほう使いの問題画面と救出画面も表示した。最後に1280幅で見開き表示を見た。ブラウザ内の保存は最後に消去。
   - スクラッチパッドのNodeスクリプトで、音声の参照関係・WAVの長さ・台詞の字数・漢字率を算出した。
   - takatama アカウントのトークンで GitHub API を読み取り専用で参照（デプロイ、チェック結果、PRコメント）。本番URLとプレビューURLへ `curl` で読み取りアクセス。
 
@@ -156,7 +156,7 @@ stateDiagram-v2
 
 ### 3.4 描画方式（絵はSVGかCSSか）
 
-**【確認】ラスター画像はゼロ。** `prototype/assets/` には `audio/` しかない。絵の作り方は次のとおり。
+**【確認】ラスター画像はゼロ。** `game/assets/` には `audio/` しかない。絵の作り方は次のとおり。
 - **インラインSVG（5点）**: サンタ（illustrations.js:2-13）、たぬき（:15-21）、もみの木（:23-25）、山（:47）、まほう使い（:48）。どれもフラットな紙の切り抜き風で、表情・ポーズの差分はない。
 - **CSS部品**: プレゼント箱は `<span>` を7つ組み合わせて作る（:27-30）。開くとふたが外れ、紙が2枚出てくる（`box-open`・`paper-rise` のkeyframes、styles.css:7）。
 - **ジオラマ**: `winterScene()`（:32-41）は、夜空・月・星・雪原・紙の木6本を `perspective:900px` の固定カメラで重ねたもの（styles.css:5）。**導入・箱・まほう使い・救出のすべての場面が、この1枚の背景の中央に置く小道具を替えるだけ**で成り立っている。
@@ -259,10 +259,10 @@ flowchart TD
 
 | 対象 | サイズ／本数 |
 | --- | --- |
-| `prototype/` 全体 | **89MB** |
-| `prototype/assets/audio` | **77MB**、93ファイル（WAV 83、MP3 6、OGG 2、JSON 2） |
-| `prototype/qa`（スクショ12枚、試聴WAV、結合用の原音） | 11MB（配信しない） |
-| `prototype/reference`（生成記録JSON） | 396KB |
+| `game/` 全体 | **89MB** |
+| `game/assets/audio` | **77MB**、93ファイル（WAV 83、MP3 6、OGG 2、JSON 2） |
+| `game/qa`（スクショ12枚、試聴WAV、結合用の原音） | 11MB（配信しない） |
+| `game/reference`（生成記録JSON） | 396KB |
 | 声のWAV | **81本、1,052.5秒（17.5分）**、すべて24kHz・16bit・モノラル（48KB/秒の無圧縮PCM） |
 | ├ 実行時に参照される声WAV | 66本、791.8秒 |
 | ├ そのうちタイムラインに上書きされ**実際には鳴らない**もの | 7本、7.4MB（`ja-{red,blue,yellow}-open`、`ja-*-wrong-0000`、`ja-leda-rescue`）。失敗時のフォールバックは Web Speech へ直行するため、これらのWAVには到達しない（speech.js:47） |
@@ -454,4 +454,4 @@ flowchart TD
 - 台詞と謎: full-scenario.js:4-8（正解）、:20-33（台詞）、:35-39（三問）、:43-84（sceneFor）
 - 音声: speech.js:39-115、audio-sequence.js:2-20、audio-timeline.js:2-47、timed-audio.js:15-29、soundtrack.js:29-46、sound-settings.js:2-7
 - 絵: illustrations.js:2-50、styles.css:5（ジオラマ）、:7（keyframes）、:10（固定ツールバー）、:13（reduced-motion）、:16（箱ラベル9px）
-- 公開: scripts/build-pages.mjs:4-19、scripts/check-pages.mjs:14-24、prototype/serve.mjs:9-35、docs/CLOUDFLARE-PAGES.md、.github/workflows/verify.yml
+- 公開: scripts/build-pages.mjs:4-19、scripts/check-pages.mjs:14-24、game/serve.mjs:9-35、docs/CLOUDFLARE-PAGES.md、.github/workflows/verify.yml

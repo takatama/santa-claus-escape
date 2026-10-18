@@ -3,7 +3,7 @@
 import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { servedPagesFiles, inspectPagesOutput } from './pages-files.mjs';
-import { AUDIO_FILES } from '../prototype/media-assets.js';
+import { AUDIO_FILES } from '../game/media-assets.js';
 const preview = process.argv[2];
 if (!preview || !/^https:\/\/[a-z0-9-]+\.santa-claus-escape\.pages\.dev\/?$/.test(preview)) throw Error('Supply the verified PR preview URL');
 const dist = new URL('../dist/',import.meta.url);

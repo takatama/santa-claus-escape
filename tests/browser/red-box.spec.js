@@ -1,7 +1,7 @@
 import { arrangePapers, discover } from './paper-helpers.js';
 import { test, expect } from '@playwright/test';
-import { initialState, transition, STORAGE_KEY } from '../../prototype/full-game.js';
-import { SCENARIO } from '../../prototype/scenario.js';
+import { initialState, transition, STORAGE_KEY } from '../../game/full-game.js';
+import { SCENARIO } from '../../game/scenario.js';
 
 const btn = (page,action) => page.locator(`[data-action="${action}"]`);
 async function setup(page,{muted=true,seed=null,unavailable=false}={}){

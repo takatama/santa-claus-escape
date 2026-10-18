@@ -4,9 +4,9 @@
 
 **日本語版は、導入・三つの箱・ひみつの言葉・まほう使いとの三問・サンタの救出まで遊べます。** 原作の問題群から固定の問題を選んでいます。英語版と問題のランダム出題は未実装です。
 
-開発・起動対象は **`prototype/` の統合版**です。`index.html` → `full-app.js` が入口です。独立した旧 `illustrated-prototype/` と `/illustrated/` の公開・起動導線は廃止しました。箱は拡大画面のまま開閉し、スノードームは表示しません。[現行の作業先](AGENTS.md)。
+開発・起動対象は **`game/` の統合版**です（旧 `prototype/`）。`index.html` → `full-app.js` が入口です。独立した旧 `illustrated-prototype/` と `/illustrated/` の公開・起動導線は廃止しました。箱は拡大画面のまま開閉し、スノードームは表示しません。[現行の作業先](AGENTS.md)。
 
-![絵本版の表紙](prototype/qa/gemini-storybook-cover.jpg)
+![絵本版の表紙](game/qa/gemini-storybook-cover.jpg)
 
 ## 起動
 
@@ -37,6 +37,8 @@ npm start
 
 ## 設計と確認記録
 
+- [旧試作コードの整理と記事用資料の所在](docs/CODE-SLIMMING.md)：現行版に必要なコード、削除対象、資料を残す方針。
+
 - [公開前の確認と本人の作業](docs/RELEASE-CHECKLIST.md)：実機・利用条件・計測OFFの維持、検証済みと未確認、Issue #3 / #11の扱い。
 
 - [音声・画像の圧縮と実測比較](docs/performance/COMPARISON.md) / [OGPと終了後の共有](docs/OGP-SHARING.md)。原本を保持し、静的な配信を続けます。
@@ -47,12 +49,12 @@ npm start
 - [読み返しと大団円](docs/FINALE-READING-FINISH.md)：箱の静止画と最後の一枚絵、生成プロンプト・出所・確認画面。
 - [PR A：赤い箱の統合方式と検証](docs/PR-A-RED-BOX.md)：赤い箱はPR #1の絵・操作をmainの音声・進行・保存へ接続。数字はダイヤルだけで編集し、雪はボタンで一段階ずつ調べます。青黄以降は基準実装です。
 
-- [日本語全編の実装・原作との差分](prototype/FULL-GAME-NOTES.md) / [全編の確認記録](prototype/FULL-GAME-QA.md)。
+- [日本語全編の実装・原作との差分](game/FULL-GAME-NOTES.md) / [全編の確認記録](game/FULL-GAME-QA.md)。
 - [Cloudflare Pagesの公開手順](docs/CLOUDFLARE-PAGES.md)：静的ファイルのみを `dist/` に出力。
 - [全編の設計](design/FULL-GAME-DESIGN.md)：三箱の自由順、合言葉、魔法使いとの遊び、救出、絵と操作、音と保存。
 - [原作音源の確認](design/AUDIO-ASSET-AUDIT.md)：BGM・効果音の出典、利用条件、未確認点。
-- [原作との照合](prototype/SOURCE-NOTES.md)：台詞・謎とブラウザ向け変更。
-- [絵本の確認](prototype/STORYBOOK-QA.md) / [音声の確認](prototype/AUDIO-QA.md)：実ブラウザでの確認と実機で未確認の点。
+- [原作との照合](game/SOURCE-NOTES.md)：台詞・謎とブラウザ向け変更。
+- [絵本の確認](game/STORYBOOK-QA.md) / [音声の確認](game/AUDIO-QA.md)：実ブラウザでの確認と実機で未確認の点。
 
 全編の2,592経路を設計モデルで検査しています。全編の画面・音声・実機を検証したという意味ではありません。原作のソースとDrive設定の参照コピーは公開リポジトリに含めず、照合の根拠と資料リンクを設計書に残しています。
 
@@ -68,11 +70,11 @@ npm run build
 
 これらはローカルの検査で、外部APIを呼びません。非公開の原作コピーがない場合、原本との直接照合テストだけをスキップして明示します。状態遷移・入力・保存・音声ファイルの検査は公開版でも実行します。
 
-`prototype/scripts/generate-audio.mjs --plan` は生成計画の表示のみです。`--sample` / `--all` / `--full` / `--answers` は制作専用で、未生成ファイルがある場合にGemini APIを呼びます。実行する場合は、自分のキーと利用枠を別途用意してください。通常の起動・テスト・ビルドでは実行しません。
+`game/scripts/generate-audio.mjs --plan` は生成計画の表示のみです。`--sample` / `--all` / `--full` / `--answers` は制作専用で、未生成ファイルがある場合にGemini APIを呼びます。実行する場合は、自分のキーと利用枠を別途用意してください。通常の起動・テスト・ビルドでは実行しません。
 
-上のスクリプトは初期収録の生成記録を再現するものです。採用後の妖精の声は `prototype/scripts/generate-fairy-production.mjs --plan` で確認できます。`--generate` は12場面を15音声として各一回生成し、`compose-fairy-scenes.mjs` は二話者ずつに分けた保留・救出の音声を制作時に結合します。声選びと採用の記録は [妖精の試聴](prototype/qa/FAIRY-VOICE-AUDITION.md)。
+上のスクリプトは初期収録の生成記録を再現するものです。採用後の妖精の声は `game/scripts/generate-fairy-production.mjs --plan` で確認できます。`--generate` は12場面を15音声として各一回生成し、`compose-fairy-scenes.mjs` は二話者ずつに分けた保留・救出の音声を制作時に結合します。声選びと採用の記録は [妖精の試聴](game/qa/FAIRY-VOICE-AUDITION.md)。
 
-2026-10-11の絵本版では、スノードーム設定と青い箱の検索案内に合わせ、変更部分6点を同じ声で収録しました。青い箱は8848・8849の両方で開きます。今回の音声計画は `prototype/scripts/generate-storybook-voices.mjs --plan`、画面・互換性・検証記録は [仕上げの記録](docs/PR-F-STORY-FINISH.md) を参照してください。元の台詞・録音・生成記録は保持しています。
+2026-10-11の絵本版では、スノードーム設定と青い箱の検索案内に合わせ、変更部分6点を同じ声で収録しました。青い箱は8848・8849の両方で開きます。今回の音声計画は `game/scripts/generate-storybook-voices.mjs --plan`、画面・互換性・検証記録は [仕上げの記録](docs/PR-F-STORY-FINISH.md) を参照してください。元の台詞・録音・生成記録は保持しています。
 
 ## ライセンス
 

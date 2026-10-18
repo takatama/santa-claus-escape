@@ -21,13 +21,13 @@ async function fixture(t) {
     const target = new URL(name,root);
     await mkdir(new URL('.',target),{recursive:true});await writeFile(target,text);
   }
-  for(const name of [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES])await save(`prototype/${name}`,name==='index.html'?'full-app.js':name);
+  for(const name of [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES])await save(`game/${name}`,name==='index.html'?'full-app.js':name);
   await save('package.json','{"type":"module"}');
   await save('LICENSE');await save('NOTICE.md');
   for(const name of ['social-build.mjs','analytics-build.mjs','build-pages.mjs','pages-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
     await save(`scripts/${name}`);await copyFile(new URL(`scripts/${name}`,repository),new URL(`scripts/${name}`,root));
   }
-  await copyFile(new URL('prototype/media-assets.js',repository),new URL('prototype/media-assets.js',root));
+  await copyFile(new URL('game/media-assets.js',repository),new URL('game/media-assets.js',root));
   const build = ()=>run(process.execPath,[fileURLToPath(new URL('scripts/build-pages.mjs',root))],{cwd:directory});
   return {root,dist:new URL('dist/',root),save,build};
 }
@@ -43,8 +43,8 @@ test('real build excludes unlisted source variants and rejects stale output befo
   const {root,dist,save,build} = await fixture(t);
   const alternate = AUDIO_FILES[0].replace(/\.[^.]+$/,AUDIO_FILES[0].endsWith('.wav')?'.mp3':'.wav');
   assert.ok(!pagesFiles.includes(alternate));
-  await save(`prototype/${alternate}`,'old source variant');
-  await save('prototype/assets/rescue/empty-globe.png','source-only original');
+  await save(`game/${alternate}`,'old source variant');
+  await save('game/assets/rescue/empty-globe.png','source-only original');
   await save('illustrated-prototype/assets/PROMPTS.json','authoring record');
   await save('illustrated-prototype/qa/private.png','QA screenshot');
   await build();await inspectPagesOutput(dist,{complete:true});
@@ -53,7 +53,7 @@ test('real build excludes unlisted source variants and rejects stale output befo
   await assert.rejects(readFile(new URL('illustrated/assets/PROMPTS.json',dist)),{code:'ENOENT'});
   await assert.rejects(readFile(new URL('illustrated/qa/private.png',dist)),{code:'ENOENT'});
   const before = await readFile(new URL('full-app.js',dist));
-  await save('prototype/full-app.js','changed source');
+  await save('game/full-app.js','changed source');
   await save(`dist/${alternate}`,'stale output variant');
   await assert.rejects(build(),error=>error.stderr.includes(`Unexpected build file: ${alternate}`));
   assert.deepEqual(await readFile(new URL('full-app.js',dist)),before);
@@ -70,21 +70,21 @@ test('retired illustrated output is rejected before any current file is overwrit
   const {dist,save,build}=await fixture(t);
   await build();const before=await readFile(new URL('full-app.js',dist));
   await save('dist/illustrated/intro/index.html','obsolete runnable page');
-  await save('prototype/full-app.js','changed current source');
+  await save('game/full-app.js','changed current source');
   await assert.rejects(build(),error=>error.stderr.includes('Unexpected build folder: illustrated'));
   assert.deepEqual(await readFile(new URL('full-app.js',dist)),before);
 });
 
 test('changing one catalog group format publishes its new paths without old source variants',async t=>{
   const {root,dist,save,build} = await fixture(t);
-  const catalog = new URL('prototype/media-assets.js',root);
+  const catalog = new URL('game/media-assets.js',root);
   const before = await readFile(catalog,'utf8');
   const after = before.replace("forest:group('./assets/papers/','webp'","forest:group('./assets/papers/','avif'");
   assert.notEqual(after,before);await writeFile(catalog,after);
   const changed = await import(new URL('scripts/pages-files.mjs',root).href);
   const images = changed.pagesFiles.filter(name=>name.startsWith('assets/papers/'));
   assert.deepEqual(images,['assets/papers/forest-clean.avif','assets/papers/globe.avif']);
-  for(const name of images)await save(`prototype/${name}`,'new format fixture');
+  for(const name of images)await save(`game/${name}`,'new format fixture');
   await build();await changed.inspectPagesOutput(dist,{complete:true});
   for(const name of images) {
     assert.equal(changed.contentTypes[path.extname(name)],'image/avif');
