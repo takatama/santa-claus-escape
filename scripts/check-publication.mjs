@@ -4,9 +4,10 @@ import { readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 
 const root = new URL('../', import.meta.url);
-// Exclude working-tree deletions as well as deletions already staged for commit.
-const deleted = new Set(execFileSync('git', ['ls-files', '--deleted', '-z'], { cwd: root, encoding: 'utf8' }).split('\0'));
-const files = execFileSync('git', ['ls-files', '--cached', '-z'], { cwd: root, encoding: 'utf8' }).split('\0').filter(file => file && !deleted.has(file));
+// An unstaged deletion remains in the index and must not bypass this check.
+const deleted = execFileSync('git', ['ls-files', '--deleted', '-z'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean);
+assert.equal(deleted.length, 0, '未ステージの削除があります。削除をステージするか、ファイルを復元してから公開検査を実行してください。');
+const files = execFileSync('git', ['ls-files', '--cached', '-z'], { cwd: root, encoding: 'utf8' }).split('\0').filter(Boolean);
 assert.ok(files.length, 'Git管理対象の公開ファイルがありません');
 const forbidden = /(?:^|\/)(?:\.env(?:\..*)?|node_modules)(?:\/|$)|^design\/reference\/|^game\/reference\/(?!audio-generation\/[^/]+\.json$)/;
 const secrets = [
