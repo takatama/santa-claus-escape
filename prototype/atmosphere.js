@@ -4,13 +4,7 @@ import { mesh } from './red-paint.js';
 export function createAtmosphere(canvas, draw) {
   const preference = matchMedia('(prefers-reduced-motion: reduce)');
   let paused = preference.matches, visible = true, destroyed = false;
-  const pauseKey = 'santa-claus-escape:ambient-paused';
-  try { paused ||= sessionStorage.getItem(pauseKey) === 'true'; } catch { /* Controls work without storage. */ }
   let frame = 0, previous = null, time = 0;
-  const button = document.createElement('button');
-  button.type = 'button'; button.className = 'ambient-toggle';
-  const header = canvas.closest('.story-stage, .witch-stage, .paper-stage, .rescue-stage')?.querySelector('.box-header');
-  header?.insertBefore(button, header.querySelector('.box-settings'));
 
   function paint() {
     canvas.dataset.motion = paused ? 'paused' : 'playing';
@@ -29,22 +23,14 @@ export function createAtmosphere(canvas, draw) {
   function sync() {
     cancelAnimationFrame(frame); frame = 0; previous = null;
     if (destroyed) return;
-    button.textContent = paused ? '動きを再開' : '動きを止める';
-    button.setAttribute('aria-label', paused ? '雪と人物の動きを再開' : '雪と人物の動きを止める');
     paint();
     if (!paused && visible && !document.hidden) frame = requestAnimationFrame(tick);
   }
-  function toggle() {
-    paused = !paused;
-    try { sessionStorage.setItem(pauseKey, String(paused)); } catch { /* Preference is optional. */ }
-    sync();
-  }
   function reduce() { restore(); }
   function restore() {
-    try { paused = preference.matches || sessionStorage.getItem(pauseKey) === 'true'; } catch { /* Retain the current choice. */ }
+    paused = preference.matches;
     sync();
   }
-  button.addEventListener('click', toggle);
   preference.addEventListener('change', reduce);
   document.addEventListener('visibilitychange', sync);
   window.addEventListener('pagehide', suspend);
@@ -56,10 +42,9 @@ export function createAtmosphere(canvas, draw) {
     refresh: sync,
     destroy() {
       destroyed = true; suspend(); observer.disconnect();
-      button.removeEventListener('click', toggle); preference.removeEventListener('change', reduce);
+      preference.removeEventListener('change', reduce);
       document.removeEventListener('visibilitychange', sync);
       window.removeEventListener('pagehide', suspend); window.removeEventListener('pageshow', restore);
-      button.remove();
       delete canvas.dataset.motion; delete canvas.dataset.motionTime;
     },
   };

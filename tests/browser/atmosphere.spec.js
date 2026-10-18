@@ -8,27 +8,26 @@ const ambient = page => page.locator('.ambient-toggle');
 const storyCanvas = page => page.locator('.story-picture>canvas');
 const clock = canvas => canvas.getAttribute('data-motion-time');
 
-test('ambient: real pixels move, pause freezes the picture, controls fit and saves stay untouched',async({page})=>{
+test('ambient: no motion button, obsolete pause ignored, OS preference freezes pixels and saves stay untouched',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.addInitScript(()=>sessionStorage.setItem('santa-claus-escape:ambient-paused','true'));
   await page.goto('/');const canvas=storyCanvas(page);
   await expect(canvas).toHaveAttribute('data-ready','true');
+  await expect(canvas).toHaveAttribute('data-motion','playing');await expect(ambient(page)).toHaveCount(0);
   const before=await saved(page),first=await canvas.evaluate(c=>c.toDataURL());
   await expect.poll(()=>canvas.evaluate(c=>c.toDataURL())).not.toBe(first);
   for(const [width,height] of [[320,568],[390,844],[1280,720]]) {
     await page.setViewportSize({width,height});
-    const bounds=await ambient(page).boundingBox();
-    expect(bounds.height).toBeGreaterThanOrEqual(44);expect(bounds.x).toBeGreaterThanOrEqual(0);
-    expect(bounds.x+bounds.width).toBeLessThanOrEqual(width);
     const settings=await page.locator('.box-settings>summary').boundingBox();
     expect(settings.y).toBeGreaterThanOrEqual(0);expect(settings.x+settings.width).toBeLessThanOrEqual(width);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
-  await ambient(page).click();await expect(canvas).toHaveAttribute('data-motion','paused');
+  await page.emulateMedia({reducedMotion:'reduce'});await expect(canvas).toHaveAttribute('data-motion','paused');
   const time=await clock(canvas),frozen=await canvas.evaluate(c=>c.toDataURL());
   await page.waitForTimeout(200);expect(await clock(canvas)).toBe(time);
   expect(await canvas.evaluate(c=>c.toDataURL())).toBe(frozen);expect(await saved(page)).toEqual(before);
   await page.reload();await expect(canvas).toHaveAttribute('data-motion','paused');
-  await ambient(page).press('Enter');await expect(canvas).toHaveAttribute('data-motion','playing');
+  await page.emulateMedia({reducedMotion:'no-preference'});await expect(canvas).toHaveAttribute('data-motion','playing');
   await page.screenshot({path:'test-results/atmosphere/integrated-forest.png'});
   expect(errors).toEqual([]);
 });
@@ -59,7 +58,8 @@ test('ambient: reduced motion also covers discovery, and animation never advance
   }
   const before=await saved(page),time=await clock(canvas);
   await page.waitForTimeout(150);expect(await clock(canvas)).toBe(time);
-  await ambient(page).click();await expect(canvas).toHaveAttribute('data-motion','playing');
+  await expect(ambient(page)).toHaveCount(0);
+  await page.emulateMedia({reducedMotion:'no-preference'});await expect(canvas).toHaveAttribute('data-motion','playing');
   await expect.poll(()=>clock(canvas)).not.toBe(time);expect(await saved(page)).toEqual(before);
   await grip(page).press('End');await expect(btn(page,'accept')).toBeVisible();
   await page.waitForTimeout(470);await btn(page,'accept').click();

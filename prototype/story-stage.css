@@ -1,8 +1,4 @@
 body.story-playing { background:#102031; }
-.box-header .ambient-toggle { flex:0 0 auto;min-height:44px;padding:6px 8px;border:1px solid #e9c48566;border-radius:7px;background:#132c40;color:#e8ddc4;font:12px/1.3 'Yu Gothic',Meiryo,sans-serif;white-space:nowrap;cursor:pointer; }
-.box-header:has(.ambient-toggle) .box-settings>summary { white-space:nowrap; }
-.ambient-toggle:focus-visible { outline:3px solid #ffe1a2;outline-offset:2px; }
-@media(max-width:360px) { .box-header:has(.ambient-toggle) { gap:5px;padding-inline:8px; }.story-stage .box-header:has(.ambient-toggle) h1,.witch-stage .box-header:has(.ambient-toggle) h1,.paper-stage .box-header:has(.ambient-toggle) h1,.rescue-stage .box-header:has(.ambient-toggle) h1 { font-size:18px;letter-spacing:0; }.box-header .ambient-toggle { font-size:11px;padding-inline:5px; }.box-header:has(.ambient-toggle) .box-settings>summary { font-size:14px;padding-inline:5px; } }
 .story-playing .site-header,.story-playing .site-footer { display:none; }
 .story-playing #app { width:100%;max-width:none;margin:0;padding:0; }
 .story-stage { height:100svh;min-height:320px;display:grid;grid-template-rows:48px minmax(0,1fr) 44px;color:#f7e7c8;background:#122233;font-family:'Yu Gothic',Meiryo,sans-serif; }

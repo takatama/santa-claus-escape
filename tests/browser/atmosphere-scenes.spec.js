@@ -12,20 +12,22 @@ async function headerFits(page) {
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   }
 }
-test('paper atmosphere: snowfall behind letters, accepted landing, shared pause and reduced motion',async({page})=>{
+test('paper atmosphere: snowfall behind letters, accepted landing, no motion button and reduced motion',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await setupPapers(page);const canvas=page.locator('.paper-canvas');await expect(canvas).toHaveAttribute('data-ready','true');
   const before=await saved(page),time=await canvas.getAttribute('data-motion-time');
   await expect.poll(()=>canvas.getAttribute('data-motion-time')).not.toBe(time);expect(await saved(page)).toEqual(before);
   await headerFits(page);
+  await expect(page.locator('.ambient-toggle')).toHaveCount(0);
   await page.locator('.paper-stage').evaluate(stage=>{window.paperLandings=0;stage.addEventListener('animationstart',e=>{if(e.animationName==='paper-land')window.paperLandings++;});});
   await card(page,'red-0').click();await slot(page,0).click();
   await expect.poll(()=>page.evaluate(()=>window.paperLandings)).toBe(1);
   await expect(card(page,'red-0')).not.toHaveClass(/paper-landed/);
   expect((await saved(page)).spellSlots[0]).toBe('red-0');
-  await page.locator('.ambient-toggle').click();await page.locator('.ambient-toggle').click();
+  await page.emulateMedia({reducedMotion:'reduce'});await expect(canvas).toHaveAttribute('data-motion','paused');
+  await page.emulateMedia({reducedMotion:'no-preference'});await expect(canvas).toHaveAttribute('data-motion','playing');
   await page.waitForTimeout(180);expect(await page.evaluate(()=>window.paperLandings)).toBe(1);
-  await page.locator('.ambient-toggle').click();
+  await page.emulateMedia({reducedMotion:'reduce'});await expect(canvas).toHaveAttribute('data-motion','paused');
   const frozen=await canvas.evaluate(c=>c.toDataURL()),paused=await saved(page);
   await page.waitForTimeout(180);expect(await canvas.evaluate(c=>c.toDataURL())).toBe(frozen);expect(await saved(page)).toEqual(paused);
   await card(page,'red-0').press('ArrowRight');
@@ -57,7 +59,9 @@ test('rescue atmosphere: reversible progress, release settles, finale clips snow
   const clip=await weather.locator('clipPath rect').evaluate(e=>({x:+e.getAttribute('x'),w:+e.getAttribute('width')}));
   const image=await page.locator('.rescue-finale').evaluate(e=>{const r=e.getBoundingClientRect(),s=Math.min(r.width/e.naturalWidth,r.height/e.naturalHeight);return {x:(r.width-e.naturalWidth*s)/2,w:e.naturalWidth*s};});
   expect(clip.x).toBeCloseTo(image.x,1);expect(clip.w).toBeCloseTo(image.w,1);
-  await page.locator('.ambient-toggle').click();const snapshot=await weather.innerHTML(),complete=await saved(page);
+  await expect(page.locator('.ambient-toggle')).toHaveCount(0);
+  await page.emulateMedia({reducedMotion:'reduce'});await expect(weather).toHaveAttribute('data-motion','paused');
+  const snapshot=await weather.innerHTML(),complete=await saved(page);
   await page.waitForTimeout(180);expect(await weather.innerHTML()).toBe(snapshot);expect(await saved(page)).toEqual(complete);
   await page.screenshot({path:'test-results/atmosphere/rescue-finale.png'});expect(errors).toEqual([]);
 });
