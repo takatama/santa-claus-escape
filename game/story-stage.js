@@ -1,5 +1,5 @@
 import { ui } from './ui-strings.js';
-import { PAPER_COUNT } from './locale.js';
+import { LOCALE, PAPER_COUNT } from './locale.js';
 import { COLORS, BOXES, papers } from './full-scenario.js';
 import { stageDialogueMarkup,createStageDialogue,createStageSettings } from './stage-dialogue.js';
 import { createStoryArt,createBoxOverview } from './story-art.js';
@@ -7,6 +7,7 @@ import { annotateReadings } from './readings.js';
 
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 const button=(action,label,style='primary',attrs='')=>`<button type="button" data-action="${action}" class="${style}" ${attrs}>${label}</button>`;
+const languageLinks=`<nav class="cover-languages" aria-label="Language"><a href="/ja" lang="ja" hreflang="ja"${LOCALE==='ja'?' aria-current="page"':''}>日本語</a><span aria-hidden="true">/</span><a href="/en" lang="en" hreflang="en"${LOCALE==='en'?' aria-current="page"':''}>English</a></nav>`;
 const wordForm=value=>ui`<form id="spell-form" novalidate><label for="word-answer">ひみつの言葉</label><div class="word-answer-row"><input id="word-answer" type="text" maxlength="64" value="${esc(value)}" autocomplete="off" autocapitalize="off" aria-describedby="word-feedback" aria-invalid="false"><button class="primary" type="submit">言葉を伝える</button></div><p id="word-feedback" class="answer-feedback" role="status"></p></form>`;
 function collection(view) {
   const found=papers(view);
@@ -36,7 +37,7 @@ export function createStoryStage({onDraft,onSubmit}) {
             thumbnails=COLORS.map(c=>createBoxOverview(overview.querySelector(`canvas[data-color="${c}"]`),c,()=>{}));
           }
         } else if(cover) {
-          controls.innerHTML=ui`${button(resume?'resume':'start',resume?ui('続きから遊ぶ'):ui('サンタを助ける'),'primary hero-button')}<p class="start-note">${view.muted?ui('音声オフで始めます。'):ui('音声が流れます。')}文字だけでも遊べます。</p>${migrated?ui('<p>前の体験版の赤い箱の進行を引き継ぎました。</p>'):''}`;
+          controls.innerHTML=ui`${button(resume?'resume':'start',resume?ui('続きから遊ぶ'):ui('サンタを助ける'),'primary hero-button')}<p class="start-note">${view.muted?ui('音声オフで始めます。'):ui('音声が流れます。')}文字だけでも遊べます。</p>${languageLinks}${migrated?ui('<p>前の体験版の赤い箱の進行を引き継ぎました。</p>'):''}`;
         } else if(view.phase==='intro')controls.innerHTML=button('boxes',ui('はい、箱を調べる'));
         else if(view.phase==='boxes') {
           overview.innerHTML=`<div class="story-boxes">${COLORS.map(c=>ui`<button type="button" class="story-box-choice" data-action="select" data-color="${c}" aria-label="${BOXES[c].name}の箱を調べる"><canvas aria-hidden="true"></canvas><strong>${BOXES[c].name}の箱</strong><span>${view.boxes[c].opened?ui('開いた箱を見直す'):view.boxes[c].exam?ui('調べた続きへ'):ui('タップして調べる')}</span></button>`).join('')}</div>`;
