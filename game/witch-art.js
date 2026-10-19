@@ -28,6 +28,7 @@ export function createWitchArt(canvas, onLayout, onError) {
     // Once discovered she steps in front of the open boughs, so her hop and
     // greeting never put her face behind a branch. Partial drag stays occluded.
     const revealed=(view?.witchDiscovery?.pending?view.witchDiscovery.progress:1)>=.98;
+    let wizardEyesClosed=false;
     if(revealed&&foreground)ctx.drawImage(foreground,0,0,foreground.width,foreground.height,0,0,w,h);
     if(wizard&&view?.phase!=='witchPaused') {
       const b=layout.wizard,progress=view?.witchDiscovery?.pending?view.witchDiscovery.progress:1,s=discovery(progress);
@@ -35,6 +36,7 @@ export function createWitchArt(canvas, onLayout, onError) {
       const elapsed=entrance===null?null:time-entrance;
       const playing=conversation!==null,conversationElapsed=playing?time-conversation:0;
       const pose=wizardPose(elapsed,playing?conversationElapsed:time,reply===null?null:time-reply,moving,playing);
+      wizardEyesClosed=pose.eyesClosed;
       Object.assign(canvas.dataset,{wizardAnimation:elapsed!==null&&elapsed<ENTRANCE_SECONDS?'entrance':reply!==null&&time-reply<.85?'reply':moving&&playing&&conversationElapsed<.85?'conversation':'idle',wizardElapsed:elapsed===null?'':elapsed.toFixed(3),wizardConversationElapsed:playing?conversationElapsed.toFixed(3):'',wizardPose:JSON.stringify(pose),wizardParts:puppet?'whole-body-hand':'fallback'});
       glow(ctx,b.x+b.w*.56,b.y+b.h*.5,b.h*.66,.08+s.warmth*.32,1.1);
       ctx.save();ctx.globalAlpha=.015+smooth(.04,.30,progress)*.985;
@@ -42,7 +44,7 @@ export function createWitchArt(canvas, onLayout, onError) {
       glow(ctx,b.x+b.w*(puppet ? .92 : .88),b.y+b.h*(puppet ? .17 : .13),b.h*.14,.20+s.staff*.30+(moving?Math.sin(time*1.3)*.06:0));
     }
     if(!revealed&&foreground)ctx.drawImage(foreground,0,0,foreground.width,foreground.height,0,0,w,h);
-    if(globe&&livingGlobe)livingGlobe(ctx,layout.globe,time,moving);
+    if(globe&&livingGlobe)canvas.dataset.santaEyelids=String(livingGlobe(ctx,layout.globe,time,moving,wizardEyesClosed)||0);
     fallingSnow(ctx,w,h,time,2,[layout.globe,layout.wizard]);
   });
   function paint() {
