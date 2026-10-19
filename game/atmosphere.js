@@ -78,20 +78,61 @@ export function fallingSnow(ctx, width, height, time, layer, protectedAreas = []
   ctx.restore();
 }
 
+// Santa's presentation clock never restarts for dialogue. A nearby wizard blink
+// postpones his next blink, including greetings/replies triggered by user input.
+export function createSantaBlink() {
+  let next=2.1, start=null, count=0;
+  return (time,moving,blocked=false)=>{
+    if(!moving||blocked){start=null;next=Math.max(next,time+.45);return 0;}
+    if(start===null&&time>=next)start=time;
+    if(start===null)return 0;
+    const elapsed=time-start;
+    if(elapsed>=.24){start=null;next=time+[4.3,6.7,5.1,7.3][count++%4];return 0;}
+    return elapsed<.06||elapsed>=.18?.5:1;
+  };
+}
+
+// Paint eyelids only over the two eyes in the trimmed globe artwork. Skin
+// colours come from beside each eye; the original brow, beard and glass stay put.
+function santaEyelids(source,amount) {
+  const frame=document.createElement('canvas');frame.width=source.width;frame.height=source.height;
+  const ctx=frame.getContext('2d');ctx.drawImage(source,0,0);
+  for(const [u,v] of [[.506,.343],[.579,.317]]){
+    const x=u*source.width,y=v*source.height,rx=source.width*.014,ry=source.height*.017;
+    const rgb=ctx.getImageData(Math.round(x-rx-2),Math.round(y),1,1).data;
+    ctx.save();ctx.translate(x,y);ctx.scale(rx,ry);
+    const skin=ctx.createRadialGradient(0,0,.68,0,0,1);
+    skin.addColorStop(0,`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${amount})`);
+    skin.addColorStop(.78,`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${amount})`);
+    skin.addColorStop(1,`rgba(${rgb[0]},${rgb[1]},${rgb[2]},0)`);
+    ctx.fillStyle=skin;ctx.fillRect(-1,-1,2,2);
+    ctx.globalAlpha=amount;ctx.strokeStyle='#78503b';ctx.lineWidth=.15;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(-.65,0);ctx.quadraticCurveTo(0,.42,.65,-.1);ctx.stroke();ctx.restore();
+  }
+  return frame;
+}
+
 // Cache small deformed sprites: the original glass boundary and base remain fixed.
 // Only the face/mitten interior moves; no cutout art or new pose is invented.
 export function createLivingGlobe(image) {
   const source = document.createElement('canvas');
   source.height = 440; source.width = Math.round(440 * image.width / image.height);
   source.getContext('2d').drawImage(image, 0, 0, source.width, source.height);
+  const blink=createSantaBlink(),eyes=new Map([[0,source],[.5,santaEyelids(source,.5)],[1,santaEyelids(source,1)]]);
   const frames = new Map();
-  return (ctx, box, time, moving) => {
+  return (ctx, box, time, moving, wizardEyesClosed=false) => {
+    const eyelids=blink(time,moving,wizardEyesClosed);
     if (!moving && time === 0) { ctx.drawImage(image, box.x, box.y, box.w, box.h); return; }
     const index = Math.floor((time % 5.6) / 5.6 * 32);
-    if (!frames.has(index)) {
-      const frame = document.createElement('canvas'); frame.width = source.width; frame.height = source.height;
+    // One reusable canvas per breathing phase, shared by all eyelid states.
+    // Long visits retain at most 32 frames rather than 32 for each expression.
+    let cached=frames.get(index);
+    if (!cached || cached.eyelids!==eyelids) {
+      const frame = cached?.frame || document.createElement('canvas');
+      if(!cached){frame.width=source.width;frame.height=source.height;}
+      const paint=frame.getContext('2d');paint.clearRect(0,0,frame.width,frame.height);
       const breath = Math.sin(index / 32 * Math.PI * 2);
-      mesh(frame.getContext('2d'), source, (u, v) => {
+      mesh(paint, eyes.get(eyelids), (u, v) => {
         const face = Math.exp(-((u - .51) ** 2 / .014 + (v - .37) ** 2 / .018));
         const hand = Math.exp(-((u - .73) ** 2 / .004 + (v - .43) ** 2 / .006));
         const beard = Math.exp(-((u - .50) ** 2 / .020 + (v - .52) ** 2 / .008));
@@ -99,8 +140,9 @@ export function createLivingGlobe(image) {
         return { x: u * source.width,
           y: (v - interior * (face * .005 + hand * .008 + beard * .003) * breath) * source.height };
       }, 14, 16);
-      frames.set(index, frame);
+      cached={eyelids,frame};frames.set(index,cached);
     }
-    ctx.drawImage(frames.get(index), box.x, box.y, box.w, box.h);
+    ctx.drawImage(cached.frame, box.x, box.y, box.w, box.h);
+    return eyelids;
   };
 }
