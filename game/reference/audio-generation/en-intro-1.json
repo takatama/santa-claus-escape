@@ -1,0 +1,44 @@
+{
+  "id": "en-intro-1",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Algieba",
+  "segment": {
+    "speaker": "santa",
+    "text": "Hello there! Can you help me get out? I'm Santa. Santa Claus! A fairy played a trick on me and shut me inside this snow globe. Oh dear! I need to get the presents ready. I need your help!"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Hello there! Can you help me get out? I'm Santa. Santa Claus! A fairy played a trick on me and shut me inside this snow globe. Oh dear! I need to get the presents ready. I need your help!",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a kind, warm elderly Santa Claus. A gentle lower voice with a little wonder and humor. No shouting or exaggerated impersonation. Read exactly the text, without extra greetings or explanations."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:12:23.950Z",
+  "sha256": "001097acfa31849c77482c78e207604f1effd6b65fb7c51e7705d12371a333cd",
+  "bytes": 739554,
+  "usage": {
+    "total_tokens": 432,
+    "total_input_tokens": 50,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 50
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 382,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 382
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

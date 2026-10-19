@@ -1,0 +1,44 @@
+{
+  "id": "en-help-1",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "There is a red box, a blue box, and a yellow box."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "There is a red box, a blue box, and a yellow box.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:12:53.393Z",
+  "sha256": "f9dd1e4ff2190b878e2b7420bf8c1d229caa75e9399097bd992d2d856e12face",
+  "bytes": 259554,
+  "usage": {
+    "total_tokens": 148,
+    "total_input_tokens": 16,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 16
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 132,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 132
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

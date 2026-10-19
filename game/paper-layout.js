@@ -1,7 +1,8 @@
+import { PAPER_COUNT } from './locale.js';
 // Placement only: identities come from papers(state), judgment from SPELL.
-export const emptySlots = () => Array(6).fill(null);
+export const emptySlots = () => Array(PAPER_COUNT).fill(null);
 export function validSlots(raw, items) {
-  if (!Array.isArray(raw) || raw.length !== 6) return null;
+  if (!Array.isArray(raw) || raw.length !== PAPER_COUNT) return null;
   const owned = new Set(items.map(p => p.id)), used = new Set();
   for (const id of raw) {
     if (id === null) continue;
@@ -11,7 +12,7 @@ export function validSlots(raw, items) {
   return [...raw];
 }
 export function placePaper(slots, items, id, index) {
-  if (!validSlots(slots, items) || !items.some(p => p.id === id) || !Number.isInteger(index) || index < 0 || index >= 6 || slots[index] === id) return slots;
+  if (!validSlots(slots, items) || !items.some(p => p.id === id) || !Number.isInteger(index) || index < 0 || index >= PAPER_COUNT || slots[index] === id) return slots;
   const next = [...slots], previous = slots.indexOf(id);
   if (previous >= 0) next[previous] = next[index];
   next[index] = id;

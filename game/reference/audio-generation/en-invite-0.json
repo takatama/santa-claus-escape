@@ -1,0 +1,44 @@
+{
+  "id": "en-invite-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "Ta-da! Your sweetie is here! …Oh! Who are you?"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Ta-da! Your sweetie is here! …Oh! Who are you?",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:14:23.246Z",
+  "sha256": "a7aa8804d7c7b8da39f197919eedceca1a99f8bc199e3da686a20f249bf6f4e8",
+  "bytes": 278754,
+  "usage": {
+    "total_tokens": 160,
+    "total_input_tokens": 18,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 18
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 142,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 142
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

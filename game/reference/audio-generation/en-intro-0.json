@@ -1,0 +1,44 @@
+{
+  "id": "en-intro-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "Wait… I can hear a voice coming from the snow globe!"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Wait… I can hear a voice coming from the snow globe!",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:12:39.815Z",
+  "sha256": "1564c0694343156548fc8a7422504c7a902c81af72000efe191f2a7797f3edf8",
+  "bytes": 209634,
+  "usage": {
+    "total_tokens": 120,
+    "total_input_tokens": 14,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 14
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 106,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 106
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "id": "en-yellow3-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "The words are TWO, SIX, SEVEN, NINE. Below them, it says: One is three. Three is five. Five is four. Four is the magic number. There is one more clue."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "The words are TWO, SIX, SEVEN, NINE. Below them, it says: One is three. Three is five. Five is four. Four is the magic number. There is one more clue.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:14:00.822Z",
+  "sha256": "977727c405d800e3545a16c18a2c3352b5cf7ec9c7f274916b59887156c9bf7b",
+  "bytes": 935394,
+  "usage": {
+    "total_tokens": 528,
+    "total_input_tokens": 44,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 44
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 484,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 484
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "id": "en-answer-digit-8",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "eight"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "eight",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:19:16.365Z",
+  "sha256": "15350f0faa89ddc6b4f19cfc1cec53865057a18322722b26ee26fabf33b8c945",
+  "bytes": 65634,
+  "usage": {
+    "total_tokens": 33,
+    "total_input_tokens": 2,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 2
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 31,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 31
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

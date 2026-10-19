@@ -1,0 +1,44 @@
+{
+  "id": "en-response-deer-ten-times-wrong-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "A sleigh! The reindeer pull it."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "A sleigh! The reindeer pull it.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:17:56.703Z",
+  "sha256": "b1e6030b6166b56039d36fd615f7fcdd52d6ff2566d11448f1f6bf193c867b4f",
+  "bytes": 150114,
+  "usage": {
+    "total_tokens": 84,
+    "total_input_tokens": 9,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 9
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 75,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 75
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

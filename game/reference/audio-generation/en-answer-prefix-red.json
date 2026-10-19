@@ -1,0 +1,44 @@
+{
+  "id": "en-answer-prefix-red",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "You set the red box to"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "You set the red box to",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:18:00.025Z",
+  "sha256": "c26b9a2314e412fb3d2f2ae0a40c09ec1b7022205614cb8ffca79061db98d985",
+  "bytes": 175074,
+  "usage": {
+    "total_tokens": 95,
+    "total_input_tokens": 7,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 7
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 88,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 88
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

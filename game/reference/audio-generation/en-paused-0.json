@@ -1,0 +1,44 @@
+{
+  "id": "en-paused-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "Oh… I thought I'd found someone to play with. Santa will stay here for now. If you want to play later, say the secret word to call me!"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Oh… I thought I'd found someone to play with. Santa will stay here for now. If you want to play later, say the secret word to call me!",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:14:35.908Z",
+  "sha256": "58e1afb5edba1a8d299d5a77065c2826da435f860ba29e7d2ef7c35d0bc53bb1",
+  "bytes": 438114,
+  "usage": {
+    "total_tokens": 261,
+    "total_input_tokens": 36,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 36
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 225,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 225
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

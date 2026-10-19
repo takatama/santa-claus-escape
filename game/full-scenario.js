@@ -1,8 +1,10 @@
 // 原作日本語版の固定出題。根拠と操作案内の差分は FULL-GAME-NOTES.md。
+import { IS_EN } from './locale.js';
+import { EN_BOXES, EN_QUESTIONS, englishSceneFor, englishProductionScenes } from './english-scenario.js';
 import { SCENARIO } from './scenario.js';
 import { storybookSegments } from './storybook-content.js';
 export const COLORS = ['red', 'blue', 'yellow'];
-export const BOXES = Object.freeze({
+export const BOXES = Object.freeze(IS_EN ? EN_BOXES : {
   red: { name: '赤色', answer: '3138', letters: ['す', 'だ'], words: SCENARIO.words },
   blue: { name: '青色', answer: '8848', answers: ['8848','8849'], letters: ['い', 'よ'] },
   yellow: { name: '黄色', answer: '2502', letters: ['き', 'だ'], hands: ['グー', 'チョキ', 'パー', 'グー'] },
@@ -16,7 +18,7 @@ const santa = text => ({ speaker: 'santa', text });
 // 利用者の指定：開箱後はサンタの説明を繰り返さず、残りだけを知らせる。
 export const REMAINING_BOX_MESSAGES=Object.freeze(Object.fromEntries([
   ['red','blue'],['red','yellow'],['blue','yellow'],['red'],['blue'],['yellow'],
-].map(colors=>[`remaining-${colors.join('-')}`,`残りは${colors.map(c=>BOXES[c].name).join('と')}の箱です。`])));
+].map(colors=>[`remaining-${colors.join('-')}`,IS_EN?`Still to open: ${colors.map(c=>BOXES[c].name.toLowerCase()+' box').join(' and ')}.`:`残りは${colors.map(c=>BOXES[c].name).join('と')}の箱です。`])));
 const messages = {
   intro: SCENARIO.messages.intro,
   help: SCENARIO.messages.help,
@@ -37,7 +39,7 @@ const messages = {
   reinvite: [narrator('箱は消えてしまいました。まほう使いと遊びますか？')],
   rescue: [witch('うふふ。ああ楽しかった！'), { ...narrator('シャララララーン。端末の中からサンタがあらわれました。'), spoken: '端末の中からサンタがあらわれました。' }, santa('どうもありがとう！君のおかげで、やっと外に出られたよ。まほう使いめ。かまってやらなかったからって、とじこめることはないじゃろう'), witch('だって、だって、さびしかったんだもの。けど、今日はきみと遊べて、とっても楽しかったよ！どうもありがとう！'), santa('さてさて、早速、プレゼントのじゅんびにとりかからねば。きみのおかげで、みんなをよろばせてやれるわい。クリスマスの夜を楽しみにしていてくれ'), narrator('これで脱出ゲームは終わりです。あそんでくれてありがとうございました。')],
 };
-export const QUESTIONS = Object.freeze([
+export const QUESTIONS = Object.freeze(IS_EN ? EN_QUESTIONS : [
   { id: 'christmas-creatures', kind: 'text', title: 'ことばに隠れた、生き物。', question: 'さいしょは、なぞなぞだよ。「クリスマス」の中には、三つの生き物がかくれているよ。10秒間、考えてみてね。「クリスマス」の中にいる、三つの生き物だよ。では問題。隠れているのは「リス」と「マス」と、もう一つは何？', aliases: ['クマ', 'くま', '熊'], response: '「クリスマス」の中にいるのは、「リス」と「マス」と「クマ」だよね！' },
   { id: 'red-ornament', kind: 'choice', title: '赤い玉は、何だろう。', question: '次は、クイズだよ。クリスマスツリーに飾ってある、赤い玉は何？次の三つから選んでね。トナカイの鼻。太陽。りんご', choices: ['トナカイの鼻', '太陽', 'りんご'], aliases: ['りんご', 'リンゴ', '林檎', 'アップル', 'apple'], response: '正解は、りんご、だよね！りんごは、寒い冬でもおいしく長持ちするので、昔から大切にされてきたんだって' },
   { id: 'deer-ten-times', kind: 'text', title: 'さいごの、ひっかけクイズ。', question: 'さいごは、ひっかけクイズだよ。わたしといっしょに、シカ、シカ、と10回いってね。はじめるよ。せーの、シカ、シカ...。では問題。サンタが乗ってくるのは？', spoken: 'さいごは、ひっかけクイズだよ。わたしといっしょに、シカ、シカ、と10回いってね。はじめるよ。せーの、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ、シカ。では問題。サンタが乗ってくるのは？', aliases: ['そり', 'ソリ', '橇'], response: '正解は、トナカイ、じゃなくて、ソリだよね' },
@@ -46,6 +48,7 @@ export function papers(state) {
   return COLORS.filter(c => state.boxes[c].opened).flatMap(c => BOXES[c].letters.map((text, index) => ({ id: `${c}-${index}`, text, color: c })));
 }
 export function sceneFor(state) {
+  if(IS_EN)return englishSceneFor(state);
   const color = state.selectedBox, box = BOXES[color], saved = state.boxes[color];
   let key, title, chapter, segments, effect;
   switch (state.phase) {
@@ -95,6 +98,7 @@ export function sceneFor(state) {
 }
 export function spokenSegments(scene) { return scene.segments.map(segment => ({ ...segment, text: segment.spoken || segment.text })); }
 export function productionScenes({original=false}={}) {
+  if(IS_EN)return englishProductionScenes();
   const scenes = Object.fromEntries(Object.entries(messages).map(([key, segments]) => [key, segments]));
   for(const [key,text] of Object.entries(REMAINING_BOX_MESSAGES))scenes[key]=[narrator(text)];
   for (const color of COLORS) {

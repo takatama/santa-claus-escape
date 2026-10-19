@@ -1,9 +1,11 @@
 // 声と効果音の順番を原作SSMLに合わせる。時刻の推測ではなく、発話区間で区切る。
+import { IS_EN } from './locale.js';
+import { resolveEnglishAudioTimeline } from './english-audio.js';
 import { BOXES,REMAINING_BOX_MESSAGES,productionScenes } from './full-scenario.js';
 import { STORYBOOK_AUDIO_IDS } from './storybook-content.js';
 import { mediaPath } from './media-assets.js';
 import { VOICE_EDITS } from './voice-edits.js';
-export const TIMED_VOICE_SEGMENTS=Object.freeze({
+export const TIMED_VOICE_SEGMENTS=Object.freeze(IS_EN ? {} : {
   ...Object.fromEntries(Object.entries(BOXES).flatMap(([color,box])=>{
     const text=productionScenes()[`${color}-open`][0].spoken;
     return [[`box-${color}-opened`,{speaker:'narrator',text:`${box.name}の箱が開きました！`}],[`box-${color}-paper`,{speaker:'narrator',text:text.slice(text.indexOf('中には'))}]];
@@ -20,6 +22,7 @@ const effect=(file,volume=.18)=>({type:'effect',src:mediaPath('effect',file),vol
 const pause=seconds=>({type:'pause',seconds});
 const number=(color,digits)=>voice([`answer-prefix-${color}`,...digits.split('').map(n=>`answer-digit-${n}`),'answer-set'].map(asset));
 export function resolveAudioTimeline(key){
+  if(IS_EN)return resolveEnglishAudioTimeline(key);
   const edit=VOICE_EDITS[key];
   if(edit){
     const sources=[asset(edit.id)];

@@ -1,3 +1,4 @@
+import { IS_EN } from './locale.js';
 import { sceneFor, BOXES } from './full-scenario.js';
 import { mediaPath } from './media-assets.js';
 
@@ -6,10 +7,11 @@ export function boxSceneFor(view) {
   const scene = sceneFor(view);
   if (view.phase !== 'boxResponse' || !view.selectedBox) return scene;
   const open = view.boxes[view.selectedBox].lidOpen !== false;
-  const split = scene.segments[0].text.indexOf('中には');
+  const marker = IS_EN ? 'Inside,' : '中には';
+  const split = scene.segments[0].text.indexOf(marker);
   const segments = scene.segments.map(segment => ({ ...segment,
     text: open ? segment.text.slice(split) : segment.text.slice(0, split).trim(),
-    spoken: open ? segment.spoken.slice(segment.spoken.indexOf('中には')) : segment.spoken.slice(0, segment.spoken.indexOf('中には')).trim(),
+    spoken: open ? segment.spoken.slice(segment.spoken.indexOf(marker)) : segment.spoken.slice(0, segment.spoken.indexOf(marker)).trim(),
   }));
   const digits=view.boxes[view.selectedBox].lastSubmitted;
   return { ...scene, key: `${view.selectedBox}-${open ? 'paper' : `unlocked${digits&&digits!==BOXES[view.selectedBox].answer?`-${digits}`:''}`}`, segments };
@@ -19,6 +21,7 @@ export function boxTimeline(key, resolve) {
   const match = /^(red|blue|yellow)-(unlocked|paper)(?:-(\d{4}))?$/.exec(key);
   if (!match) return resolve(key);
   const full = resolve(`${match[1]}-open${match[3]?`-${match[3]}`:''}`);
+  if(!full)return null;
   const split = full.findIndex(step => step.type === 'effect' && step.src===mediaPath('effect','magic-cure2'));
   return match[2] === 'unlocked' ? full.slice(0, split) : full.slice(split);
 }

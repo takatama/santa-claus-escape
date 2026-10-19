@@ -8,16 +8,16 @@ import { witchCodeFiles } from './witch-files.mjs';
 import { rescueCodeFiles } from './rescue-files.mjs';
 
 export const pagesCodeFiles = [
-  'index.html','styles.css','scene-loading.js','scene-loading.css','full-app.js','full-game.js','full-scenario.js','full-audio.js',
+  'index.html','locale.js','ui-strings.js','english-scenario.js','english-box-art.js','english-audio.js','english-audio-manifest.js','language-entry.js','styles.css','scene-loading.js','scene-loading.css','full-app.js','full-game.js','full-scenario.js','full-audio.js',
   'audio-sequence.js','audio-timeline.js','timed-audio.js','voice-activity.js','voice-edits.js','scenario.js','audio.js',
   'speech.js','soundtrack.js','sound-settings.js','media-assets.js','game-events.js',
-  'analytics.js','analytics-config.js','privacy.html',
+  'analytics.js','analytics-config.js','privacy.html','privacy-en.html',
   'share.js','share-config.js',
   ...storyCodeFiles,...boxCodeFiles,...paperCodeFiles,...witchCodeFiles,...rescueCodeFiles,
 ];
 export const retiredPagesFiles=['illustrations.js'];
 export const pagesAssetFiles=['assets/share-card.png'];
-export const pagesFiles = [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES,'LICENSE','NOTICE.txt','_headers','404.html'];
+export const pagesFiles = [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES,'ja/index.html','en/index.html','LICENSE','NOTICE.txt','_headers','404.html'];
 export const servedPagesFiles = pagesFiles.filter(name=>name!=='_headers');
 export const contentTypes = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.wav': 'audio/wav', '.m4a':'audio/mp4', '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.png':'image/png', '.webp':'image/webp', '.avif':'image/avif', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.svg':'image/svg+xml', '.ico':'image/x-icon', '.woff2':'font/woff2' };
 

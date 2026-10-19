@@ -1,0 +1,44 @@
+{
+  "id": "en-invite-2",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "You called me? I thought you were Santa! Oh well. Will you play with me? Play with me, and I'll let Santa out!"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "You called me? I thought you were Santa! Oh well. Will you play with me? Play with me, and I'll let Santa out!",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:14:29.623Z",
+  "sha256": "c3340727ca2740e25a80ebd39a01056f89eb6a6375830d561372ddfffbd1a5e8",
+  "bytes": 407394,
+  "usage": {
+    "total_tokens": 241,
+    "total_input_tokens": 32,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 32
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 209,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 209
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

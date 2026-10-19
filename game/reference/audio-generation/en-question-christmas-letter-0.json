@@ -1,0 +1,44 @@
+{
+  "id": "en-question-christmas-letter-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "Let's start with a riddle! The year ends on December 31st. What does Christmas end with?"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Let's start with a riddle! The year ends on December 31st. What does Christmas end with?",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:15:30.301Z",
+  "sha256": "3fdc9d82ea678c38c8ae9c2d386e58da3cdebc85bbd403e24640dff2f6df33f6",
+  "bytes": 388194,
+  "usage": {
+    "total_tokens": 224,
+    "total_input_tokens": 25,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 25
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 199,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 199
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

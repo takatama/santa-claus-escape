@@ -6,6 +6,7 @@ import { boxArtFiles } from './box-files.mjs';
 import { paperArtFiles } from './paper-files.mjs';
 import { witchArtFiles } from './witch-files.mjs';
 import { analyticsConfig, analyticsCsp } from './analytics-build.mjs';
+import { localizedHtml } from './localized-html.mjs';
 import { socialConfig, socialMarkup } from './social-build.mjs';
 const root=new URL('../',import.meta.url),dist=new URL('dist/',root),game=new URL('game/',root);
 // Validate the output tree before removing known retired artifacts.
@@ -20,6 +21,10 @@ const social=socialConfig(process.env);
 await writeFile(new URL('share-config.js',dist),`export const PUBLIC_URL=${JSON.stringify(social.publicUrl)};\n`);
 const html=await readFile(new URL('index.html',dist),'utf8');
 await writeFile(new URL('index.html',dist),html.replace(/<!-- social-metadata:start -->[\s\S]*?<!-- social-metadata:end -->/,`<!-- social-metadata:start -->\n${socialMarkup(social)}\n<!-- social-metadata:end -->`));
+for(const locale of ['ja','en']){
+  await mkdir(new URL(`${locale}/`,dist),{recursive:true});
+  await writeFile(new URL(`${locale}/index.html`,dist),localizedHtml(html,locale,socialMarkup(social,locale)));
+}
 for(const file of [...IMAGE_FILES,...AUDIO_FILES,...pagesAssetFiles]){
   if((await stat(new URL(file,game))).size>25*1024*1024)throw new Error(`Pages asset too large: ${file}`);
   const target=new URL(file,dist);await mkdir(new URL('.',target),{recursive:true});

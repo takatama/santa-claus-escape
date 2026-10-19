@@ -1,3 +1,5 @@
+import { localizedHtml } from '../scripts/localized-html.mjs';
+import { socialConfig,socialMarkup } from '../scripts/social-build.mjs';
 import http from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -12,10 +14,12 @@ const publicFiles = new Set(pages ? servedPagesFiles : [...pagesCodeFiles,...pag
 const audioFiles = new Set(AUDIO_FILES);
 const pagesHeaders = pages ? Object.fromEntries((await readFile(path.join(root,'_headers'),'utf8')).split('\n').filter(line=>line.startsWith('  ')).map(line=>{const i=line.indexOf(':');return [line.slice(0,i).trim(),line.slice(i+1).trim()];})) : {};
 const server = http.createServer(async (req, res) => {
-  const name = new URL(req.url, 'http://localhost').pathname.slice(1) || 'index.html';
-  if (!publicFiles.has(name)) { res.writeHead(404); res.end('Not found'); return; }
+  const pathname = new URL(req.url, 'http://localhost').pathname;
+  const language=/^\/(ja|en)(?:\/|\/index\.html)?$/.exec(pathname)?.[1];
+  const name = language ? `${language}/index.html` : pathname.slice(1) || 'index.html';
+  if (!publicFiles.has(name) && !language) { res.writeHead(404); res.end('Not found'); return; }
   try {
-    const bytes = await readFile(path.join(root, name));
+    const bytes = !pages && language ? Buffer.from(localizedHtml(await readFile(path.join(root,'index.html'),'utf8'),language,socialMarkup(socialConfig(),language))) : await readFile(path.join(root, name));
     const headers = { ...pagesHeaders, 'Content-Type': contentTypes[path.extname(name)] || 'text/plain; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Content-Length': bytes.length };
     const isAudio = audioFiles.has(name);
     if (isAudio) headers['Accept-Ranges'] = 'bytes';

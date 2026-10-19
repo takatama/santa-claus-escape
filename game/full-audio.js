@@ -1,8 +1,9 @@
+import { IS_EN } from './locale.js';
 import { AUDIO_CLIPS } from './audio.js';
 import { productionScenes } from './full-scenario.js';
 import { STORYBOOK_AUDIO_IDS } from './storybook-content.js';
 import { mediaPath } from './media-assets.js';
-export const FULL_AUDIO_CLIPS = Object.freeze({
+export const FULL_AUDIO_CLIPS = Object.freeze(IS_EN ? {} : {
   ...Object.fromEntries(Object.entries(productionScenes()).map(([key,segments])=>[key, mediaPath('voice',`${segments.some(s=>s.speaker==='witch')?'ja-leda':'ja'}-${key}`)])),
   ...Object.fromEntries(['intro','help','red1','red2','red3','red4'].map(key=>[key,AUDIO_CLIPS[key]])),
   ...Object.fromEntries(Object.entries(STORYBOOK_AUDIO_IDS).filter(([key])=>key!=='rescue-appeared').map(([key,id])=>[key,mediaPath('voice',id)])),
@@ -15,6 +16,7 @@ export const ANSWER_AUDIO_SEGMENTS = Object.freeze({
   'answer-closed':'あれれ？箱は開きませんでした。',
 });
 export function resolveAudioClip(key){
+  if(IS_EN)return undefined;
   const match=/^(red|blue|yellow)-wrong-(\d{4})$/.exec(key);
   if(!match)return FULL_AUDIO_CLIPS[key];
   const [,color,digits]=match;

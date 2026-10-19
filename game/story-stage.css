@@ -19,6 +19,10 @@ body.story-playing { background:#102031; }
 .story-stage .primary:active { transform:translateY(3px);box-shadow:0 1px 0 #80592e; }
 .story-controls>.primary { width:min(420px,100%); }
 .story-stage .start-note { color:#e3ceab;font-size:14px; }
+.cover-languages { display:flex;align-items:center;gap:6px;color:#e3ceab;font-size:13px;line-height:24px; }
+.cover-languages a { display:inline-flex;align-items:center;min-height:24px;padding-inline:4px;color:inherit;text-underline-offset:3px; }
+.cover-languages a[aria-current="page"] { text-decoration:none; }
+.cover-languages a:focus-visible { outline:3px solid #ffe1a2;outline-offset:2px; }
 .story-stage .secondary { color:#f7e7c8;background:linear-gradient(#675538,#4c402e);border:1px solid #b69458; }
 .story-stage .text-button { color:#f7e7c8;background:transparent;box-shadow:none;padding:4px 10px; }
 .story-overview { position:absolute;left:8px;right:8px;bottom:6px; }

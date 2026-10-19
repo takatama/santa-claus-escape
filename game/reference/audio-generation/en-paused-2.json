@@ -1,0 +1,44 @@
+{
+  "id": "en-paused-2",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "Santa is still inside the snow globe. Come back whenever you like."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Santa is still inside the snow globe. Come back whenever you like.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:14:42.144Z",
+  "sha256": "82439a1e3d7eeecc88fedd02072f68c9630716c753e2a8e421ac848f277c026e",
+  "bytes": 272994,
+  "usage": {
+    "total_tokens": 154,
+    "total_input_tokens": 15,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 15
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 139,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 139
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

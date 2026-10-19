@@ -1,0 +1,44 @@
+{
+  "id": "en-blue4-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "Beside the mountain, it says: Sagarmatha. Look up my name. My height in meters opens the lock. You have found all the clues. You can search for Sagarmatha, or read about the mountain here."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Beside the mountain, it says: Sagarmatha. Look up my name. My height in meters opens the lock. You have found all the clues. You can search for Sagarmatha, or read about the mountain here.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:13:36.313Z",
+  "sha256": "d46fddd8c0c38732740be144d69c3554834faaf7f4912eded5f105f02d296a48",
+  "bytes": 731874,
+  "usage": {
+    "total_tokens": 426,
+    "total_input_tokens": 48,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 48
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 378,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 378
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

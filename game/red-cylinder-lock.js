@@ -1,3 +1,4 @@
+import { ui } from './ui-strings.js';
 function codeValue(getCode) {
   return String(getCode?.() ?? '0000').replace(/\D/g, '').slice(0, 4).padStart(4, '0');
 }
@@ -16,7 +17,7 @@ const MOTION_DURATION = 150;
 export function createCylinderLock({ getCode, setCode, onChange = () => {} }) {
   const element = node('div', 'rb-cylinder-lock');
   element.setAttribute('role', 'group');
-  element.setAttribute('aria-label', '四桁のダイアル錠');
+  element.setAttribute('aria-label', ui('四桁のダイアル錠'));
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const cylinders = [];
   let disabled = false;
@@ -124,14 +125,14 @@ export function createCylinderLock({ getCode, setCode, onChange = () => {} }) {
     const next = node('button', 'rb-cylinder-adjacent rb-cylinder-next rb-cylinder-control');
     for (const button of [previous, current, next]) button.type = 'button';
     for (const button of [previous, next]) button.tabIndex = -1;
-    previous.setAttribute('aria-label', `${index + 1}桁目の数字の列を上へ回す`);
-    next.setAttribute('aria-label', `${index + 1}桁目の数字の列を下へ回す`);
+    previous.setAttribute('aria-label', ui`${index + 1}桁目の数字の列を上へ回す`);
+    next.setAttribute('aria-label', ui`${index + 1}桁目の数字の列を下へ回す`);
     current.setAttribute('role', 'spinbutton');
-    current.setAttribute('aria-label', `${index + 1}桁目のダイアル`);
+    current.setAttribute('aria-label', ui`${index + 1}桁目のダイアル`);
     current.setAttribute('aria-valuemin', '0');
     current.setAttribute('aria-valuemax', '9');
     current.setAttribute('aria-valuenow', '0');
-    current.title = '上下のキーで列を回す。数字キーで直接入力する。左右のキーで桁を移る。';
+    current.title = ui('上下のキーで列を回す。数字キーで直接入力する。左右のキーで桁を移る。');
     viewport.append(strip, previous, current, next);
     cylinder.append(viewport);
     element.append(cylinder);

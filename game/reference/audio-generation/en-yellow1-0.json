@@ -1,0 +1,44 @@
+{
+  "id": "en-yellow1-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "You take a look at the yellow box. It has a lock with four number wheels. There is something written under the snow."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "You take a look at the yellow box. It has a lock with four number wheels. There is something written under the snow.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:13:47.921Z",
+  "sha256": "3f9995d0addead569c88daf90290079ba3c610548198bd0ebc4cffb702c31cce",
+  "bytes": 420834,
+  "usage": {
+    "total_tokens": 243,
+    "total_input_tokens": 27,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 27
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 216,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 216
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

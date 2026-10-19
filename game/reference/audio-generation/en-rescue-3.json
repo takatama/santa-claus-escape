@@ -1,0 +1,44 @@
+{
+  "id": "en-rescue-3",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "But… I was lonely! Playing with you today was so much fun. Thank you!"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "But… I was lonely! Playing with you today was so much fun. Thank you!",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:14:59.433Z",
+  "sha256": "115fd02cbc9120e66f7d388f2031b8d9a00f67ef0918aed22eb34e3362d51680",
+  "bytes": 305634,
+  "usage": {
+    "total_tokens": 175,
+    "total_input_tokens": 19,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 19
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 156,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 156
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

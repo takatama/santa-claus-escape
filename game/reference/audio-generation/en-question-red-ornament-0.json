@@ -1,0 +1,44 @@
+{
+  "id": "en-question-red-ornament-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "Now for a quiz! Long ago, people hung something red and round on Christmas trees. What was it? The sun, an apple, or a reindeer's nose?"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Now for a quiz! Long ago, people hung something red and round on Christmas trees. What was it? The sun, an apple, or a reindeer's nose?",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:17:36.013Z",
+  "sha256": "22d7076dcf5cc69bc567970c8b97b125296cf152b2f526500ad230a6bcd02e72",
+  "bytes": 681954,
+  "usage": {
+    "total_tokens": 388,
+    "total_input_tokens": 36,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 36
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 352,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 352
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

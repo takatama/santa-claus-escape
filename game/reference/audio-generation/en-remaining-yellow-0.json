@@ -1,0 +1,44 @@
+{
+  "id": "en-remaining-yellow-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "Still to open: yellow box."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Still to open: yellow box.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:15:23.746Z",
+  "sha256": "0d073d2ebccd574e84032ee5b01d143ca2ea2cd30d5ef0cfb668c820aeaa12c6",
+  "bytes": 163554,
+  "usage": {
+    "total_tokens": 90,
+    "total_input_tokens": 8,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 8
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 82,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 82
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}
