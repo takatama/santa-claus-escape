@@ -1,0 +1,44 @@
+{
+  "id": "en-red3-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "The word FACE is written on the red box. Below it, a clue says: BAG is 217. There is one more clue."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "The word FACE is written on the red box. Below it, a clue says: BAG is 2, 1, 7. There is one more clue.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:13:12.143Z",
+  "sha256": "b67aa7a8228ebd1baece2d84e911d44c3a31b703ee24eb630c6892031da0570c",
+  "bytes": 572514,
+  "usage": {
+    "total_tokens": 330,
+    "total_input_tokens": 35,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 35
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 295,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 295
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

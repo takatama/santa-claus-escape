@@ -1,0 +1,44 @@
+{
+  "id": "en-letters-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "All three boxes are open! You found seven letters: E, W, E, T, E, I, S. Put the seven letters in order to make the secret word."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "All three boxes are open! You found seven letters: E, W, E, T, E, I, S. Put the seven letters in order to make the secret word.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:14:15.390Z",
+  "sha256": "78c6cc960e90d96f7d6209b7d4bab1a7f4f5a699b48354cdf45337d72e4c0802",
+  "bytes": 789474,
+  "usage": {
+    "total_tokens": 446,
+    "total_input_tokens": 38,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 38
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 408,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 408
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

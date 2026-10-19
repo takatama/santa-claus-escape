@@ -1,0 +1,44 @@
+{
+  "id": "en-response-christmas-letter-wrong-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "The letter S! It is the last letter in the word Christmas."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "The letter S! It is the last letter in the word Christmas.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:17:29.953Z",
+  "sha256": "4c32b5bd4a2261a3918800b46b7157c3d6e4720135e65ea2763f4057fd52be8c",
+  "bytes": 228834,
+  "usage": {
+    "total_tokens": 131,
+    "total_input_tokens": 15,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 15
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 116,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 116
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

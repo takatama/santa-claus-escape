@@ -1,0 +1,44 @@
+{
+  "id": "en-rescue-5",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Sulafat",
+  "segment": {
+    "speaker": "narrator",
+    "text": "You helped Santa escape! Thank you for playing."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "You helped Santa escape! Thank you for playing.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a warm storybook narrator reading with a child. Use short natural pauses. Do not add, omit, or change words. Read uppercase words as words, and standalone letters as letter names. Read three- or four-digit codes digit by digit. Never explain a puzzle or add its answer."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:15:06.860Z",
+  "sha256": "26766d7c713625090f9c4d78a3655b179e9cd80b51a2c5f16ea4ed5056cc290a",
+  "bytes": 203874,
+  "usage": {
+    "total_tokens": 114,
+    "total_input_tokens": 11,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 11
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 103,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 103
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

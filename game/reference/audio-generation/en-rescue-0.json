@@ -1,0 +1,44 @@
+{
+  "id": "en-rescue-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "Hee hee! That was fun!"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Hee hee! That was fun!",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:14:48.587Z",
+  "sha256": "7e35903526e8963e127d64263aa52876a134834055ecd947ded678a88d0d4c68",
+  "bytes": 113634,
+  "usage": {
+    "total_tokens": 66,
+    "total_input_tokens": 9,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 9
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 57,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 57
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

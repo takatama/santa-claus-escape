@@ -4,6 +4,8 @@ import {createHash} from 'node:crypto';
 import {AUDIO_FILES,IMAGE_FILES} from '../game/media-assets.js';
 const root=new URL('../',import.meta.url);
 const report=JSON.parse(await readFile(new URL('docs/performance/assets.json',root),'utf8'));
+const english=JSON.parse(await readFile(new URL('docs/performance/english-audio.json',root),'utf8'));
+report.files.push(...english.files);
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 for(const record of report.files){
   assert.equal(hash(await readFile(new URL('game/'+record.source,root))),record.sourceSha256,'Original changed: '+record.source);
@@ -11,4 +13,4 @@ for(const record of report.files){
   assert.ok([...AUDIO_FILES,...IMAGE_FILES].includes(record.target),'Unpublished derivative: '+record.target);
 }
 for(const name of [...AUDIO_FILES.filter(p=>p.endsWith('.m4a')),...IMAGE_FILES])assert.ok(report.files.some(r=>r.target===name),'Missing conversion record: '+name);
-console.log(JSON.stringify({originals:'hashes unchanged',derivatives:report.files.length,images:'unchanged dimensions and exact alpha verified at conversion',voices:'same decoded sample count verified at conversion',subjectiveListening:'human check pending'}));
+console.log(JSON.stringify({originals:'hashes unchanged',derivatives:report.files.length,images:'unchanged dimensions and exact alpha verified at conversion',voices:'decoded duration verified at conversion; AAC padding recorded',subjectiveListening:'human check pending'}));

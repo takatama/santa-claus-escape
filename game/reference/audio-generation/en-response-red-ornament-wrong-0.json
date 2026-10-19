@@ -1,0 +1,44 @@
+{
+  "id": "en-response-red-ornament-wrong-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "An apple! Long ago, people hung real apples on Christmas trees. Apples could be stored through the winter."
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "An apple! Long ago, people hung real apples on Christmas trees. Apples could be stored through the winter.",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:17:44.437Z",
+  "sha256": "9588018544e73b94187963fe7d8145f9fedc203553c9960b6d3101ab02e93ece",
+  "bytes": 411234,
+  "usage": {
+    "total_tokens": 234,
+    "total_input_tokens": 23,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 23
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 211,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 211
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

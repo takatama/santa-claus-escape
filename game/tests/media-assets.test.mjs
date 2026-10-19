@@ -8,7 +8,7 @@ import { resolveAudioTimeline } from '../timed-audio.js';
 
 test('media catalog serves only delivery derivatives while preserving original files',async()=>{
   const audio=(await readdir(new URL('../assets/audio/',import.meta.url))).filter(name=>/\.(m4a|mp3|ogg)$/.test(name)).map(name=>`assets/audio/${name}`);
-  assert.equal(AUDIO_FILES.length,77);assert.ok(AUDIO_FILES.every(p=>audio.includes(p)));assert.ok(!AUDIO_FILES.some(p=>p.endsWith('.wav')));
+  assert.equal(AUDIO_FILES.length,146);assert.ok(AUDIO_FILES.every(p=>audio.includes(p)));assert.ok(!AUDIO_FILES.some(p=>p.endsWith('.wav')));
   const images=Object.entries({
     'red-box':['red-body','red-lid','tanuki'],'blue-box':['blue-body','blue-lid','mountain'],
     'yellow-box':['yellow-body','yellow-lid','rock','scissors','paper'],papers:['forest-clean','globe'],

@@ -1,0 +1,44 @@
+{
+  "id": "en-rescue-4",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Algieba",
+  "segment": {
+    "speaker": "santa",
+    "text": "Now, I'd better get those presents ready! Thanks to you, I can make everyone happy. I'll see you on Christmas Eve!"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Now, I'd better get those presents ready! Thanks to you, I can make everyone happy. I'll see you on Christmas Eve!",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a kind, warm elderly Santa Claus. A gentle lower voice with a little wonder and humor. No shouting or exaggerated impersonation. Read exactly the text, without extra greetings or explanations."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:15:03.530Z",
+  "sha256": "3efb9a0e445b274943c8c883f06a4e335eb54ca757811b6e55869a4afbb0abfe",
+  "bytes": 489954,
+  "usage": {
+    "total_tokens": 283,
+    "total_input_tokens": 31,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 31
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 252,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 252
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}

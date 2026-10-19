@@ -109,3 +109,7 @@ PeriTuneのOGGは原音のまま配信し、Vorbis非対応環境向けの原作
 `game/assets/witch/wizard-whole-v2.png` は、既存の女の子 `wizard-feet-v2.png` を参照して、組み込みImageツールで編集生成した全身一体の口閉じ／笑顔と手の素材です。首が不自然になった旧パーツ分割案を撤回し、独立して動くのは手だけにしています。原画は保持しています。配信用WebPは寸法・アルファを保持した形式変換です。本リポジトリのMIT Licenseを適用します。使用プロンプト・ハッシュ・実測した部品の登録方法は `docs/wizard-entrance/` に記録しています。音声の生成・変更はありません。
 
 同日の追加依頼で `wizard-whole-v2.png` を組み込みImageツールで編集し、目と口を閉じた全身 `game/assets/witch/wizard-blink-v1.png` を追加しました。既存の全身・手は上書きせず、新素材の左上の全身だけを表情切替に使用します。配信用WebPは寸法・アルファを保持しています。同じMIT Licenseを適用し、プロンプト・ハッシュは `docs/wizard-entrance/prompt-blink-v1.md` と `blink-provenance.json` に記録しています。
+
+## 英語版の事前収録音声（2026-10-19）
+
+利用者の英語版制作指定に基づき、英語台詞69単位をGemini TTS（`gemini-3.8-flash-tts`）で制作しました。語りはSulafat、サンタはAlgieba、妖精はLedaです。`game/assets/audio/en-*.wav` はAPI受信原音を無加工で保持し、入力・台詞・声・日時・使用量・SHA-256を `game/reference/audio-generation/en-*.json` に記録しています。配信用のAAC-LC（24kHz、mono、64kbit/s）と原音のハッシュ・長さ・音量の測定は `docs/performance/english-audio.json`。生成音声とAAC派生音声にはMIT Licenseを適用し、既存のBGM・効果音の条件を引き継ぎます。生成は制作時のみで、ゲームの実行時APIはありません。

@@ -1,0 +1,44 @@
+{
+  "id": "en-question-deer-ten-times-0",
+  "model": "gemini-3.8-flash-tts",
+  "voice": "Leda",
+  "segment": {
+    "speaker": "witch",
+    "text": "Here comes a trick question! Say deer with me ten times. Ready? Deer, deer, deer, deer, deer, deer, deer, deer, deer, deer! Now, what does Santa ride in?"
+  },
+  "spokenInput": [
+    {
+      "type": "text",
+      "text": "Here comes a trick question! Say deer with me ten times. Ready? Deer, deer, deer, deer, deer, deer, deer, deer, deer, deer! Now, what does Santa ride in?",
+      "annotations": [
+        {
+          "type": "speech_metadata",
+          "style": "Speak in clear, natural English as a small, youthful, playful fairy in a children’s storybook. Bright and a little mischievous, never scary, never an elderly witch or a baby voice. Read the exact words. Do not add greetings, sound effects, explanations, or puzzle answers."
+        }
+      ]
+    }
+  ],
+  "created": "2026-10-19T02:17:50.517Z",
+  "sha256": "76bf683c86372fc915e66f881578836fd1d15d5fbb7ec6f27a772a09e8e1819e",
+  "bytes": 756834,
+  "usage": {
+    "total_tokens": 435,
+    "total_input_tokens": 44,
+    "input_tokens_by_modality": [
+      {
+        "modality": "text",
+        "tokens": 44
+      }
+    ],
+    "total_cached_tokens": 0,
+    "total_output_tokens": 391,
+    "output_tokens_by_modality": [
+      {
+        "modality": "audio",
+        "tokens": 391
+      }
+    ],
+    "total_tool_use_tokens": 0,
+    "total_thought_tokens": 0
+  }
+}
