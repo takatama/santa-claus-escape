@@ -1,3 +1,5 @@
+import { IS_EN, PAPER_COUNT } from './locale.js';
+import { ui } from './ui-strings.js';
 import './scene-loading.js';
 import { QUESTIONS, papers, sceneFor, spokenSegments } from './full-scenario.js';
 import { initialState, transition, validateDigits, normalizeWord, readSave, writeSave, readingState } from './full-game.js';
@@ -29,11 +31,11 @@ const loaded = readSave(storage);
 let state = loaded.state || initialState(), resumePending = state.phase !== 'welcome', storageAvailable = loaded.available;
 let readingIndex = null, feedback = '', inputError = false, lastAction = -Infinity;
 let boxStage = null, paperStage = null, witchStage = null, rescueStage = null, storyStage = null, boxNarration, rescueNarration;
-let audioStatus = state.muted ? '音声オフ・文字で遊べます' : '開始ボタンで読み上げます';
+let audioStatus = state.muted ? ui('音声オフ・文字で遊べます') : ui('開始ボタンで読み上げます');
 const track = new Soundtrack(src=>{const audio=new Audio(src);audio.preload='metadata';document.querySelector('#music-host').replaceChildren(audio);return audio;});
 const voiceTimeline = new AudioTimeline();
 const esc = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-const speakerName = { santa: 'サンタ', narrator: 'お話の声', witch: 'まほう使い' };
+const speakerName = { santa: ui('サンタ'), narrator: ui('お話の声'), witch: ui('まほう使い') };
 const button = (action, label, style = 'primary', attrs = '') => `<button type="button" class="${style}" data-action="${action}" data-revision="${state.revision}" ${attrs}>${label}</button>`;
 function reportAudioStatus(status) {
     audioStatus = status;
@@ -42,7 +44,7 @@ function reportAudioStatus(status) {
     witchStage?.setStatus(status);
     rescueStage?.setStatus(status);
     storyStage?.setStatus(status);
-    const element = document.querySelector('#audio-status'); if (element) { element.textContent = status; annotateReadings(element); }
+    const element = document.querySelector('#audio-status'); if (element) { element.textContent = ui(status); annotateReadings(element); }
     // BGM belongs to the scene, including the time spent exploring after a
     // narration. Its first load may finish later than the voice recording.
     if (status === '読み上げが終わりました') boxNarration?.finish();
@@ -58,8 +60,8 @@ const player = new SpeechPlayer(
 boxNarration = new BoxNarrationQueue(playScene, () => { if (boxStage) render(); });
 rescueNarration = new RescueNarration(playScene);
 player.setMuted(state.muted);player.setEffectsEnabled(state.sfxEnabled); track.configure(state);
-audioStatus = state.muted ? '音声オフ・文字で遊べます' : resumePending ? '再開ボタンで読み上げます' : '開始ボタンで読み上げます';
-function save() { storageAvailable = writeSave(storage, state); const label = document.querySelector('#save-status'); if (label) { label.textContent = storageAvailable ? 'しおりは、この端末に自動保存' : '保存できません・このまま遊べます'; annotateReadings(label); } }
+audioStatus = state.muted ? ui('音声オフ・文字で遊べます') : resumePending ? ui('再開ボタンで読み上げます') : ui('開始ボタンで読み上げます');
+function save() { storageAvailable = writeSave(storage, state); const label = document.querySelector('#save-status'); if (label) { label.textContent = storageAvailable ? ui('しおりは、この端末に自動保存') : ui('保存できません・このまま遊べます'); annotateReadings(label); } }
 const currentState = () => readingIndex === null ? state : readingState(state, readingIndex);
 function stop() { boxNarration.clear(); rescueNarration.clear(); player.stop(); track.stop(); }
 function playScene(scene) {
@@ -80,18 +82,18 @@ function transcriptContent(scene) {
 function boxDialogue(view) {
   const scenes = boxNarration.scenes();
   if (scenes.length < 2) return transcriptContent(scenes[0] || boxSceneFor(view));
-  return `<p class="box-caption-label">再生中</p>${transcriptContent(scenes[0])}<p class="box-caption-label">このあと</p>${scenes.slice(1).map(transcriptContent).join('')}`;
+  return ui`<p class="box-caption-label">再生中</p>${transcriptContent(scenes[0])}<p class="box-caption-label">このあと</p>${scenes.slice(1).map(transcriptContent).join('')}`;
 }
 function toolbar(active,showMute=true) {
-  return `<div class="audio-toolbar" aria-label="音声の操作"><div class="audio-buttons">${button('replay', '↻ 聞き直す', 'audio-button', active ? '' : 'disabled')}${button('stop', '■ 停止', 'audio-button', active ? '' : 'disabled')}${showMute ? button('mute', state.muted ? '音声オフ' : '音声オン', 'audio-button', `aria-pressed="${state.muted}"`) : ''}</div><span id="audio-status" role="status">${esc(audioStatus)}</span><div class="bgm-control"><label for="bgm-volume">BGM <output id="bgm-volume-value" for="bgm-volume">${state.bgmVolume}%</output></label><input id="bgm-volume" type="range" min="0" max="100" step="1" value="${state.bgmVolume}" aria-label="BGMの音量" aria-valuetext="${state.bgmVolume}%">${button('bgm', `BGM ${state.bgmEnabled ? 'オン' : 'オフ'}`, 'audio-button', `aria-pressed="${state.bgmEnabled}"`)}</div></div>`;
+  return ui`<div class="audio-toolbar" aria-label="音声の操作"><div class="audio-buttons">${button('replay', ui('↻ 聞き直す'), 'audio-button', active ? '' : 'disabled')}${button('stop', ui('■ 停止'), 'audio-button', active ? '' : 'disabled')}${showMute ? button('mute', state.muted ? ui('音声オフ') : ui('音声オン'), 'audio-button', `aria-pressed="${state.muted}"`) : ''}</div><span id="audio-status" role="status">${esc(ui(audioStatus))}</span><div class="bgm-control"><label for="bgm-volume">BGM <output id="bgm-volume-value" for="bgm-volume">${state.bgmVolume}%</output></label><input id="bgm-volume" type="range" min="0" max="100" step="1" value="${state.bgmVolume}" aria-label="BGMの音量" aria-valuetext="${state.bgmVolume}%">${button('bgm', `BGM ${state.bgmEnabled ? ui('オン') : ui('オフ')}`, 'audio-button', `aria-pressed="${state.bgmEnabled}"`)}</div></div>`;
 }
-function creditSettings() { return `<details class="sound-settings"><summary>音の設定・クレジット</summary>${button('sfx', `効果音 ${state.sfxEnabled ? 'オン' : 'オフ'}`, 'secondary', `aria-pressed="${state.sfxEnabled}"`)}<p>BGM: <a href="https://peritune.com/blog/2017/01/25/laid_back/">Laid_Back</a> / <a href="https://peritune.com/blog/2018/09/28/spook4/">Spook4</a> — PeriTune / <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>。原作のループ版を使用し、音量・ループ・フェードを調整。OGG非対応用に同じ原作音をAACへ形式変換。効果音: 回復魔法2・間抜け3・きらきら輝く1/3 — <a href="https://soundeffect-lab.info/">効果音ラボ</a> / <a href="https://soundeffect-lab.info/agreement/">利用規約</a>（MIT対象外）。ダイヤル: Zott820 / <a href="https://freesound.org/people/Zott820/sounds/174770/">Clicking Dial on Toy</a> / CC0。解錠: <a href="https://sounddictionary.info/machines-1/">効果音辞典</a> / <a href="https://sounddictionary.info/terms-of-use/">利用規約</a>（MIT対象外）。声はGemini TTSで事前収録。数字の誤答も同じ声で読み、再生できない場合だけ端末の読み上げに切り替えます。</p></details>`; }
-function soundSettings() { return creditSettings()+analytics.markup(); }
+function creditSettings() { return ui`<details class="sound-settings"><summary>音の設定・クレジット</summary>${button('sfx', ui`効果音 ${state.sfxEnabled ? ui('オン') : ui('オフ')}`, 'secondary', `aria-pressed="${state.sfxEnabled}"`)}<p>BGM: <a href="https://peritune.com/blog/2017/01/25/laid_back/">Laid_Back</a> / <a href="https://peritune.com/blog/2018/09/28/spook4/">Spook4</a> — PeriTune / <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>。原作のループ版を使用し、音量・ループ・フェードを調整。OGG非対応用に同じ原作音をAACへ形式変換。効果音: 回復魔法2・間抜け3・きらきら輝く1/3 — <a href="https://soundeffect-lab.info/">効果音ラボ</a> / <a href="https://soundeffect-lab.info/agreement/">利用規約</a>（MIT対象外）。ダイヤル: Zott820 / <a href="https://freesound.org/people/Zott820/sounds/174770/">Clicking Dial on Toy</a> / CC0。解錠: <a href="https://sounddictionary.info/machines-1/">効果音辞典</a> / <a href="https://sounddictionary.info/terms-of-use/">利用規約</a>（MIT対象外）。声はGemini TTSで事前収録。数字の誤答も同じ声で読み、再生できない場合だけ端末の読み上げに切り替えます。</p></details>`; }
+function soundSettings() { return '<nav class="language-switch" aria-label="Language"><a href="/ja" lang="ja" hreflang="ja">日本語</a> / <a href="/en" lang="en" hreflang="en">English</a></nav>'+creditSettings()+ui(analytics.markup()).replace('href="privacy.html"',IS_EN?'href="privacy-en.html"':'href="privacy.html"'); }
 function render(focus = false, scroll = false, rescueIntro = false) {
   const view = currentState(), scene = sceneFor(view), reading = readingIndex !== null;
   const cover = resumePending || view.phase === 'welcome';
   const illustrated = !cover && !reading && BOX_PRESENTATIONS[view.selectedBox] && ['box','boxResponse'].includes(view.phase);
-  const illustratedPapers = !cover && !reading && ((view.phase === 'spell' && papers(view).length === 6) || (view.phase === 'witchInvite' && view.spellReview));
+  const illustratedPapers = !cover && !reading && ((view.phase === 'spell' && papers(view).length === PAPER_COUNT) || (view.phase === 'witchInvite' && view.spellReview));
   const illustratedRescue = !cover && ['rescue','complete'].includes(view.phase);
   const illustratedWitch = !cover && !reading && view.phase.startsWith('witch') && !view.spellReview;
   document.body.classList.toggle('box-playing', illustrated);
@@ -140,7 +142,7 @@ function render(focus = false, scroll = false, rescueIntro = false) {
       }});
       app.replaceChildren(rescueStage.element);
     }
-    const navigation=reading?`<nav class="reading-nav" aria-label="読み返すページ">${button('read-prev','前のページ','secondary',readingIndex===0?'disabled':'')}<span>${readingIndex+1} / ${state.history.length}</span>${button('read-next','次のページ','secondary',readingIndex===state.history.length-1?'disabled':'')}</nav>${button('read-exit','読み返しを終える','text-button')}`:'';
+    const navigation=reading?ui`<nav class="reading-nav" aria-label="読み返すページ">${button('read-prev',ui('前のページ'),'secondary',readingIndex===0?'disabled':'')}<span>${readingIndex+1} / ${state.history.length}</span>${button('read-next',ui('次のページ'),'secondary',readingIndex===state.history.length-1?'disabled':'')}</nav>${button('read-exit',ui('読み返しを終える'),'text-button')}`:'';
     rescueStage.update(view,{settings:toolbar(true,false)+soundSettings(),dialogue:transcriptContent(rescueSceneFor(view)),status:audioStatus,saved:storageAvailable,reading,navigation});
     document.querySelector('#bgm-volume').oninput=e=>{state=transition(state,{type:'BGM_VOLUME',value:Number(e.target.value)});track.setVolume(state.bgmVolume);save();document.querySelector('#bgm-volume-value').textContent=`${state.bgmVolume}%`;e.target.setAttribute('aria-valuetext',`${state.bgmVolume}%`);};
     annotateReadings(app);
@@ -186,8 +188,8 @@ function render(focus = false, scroll = false, rescueIntro = false) {
         onPlacement:event=>{const next=transition(state,event);if(next!==state){state=next;save();render();}},
         onSubmit:revision=>{
           if (revision!==state.revision || state.phase!=='spell') return;
-          if (!arrangedWord(state.spellSlots,papers(state))) return paperStage.feedback('まだ空いている枠があります。六枚の紙を置いてみよう。');
-          if (transition(state,{type:'SPELL',source:'papers',revision})===state) return paperStage.feedback('まだ合っていないようです。紙を動かして見直せます。');
+          if (!arrangedWord(state.spellSlots,papers(state))) return paperStage.feedback(ui('まだ空いている枠があります。六枚の紙を置いてみよう。'));
+          if (transition(state,{type:'SPELL',source:'papers',revision})===state) return paperStage.feedback(ui('まだ合っていないようです。紙を動かして見直せます。'));
           apply({type:'SPELL',source:'papers',revision});
         },
       });
@@ -240,12 +242,11 @@ function submit(event) {
     const b = state.boxes[state.selectedBox], result = validateDigits(b.inputMode === 'dial' ? b.dial : b.draft, state.selectedBox);
     if (['empty', 'invalid'].includes(result.kind)) return fail(result.text);
     apply({ type: 'ANSWER', revision: state.revision });
-    if (state.selectedBox === 'blue' && result.digits === '8849') fail('この謎は原作時点の値を使います。「サガルマータについて調べる」で確認できます。');
   } else if (event.target.id === 'spell-form') {
-    if (!normalizeWord(state.spellDraft)) return fail('ひみつの言葉を入力してください。');
-    const next = transition(state, { type: 'SPELL' }); if (next === state) return fail('ひみつの言葉は、まだ合っていないようです。見つけた文字を見直せます。'); apply({ type: 'SPELL' });
+    if (!normalizeWord(state.spellDraft)) return fail(ui('ひみつの言葉を入力してください。'));
+    const next = transition(state, { type: 'SPELL' }); if (next === state) return fail(ui('ひみつの言葉は、まだ合っていないようです。見つけた文字を見直せます。')); apply({ type: 'SPELL' });
   } else {
-    if (!normalizeWord(state.questionDraft)) return fail('答えを入力してください。「わからない」でも伝えられます。');
+    if (!normalizeWord(state.questionDraft)) return fail(ui('答えを入力してください。「わからない」でも伝えられます。'));
     apply({ type: 'REPLY', questionId: QUESTIONS[state.questionIndex].id, revision: state.revision });
   }
 }
@@ -286,7 +287,7 @@ app.addEventListener('click', event => {
     // Resuming a summoned save must not summon again. Explicit replay remains
     // available; other original scenes still read when the player resumes.
     const summoned = state.phase === 'witchInvite' && sceneFor(state).key === 'invite';
-    if(summoned)audioStatus=state.muted?'音声オフ・文字で遊べます':'聞き直しでお話を再生';
+    if(summoned)audioStatus=state.muted?ui('音声オフ・文字で遊べます'):ui('聞き直しでお話を再生');
     render(true, true); if(!summoned)speak(); return;
   }
   if (action === 'read' && state.phase === 'complete') readingIndex = 0;

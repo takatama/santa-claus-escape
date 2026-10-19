@@ -1,3 +1,5 @@
+import { EN_RECORDED_IDS } from './english-audio-manifest.js';
+const EN_AUDIO_FILES=EN_RECORDED_IDS.map(id=>`assets/audio/en-${id}.m4a`);
 // Paths and formats only: importing this catalog never loads or decodes media.
 // Change a group's base/extension together; overrides can select a filename per ID.
 // Original WAV/PNG stay in Git; only reviewed delivery derivatives are served.
@@ -35,5 +37,5 @@ export function mediaPath(key,id){
 export const mediaUrl=(key,id)=>new URL(mediaPath(key,id),import.meta.url).href;
 // Build and delivery checks use these exact paths, without filesystem discovery.
 export const mediaFiles=(...keys)=>keys.flatMap(key=>MEDIA_GROUPS[key].ids.map(id=>mediaPath(key,id).replace(/^\.\//,'')));
-export const AUDIO_FILES=Object.freeze(mediaFiles('voice','effect','music','musicFallback'));
+export const AUDIO_FILES=Object.freeze([...mediaFiles('voice','effect','music','musicFallback'),...EN_AUDIO_FILES]);
 export const IMAGE_FILES=Object.freeze(mediaFiles('redBox','blueBox','yellowBox','forest','witch','rescue'));

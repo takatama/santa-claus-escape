@@ -1,3 +1,4 @@
+import { ui } from './ui-strings.js';
 import { BOXES } from './full-scenario.js';
 import { mediaUrl } from './media-assets.js';
 const keys={グー:'rock',チョキ:'scissors',パー:'paper'};
@@ -6,7 +7,7 @@ const keys={グー:'rock',チョキ:'scissors',パー:'paper'};
 export function createYellowControls() {
   const element=document.createElement('div');
   element.className='box-extra';
-  element.innerHTML=`<button type="button" class="secondary" data-hand-help>一手ずつ見る</button>
+  element.innerHTML=ui`<button type="button" class="secondary" data-hand-help>一手ずつ見る</button>
     <dialog class="hand-help" aria-labelledby="hand-help-title"><header><h2 id="hand-help-title">一手ずつ見る</h2><button type="button" data-hand-close>箱へ戻る</button></header>
     <p class="hand-position" aria-live="polite"></p><figure><img alt=""><figcaption></figcaption></figure>
     <p class="hand-rule"></p><nav aria-label="四つの絵を順に見る"><button type="button" data-hand-prev>前の絵</button><button type="button" data-hand-next>次の絵</button></nav></dialog>`;
@@ -15,10 +16,10 @@ export function createYellowControls() {
   function paint() {
     const hand=BOXES.yellow.hands[index],image=find('img');
     image.src=mediaUrl('yellowBox',keys[hand]);
-    image.alt=hand;image.classList.toggle('hand-mirrored',hand==='チョキ');
+    image.alt=hand;image.classList.toggle('hand-mirrored',hand===ui('チョキ'));
     find('figcaption').textContent=hand;
-    find('.hand-position').textContent=`${index+1}枚目 / 4枚`;
-    find('.hand-rule').textContent=[exam>=3?'負けるが勝ち':'',exam>=4?'指の数があなたをみちびく':''].filter(Boolean).join('。');
+    find('.hand-position').textContent=ui`${index+1}枚目 / 4枚`;
+    find('.hand-rule').textContent=[exam>=3?ui('負けるが勝ち'):'',exam>=4?ui('指の数があなたをみちびく'):''].filter(Boolean).join('。');
     find('[data-hand-prev]').disabled=index===0;find('[data-hand-next]').disabled=index===3;
   }
   const move=delta=>{index=Math.max(0,Math.min(3,index+delta));paint();};

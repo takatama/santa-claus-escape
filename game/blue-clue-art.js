@@ -1,3 +1,4 @@
+import { IS_EN } from './locale.js';
 import { BLUE_CLUE } from './storybook-content.js';
 export const CLUE_WIDTH = 620;
 export const CLUE_HEIGHT = 258;
@@ -13,8 +14,8 @@ export function getClueGeometry(inkRatio = 1, mountainImage) {
   return {
     ratio,
     mountain: { x: 148 - w / 2, y: 229 - h, w, h },
-    name: { text: 'サガルマータ', x: 292, y: 55, size: Math.min(48, 52 / ratio) },
-    statement: { x: 294, size: Math.min(38, 44 / ratio), lines: [
+    name: { text: IS_EN?'Sagarmatha':'サガルマータ', x: 292, y: 55, size: Math.min(IS_EN?38:48, 52 / ratio) },
+    statement: { x: 294, size: Math.min(38, 44 / ratio), lines: IS_EN ? [{text:'Look up my name.',y:122},{text:'My height in meters',y:170},{text:'opens the lock.',y:218}] : [
       { text: BLUE_CLUE.split('。')[0]+'。', y: 122 },
       { text: '高さがカギを', y: 170 },
       { text: '開く', y: 218 },

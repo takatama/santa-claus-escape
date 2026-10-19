@@ -1,6 +1,7 @@
+import { IS_EN } from './locale.js';
 // Adopted picture-book wording. Original scenario and recordings remain intact.
 export const BLUE_CLUE='その名を調べよ。高さがカギを開く';
-export const BLUE_SEARCH_URL='https://www.google.com/search?q='+encodeURIComponent('サガルマータ');
+export const BLUE_SEARCH_URL='https://www.google.com/search?q='+encodeURIComponent(IS_EN?'Sagarmatha':'サガルマータ');
 export const RESCUE_APPEARED='スノードームの中からサンタが出てきました。';
 export const PAUSED_NARRATION='サンタさんは、まだガラスの中です。サンタの脱出でした。また会いに来てくださいね。';
 export const STORYBOOK_AUDIO_IDS=Object.freeze({intro:'storybook-intro',help:'storybook-help',blue4:'storybook-blue4',information:'storybook-information',paused:'storybook-paused',rescue:'storybook-rescue','rescue-appeared':'storybook-rescue-appeared'});

@@ -1,3 +1,5 @@
+import { IS_EN } from './locale.js';
+import { ui } from './ui-strings.js';
 import { createCylinderLock } from './red-cylinder-lock.js';
 import { BOXES } from './full-scenario.js';
 import { BoxActionGate } from './box-presentation.js';
@@ -11,7 +13,7 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
   element.className = 'box-stage';
   element.dataset.color = color;
   const gripIcon='<span class="box-grip-arrow" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 28V6M6 16l10-10 10 10"/></svg></span><span class="box-grip-dots" aria-hidden="true"></span>';
-  element.innerHTML = `<header class="box-header"><button type="button" data-action="boxes" class="box-back">三つの箱へ</button><h1 id="screen-heading" tabindex="-1">${name}</h1><details class="box-settings"><summary>音の設定</summary><div class="box-settings-content"></div></details></header>
+  element.innerHTML = ui`<header class="box-header"><button type="button" data-action="boxes" class="box-back">三つの箱へ</button><h1 id="screen-heading" tabindex="-1">${name}</h1><details class="box-settings"><summary>音の設定</summary><div class="box-settings-content"></div></details></header>
     <div class="box-content"><div class="box-play"><div class="box-picture"><canvas class="box-canvas" role="img" aria-label="大きく見た${name}"></canvas><div class="box-snowfall" aria-hidden="true"></div><div class="box-lock-panel" aria-label="${name}の錠"><div class="box-lock-mount"><span class="box-lock-screw left" aria-hidden="true"></span><span class="box-lock-screw right" aria-hidden="true"></span></div><button type="button" class="primary" data-action="box_try">ためす</button></div><button type="button" class="box-lid-grip" data-action="open_lid" aria-label="ふたをあける" hidden>${gripIcon}</button><button type="button" class="box-lid-grip box-grip-close" data-action="close_lid" aria-label="ふたをとじる" hidden>${gripIcon}</button><p class="box-loading" role="status">絵を読み込んでいます。</p><p class="box-wait" role="status" hidden></p><p class="box-fallback" hidden>${name}の絵を読み込めませんでした。手がかりとダイヤルで続けられます。</p></div>
     <div class="box-actions"><p class="box-discovery" role="status"></p><button type="button" class="primary box-examine" data-action="examine">調べる</button><p class="box-result" role="status"></p><div class="box-papers" hidden>${letters.map(letter=>`<span>${letter}</span>`).join('')}</div><button type="button" class="primary" data-action="continue_box" hidden>ほかの箱を調べる</button></div></div>
     ${stageDialogueMarkup()}</div>
@@ -62,7 +64,7 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
     for (const name of ['examine','box_try','open_lid','close_lid','continue_box']) find(`[data-action="${name}"]`).disabled = busy;
     find('[data-action="examine"]').disabled ||= view?.boxes[color].exam >= 4;
     element.dataset.busy = String(busy);
-    const wait=find('.box-wait');wait.hidden=!busy || revealFrom===null;if(wait.textContent!=='雪を払っています')wait.textContent='雪を払っています';
+    const wait=find('.box-wait');wait.hidden=!busy || revealFrom===null;if(wait.textContent!==ui('雪を払っています'))wait.textContent=ui('雪を払っています');
     find('.box-voice').hidden=!gate.speaking;
     find('#box-dialogue-title').hidden=gate.speaking;
   }
@@ -158,14 +160,14 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
     update(nextView, { settings, dialogue, status, saved }) {
       const first = !view, wasUnlocked=view?.boxes[color].opened; view = nextView;
       const b = view.boxes[color], open = b.opened && b.lidOpen !== false;
-      find('.box-fallback').textContent='箱の絵を読み込めませんでした。お話の文字とダイヤルで続けられます。';
+      find('.box-fallback').textContent=ui('箱の絵を読み込めませんでした。お話の文字とダイヤルで続けられます。');
       const destination = b.lidProgress ?? (open ? 1 : 0);
       if (first) { progress = target = destination; }
       else if (target !== destination) motion(destination);
       if(first)camera=b.opened?1:0;
       else if(b.opened&&!wasUnlocked){cameraStarted=performance.now();camera=reducedMotion.matches?1:0;gate.hold(cameraStarted,reducedMotion.matches?0:650);motion(destination);}
       canvas.classList.toggle('box-lid-ready',b.opened);
-      canvas.setAttribute('aria-label', `大きく見た${name}。${readings[b.exam]}${open ? `ふたの中に「${letters[0]}」と「${letters[1]}」の紙。` : b.opened ? 'カギが開いた。' : ''}`);
+      canvas.setAttribute('aria-label', IS_EN ? `Close view of the ${name.toLowerCase()}. ${readings[b.exam]}${open?' Letters inside: '+letters.join(', ')+'.':''}` : ui`大きく見た${name}。${readings[b.exam]}${open ? ui`ふたの中に「${letters[0]}」と「${letters[1]}」の紙。` : b.opened ? ui('カギが開いた。') : ''}`);
       // Each committed examination corresponds to precisely one snow stage.
       if (lastExam !== undefined && lastExam !== b.exam) {
         revealFrom=lastExam-1;revealStarted=performance.now();revealDuration=[1700,1900,1150][revealFrom];revealFraction=0;
@@ -175,27 +177,27 @@ export function createBoxStage({ color, presentation, setCode, onDial, getCode, 
       gate.setStatus(status);
       element.classList.toggle('box-opened',b.opened);
       find('.box-discovery').hidden=view.boxMessage==='wrong';
-      find('.box-discovery').textContent = b.opened ? open ? '二枚の紙が見つかった。' : 'カギが開いた！' : b.exam === 4 ? '手がかりが、そろった。' : '雪の下を調べよう。';
+      find('.box-discovery').textContent = b.opened ? open ? ui('二枚の紙が見つかった。') : ui('カギが開いた！') : b.exam === 4 ? ui('手がかりが、そろった。') : ui('雪の下を調べよう。');
       find('[data-action="examine"]').hidden = b.opened || b.exam >= 4;
       const examine=find('[data-action="examine"]');
-      examine.textContent = examineLabels[b.exam] || '調べる';
+      examine.textContent = examineLabels[b.exam] || ui('調べる');
       if(b.exam===1&&!b.opened){
-        const cue=document.createElement('span');cue.className='box-examine-cue';cue.textContent='ここを押して、手がかりを見つけよう';
+        const cue=document.createElement('span');cue.className='box-examine-cue';cue.textContent=ui('ここを押して、手がかりを見つけよう');
         examine.prepend(cue);
       }
       find('[data-action="box_try"]').hidden = b.opened;
-      find('.box-result').textContent = view.boxMessage === 'wrong' ? 'まだ開かない。もう一度ためそう。' : b.opened ? 'カギが開いた' : '';
+      find('.box-result').textContent = view.boxMessage === 'wrong' ? ui('まだ開かない。もう一度ためそう。') : b.opened ? ui('カギが開いた') : '';
       find('[data-action="open_lid"]').hidden = !b.opened || open;
       find('.box-papers').hidden = !open;
       find('[data-action="continue_box"]').hidden = !open;
-      find('[data-action="continue_box"]').textContent = Object.values(view.boxes).every(box=>box.opened) ? 'ひみつの言葉を考える' : 'ほかの箱を調べる';
+      find('[data-action="continue_box"]').textContent = Object.values(view.boxes).every(box=>box.opened) ? ui('ひみつの言葉を考える') : ui('ほかの箱を調べる');
       find('[data-action="close_lid"]').hidden = !open;
       find('[data-action="boxes"]').hidden = b.opened;
       controls?.update(view);
       element.classList.toggle('box-has-extra',Boolean(controls&&!controls.element.hidden));
       find('.box-settings-content').innerHTML = settings;
       captions.update({dialogue, muted:view.muted, status});
-      find('#save-status').textContent = saved ? 'この端末に自動保存' : '保存できません・このまま遊べます';
+      find('#save-status').textContent = saved ? ui('この端末に自動保存') : ui('保存できません・このまま遊べます');
       for (const button of element.querySelectorAll('button[data-action]')) button.dataset.revision = String(view.revision);
       lock.setDisabled(b.opened); lock.refresh(); paint(); syncBusy();
     },

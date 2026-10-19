@@ -1,3 +1,4 @@
+import { IS_EN } from './locale.js';
 import { speechPauseAfter } from './voice-edits.js';
 // 音声は進行を制御しない。キャンセル後のイベントも世代番号で無効化する。
 export class SpeechPlayer {
@@ -91,13 +92,13 @@ export class SpeechPlayer {
       try {
         const segment = queue[index++];
         // 数字は原作 say-as characters と同じく一桁ずつ読む。
-        const spoken = segment.text.replace(/\d{4}/g, digits => digits.split('').join('、'));
+        const spoken = segment.text.replace(/\d{4}/g, digits => digits.split('').join(IS_EN?', ':'、'));
         const utterance = this.makeUtterance(spoken);
-        utterance.lang = 'ja-JP';
+        utterance.lang = IS_EN ? 'en-US' : 'ja-JP';
         utterance.rate = 0.93;
         utterance.pitch = segment.speaker === 'santa' ? 0.85 : 1;
         const voices = this.synth.getVoices?.() || [];
-        const japanese = voices.filter(voice => /^ja(?:-|_)/i.test(voice.lang));
+        const japanese = voices.filter(voice => (IS_EN ? /^en(?:-|_)/i : /^ja(?:-|_)/i).test(voice.lang));
         utterance.voice = japanese.find(voice => voice.localService) || japanese[0] || null;
         utterance.onend = () => {
           if(generation!==this.generation)return;

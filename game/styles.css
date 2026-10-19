@@ -151,3 +151,15 @@ body.privacy-page{background:#faf5e8;background-image:none;color:#3d463b}
 .privacy-page h2{font-size:22px;margin:26px 0 12px}
 .privacy-page p{font-size:16px;line-height:1.85;margin:12px 0}
 .privacy-page a{color:#245850;text-decoration:underline}
+
+.language-switch { font-size:14px;white-space:nowrap; }
+.language-switch a { color:inherit;text-underline-offset:3px; }
+:lang(en) body { font-family:Georgia,serif; }
+:lang(en) .box-header h1 { font-size:clamp(16px,3vw,23px); }
+:lang(en) .box-header { gap:8px; }
+:lang(en) .box-back { max-width:125px;white-space:normal;font-size:14px;line-height:1.15; }
+:lang(en) .box-dialogue-scroll { line-height:1.6; }
+:lang(en) .story-title h2 { font-size:clamp(22px,5vw,48px); }
+:lang(en) .story-title p { display:none; }
+:lang(en) .box-discovery { font-size:15px; }
+@media(max-width:500px){.language-switch{font-size:12px;}.site-header .edition{display:none;}}

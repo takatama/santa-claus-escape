@@ -24,9 +24,10 @@ async function fixture(t) {
   for(const name of [...pagesCodeFiles,...pagesAssetFiles,...AUDIO_FILES,...IMAGE_FILES])await save(`game/${name}`,name==='index.html'?'full-app.js':name);
   await save('package.json','{"type":"module"}');
   await save('LICENSE');await save('NOTICE.md');
-  for(const name of ['social-build.mjs','analytics-build.mjs','build-pages.mjs','pages-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
+  for(const name of ['localized-html.mjs','social-build.mjs','analytics-build.mjs','build-pages.mjs','pages-files.mjs','story-files.mjs','box-files.mjs','paper-files.mjs','witch-files.mjs','rescue-files.mjs','pages-404.html']){
     await save(`scripts/${name}`);await copyFile(new URL(`scripts/${name}`,repository),new URL(`scripts/${name}`,root));
   }
+  await copyFile(new URL('game/english-audio-manifest.js',repository),new URL('game/english-audio-manifest.js',root));
   await copyFile(new URL('game/media-assets.js',repository),new URL('game/media-assets.js',root));
   const build = ()=>run(process.execPath,[fileURLToPath(new URL('scripts/build-pages.mjs',root))],{cwd:directory});
   return {root,dist:new URL('dist/',root),save,build};

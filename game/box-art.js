@@ -46,12 +46,13 @@ export function createBoxArt(canvas, assets, { letters, drawInk, drawSnow, creat
     const b = layout.box;
     ctx.save(); cavityPath(b); ctx.clip();
     glow(ctx, b.x + b.w * .50, b.y + b.h * .22, b.w * .40, state.warmth * .75, .60);
-    for (const [index, text, amount] of [[0, letters[0], state.firstPaper], [1, letters[1], state.secondPaper]]) {
+    for (const [index, text] of letters.entries()) {
+      const amount=index===0?state.firstPaper:state.secondPaper;
       // The same opaque paper stays inside. Light reveals its ink; it never fades through the lining.
       ctx.save();
-      ctx.translate(b.x + b.w * (index ? .66 : .34), b.y + b.h * .21);
+      ctx.translate(b.x + b.w * (letters.length===3 ? .26+index*.24 : index ? .66 : .34), b.y + b.h * .21);
       ctx.rotate((index ? 5 : -5) * Math.PI / 180);
-      const w = b.w * .235, h = b.h * .265;
+      const w = b.w * (letters.length===3?.19:.235), h = b.h * .265;
       ctx.shadowColor = '#51321f'; ctx.shadowBlur = b.w * .013; ctx.shadowOffsetY = b.h * .01;
       ctx.drawImage(parchment, -w / 2, -h / 2, w, h); ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
       ctx.fillStyle = '#503b2c'; ctx.font = `${Math.max(19, h * .72)}px "Yu Mincho",serif`;

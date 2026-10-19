@@ -1,3 +1,4 @@
+import { ui } from './ui-strings.js';
 import { stageDialogueMarkup,createStageDialogue,createStageSettings } from './stage-dialogue.js';
 import { createRescueArt } from './rescue-art.js';
 import { clamp } from './witch-math.js';
@@ -7,10 +8,10 @@ import { createRescueAtmosphere } from './rescue-atmosphere.js';
 // Presentation and input only. Game, saves and the two voice intervals stay outside.
 export function createRescueStage({getState,onProgress,intro=false}) {
   const element=document.createElement('section');element.className='rescue-stage';
-  element.innerHTML=`<header class="box-header"><h1 id="screen-heading" tabindex="-1">サンタの脱出</h1><details class="box-settings"><summary>音の設定</summary><div class="box-settings-content"></div></details></header><div class="rescue-content"><div class="rescue-play"><div class="rescue-picture"><canvas role="img"></canvas><button type="button" class="rescue-handle" aria-label="光を右へ引いて、サンタを助ける">→</button><p class="rescue-art-error" role="status" hidden>絵を読み込めませんでした。矢印とお話で続けられます。</p></div><div class="rescue-actions"><p class="rescue-caption" role="status"></p><button type="button" class="primary" data-action="read">この絵本を読み返す</button><button type="button" class="secondary" data-action="share" hidden>友だちに教える</button></div></div>${stageDialogueMarkup()}</div><footer class="box-footer"><span id="save-status"></span><button type="button" data-action="reset">やり直す</button></footer>`;
+  element.innerHTML=ui`<header class="box-header"><h1 id="screen-heading" tabindex="-1">サンタの脱出</h1><details class="box-settings"><summary>音の設定</summary><div class="box-settings-content"></div></details></header><div class="rescue-content"><div class="rescue-play"><div class="rescue-picture"><canvas role="img"></canvas><button type="button" class="rescue-handle" aria-label="光を右へ引いて、サンタを助ける">→</button><p class="rescue-art-error" role="status" hidden>絵を読み込めませんでした。矢印とお話で続けられます。</p></div><div class="rescue-actions"><p class="rescue-caption" role="status"></p><button type="button" class="primary" data-action="read">この絵本を読み返す</button><button type="button" class="secondary" data-action="share" hidden>友だちに教える</button></div></div>${stageDialogueMarkup()}</div><footer class="box-footer"><span id="save-status"></span><button type="button" data-action="reset">やり直す</button></footer>`;
   const find=s=>element.querySelector(s),captions=createStageDialogue(element),settingsPanel=createStageSettings(find('.box-settings-content')),handle=find('.rescue-handle');
-  const finale=Object.assign(document.createElement('img'),{className:'rescue-finale',alt:'雪の森。空のスノードームの外で、サンタとまほう使いが笑顔で手を振っています。',hidden:true,decoding:'async'});
-  const finaleError=Object.assign(document.createElement('p'),{className:'rescue-art-error rescue-finale-error',textContent:'最後の絵を読み込めませんでした。お話と読み返しは続けられます。',hidden:true});finaleError.setAttribute('role','status');find('.rescue-picture').append(finale,finaleError);
+  const finale=Object.assign(document.createElement('img'),{className:'rescue-finale',alt:ui('雪の森。空のスノードームの外で、サンタとまほう使いが笑顔で手を振っています。'),hidden:true,decoding:'async'});
+  const finaleError=Object.assign(document.createElement('p'),{className:'rescue-art-error rescue-finale-error',textContent:ui('最後の絵を読み込めませんでした。お話と読み返しは続けられます。'),hidden:true});finaleError.setAttribute('role','status');find('.rescue-picture').append(finale,finaleError);
   const listeners=new AbortController(),options={signal:listeners.signal},reduced=matchMedia('(prefers-reduced-motion: reduce)');let disposed=false,layout,drag=null,suppressUntil=0,introPending=intro&&!reduced.matches,introFrame,latest,rescueArtFailed=false,finaleFailed=false,finaleRequested=false;
   const finaleReached=()=>latest&&(latest.view.phase==='complete'||latest.reading&&latest.view.phase==='rescue'&&latest.view.rescueMotion?.released===true);
   const weather=createRescueAtmosphere(find('.rescue-picture'),finale,()=>({layout,view:latest?.view}));
@@ -54,10 +55,10 @@ export function createRescueStage({getState,onProgress,intro=false}) {
       if(finaleReached()&&!finaleRequested){finaleRequested=true;finale.src=mediaUrl('rescue','finale-v1');}syncFinale();
       if(released)finish();find('[data-action="read"]').hidden=!complete||reading;find('[data-action="share"]').hidden=!complete||reading;
       const reset=find('[data-action="reset"]'),resetHost=find(complete&&!reading?'.rescue-actions':'.box-footer');
-      if(reset.parentElement!==resetHost)resetHost.append(reset);reset.classList.toggle('secondary',complete&&!reading);reset.textContent=complete&&!reading?'最初から謎を解く':'やり直す';
+      if(reset.parentElement!==resetHost)resetHost.append(reset);reset.classList.toggle('secondary',complete&&!reading);reset.textContent=complete&&!reading?ui('最初から謎を解く'):ui('やり直す');
       let nav=find('.reading-nav-host');if(reading&&!nav){nav=document.createElement('div');nav.className='reading-nav-host';find('.rescue-actions').append(nav);}if(nav){nav.hidden=!reading;if(nav.innerHTML!==navigation)nav.innerHTML=navigation;}
-      find('.rescue-caption').textContent=reading?'読み返しの時間':released?'サンタは、スノードームの外へ。':'さぁ、サンタを助けよう';
-      settingsPanel.update(settings);captions.update({dialogue,muted:view.muted,status});find('#save-status').textContent=saved?'この端末に自動保存':'保存できません・このまま遊べます';
+      find('.rescue-caption').textContent=reading?ui('読み返しの時間'):released?ui('サンタは、スノードームの外へ。'):ui('さぁ、サンタを助けよう');
+      settingsPanel.update(settings);captions.update({dialogue,muted:view.muted,status});find('#save-status').textContent=saved?ui('この端末に自動保存'):ui('保存できません・このまま遊べます');
       for(const b of element.querySelectorAll('[data-action]'))b.dataset.revision=String(view.revision);art.update(view);
     },destroy(){disposed=true;cancelAnimationFrame(introFrame);finish();listeners.abort();art.destroy();weather.destroy();},
   };

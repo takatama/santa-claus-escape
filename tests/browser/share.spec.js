@@ -3,7 +3,7 @@ import {test,expect} from '@playwright/test';
 import {tag} from './analytics-helpers.js';
 import {setupRescue,finishRescue,btn,saved} from './rescue-helpers.js';
 test('OGP: HTML contains one static card and PNG is readable by crawler user agents',async({page})=>{
-  const response=await page.goto('/'),html=await response.text();for(const key of ['og:title','og:description','og:image','og:url'])expect((html.match(new RegExp(`property="${key}"`,'g'))||[]).length).toBe(1);
+  const response=await page.goto('/ja'),html=await response.text();for(const key of ['og:title','og:description','og:image','og:url'])expect((html.match(new RegExp(`property="${key}"`,'g'))||[]).length).toBe(1);
   await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content','summary_large_image');
   for(const ua of ['Twitterbot/1.0','facebookexternalhit/1.1','Line/13.0']){
     const image=await page.request.get('/assets/share-card.png',{headers:{'User-Agent':ua}});expect(image.status()).toBe(200);expect(image.headers()['content-type']).toBe('image/png');const bytes=await image.body();expect(bytes.readUInt32BE(16)).toBe(1200);expect(bytes.readUInt32BE(20)).toBe(630);
@@ -13,7 +13,7 @@ test('share: native success counts once, cancellation counts zero, and progress 
   await tag(page);await page.addInitScript(()=>{window.shared=[];Object.defineProperty(navigator,'share',{configurable:true,value:async data=>{if(window.cancelShare)throw new DOMException('cancel','AbortError');window.shared.push(data);}});});
   await setupRescue(page);await expect(btn(page,'share')).toBeHidden();await finishRescue(page);const before=await saved(page);
   await btn(page,'share').click();await expect(page.locator('.share-dialog')).toBeVisible();expect(await saved(page)).toEqual(before);
-  const payload=await page.evaluate(()=>window.shared[0]);expect(payload.url).toContain('https://santa-claus-escape.pages.dev/?');expect(payload.url).toContain('utm_content=native');
+  const payload=await page.evaluate(()=>window.shared[0]);expect(payload.url).toContain('https://santa-claus-escape.pages.dev/ja?');expect(payload.url).toContain('utm_content=native');
   await expect.poll(()=>page.evaluate(()=>window.dataLayer.filter(v=>v[1]==='share').length)).toBe(1);
   await page.locator('[data-share-close]').click();await page.evaluate(()=>window.cancelShare=true);await btn(page,'share').click();await expect(page.locator('.share-dialog')).toBeHidden();expect(await saved(page)).toEqual(before);expect(await page.evaluate(()=>window.dataLayer.filter(v=>v[1]==='share').length)).toBe(1);
 });

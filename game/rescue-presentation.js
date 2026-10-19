@@ -8,6 +8,7 @@ export function rescueSceneFor(view,part) {
 }
 export function rescueTimeline(key,resolve) {
   const full=resolve('rescue');
+  if(!full)return null;
   if(key==='rescue-first')return full.slice(0,2);
   if(key==='rescue-ending')return full.slice(2);
   if(key==='rescue-full')return full;

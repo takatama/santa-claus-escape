@@ -1,7 +1,9 @@
+import { ui } from './ui-strings.js';
+import { LOCALE, SPELL_ALIASES } from './locale.js';
 import { BOXES, COLORS, QUESTIONS, papers, isBoxAnswer } from './full-scenario.js';
 import { emptySlots, validSlots, placePaper, removePaper, arrangedWord } from './paper-layout.js';
 import { DEFAULT_BGM_VOLUME,normalizeBgmVolume } from './sound-settings.js';
-export const STORAGE_KEY = 'santa-claus-escape:ja-full:v2';
+export const STORAGE_KEY = `santa-claus-escape:${LOCALE}-full:v2`;
 export const normalizeDigits = raw => String(raw).normalize('NFKC').replace(/[\s\u200b]/gu, '');
 export const normalizeWord = raw => normalizeDigits(raw).replace(/[ァ-ヶ]/gu, c => String.fromCharCode(c.charCodeAt(0) - 0x60)).toLowerCase();
 export function matchesWord(raw, aliases) { return aliases.some(alias => normalizeWord(raw) === normalizeWord(alias)); }
@@ -10,8 +12,8 @@ export function initialState(muted = false) {
 }
 export function validateDigits(raw, color) {
   const digits = normalizeDigits(raw);
-  if (!digits) return { kind: 'empty', text: '四つの数字を入力してください。' };
-  if (!/^\d{4}$/.test(digits)) return { kind: 'invalid', text: '0〜9の数字を四つ入力してください。' };
+  if (!digits) return { kind: 'empty', text: ui('四つの数字を入力してください。') };
+  if (!/^\d{4}$/.test(digits)) return { kind: 'invalid', text: ui('0〜9の数字を四つ入力してください。') };
   return { kind: isBoxAnswer(color,digits) ? 'correct' : 'wrong', digits };
 }
 function remember(state) {
@@ -74,7 +76,7 @@ export function transition(state, event) {
   if (event.type === 'SPELL' && ['boxes', 'spell'].includes(state.phase)) {
     if (event.source === 'papers' && state.phase !== 'spell') return state;
     const word = event.source === 'papers' ? arrangedWord(state.spellSlots, papers(state)) : state.spellDraft;
-    if (matchesWord(word, ['だいすきだよ', '大好きだよ'])) next = { ...state, spellDraft: word, spellReview: false, witchDiscovery: {progress:0,pending:true,appeared:false}, phase: 'witchInvite', selectedBox: null, reinvited: false };
+    if (matchesWord(word, SPELL_ALIASES)) next = { ...state, spellDraft: word, spellReview: false, witchDiscovery: {progress:0,pending:true,appeared:false}, phase: 'witchInvite', selectedBox: null, reinvited: false };
   }
   // Discovery is reversible presentation inside the already summoned phase.
   // It never changes owned papers, answers, history, or the original scene key.
@@ -125,7 +127,7 @@ export function restoreState(raw) {
   if (['box', 'boxResponse'].includes(raw.phase) && (!COLORS.includes(raw.selectedBox) || state.boxes[raw.selectedBox].exam < 1 || state.boxes[raw.selectedBox].opened !== (raw.phase === 'boxResponse'))) return null;
   if (raw.phase === 'spell' && !COLORS.every(c => state.boxes[c].opened)) return null;
   if (raw.phase.startsWith('witch') || ['rescue', 'complete'].includes(raw.phase)) {
-    if (!matchesWord(raw.spellDraft, ['だいすきだよ', '大好きだよ'])) return null;
+    if (!matchesWord(raw.spellDraft, SPELL_ALIASES)) return null;
     const expected = raw.phase === 'witchResponse' ? raw.questionIndex + 1 : ['rescue', 'complete'].includes(raw.phase) ? 3 : raw.phase === 'witchQuestion' ? raw.questionIndex : 0;
     if (state.responses.length !== expected || (['rescue', 'complete'].includes(raw.phase) && raw.questionIndex !== 2)) return null;
   } else if (state.responses.length) return null;
