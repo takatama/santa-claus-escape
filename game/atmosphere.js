@@ -124,11 +124,15 @@ export function createLivingGlobe(image) {
     const eyelids=blink(time,moving,wizardEyesClosed);
     if (!moving && time === 0) { ctx.drawImage(image, box.x, box.y, box.w, box.h); return; }
     const index = Math.floor((time % 5.6) / 5.6 * 32);
-    const key=index+eyelids*64;
-    if (!frames.has(key)) {
-      const frame = document.createElement('canvas'); frame.width = source.width; frame.height = source.height;
+    // One reusable canvas per breathing phase, shared by all eyelid states.
+    // Long visits retain at most 32 frames rather than 32 for each expression.
+    let cached=frames.get(index);
+    if (!cached || cached.eyelids!==eyelids) {
+      const frame = cached?.frame || document.createElement('canvas');
+      if(!cached){frame.width=source.width;frame.height=source.height;}
+      const paint=frame.getContext('2d');paint.clearRect(0,0,frame.width,frame.height);
       const breath = Math.sin(index / 32 * Math.PI * 2);
-      mesh(frame.getContext('2d'), eyes.get(eyelids), (u, v) => {
+      mesh(paint, eyes.get(eyelids), (u, v) => {
         const face = Math.exp(-((u - .51) ** 2 / .014 + (v - .37) ** 2 / .018));
         const hand = Math.exp(-((u - .73) ** 2 / .004 + (v - .43) ** 2 / .006));
         const beard = Math.exp(-((u - .50) ** 2 / .020 + (v - .52) ** 2 / .008));
@@ -136,9 +140,9 @@ export function createLivingGlobe(image) {
         return { x: u * source.width,
           y: (v - interior * (face * .005 + hand * .008 + beard * .003) * breath) * source.height };
       }, 14, 16);
-      frames.set(key, frame);
+      cached={eyelids,frame};frames.set(index,cached);
     }
-    ctx.drawImage(frames.get(key), box.x, box.y, box.w, box.h);
+    ctx.drawImage(cached.frame, box.x, box.y, box.w, box.h);
     return eyelids;
   };
 }
