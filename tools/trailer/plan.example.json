@@ -1,0 +1,15 @@
+{
+  "source": "../../.trailer/session/synced.mp4",
+  "background": "../../game/assets/papers/forest-clean.webp",
+  "artwork": "../../game/assets/papers/globe.webp",
+  "music": "../../game/assets/audio/laid-back-loop.ogg",
+  "musicGain": 0.15,
+  "title": "Santa Claus Escape",
+  "guide": "Play on mobile or PC",
+  "scenes": [
+    {"start": 4.58, "duration": 5.8, "crop": [947, 712, 0, 100], "caption": "Help Santa escape the snow globe."},
+    {"start": 26.9, "duration": 5, "inputDuration": 2.8, "mute": true, "crop": [947, 532, 0, 360], "caption": "Which box will you choose?"},
+    {"start": 30.48, "duration": 8.4, "crop": [960, 540, 0, 160], "zoom": 1.6, "caption": "Find clues and turn the dials."},
+    {"closing": true, "duration": 5}
+  ]
+}
